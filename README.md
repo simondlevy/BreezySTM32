@@ -13,12 +13,18 @@ makefiles for building / flashing, vim for editing, and printf() for debugging.
 To load new firmware, you should first disconnect the board from your, short the BOOT pins to each other, and reconnect
 to your computer.  The Flip32 features through-hole soldering pads for the BOOT
 pins, so that is the board I've been using for development.  By pushing a two-pin jumper onto the pins,
-I avoid having to place a paper clip or tweezers across the pins while flashing. The Baseflight firmware
+I avoid having to place a paper clip or tweezers across the pins while flashing. (The Baseflight firmware
 that I adapted to write BeezySTM32 uses the clever trick of 
-[listening] (https://github.com/multiwii/baseflight/blob/master/src/serial.c#L878)
+[listening] (https://github.com/multiwii/baseflight/blob/master/src/serial.c#L878-879)
 for a special reboot message, which you
-send from your compute right before flashing.
+[send](https://github.com/multiwii/baseflight/blob/master/Makefile#L229)
+from your compute right before flashing. So if you've got a long-term project to work on, you might consider
+implementing something like that to avoid having to short the pins every time.)
 
-The examples directory includes two use cases: a simple LED flasher, and program that searches the board
-for I^2C devices, reporting the addresses of any such devices found.  On Linux (and any other OS on
-which you've installed command-line make), you 
+The BreezySTM32 examples directory includes two use cases: a simple LED flasher, and program that searches the board
+for I^2C devices, reporting the addresses of any such devices found.  A makefile is included with each example,
+to show you how to start your own projects.
+
+If you find BreezySTM32 helpful, please consider 
+[donating](https://goo.gl/3tyFhz) to one of the developers of the Baseflight project from which it is derived.
+
