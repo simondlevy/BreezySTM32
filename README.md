@@ -15,9 +15,9 @@ and reconnect to your computer.  The Flip32 features through-hole soldering pads
 pins, so that is the board I've been using for development.  By pushing a two-pin jumper onto the pins,
 I avoid having to place a paper clip or tweezers across the pins while flashing. (The Baseflight firmware
 that I adapted to write BeezySTM32 uses the clever trick of 
-[listening] (https://github.com/multiwii/baseflight/blob/master/src/serial.c#L878-879)
+[listening] (https://github.com/multiwii/baseflight/blob/master/src/serial.c#L878-L879)
 for a special reboot message, which you
-[send](https://github.com/multiwii/baseflight/blob/master/Makefile#L229)
+[send](https://github.com/multiwii/baseflight/blob/master/Makefile#L230)
 from your compute right before flashing. So if you've got a long-term project to work on, you might consider
 implementing something like that to avoid having to short the pins every time.)
 
