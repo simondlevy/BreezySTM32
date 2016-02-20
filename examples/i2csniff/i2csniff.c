@@ -1,7 +1,9 @@
 /*
-   drv_spi.h : SPI support for STM32F103CB
+   i2sniff : sniff and report I^2C devices 
 
-   Adapted from https://github.com/multiwii/baseflight/blob/master/src/drv_spi.h
+   Copyright (C) 2016 Simon D. Levy 
+
+   Adapted from https://github.com/multiwii/baseflight/blob/master/src/drv_adc.c
 
    This file is part of BreezySTM32.
 
@@ -19,13 +21,20 @@
    along with BreezySTM32.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-##pragma once
+#include <breezystm32.h>
 
-#define SPI_DEVICE_NONE     (0)
-#define SPI_DEVICE_FLASH    (1)
-#define SPI_DEVICE_MPU      (2)
+void setup(void)
+{
+    i2cInit(I2CDEV_2);
+} 
 
-int spiInit(void);
-void spiSelect(bool select);
-uint8_t spiTransferByte(uint8_t in);
-bool spiTransfer(uint8_t *out, uint8_t *in, int len);
+void loop(void)
+{
+    uint8_t addr;
+
+    for (addr=0; addr<128; ++addr)
+        if (i2cWrite(addr, 0x00, 0x00))
+            printf("Found device at address 0X%02X\n", addr);
+
+    delay(1000);
+}

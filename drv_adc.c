@@ -1,3 +1,24 @@
+/*
+   drv_adc.c :  Driver for STM32F103CB onboard ADC
+
+   Adapted from https://github.com/multiwii/baseflight/blob/master/src/drv_adc.c
+
+   This file is part of BreezySTM32.
+
+   BreezySTM32 is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
+
+   BreezySTM32 is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with BreezySTM32.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 #include <stdbool.h>
 
 #include "stm32f10x_conf.h"
@@ -5,9 +26,6 @@
 #include "drv_system.h"
 #include "drv_adc.h"
 
-// Driver for STM32F103CB onboard ADC
-// VBAT is connected to PA4 (ADC1_IN4) with 10k:1k divider
-// rev.5 hardware has PA5 (ADC1_IN5) on breakout pad on bottom of board
 
 typedef struct adc_config_t {
     uint8_t adcChannel;         // ADC1_INxx channel number
