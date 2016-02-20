@@ -7,7 +7,7 @@
 ###############################################################################
 
 # Change this to wherever you put BreezySTM32
-BREEZY_DIR = /home/levys/Desktop/BreezySTM32
+BREEZY_DIR = ../../
 
 # Fill this out with source files for your specific project
 PROJECT_SRC = ledblink.c

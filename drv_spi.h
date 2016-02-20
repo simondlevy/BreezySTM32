@@ -19,7 +19,7 @@
    along with BreezySTM32.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-##pragma once
+#pragma once
 
 #define SPI_DEVICE_NONE     (0)
 #define SPI_DEVICE_FLASH    (1)
