@@ -27,7 +27,7 @@ implementing something like that to avoid having to short the pins every time.)
 
 The BreezySTM32 examples directory includes two use cases: a simple LED blinker, and program that searches the board
 for I^2C devices, reporting the addresses of any such devices found.  A makefile is included with each example,
-to show you how to start your own projects.  Type  <tt>make flash</tt> to flash the example to your board.
+to show you how to start your own projects.  Type  <b><tt>make flash</tt></b> to flash the example to your board.
 
 If you find BreezySTM32 helpful, please consider 
 [donating](https://goo.gl/3tyFhz) to one of the developers of the Baseflight project from which it is derived.
