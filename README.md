@@ -1,7 +1,7 @@
 # BreezySTM32: A simple Arduino-like API for programming firmware on STM32-based flight controllers
 
 BreezySTM32 aims to provide a simple ("breezy") Application Programming Interface (API) for writing
-firmware on the ARM STM32 controller boards popular on todays flight controllers (Naze32, Flip32, CC3D).  
+firmware on the ARM STM32 controller boards popular on todays flight controllers (Naze32, Flip32, CC3D).
 As with the Arduino, you write a setup() function and a loop() function, and BreezySTM32 takes care of 
 the rest, providing you with a C-like printf() statement and a SerialPort1 that you can read/write.  
 
@@ -10,8 +10,8 @@ After that you can use whatever development tools you like to build your firmwar
 I have found it easiest to avoid IDE / debugging tools like Eclipse, sticking with simple
 makefiles for building / flashing, vim for editing, and printf() for debugging.  
 
-To load new firmware, you should first disconnect the board from your, short the BOOT pins to each other, and reconnect
-to your computer.  The Flip32 features through-hole soldering pads for the BOOT
+To load new firmware, you should first disconnect the board from your computer, short the BOOT pins together,
+and reconnect to your computer.  The Flip32 features through-hole soldering pads for the BOOT
 pins, so that is the board I've been using for development.  By pushing a two-pin jumper onto the pins,
 I avoid having to place a paper clip or tweezers across the pins while flashing. (The Baseflight firmware
 that I adapted to write BeezySTM32 uses the clever trick of 

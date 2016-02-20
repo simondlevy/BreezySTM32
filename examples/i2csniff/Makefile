@@ -165,13 +165,6 @@ flash_$(TARGET): $(TARGET_HEX)
 
 flash: flash_$(TARGET)
 
-commit:
-	git commit -a --allow-empty-message -m ''
-	git push
-
-debug:
-	miniterm.py $(SERIAL_DEVICE) 115200
-
 listen:
 	miniterm.py $(SERIAL_DEVICE) 115200
 

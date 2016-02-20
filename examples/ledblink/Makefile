@@ -164,15 +164,3 @@ flash_$(TARGET): $(TARGET_HEX)
 	stm32flash -w $(TARGET_HEX) -v -g 0x0 -b 115200 $(SERIAL_DEVICE)
 
 flash: flash_$(TARGET)
-
-commit:
-	git commit -a --allow-empty-message -m ''
-	git push
-
-debug:
-	miniterm.py $(SERIAL_DEVICE) 115200
-
-listen:
-	miniterm.py $(SERIAL_DEVICE) 115200
-
-
