@@ -25,7 +25,7 @@ for a special reboot message, which you
 from your compute right before flashing. So if you've got a long-term project to work on, you might consider
 implementing something like that to avoid having to short the pins every time.)
 
-The BreezySTM32 examples directory includes two use cases: a simple LED flasher, and program that searches the board
+The BreezySTM32 examples directory includes two use cases: a simple LED blinker, and program that searches the board
 for I^2C devices, reporting the addresses of any such devices found.  A makefile is included with each example,
 to show you how to start your own projects.
 
