@@ -6,8 +6,8 @@ As with the Arduino, you write a setup() function and a loop() function, and Bre
 the rest, providing you with a C-like printf() statement and a SerialPort1 that you can read/write.  
 
 To use BreezySTM32, you'll at minimum need to install the [GNU ARM toolchain](https://launchpad.net/gcc-arm-embedded).
-After that you can use whatever development tools you like to build your firmware.  
-I have found it easiest to avoid IDE / debugging tools like Eclipse, sticking with simple
+After that you can use whatever development tools you like to build your firmware.  I have found it easiest to avoid 
+IDE / debugging tools like Eclipse, sticking with simple
 makefiles for building / flashing, vim for editing, and printf() for debugging.  
 
 To load new firmware, you should first disconnect the board from your computer, short the BOOT pins together,
