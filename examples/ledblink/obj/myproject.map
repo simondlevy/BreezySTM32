@@ -1,0 +1,365 @@
+
+Allocating common symbols
+Common symbol       size              file
+
+Serial1             0x4               obj/myproject//home/levys/Desktop/BreezySTM32/main.o (symbol from plugin)
+timerConfigs        0x100             obj/myproject//home/levys/Desktop/BreezySTM32/drv_timer.o (symbol from plugin)
+
+Discarded input sections
+
+ .text          0x00000000        0x0 obj/myproject//home/levys/Desktop/BreezySTM32/main.o (symbol from plugin)
+ .text          0x00000000       0x14 obj/myproject//home/levys/Desktop/BreezySTM32/startup_stm32f10x_md_gcc.o
+ .data          0x00000000        0x0 obj/myproject//home/levys/Desktop/BreezySTM32/startup_stm32f10x_md_gcc.o
+ .bss           0x00000000        0x0 obj/myproject//home/levys/Desktop/BreezySTM32/startup_stm32f10x_md_gcc.o
+ .text          0x00000000        0x0 obj/myproject//home/levys/Desktop/BreezySTM32/drv_gpio.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/myproject//home/levys/Desktop/BreezySTM32/drv_i2c.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/myproject//home/levys/Desktop/BreezySTM32/drv_adc.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/myproject//home/levys/Desktop/BreezySTM32/drv_spi.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/myproject//home/levys/Desktop/BreezySTM32/drv_pwm.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/myproject//home/levys/Desktop/BreezySTM32/drv_system.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/myproject//home/levys/Desktop/BreezySTM32/drv_serial.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/myproject//home/levys/Desktop/BreezySTM32/drv_uart.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/myproject//home/levys/Desktop/BreezySTM32/drv_timer.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/myproject//home/levys/Desktop/BreezySTM32/printf.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/myproject/ledblink.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/myproject/core_cm3.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/myproject/system_stm32f10x.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/myproject/misc.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/myproject/stm32f10x_adc.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/myproject/stm32f10x_bkp.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/myproject/stm32f10x_can.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/myproject/stm32f10x_cec.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/myproject/stm32f10x_crc.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/myproject/stm32f10x_dac.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/myproject/stm32f10x_dbgmcu.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/myproject/stm32f10x_dma.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/myproject/stm32f10x_exti.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/myproject/stm32f10x_flash.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/myproject/stm32f10x_fsmc.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/myproject/stm32f10x_gpio.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/myproject/stm32f10x_i2c.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/myproject/stm32f10x_iwdg.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/myproject/stm32f10x_pwr.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/myproject/stm32f10x_rcc.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/myproject/stm32f10x_rtc.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/myproject/stm32f10x_sdio.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/myproject/stm32f10x_spi.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/myproject/stm32f10x_tim.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/myproject/stm32f10x_usart.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/myproject/stm32f10x_wwdg.o (symbol from plugin)
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+FLASH            0x08000000         0x0001f800         xr
+RAM              0x20000000         0x00005000         xrw
+MEMORY_B1        0x60000000         0x00000000         xr
+*default*        0x00000000         0xffffffff
+
+Linker script and memory map
+
+LOAD obj/myproject//home/levys/Desktop/BreezySTM32/main.o
+LOAD /tmp/ccPVAxdd.ltrans0.ltrans.o
+LOAD /tmp/ccPVAxdd.ltrans1.ltrans.o
+LOAD /usr/local/lpcxpresso_7.6.2_326/lpcxpresso/tools/bin/../lib/gcc/arm-none-eabi/4.9.3/armv7-m/libgcc.a
+LOAD /usr/local/lpcxpresso_7.6.2_326/lpcxpresso/tools/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m/libg_nano.a
+LOAD /usr/local/lpcxpresso_7.6.2_326/lpcxpresso/tools/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m/libc_nano.a
+LOAD /usr/local/lpcxpresso_7.6.2_326/lpcxpresso/tools/bin/../lib/gcc/arm-none-eabi/4.9.3/armv7-m/libgcc.a
+LOAD /usr/local/lpcxpresso_7.6.2_326/lpcxpresso/tools/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m/libc_nano.a
+LOAD obj/myproject//home/levys/Desktop/BreezySTM32/startup_stm32f10x_md_gcc.o
+LOAD obj/myproject//home/levys/Desktop/BreezySTM32/drv_gpio.o
+LOAD obj/myproject//home/levys/Desktop/BreezySTM32/drv_i2c.o
+LOAD obj/myproject//home/levys/Desktop/BreezySTM32/drv_adc.o
+LOAD obj/myproject//home/levys/Desktop/BreezySTM32/drv_spi.o
+LOAD obj/myproject//home/levys/Desktop/BreezySTM32/drv_pwm.o
+LOAD obj/myproject//home/levys/Desktop/BreezySTM32/drv_system.o
+LOAD obj/myproject//home/levys/Desktop/BreezySTM32/drv_serial.o
+LOAD obj/myproject//home/levys/Desktop/BreezySTM32/drv_uart.o
+LOAD obj/myproject//home/levys/Desktop/BreezySTM32/drv_timer.o
+LOAD obj/myproject//home/levys/Desktop/BreezySTM32/printf.o
+LOAD obj/myproject/ledblink.o
+LOAD obj/myproject/core_cm3.o
+LOAD obj/myproject/system_stm32f10x.o
+LOAD obj/myproject/misc.o
+LOAD obj/myproject/stm32f10x_adc.o
+LOAD obj/myproject/stm32f10x_bkp.o
+LOAD obj/myproject/stm32f10x_can.o
+LOAD obj/myproject/stm32f10x_cec.o
+LOAD obj/myproject/stm32f10x_crc.o
+LOAD obj/myproject/stm32f10x_dac.o
+LOAD obj/myproject/stm32f10x_dbgmcu.o
+LOAD obj/myproject/stm32f10x_dma.o
+LOAD obj/myproject/stm32f10x_exti.o
+LOAD obj/myproject/stm32f10x_flash.o
+LOAD obj/myproject/stm32f10x_fsmc.o
+LOAD obj/myproject/stm32f10x_gpio.o
+LOAD obj/myproject/stm32f10x_i2c.o
+LOAD obj/myproject/stm32f10x_iwdg.o
+LOAD obj/myproject/stm32f10x_pwr.o
+LOAD obj/myproject/stm32f10x_rcc.o
+LOAD obj/myproject/stm32f10x_rtc.o
+LOAD obj/myproject/stm32f10x_sdio.o
+LOAD obj/myproject/stm32f10x_spi.o
+LOAD obj/myproject/stm32f10x_tim.o
+LOAD obj/myproject/stm32f10x_usart.o
+LOAD obj/myproject/stm32f10x_wwdg.o
+LOAD /usr/local/lpcxpresso_7.6.2_326/lpcxpresso/tools/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m/libm.a
+LOAD /usr/local/lpcxpresso_7.6.2_326/lpcxpresso/tools/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m/libc_nano.a
+LOAD /usr/local/lpcxpresso_7.6.2_326/lpcxpresso/tools/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m/libnosys.a
+START GROUP
+LOAD /usr/local/lpcxpresso_7.6.2_326/lpcxpresso/tools/bin/../lib/gcc/arm-none-eabi/4.9.3/armv7-m/libgcc.a
+LOAD /usr/local/lpcxpresso_7.6.2_326/lpcxpresso/tools/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m/libg_nano.a
+LOAD /usr/local/lpcxpresso_7.6.2_326/lpcxpresso/tools/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m/libc_nano.a
+END GROUP
+START GROUP
+LOAD /usr/local/lpcxpresso_7.6.2_326/lpcxpresso/tools/bin/../lib/gcc/arm-none-eabi/4.9.3/armv7-m/libgcc.a
+LOAD /usr/local/lpcxpresso_7.6.2_326/lpcxpresso/tools/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m/libc_nano.a
+END GROUP
+                0x20005000                _estack = 0x20005000
+                0x00000000                _Min_Heap_Size = 0x0
+                0x00000400                _Min_Stack_Size = 0x400
+
+.isr_vector     0x08000000      0x10c
+                0x08000000                . = ALIGN (0x4)
+ *(.isr_vector)
+ .isr_vector    0x08000000      0x10c obj/myproject//home/levys/Desktop/BreezySTM32/startup_stm32f10x_md_gcc.o
+                0x08000000                g_pfnVectors
+                0x0800010c                . = ALIGN (0x4)
+
+.text           0x0800010c     0x1028
+                0x0800010c                . = ALIGN (0x4)
+ *(.text)
+ .text          0x0800010c      0x30c /tmp/ccPVAxdd.ltrans0.ltrans.o
+                0x0800040c                I2C2_EV_IRQHandler
+                0x08000410                I2C2_ER_IRQHandler
+                0x08000412                I2C1_EV_IRQHandler
+                0x08000416                I2C1_ER_IRQHandler
+ .text          0x08000418      0x7c0 /tmp/ccPVAxdd.ltrans1.ltrans.o
+                0x08000468                uartRead
+                0x0800049a                isUartTransmitBufferEmpty
+                0x080004b0                uartTotalBytesWaiting
+                0x080004fc                uartWrite
+                0x08000530                uartSetMode
+                0x08000560                RCC_GetClocksFreq
+                0x080005f0                USART_Init
+                0x0800069c                uartSetBaudRate
+                0x080006ea                DMA_DeInit
+                0x080007dc                NVIC_Init.part.0.lto_priv.23
+                0x08000824                SystemInit
+                0x08000870                TIM4_IRQHandler
+                0x0800087c                TIM3_IRQHandler
+                0x08000888                TIM2_IRQHandler
+                0x08000890                TIM1_CC_IRQHandler
+                0x0800089c                USART1_IRQHandler
+                0x080008d4                DMA1_Channel4_IRQHandler
+                0x08000908                delayMicroseconds
+                0x0800091e                SysTick_Handler
+                0x0800092c                i2c_ev_handler.lto_priv.24
+ *(.text*)
+ .text.startup  0x08000bd8      0x458 /tmp/ccPVAxdd.ltrans0.ltrans.o
+                0x08000bd8                main
+ .text.Reset_Handler
+                0x08001030       0xa0 obj/myproject//home/levys/Desktop/BreezySTM32/startup_stm32f10x_md_gcc.o
+                0x08001030                Reset_Handler
+ .text.Default_Handler
+                0x080010d0        0x2 obj/myproject//home/levys/Desktop/BreezySTM32/startup_stm32f10x_md_gcc.o
+                0x080010d0                EXTI2_IRQHandler
+                0x080010d0                DebugMon_Handler
+                0x080010d0                HardFault_Handler
+                0x080010d0                PVD_IRQHandler
+                0x080010d0                PendSV_Handler
+                0x080010d0                NMI_Handler
+                0x080010d0                EXTI3_IRQHandler
+                0x080010d0                EXTI0_IRQHandler
+                0x080010d0                UsageFault_Handler
+                0x080010d0                ADC1_2_IRQHandler
+                0x080010d0                SPI1_IRQHandler
+                0x080010d0                TAMPER_IRQHandler
+                0x080010d0                USART3_IRQHandler
+                0x080010d0                RTC_IRQHandler
+                0x080010d0                DMA1_Channel7_IRQHandler
+                0x080010d0                CAN1_RX1_IRQHandler
+                0x080010d0                DMA1_Channel6_IRQHandler
+                0x080010d0                RCC_IRQHandler
+                0x080010d0                TIM1_TRG_COM_IRQHandler
+                0x080010d0                DMA1_Channel1_IRQHandler
+                0x080010d0                Default_Handler
+                0x080010d0                EXTI15_10_IRQHandler
+                0x080010d0                EXTI9_5_IRQHandler
+                0x080010d0                SPI2_IRQHandler
+                0x080010d0                MemManage_Handler
+                0x080010d0                SVC_Handler
+                0x080010d0                DMA1_Channel5_IRQHandler
+                0x080010d0                EXTI4_IRQHandler
+                0x080010d0                USB_LP_CAN1_RX0_IRQHandler
+                0x080010d0                USB_HP_CAN1_TX_IRQHandler
+                0x080010d0                DMA1_Channel3_IRQHandler
+                0x080010d0                TIM1_UP_IRQHandler
+                0x080010d0                WWDG_IRQHandler
+                0x080010d0                TIM1_BRK_IRQHandler
+                0x080010d0                EXTI1_IRQHandler
+                0x080010d0                RTCAlarm_IRQHandler
+                0x080010d0                USART2_IRQHandler
+                0x080010d0                DMA1_Channel2_IRQHandler
+                0x080010d0                CAN1_SCE_IRQHandler
+                0x080010d0                FLASH_IRQHandler
+                0x080010d0                BusFault_Handler
+                0x080010d0                USBWakeUp_IRQHandler
+ *(.rodata)
+ *fill*         0x080010d2        0x2 
+ .rodata        0x080010d4       0x40 /tmp/ccPVAxdd.ltrans0.ltrans.o
+ .rodata        0x08001114       0x20 /tmp/ccPVAxdd.ltrans1.ltrans.o
+ *(.rodata*)
+ *(.glue_7)
+ .glue_7        0x00000000        0x0 linker stubs
+ *(.glue_7t)
+ .glue_7t       0x00000000        0x0 linker stubs
+ *(.eh_frame)
+ *(.init)
+ *(.fini)
+                0x08001134                . = ALIGN (0x4)
+                0x08001134                _etext = .
+
+.vfp11_veneer   0x08001134        0x0
+ .vfp11_veneer  0x00000000        0x0 linker stubs
+
+.v4_bx          0x08001134        0x0
+ .v4_bx         0x00000000        0x0 linker stubs
+
+.iplt           0x08001134        0x0
+ .iplt          0x00000000        0x0 obj/myproject//home/levys/Desktop/BreezySTM32/startup_stm32f10x_md_gcc.o
+
+.rel.dyn        0x08001134        0x0
+ .rel.iplt      0x00000000        0x0 obj/myproject//home/levys/Desktop/BreezySTM32/startup_stm32f10x_md_gcc.o
+
+.ARM.extab
+ *(.ARM.extab* .gnu.linkonce.armextab.*)
+
+.ARM            0x08001134        0x0
+                0x08001134                __exidx_start = .
+ *(.ARM.exidx*)
+                0x08001134                __exidx_end = .
+
+.preinit_array  0x08001134        0x0
+                0x08001134                PROVIDE (__preinit_array_start, .)
+ *(.preinit_array*)
+                0x08001134                PROVIDE (__preinit_array_end, .)
+
+.init_array     0x08001134        0x0
+                0x08001134                PROVIDE (__init_array_start, .)
+ *(SORT(.init_array.*))
+ *(.init_array*)
+                0x08001134                PROVIDE (__init_array_end, .)
+
+.fini_array     0x08001134        0x0
+                0x08001134                PROVIDE (__fini_array_start, .)
+ *(.fini_array*)
+ *(SORT(.fini_array.*))
+                0x08001134                PROVIDE (__fini_array_end, .)
+                0x08001134                _sidata = .
+
+.data           0x20000000       0x2c load address 0x08001134
+                0x20000000                . = ALIGN (0x4)
+                0x20000000                _sdata = .
+ *(.data)
+ .data          0x20000000       0x10 /tmp/ccPVAxdd.ltrans0.ltrans.o
+ .data          0x20000010       0x18 /tmp/ccPVAxdd.ltrans1.ltrans.o
+                0x20000010                hse_value
+ *(.data*)
+ .data.SystemCoreClock
+                0x20000028        0x4 /tmp/ccPVAxdd.ltrans0.ltrans.o
+                0x2000002c                . = ALIGN (0x4)
+                0x2000002c                _edata = .
+
+.igot.plt       0x2000002c        0x0 load address 0x08001160
+ .igot.plt      0x00000000        0x0 obj/myproject//home/levys/Desktop/BreezySTM32/startup_stm32f10x_md_gcc.o
+                0x2000002c                . = ALIGN (0x4)
+
+.bss            0x2000002c      0x28c load address 0x08001160
+                0x2000002c                _sbss = .
+                0x2000002c                __bss_start__ = _sbss
+ *(.bss)
+ .bss           0x2000002c      0x21c /tmp/ccPVAxdd.ltrans0.ltrans.o
+ .bss           0x20000248       0x70 /tmp/ccPVAxdd.ltrans1.ltrans.o
+                0x2000024c                usTicks.lto_priv.22
+                0x20000250                uartPort1.lto_priv.21
+                0x2000029c                I2Cx.lto_priv.19
+                0x200002b4                busy.lto_priv.20
+ *(.bss*)
+ *(COMMON)
+                0x200002b8                . = ALIGN (0x4)
+                0x200002b8                _ebss = .
+                0x200002b8                __bss_end__ = _ebss
+
+._user_heap_stack
+                0x200002b8      0x400 load address 0x08001160
+                0x200002b8                . = ALIGN (0x4)
+                0x200002b8                PROVIDE (end, .)
+                0x200002b8                PROVIDE (_end, .)
+                0x200002b8                . = (. + _Min_Heap_Size)
+                0x200006b8                . = (. + _Min_Stack_Size)
+ *fill*         0x200002b8      0x400 
+                0x200006b8                . = ALIGN (0x4)
+
+.memory_b1_text
+ *(.mb1text)
+ *(.mb1text*)
+ *(.mb1rodata)
+ *(.mb1rodata*)
+
+/DISCARD/
+ libc.a(*)
+ libm.a(*)
+ libgcc.a(*)
+
+.ARM.attributes
+                0x00000000       0x2f
+ *(.ARM.attributes)
+ .ARM.attributes
+                0x00000000       0x31 /tmp/ccPVAxdd.ltrans0.ltrans.o
+ .ARM.attributes
+                0x00000031       0x31 /tmp/ccPVAxdd.ltrans1.ltrans.o
+ .ARM.attributes
+                0x00000062       0x21 obj/myproject//home/levys/Desktop/BreezySTM32/startup_stm32f10x_md_gcc.o
+OUTPUT(obj/myproject.elf elf32-littlearm)
+
+.debug_info     0x00000000     0x37f5
+ .debug_info    0x00000000     0x1f13 /tmp/ccPVAxdd.ltrans0.ltrans.o
+ .debug_info    0x00001f13     0x18e2 /tmp/ccPVAxdd.ltrans1.ltrans.o
+
+.debug_abbrev   0x00000000      0x917
+ .debug_abbrev  0x00000000      0x43b /tmp/ccPVAxdd.ltrans0.ltrans.o
+ .debug_abbrev  0x0000043b      0x4dc /tmp/ccPVAxdd.ltrans1.ltrans.o
+
+.debug_loc      0x00000000     0x1872
+ .debug_loc     0x00000000      0xb87 /tmp/ccPVAxdd.ltrans0.ltrans.o
+ .debug_loc     0x00000b87      0xceb /tmp/ccPVAxdd.ltrans1.ltrans.o
+
+.debug_aranges  0x00000000       0x48
+ .debug_aranges
+                0x00000000       0x28 /tmp/ccPVAxdd.ltrans0.ltrans.o
+ .debug_aranges
+                0x00000028       0x20 /tmp/ccPVAxdd.ltrans1.ltrans.o
+
+.debug_ranges   0x00000000      0x3e8
+ .debug_ranges  0x00000000      0x358 /tmp/ccPVAxdd.ltrans0.ltrans.o
+ .debug_ranges  0x00000358       0x90 /tmp/ccPVAxdd.ltrans1.ltrans.o
+
+.debug_line     0x00000000      0xd57
+ .debug_line    0x00000000      0x722 /tmp/ccPVAxdd.ltrans0.ltrans.o
+ .debug_line    0x00000722      0x635 /tmp/ccPVAxdd.ltrans1.ltrans.o
+
+.debug_str      0x00000000     0x14ca
+ .debug_str     0x00000000      0xfb3 /tmp/ccPVAxdd.ltrans0.ltrans.o
+                               0x1017 (size before relaxing)
+ .debug_str     0x00000fb3      0x517 /tmp/ccPVAxdd.ltrans1.ltrans.o
+                                0xba1 (size before relaxing)
+
+.comment        0x00000000       0x70
+ .comment       0x00000000       0x70 /tmp/ccPVAxdd.ltrans0.ltrans.o
+                                 0x71 (size before relaxing)
+ .comment       0x00000000       0x71 /tmp/ccPVAxdd.ltrans1.ltrans.o
+
+.debug_frame    0x00000000      0x304
+ .debug_frame   0x00000000       0xd4 /tmp/ccPVAxdd.ltrans0.ltrans.o
+ .debug_frame   0x000000d4      0x230 /tmp/ccPVAxdd.ltrans1.ltrans.o
