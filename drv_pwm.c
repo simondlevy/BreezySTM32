@@ -1,34 +1,7 @@
 /*
-   drv_pwm.c :  PWM support for STM32F103CB
-
-   Adapted from https://github.com/multiwii/baseflight/blob/master/src/drv_pwm.c
-
-   This file is part of BreezySTM32.
-
-   BreezySTM32 is free software: you can redistribute it and/or modify
-   it under the terms of the GNU General Public License as published by
-   the Free Software Foundation, either version 3 of the License, or
-   (at your option) any later version.
-
-   BreezySTM32 is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
-
-   You should have received a copy of the GNU General Public License
-   along with BreezySTM32.  If not, see <http://www.gnu.org/licenses/>.
+ * This file is part of baseflight
+ * Licensed under GPL V3 or modified DCL - see https://github.com/multiwii/baseflight/blob/master/README.md
  */
-
-#
-#include <stdint.h>
-#include <stdbool.h>
-#include <stdlib.h>
-
-#include "stm32f10x_conf.h"
-
-#include "drv_pwm.h"
-#include "drv_gpio.h"
-#include "drv_timer.h"
 
 /*
    Configuration maps:
@@ -45,6 +18,16 @@
    PWM11..14 used for motors
  */
 
+#include <stdint.h>
+#include <stdbool.h>
+#include <stdlib.h>
+
+#include "stm32f10x_conf.h"
+
+#include "drv_gpio.h"
+#include "drv_timer.h"
+#include "drv_pwm.h"
+
 typedef struct {
     volatile uint16_t *ccr;
     volatile uint16_t *cr1;
@@ -59,56 +42,12 @@ typedef struct {
     uint16_t capture;
 } pwmPortData_t;
 
-enum {
-    TYPE_IP = 0x10,
-    TYPE_IW = 0x20,
-    TYPE_M = 0x40,
-    TYPE_S = 0x80
-};
-
 typedef void (*pwmWriteFuncPtr)(uint8_t index, uint16_t value);  // function pointer used to write motors
 
-static pwmPortData_t pwmPorts[MAX_PORTS];
-static uint16_t captures[MAX_INPUTS];
-static pwmPortData_t *motors[4];
+static pwmPortData_t   pwmPorts[MAX_PORTS];
+static uint16_t        captures[MAX_INPUTS];
 static pwmWriteFuncPtr pwmWritePtr = NULL;
-static uint8_t numMotors = 0;
-static uint8_t numInputs = 0;
-static uint8_t pwmFilter = 0;
-static uint16_t failsafeThreshold = 985;
-
-static const uint8_t multiPPM[] = {
-    PWM1 | TYPE_IP,     // PPM input
-    PWM9 | TYPE_M,      // Swap to servo if needed
-    PWM10 | TYPE_M,     // Swap to servo if needed
-    PWM11 | TYPE_M,
-    PWM12 | TYPE_M,
-    PWM13 | TYPE_M,
-    PWM14 | TYPE_M,
-    PWM5 | TYPE_M,      // Swap to servo if needed
-    PWM6 | TYPE_M,      // Swap to servo if needed
-    PWM7 | TYPE_M,      // Swap to servo if needed
-    PWM8 | TYPE_M,      // Swap to servo if needed
-    0xFF
-};
-
-static const uint8_t multiPWM[] = {
-    PWM1 | TYPE_IW,     // input #1
-    PWM2 | TYPE_IW,
-    PWM3 | TYPE_IW,
-    PWM4 | TYPE_IW,
-    PWM5 | TYPE_IW,
-    PWM6 | TYPE_IW,
-    PWM7 | TYPE_IW,
-    PWM8 | TYPE_IW,     // input #8
-    PWM9 | TYPE_M,      // motor #1 or servo #1 (swap to servo if needed)
-    PWM10 | TYPE_M,     // motor #2 or servo #2 (swap to servo if needed)
-    PWM11 | TYPE_M,     // motor #1 or #3
-    PWM12 | TYPE_M,
-    PWM13 | TYPE_M,
-    PWM14 | TYPE_M,     // motor #4 or #6
-    0xFF
-};
+static uint8_t         pwmFilter = 0;
 
 #define PWM_TIMER_MHZ 1
 #define PWM_TIMER_8_MHZ 8
@@ -148,7 +87,7 @@ static void pwmOCConfig(TIM_TypeDef *tim, uint8_t channel, uint16_t value)
     }
 }
 
-void pwmICConfig(TIM_TypeDef *tim, uint8_t channel, uint16_t polarity)
+static void pwmICConfig(TIM_TypeDef *tim, uint8_t channel, uint16_t polarity)
 {
     TIM_ICInitTypeDef TIM_ICInitStructure;
 
@@ -261,6 +200,53 @@ static void pwmCallback(uint8_t port, uint16_t capture)
     }
 }
 
+// ===========================================================================
+
+enum {
+    TYPE_IP = 0x10,
+    TYPE_IW = 0x20,
+    TYPE_M = 0x40,
+    TYPE_S = 0x80
+};
+
+static const uint8_t multiPPM[] = {
+    PWM1 | TYPE_IP,     // PPM input
+    PWM9 | TYPE_M,      // Swap to servo if needed
+    PWM10 | TYPE_M,     // Swap to servo if needed
+    PWM11 | TYPE_M,
+    PWM12 | TYPE_M,
+    PWM13 | TYPE_M,
+    PWM14 | TYPE_M,
+    PWM5 | TYPE_M,      // Swap to servo if needed
+    PWM6 | TYPE_M,      // Swap to servo if needed
+    PWM7 | TYPE_M,      // Swap to servo if needed
+    PWM8 | TYPE_M,      // Swap to servo if needed
+    0xFF
+};
+
+static const uint8_t multiPWM[] = {
+    PWM1 | TYPE_IW,     // input #1
+    PWM2 | TYPE_IW,
+    PWM3 | TYPE_IW,
+    PWM4 | TYPE_IW,
+    PWM5 | TYPE_IW,
+    PWM6 | TYPE_IW,
+    PWM7 | TYPE_IW,
+    PWM8 | TYPE_IW,     // input #8
+    PWM9 | TYPE_M,      // motor #1 or servo #1 (swap to servo if needed)
+    PWM10 | TYPE_M,     // motor #2 or servo #2 (swap to servo if needed)
+    PWM11 | TYPE_M,     // motor #1 or #3
+    PWM12 | TYPE_M,
+    PWM13 | TYPE_M,
+    PWM14 | TYPE_M,     // motor #4 or #6
+    0xFF
+};
+
+
+static         pwmPortData_t *motors[4];
+static uint8_t numMotors = 0;
+static uint8_t numInputs = 0;
+
 static void pwmWriteBrushed(uint8_t index, uint16_t value)
 {
     *motors[index]->ccr = (value - 1000) * motors[index]->period / 1000;
@@ -271,19 +257,14 @@ static void pwmWriteStandard(uint8_t index, uint16_t value)
     *motors[index]->ccr = value;
 }
 
-void pwmInit(uint16_t config_failsafeThreshold, uint8_t config_pwmFilter, uint8_t config_useCPPM,
-        uint16_t config_motorPwmRate, uint8_t config_fastPWM, uint16_t config_PwmIdlePulse)
+void pwmInit(bool useCPPM, bool usePwmFilter, bool fastPWM, uint32_t motorPwmRate, uint16_t idlePulseUsec)
 {
     const uint8_t *setup;
-    uint16_t period;
 
-    // to avoid importing cfg
-    failsafeThreshold = config_failsafeThreshold;
-    
     // pwm filtering on input
-    pwmFilter = config_pwmFilter;
+    pwmFilter = usePwmFilter ? 1 : 0;
 
-    setup = config_useCPPM ? multiPPM : multiPWM;
+    setup = useCPPM ? multiPPM : multiPWM;
 
     int i;
     for (i = 0; i < MAX_PORTS; i++) {
@@ -301,28 +282,21 @@ void pwmInit(uint16_t config_failsafeThreshold, uint8_t config_pwmFilter, uint8_
             pwmInConfig(port, pwmCallback, numInputs);
             numInputs++;
         } else if (mask & TYPE_M) {
-            uint32_t hz, mhz;
 
-            if (config_motorPwmRate > 500 || config_fastPWM)
-                mhz = PWM_TIMER_8_MHZ;
-            else
-                mhz = PWM_TIMER_MHZ;
+            uint32_t mhz = (motorPwmRate > 500 || fastPWM) ? PWM_TIMER_8_MHZ : PWM_TIMER_MHZ;
+            uint32_t hz = mhz * 1000000;
 
-            hz = mhz * 1000000;
+            uint16_t period = hz / (fastPWM ? 4000 : motorPwmRate);
 
-            if (config_fastPWM)
-                period = hz / 4000;
-            else
-                period = hz / config_motorPwmRate;
-
-            motors[numMotors++] = pwmOutConfig(port, mhz, period, config_PwmIdlePulse);
+            motors[numMotors++] = pwmOutConfig(port, mhz, period, idlePulseUsec);
         }
     }
 
     // determine motor writer function
     pwmWritePtr = pwmWriteStandard;
-    if (config_motorPwmRate > 500)
+    if (motorPwmRate > 500) {
         pwmWritePtr = pwmWriteBrushed;
+    }
 }
 
 void pwmWriteMotor(uint8_t index, uint16_t value)
