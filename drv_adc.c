@@ -45,7 +45,7 @@ void adcInit(bool haveADC5)
     adcConfig[ADC_BATTERY].adcChannel = ADC_Channel_4;
     adcConfig[ADC_BATTERY].dmaIndex = numChannels - 1;
 
-    // optional ADC5 input on rev.5 hardware
+    // optional ADC5 input
     if (haveADC5) {
         numChannels++;
         adcConfig[ADC_EXTERNAL_PAD].adcChannel = ADC_Channel_5;
