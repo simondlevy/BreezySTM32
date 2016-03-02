@@ -35,13 +35,15 @@ along with BreezySTM32.  If not, see <http://www.gnu.org/licenses/>.
 #include "drv_spi.h"
 #include "drv_uart.h"
 
+#include "printf.h"
+
 #include "3axis.h"
 #include "baro.h"
 
 #include "drv_mpu6050.h"
 #include "drv_ms5611.h"
 
-#include "printf.h"
+#include "drv_mb1242.h"
 
 extern serialPort_t * Serial1;
 
