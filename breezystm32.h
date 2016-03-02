@@ -43,7 +43,6 @@ along with BreezySTM32.  If not, see <http://www.gnu.org/licenses/>.
 #include "drv_mpu6050.h"
 #include "drv_ms5611.h"
 
-#include "drv_px4flow.h"
 #include "drv_mb1242.h"
 
 extern serialPort_t * Serial1;
