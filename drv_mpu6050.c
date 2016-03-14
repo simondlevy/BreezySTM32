@@ -82,10 +82,6 @@ enum accel_fsr_e {
 };
 
 
-// Default orientation
-static sensor_align_e gyroAlign = CW0_DEG;
-static sensor_align_e accAlign = CW0_DEG;
-
 // Lowpass
 static uint8_t mpuLowPassFilter = INV_FILTER_42HZ;
 
@@ -122,73 +118,16 @@ static bool mpuWriteRegisterI2C(uint8_t reg, uint8_t data)
     return i2cWrite(MPU_ADDRESS, reg, data);
 }
 
-static void mpuAccInit(sensor_align_e align)
+
+// ======================================================================
+
+void mpu6050_init(bool cuttingEdge, uint8_t lpf, uint16_t * acc1G, float * gyroScale)
 {
-    if (align > 0)
-        accAlign = align;
-}
+    gpio_config_t gpio;
 
-static void mpuAccRead(int16_t *accData)
-{
-    uint8_t buf[6];
-    int16_t data[3];
+    // Set acc1G. Modified once by mpu6050CheckRevision for old (hopefully nonexistent outside of clones) parts
+    *acc1G = 512 * 8;
 
-    mpuReadRegisterI2C(MPU_RA_ACCEL_XOUT_H, buf, 6);
-    data[0] = (int16_t)((buf[0] << 8) | buf[1]);
-    data[1] = (int16_t)((buf[2] << 8) | buf[3]);
-    data[2] = (int16_t)((buf[4] << 8) | buf[5]);
-
-    alignSensors(data, accData, accAlign);
-}
-
-static void mpuGyroInit(sensor_align_e align)
-{
-    if (align > 0)
-        gyroAlign = align;
-}
-
-static void mpuGyroRead(int16_t *gyroData)
-{
-    uint8_t buf[6];
-    int16_t data[3];
-
-    mpuReadRegisterI2C(MPU_RA_GYRO_XOUT_H, buf, 6);
-    data[0] = (int16_t)((buf[0] << 8) | buf[1]) / 4;
-    data[1] = (int16_t)((buf[2] << 8) | buf[3]) / 4;
-    data[2] = (int16_t)((buf[4] << 8) | buf[5]) / 4;
-
-    alignSensors(data, gyroData, gyroAlign);
-}
-
-
-static void mpu6050Init(sensor_t *acc, sensor_t *gyro)
-{
-    // Device reset
-    mpuWriteRegisterI2C(MPU_RA_PWR_MGMT_1, 0x80); // Device reset
-    delay(100);
-
-    // Gyro config
-    mpuWriteRegisterI2C(MPU_RA_SMPLRT_DIV, 0x00); // Sample Rate = Gyroscope Output Rate / (1 + SMPLRT_DIV)
-    mpuWriteRegisterI2C(MPU_RA_PWR_MGMT_1, MPU6050_INV_CLK_GYROZ); // Clock source = 3 (PLL with Z Gyro reference)
-    delay(10);
-    mpuWriteRegisterI2C(MPU_RA_CONFIG, mpuLowPassFilter); // set DLPF
-    mpuWriteRegisterI2C(MPU_RA_GYRO_CONFIG, INV_FSR_2000DPS << 3); // full-scale 2kdps gyro range
-
-    // Accel scale 8g (4096 LSB/g)
-    mpuWriteRegisterI2C(MPU_RA_ACCEL_CONFIG, INV_FSR_8G << 3);
-
-    // Data ready interrupt configuration:  INT_RD_CLEAR_DIS, I2C_BYPASS_EN
-    mpuWriteRegisterI2C(MPU_RA_INT_PIN_CFG, 0 << 7 | 0 << 6 | 0 << 5 | 1 << 4 | 0 << 3 | 0 << 2 | 1 << 1 | 0 << 0); 
-    mpuWriteRegisterI2C(MPU_RA_INT_ENABLE, 0x01); // DATA_RDY_EN interrupt enable
-
-    acc->init = mpuAccInit;
-    acc->read = mpuAccRead;
-    gyro->init = mpuGyroInit;
-    gyro->read = mpuGyroRead;
-}
-
-static void mpu6050CheckRevision(uint16_t * acc1G)
-{
     uint8_t rev;
     uint8_t tmp[6];
     int half = 0;
@@ -220,22 +159,9 @@ static void mpu6050CheckRevision(uint16_t * acc1G)
     // All this just to set the value
     if (half)
         *acc1G = 255 * 8;
-}
-
-// ======================================================================
-
-bool mpu6050_init(bool cuttingEdge, uint8_t lpf, sensor_t *acc, sensor_t *gyro, uint16_t * acc1G)
-{
-    gpio_config_t gpio;
-
-    // Set acc1G. Modified once by mpu6050CheckRevision for old (hopefully nonexistent outside of clones) parts
-    *acc1G = 512 * 8;
-
-    //hw = MPU_60x0;
-    mpu6050CheckRevision(acc1G);
 
     // 16.4 dps/lsb scalefactor for all Invensense devices
-    gyro->scale = (4.0f / 16.4f) * (M_PI / 180.0f) * 0.000001f;
+    *gyroScale = (4.0f / 16.4f) * (M_PI / 180.0f) * 0.000001f;
 
     // default lpf is 42Hz, 255 is special case of nolpf
     if (lpf == 255)
@@ -261,8 +187,43 @@ bool mpu6050_init(bool cuttingEdge, uint8_t lpf, sensor_t *acc, sensor_t *gyro, 
         gpioInit(GYRO_INT_GPIO, &gpio);
     }
 
-    // initialize the device
-    mpu6050Init(acc, gyro);
+    // Device reset
+    mpuWriteRegisterI2C(MPU_RA_PWR_MGMT_1, 0x80); // Device reset
+    delay(100);
 
-    return true;
+    // Gyro config
+    mpuWriteRegisterI2C(MPU_RA_SMPLRT_DIV, 0x00); // Sample Rate = Gyroscope Output Rate / (1 + SMPLRT_DIV)
+    mpuWriteRegisterI2C(MPU_RA_PWR_MGMT_1, MPU6050_INV_CLK_GYROZ); // Clock source = 3 (PLL with Z Gyro reference)
+    delay(10);
+    mpuWriteRegisterI2C(MPU_RA_CONFIG, mpuLowPassFilter); // set DLPF
+    mpuWriteRegisterI2C(MPU_RA_GYRO_CONFIG, INV_FSR_2000DPS << 3); // full-scale 2kdps gyro range
+
+    // Accel scale 8g (4096 LSB/g)
+    mpuWriteRegisterI2C(MPU_RA_ACCEL_CONFIG, INV_FSR_8G << 3);
+
+    // Data ready interrupt configuration:  INT_RD_CLEAR_DIS, I2C_BYPASS_EN
+    mpuWriteRegisterI2C(MPU_RA_INT_PIN_CFG, 0 << 7 | 0 << 6 | 0 << 5 | 1 << 4 | 0 << 3 | 0 << 2 | 1 << 1 | 0 << 0); 
+    mpuWriteRegisterI2C(MPU_RA_INT_ENABLE, 0x01); // DATA_RDY_EN interrupt enable
+}
+
+void mpu6050_read_accel(int16_t *accData)
+{
+    uint8_t buf[6];
+
+    mpuReadRegisterI2C(MPU_RA_ACCEL_XOUT_H, buf, 6);
+
+    accData[0] = (int16_t)((buf[0] << 8) | buf[1]);
+    accData[1] = (int16_t)((buf[2] << 8) | buf[3]);
+    accData[2] = (int16_t)((buf[4] << 8) | buf[5]);
+}
+
+void mpu6050_read_gyro(int16_t *gyroData)
+{
+    uint8_t buf[6];
+
+    mpuReadRegisterI2C(MPU_RA_GYRO_XOUT_H, buf, 6);
+
+    gyroData[0] = (int16_t)((buf[0] << 8) | buf[1]) / 4;
+    gyroData[1] = (int16_t)((buf[2] << 8) | buf[3]) / 4;
+    gyroData[2] = (int16_t)((buf[4] << 8) | buf[5]) / 4;
 }

@@ -48,7 +48,6 @@ int main(void)
 
     init_printf( NULL, _putc);
    
-    // loopy
     while (1) 
         loop();
 }

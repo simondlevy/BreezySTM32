@@ -37,7 +37,6 @@ along with BreezySTM32.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "printf.h"
 
-#include "3axis.h"
 #include "baro.h"
 
 #include "drv_mpu6050.h"
