@@ -322,7 +322,9 @@ void pwmWriteMotor(uint8_t index, uint16_t value)
         pwmWritePtr(index, value);
 }
 
-uint16_t pwmRead(uint8_t channel)
+uint16_t pwmRead(uint8_t channel, uint16_t oobDefault)
 {
-    return captures[channel];
+    uint16_t capture = captures[channel];
+
+    return (capture < PULSE_MAX && capture > PULSE_MIN) ? capture : oobDefault;
 }
