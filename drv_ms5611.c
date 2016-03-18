@@ -150,9 +150,56 @@ static void ms5611_calculate(int32_t *pressure, int32_t *temperature)
         *temperature = temp;
 }
 
+typedef void (*baroOpFuncPtr)(void);                       // baro start operation
+typedef void (*baroCalculateFuncPtr)(int32_t *pressure, int32_t *temperature);             // baro calculation (filled params are pressure and temperature)
+
+typedef struct baro_t {
+    uint16_t ut_delay;
+    uint16_t up_delay;
+    baroOpFuncPtr start_ut;
+    baroOpFuncPtr get_ut;
+    baroOpFuncPtr start_up;
+    baroOpFuncPtr get_up;
+    baroCalculateFuncPtr calculate;
+} baro_t;
+
+static baro_t baro;
+
+static int32_t baroTemperature;
+static int32_t baroPressure;
+
+static int baro_update(void)
+{
+    static uint32_t baroDeadline = 0;
+    static int state = 0;
+
+    uint32_t currentTime = micros();
+
+    if ((int32_t)(currentTime - baroDeadline) < 0)
+        return 0;
+
+    baroDeadline = currentTime;
+
+    if (state) {
+        baro.get_up();
+        baro.start_ut();
+        baroDeadline += baro.ut_delay;
+        baro.calculate(&baroPressure, &baroTemperature);
+        state = 0;
+        return 2;
+    } else {
+        baro.get_ut();
+        baro.start_up();
+        state = 1;
+        baroDeadline += baro.up_delay;
+        return 1;
+    }
+}
+
 // =======================================================================================
 
-bool ms5611_init(baro_t *baro)
+
+bool ms5611_init(void)
 {
     bool ack = false;
     uint8_t sig;
@@ -182,15 +229,25 @@ bool ms5611_init(baro_t *baro)
         return false;
 
     // TODO prom + CRC
-    baro->ut_delay = 10000;
-    baro->up_delay = 10000;
-    baro->start_ut = ms5611_start_ut;
-    baro->get_ut = ms5611_get_ut;
-    baro->start_up = ms5611_start_up;
-    baro->get_up = ms5611_get_up;
-    baro->calculate = ms5611_calculate;
+    baro.ut_delay = 10000;
+    baro.up_delay = 10000;
+    baro.start_ut = ms5611_start_ut;
+    baro.get_ut = ms5611_get_ut;
+    baro.start_up = ms5611_start_up;
+    baro.get_up = ms5611_get_up;
+    baro.calculate = ms5611_calculate;
 
     return true;
 }
 
+int32_t ms5611_read_pressure(void)
+{
+    baro_update();
+    return baroPressure;
+}
 
+int32_t ms5611_read_temperature(void)
+{
+    baro_update();
+    return baroTemperature;
+}

@@ -21,4 +21,6 @@
 
 #pragma once
 
-bool ms5611_init(baro_t *baro);
+bool    ms5611_init(void);
+int32_t ms5611_read_pressure(void);
+int32_t ms5611_read_temperature(void);
