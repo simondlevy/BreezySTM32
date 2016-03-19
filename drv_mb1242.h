@@ -21,6 +21,6 @@
 
 #pragma once
 
-bool mb1242_init();
+bool mb1242_init(void);
 
-int32_t mb1242_poll();
+int32_t mb1242_poll(void);

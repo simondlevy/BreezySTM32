@@ -19,6 +19,8 @@
    along with BreezySTM32.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <breezystm32.h>
+
 #include <stdbool.h>
 #include <stdint.h>
 
@@ -26,26 +28,40 @@
 
 #define MB1242_ADDRESS 0x70
 
-extern bool check_and_update_timed_task(uint32_t * usec, uint32_t period);
+static void update_timed_task(uint32_t * usec, uint32_t period) 
+{
+    *usec = micros() + period;
+}
+
+static bool check_and_update_timed_task(uint32_t * usec, uint32_t period) 
+{
+
+    bool result = (int32_t)(micros() - *usec) >= 0;
+
+    if (result)
+        update_timed_task(usec, period);
+
+    return result;
+}
 
 static int32_t distance_cm;
 
-static void adjust_reading() {
+static void adjust_reading(void) {
 
     distance_cm = 1.071 * distance_cm + 3.103; // emprically determined
 }
 
-static bool attempt_write()
+static bool attempt_write(void)
 {
     return i2cWrite(MB1242_ADDRESS, 0x00, 0x51);
 }
 
-bool mb1242_init()
+bool mb1242_init(void)
 {
     return attempt_write() == 1;
 }
 
-int32_t mb1242_poll()
+int32_t mb1242_poll(void)
 {
     static uint32_t mb1242Time = 0;
     static uint8_t state;
