@@ -147,11 +147,7 @@ $(OBJECT_DIR)/$(TARGET)/%.o: %.c
 	@$(CC) -c -o $@ $(CFLAGS) $<
 
 # Assemble
-$(OBJECT_DIR)/$(TARGET)/%.o: %.s
-	$(MKDIR_OBJDIR)
-	@echo %% $(notdir $<)
-	@$(CC) -c -o $@ $(ASFLAGS) $< 
-$(OBJECT_DIR)/$(TARGET)/%.o): %.S
+$(OBJECT_DIR)/$(TARGET)/%.o: %.S
 	$(MKDIR_OBJDIR)
 	@echo %% $(notdir $<)
 	@$(CC) -c -o $@ $(ASFLAGS) $< 
