@@ -23,7 +23,6 @@
 
 serialPort_t * Serial1;
 
-// from system_stm32f10x.c
 extern void SetSysClock(bool overclock);
 
 static void _putc(void *p, char c)
