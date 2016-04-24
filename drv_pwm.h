@@ -47,4 +47,4 @@ enum {
 
 void     pwmInit(bool useCPPM, bool usePwmFilter, bool fastPWM, uint32_t motorPwmRate, uint16_t idlePulseUsec);
 void     pwmWriteMotor(uint8_t index, uint16_t value);
-uint16_t pwmRead(uint8_t channel, uint16_t oobDefault);
+uint16_t pwmRead(uint8_t channel);
