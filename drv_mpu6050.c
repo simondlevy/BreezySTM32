@@ -85,7 +85,6 @@ enum accel_fsr_e {
 // Lowpass
 static uint8_t mpuLowPassFilter = INV_FILTER_42HZ;
 
-
 // MPU6xxx registers
 #define MPU_RA_SMPLRT_DIV       0x19
 #define MPU_RA_CONFIG           0x1A
@@ -121,7 +120,7 @@ static bool mpuWriteRegisterI2C(uint8_t reg, uint8_t data)
 
 // ======================================================================
 
-void mpu6050_init(bool cuttingEdge, uint8_t lpf, uint16_t * acc1G, float * gyroScale)
+void mpu6050_init(bool cuttingEdge, uint16_t * acc1G, float * gyroScale)
 {
     gpio_config_t gpio;
 
@@ -162,22 +161,6 @@ void mpu6050_init(bool cuttingEdge, uint8_t lpf, uint16_t * acc1G, float * gyroS
 
     // 16.4 dps/lsb scalefactor for all Invensense devices
     *gyroScale = (4.0f / 16.4f) * (M_PI / 180.0f) * 0.000001f;
-
-    // default lpf is 42Hz, 255 is special case of nolpf
-    if (lpf == 255)
-        mpuLowPassFilter = INV_FILTER_256HZ_NOLPF2;
-    else if (lpf >= 188)
-        mpuLowPassFilter = INV_FILTER_188HZ;
-    else if (lpf >= 98)
-        mpuLowPassFilter = INV_FILTER_98HZ;
-    else if (lpf >= 42)
-        mpuLowPassFilter = INV_FILTER_42HZ;
-    else if (lpf >= 20)
-        mpuLowPassFilter = INV_FILTER_20HZ;
-    else if (lpf >= 10)
-        mpuLowPassFilter = INV_FILTER_10HZ;
-    else
-        mpuLowPassFilter = INV_FILTER_5HZ;
 
     // MPU_INT output on rev5+ hardware (PC13)
     if (cuttingEdge) {
