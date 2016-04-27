@@ -1,0 +1,443 @@
+Archive member included to satisfy reference by file (symbol)
+
+/home/levy/Development/gcc-arm-none-eabi-5_3-2016q1/bin/../lib/gcc/arm-none-eabi/5.3.1/armv7-m/libgcc.a(_arm_addsubdf3.o)
+                              /tmp/ccZO6SSz.ltrans0.ltrans.o (__aeabi_dadd)
+/home/levy/Development/gcc-arm-none-eabi-5_3-2016q1/bin/../lib/gcc/arm-none-eabi/5.3.1/armv7-m/libgcc.a(_arm_muldivdf3.o)
+                              /tmp/ccZO6SSz.ltrans0.ltrans.o (__aeabi_dmul)
+/home/levy/Development/gcc-arm-none-eabi-5_3-2016q1/bin/../lib/gcc/arm-none-eabi/5.3.1/armv7-m/libgcc.a(_arm_fixdfsi.o)
+                              /tmp/ccZO6SSz.ltrans0.ltrans.o (__aeabi_d2iz)
+
+Allocating common symbols
+Common symbol       size              file
+
+Serial1             0x4               obj/myproject/../..//main.o (symbol from plugin)
+timerConfigs        0x100             obj/myproject/../..//drv_timer.o (symbol from plugin)
+
+Discarded input sections
+
+ .text          0x00000000        0x0 obj/myproject/../..//main.o (symbol from plugin)
+ .data          0x00000000        0x0 /tmp/ccZO6SSz.ltrans1.ltrans.o
+ .text          0x00000000       0x14 obj/myproject/../..//startup_stm32f10x_md_gcc.o
+ .data          0x00000000        0x0 obj/myproject/../..//startup_stm32f10x_md_gcc.o
+ .bss           0x00000000        0x0 obj/myproject/../..//startup_stm32f10x_md_gcc.o
+ .text          0x00000000        0x0 obj/myproject/../..//drv_gpio.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/myproject/../..//drv_i2c.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/myproject/../..//drv_mb1242.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/myproject/../..//drv_adc.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/myproject/../..//drv_spi.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/myproject/../..//drv_pwm.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/myproject/../..//drv_system.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/myproject/../..//drv_serial.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/myproject/../..//drv_uart.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/myproject/../..//drv_timer.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/myproject/../..//printf.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/myproject/mb1242read.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/myproject/core_cm3.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/myproject/system_stm32f10x.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/myproject/stm32f10x_dma.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/myproject/stm32f10x_dbgmcu.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/myproject/stm32f10x_dac.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/myproject/stm32f10x_can.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/myproject/stm32f10x_rtc.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/myproject/stm32f10x_pwr.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/myproject/stm32f10x_i2c.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/myproject/stm32f10x_sdio.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/myproject/stm32f10x_rcc.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/myproject/stm32f10x_flash.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/myproject/stm32f10x_crc.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/myproject/stm32f10x_usart.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/myproject/stm32f10x_tim.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/myproject/stm32f10x_wwdg.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/myproject/stm32f10x_cec.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/myproject/misc.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/myproject/stm32f10x_iwdg.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/myproject/stm32f10x_adc.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/myproject/stm32f10x_spi.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/myproject/stm32f10x_bkp.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/myproject/stm32f10x_exti.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/myproject/stm32f10x_fsmc.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/myproject/stm32f10x_gpio.o (symbol from plugin)
+ .data          0x00000000        0x0 /home/levy/Development/gcc-arm-none-eabi-5_3-2016q1/bin/../lib/gcc/arm-none-eabi/5.3.1/armv7-m/libgcc.a(_arm_addsubdf3.o)
+ .bss           0x00000000        0x0 /home/levy/Development/gcc-arm-none-eabi-5_3-2016q1/bin/../lib/gcc/arm-none-eabi/5.3.1/armv7-m/libgcc.a(_arm_addsubdf3.o)
+ .data          0x00000000        0x0 /home/levy/Development/gcc-arm-none-eabi-5_3-2016q1/bin/../lib/gcc/arm-none-eabi/5.3.1/armv7-m/libgcc.a(_arm_muldivdf3.o)
+ .bss           0x00000000        0x0 /home/levy/Development/gcc-arm-none-eabi-5_3-2016q1/bin/../lib/gcc/arm-none-eabi/5.3.1/armv7-m/libgcc.a(_arm_muldivdf3.o)
+ .data          0x00000000        0x0 /home/levy/Development/gcc-arm-none-eabi-5_3-2016q1/bin/../lib/gcc/arm-none-eabi/5.3.1/armv7-m/libgcc.a(_arm_fixdfsi.o)
+ .bss           0x00000000        0x0 /home/levy/Development/gcc-arm-none-eabi-5_3-2016q1/bin/../lib/gcc/arm-none-eabi/5.3.1/armv7-m/libgcc.a(_arm_fixdfsi.o)
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+FLASH            0x08000000         0x0001f800         xr
+RAM              0x20000000         0x00005000         xrw
+MEMORY_B1        0x60000000         0x00000000         xr
+*default*        0x00000000         0xffffffff
+
+Linker script and memory map
+
+LOAD obj/myproject/../..//main.o
+LOAD /tmp/ccZO6SSz.ltrans0.ltrans.o
+LOAD /tmp/ccZO6SSz.ltrans1.ltrans.o
+LOAD /tmp/ccZO6SSz.ltrans2.ltrans.o
+LOAD obj/myproject/../..//startup_stm32f10x_md_gcc.o
+LOAD obj/myproject/../..//drv_gpio.o
+LOAD obj/myproject/../..//drv_i2c.o
+LOAD obj/myproject/../..//drv_mb1242.o
+LOAD obj/myproject/../..//drv_adc.o
+LOAD obj/myproject/../..//drv_spi.o
+LOAD obj/myproject/../..//drv_pwm.o
+LOAD obj/myproject/../..//drv_system.o
+LOAD obj/myproject/../..//drv_serial.o
+LOAD obj/myproject/../..//drv_uart.o
+LOAD obj/myproject/../..//drv_timer.o
+LOAD obj/myproject/../..//printf.o
+LOAD obj/myproject/mb1242read.o
+LOAD obj/myproject/core_cm3.o
+LOAD obj/myproject/system_stm32f10x.o
+LOAD obj/myproject/stm32f10x_dma.o
+LOAD obj/myproject/stm32f10x_dbgmcu.o
+LOAD obj/myproject/stm32f10x_dac.o
+LOAD obj/myproject/stm32f10x_can.o
+LOAD obj/myproject/stm32f10x_rtc.o
+LOAD obj/myproject/stm32f10x_pwr.o
+LOAD obj/myproject/stm32f10x_i2c.o
+LOAD obj/myproject/stm32f10x_sdio.o
+LOAD obj/myproject/stm32f10x_rcc.o
+LOAD obj/myproject/stm32f10x_flash.o
+LOAD obj/myproject/stm32f10x_crc.o
+LOAD obj/myproject/stm32f10x_usart.o
+LOAD obj/myproject/stm32f10x_tim.o
+LOAD obj/myproject/stm32f10x_wwdg.o
+LOAD obj/myproject/stm32f10x_cec.o
+LOAD obj/myproject/misc.o
+LOAD obj/myproject/stm32f10x_iwdg.o
+LOAD obj/myproject/stm32f10x_adc.o
+LOAD obj/myproject/stm32f10x_spi.o
+LOAD obj/myproject/stm32f10x_bkp.o
+LOAD obj/myproject/stm32f10x_exti.o
+LOAD obj/myproject/stm32f10x_fsmc.o
+LOAD obj/myproject/stm32f10x_gpio.o
+LOAD /home/levy/Development/gcc-arm-none-eabi-5_3-2016q1/bin/../lib/gcc/arm-none-eabi/5.3.1/../../../../arm-none-eabi/lib/armv7-m/libm.a
+LOAD /home/levy/Development/gcc-arm-none-eabi-5_3-2016q1/bin/../lib/gcc/arm-none-eabi/5.3.1/../../../../arm-none-eabi/lib/armv7-m/libc_nano.a
+LOAD /home/levy/Development/gcc-arm-none-eabi-5_3-2016q1/bin/../lib/gcc/arm-none-eabi/5.3.1/../../../../arm-none-eabi/lib/armv7-m/libnosys.a
+START GROUP
+LOAD /home/levy/Development/gcc-arm-none-eabi-5_3-2016q1/bin/../lib/gcc/arm-none-eabi/5.3.1/armv7-m/libgcc.a
+LOAD /home/levy/Development/gcc-arm-none-eabi-5_3-2016q1/bin/../lib/gcc/arm-none-eabi/5.3.1/../../../../arm-none-eabi/lib/armv7-m/libg_nano.a
+LOAD /home/levy/Development/gcc-arm-none-eabi-5_3-2016q1/bin/../lib/gcc/arm-none-eabi/5.3.1/../../../../arm-none-eabi/lib/armv7-m/libc_nano.a
+END GROUP
+START GROUP
+LOAD /home/levy/Development/gcc-arm-none-eabi-5_3-2016q1/bin/../lib/gcc/arm-none-eabi/5.3.1/armv7-m/libgcc.a
+LOAD /home/levy/Development/gcc-arm-none-eabi-5_3-2016q1/bin/../lib/gcc/arm-none-eabi/5.3.1/../../../../arm-none-eabi/lib/armv7-m/libc_nano.a
+END GROUP
+                0x20005000                _estack = 0x20005000
+                0x00000000                _Min_Heap_Size = 0x0
+                0x00000400                _Min_Stack_Size = 0x400
+
+.isr_vector     0x08000000      0x10c
+                0x08000000                . = ALIGN (0x4)
+ *(.isr_vector)
+ .isr_vector    0x08000000      0x10c obj/myproject/../..//startup_stm32f10x_md_gcc.o
+                0x08000000                g_pfnVectors
+                0x0800010c                . = ALIGN (0x4)
+
+.text           0x08000110     0x1b80
+                0x08000110                . = ALIGN (0x4)
+ *(.text)
+ .text          0x08000110       0xa8 /tmp/ccZO6SSz.ltrans0.ltrans.o
+                0x08000130                I2C2_EV_IRQHandler
+                0x08000134                I2C1_EV_IRQHandler
+                0x08000138                I2C2_ER_IRQHandler
+                0x0800013c                I2C1_ER_IRQHandler
+                0x08000140                gpioInit
+ .text          0x080001b8      0x598 /tmp/ccZO6SSz.ltrans1.ltrans.o
+                0x080001b8                uartSetMode
+                0x080001ba                uartSetBaudRate
+                0x08000208                uartStartTxDMA.lto_priv.26
+                0x0800023e                micros
+                0x08000270                SysTick_Handler
+                0x08000280                i2cInit
+                0x0800045c                i2c_ev_handler.lto_priv.42
+                0x080006a0                i2c_er_handler.lto_priv.43
+                0x08000734                i2cHandleHardwareFailure.lto_priv.44
+ .text          0x08000750      0x61c /tmp/ccZO6SSz.ltrans2.ltrans.o
+                0x08000834                uartRead
+                0x08000866                isUartTransmitBufferEmpty
+                0x0800087c                uartTotalBytesWaiting
+                0x08000894                uartWrite
+                0x080008ca                tfp_printf.constprop.23
+                0x08000a04                delayMicroseconds.constprop.21
+                0x08000a18                NVIC_Init.part.0.lto_priv.27
+                0x08000a60                RCC_GetClocksFreq
+                0x08000af0                USART_Init
+                0x08000b98                DMA_DeInit
+                0x08000c88                SystemInit
+                0x08000cd4                TIM4_IRQHandler
+                0x08000ce0                TIM3_IRQHandler
+                0x08000cec                TIM2_IRQHandler
+                0x08000cf4                TIM1_CC_IRQHandler
+                0x08000d00                USART1_IRQHandler
+                0x08000d38                DMA1_Channel4_IRQHandler
+ .text          0x08000d6c      0x370 /home/levy/Development/gcc-arm-none-eabi-5_3-2016q1/bin/../lib/gcc/arm-none-eabi/5.3.1/armv7-m/libgcc.a(_arm_addsubdf3.o)
+                0x08000d6c                __aeabi_drsub
+                0x08000d74                __aeabi_dsub
+                0x08000d74                __subdf3
+                0x08000d78                __adddf3
+                0x08000d78                __aeabi_dadd
+                0x08000ff0                __aeabi_ui2d
+                0x08000ff0                __floatunsidf
+                0x08001010                __floatsidf
+                0x08001010                __aeabi_i2d
+                0x08001034                __extendsfdf2
+                0x08001034                __aeabi_f2d
+                0x08001070                __aeabi_ul2d
+                0x08001070                __floatundidf
+                0x08001080                __floatdidf
+                0x08001080                __aeabi_l2d
+ .text          0x080010dc      0x424 /home/levy/Development/gcc-arm-none-eabi-5_3-2016q1/bin/../lib/gcc/arm-none-eabi/5.3.1/armv7-m/libgcc.a(_arm_muldivdf3.o)
+                0x080010dc                __aeabi_dmul
+                0x080010dc                __muldf3
+                0x08001330                __aeabi_ddiv
+                0x08001330                __divdf3
+ .text          0x08001500       0x50 /home/levy/Development/gcc-arm-none-eabi-5_3-2016q1/bin/../lib/gcc/arm-none-eabi/5.3.1/armv7-m/libgcc.a(_arm_fixdfsi.o)
+                0x08001500                __fixdfsi
+                0x08001500                __aeabi_d2iz
+ *(.text*)
+ .text.startup  0x08001550      0x63c /tmp/ccZO6SSz.ltrans0.ltrans.o
+                0x08001550                main
+ .text.Reset_Handler
+                0x08001b8c       0x9c obj/myproject/../..//startup_stm32f10x_md_gcc.o
+                0x08001b8c                Reset_Handler
+ .text.Default_Handler
+                0x08001c28        0x2 obj/myproject/../..//startup_stm32f10x_md_gcc.o
+                0x08001c28                EXTI2_IRQHandler
+                0x08001c28                DebugMon_Handler
+                0x08001c28                HardFault_Handler
+                0x08001c28                PVD_IRQHandler
+                0x08001c28                PendSV_Handler
+                0x08001c28                NMI_Handler
+                0x08001c28                EXTI3_IRQHandler
+                0x08001c28                EXTI0_IRQHandler
+                0x08001c28                UsageFault_Handler
+                0x08001c28                ADC1_2_IRQHandler
+                0x08001c28                SPI1_IRQHandler
+                0x08001c28                TAMPER_IRQHandler
+                0x08001c28                USART3_IRQHandler
+                0x08001c28                RTC_IRQHandler
+                0x08001c28                DMA1_Channel7_IRQHandler
+                0x08001c28                CAN1_RX1_IRQHandler
+                0x08001c28                DMA1_Channel6_IRQHandler
+                0x08001c28                RCC_IRQHandler
+                0x08001c28                TIM1_TRG_COM_IRQHandler
+                0x08001c28                DMA1_Channel1_IRQHandler
+                0x08001c28                Default_Handler
+                0x08001c28                EXTI15_10_IRQHandler
+                0x08001c28                EXTI9_5_IRQHandler
+                0x08001c28                SPI2_IRQHandler
+                0x08001c28                MemManage_Handler
+                0x08001c28                SVC_Handler
+                0x08001c28                DMA1_Channel5_IRQHandler
+                0x08001c28                EXTI4_IRQHandler
+                0x08001c28                USB_LP_CAN1_RX0_IRQHandler
+                0x08001c28                USB_HP_CAN1_TX_IRQHandler
+                0x08001c28                DMA1_Channel3_IRQHandler
+                0x08001c28                TIM1_UP_IRQHandler
+                0x08001c28                WWDG_IRQHandler
+                0x08001c28                TIM1_BRK_IRQHandler
+                0x08001c28                EXTI1_IRQHandler
+                0x08001c28                RTCAlarm_IRQHandler
+                0x08001c28                USART2_IRQHandler
+                0x08001c28                DMA1_Channel2_IRQHandler
+                0x08001c28                CAN1_SCE_IRQHandler
+                0x08001c28                FLASH_IRQHandler
+                0x08001c28                BusFault_Handler
+                0x08001c28                USBWakeUp_IRQHandler
+ *(.rodata)
+ *fill*         0x08001c2a        0x2 
+ .rodata        0x08001c2c       0x18 /tmp/ccZO6SSz.ltrans0.ltrans.o
+ .rodata        0x08001c44       0x28 /tmp/ccZO6SSz.ltrans1.ltrans.o
+ .rodata        0x08001c6c       0x20 /tmp/ccZO6SSz.ltrans2.ltrans.o
+ *(.rodata*)
+ .rodata.str1.1
+                0x08001c8c        0x4 /tmp/ccZO6SSz.ltrans0.ltrans.o
+ .rodata.str1.1
+                0x08001c90        0x4 /tmp/ccZO6SSz.ltrans2.ltrans.o
+ *(.glue_7)
+ .glue_7        0x08001c90        0x0 linker stubs
+ *(.glue_7t)
+ .glue_7t       0x08001c90        0x0 linker stubs
+ *(.eh_frame)
+ *(.init)
+ *(.fini)
+                0x08001c94                . = ALIGN (0x4)
+                0x08001c94                _etext = .
+
+.vfp11_veneer   0x08001c90        0x0
+ .vfp11_veneer  0x08001c90        0x0 linker stubs
+
+.v4_bx          0x08001c90        0x0
+ .v4_bx         0x08001c90        0x0 linker stubs
+
+.iplt           0x08001c90        0x0
+ .iplt          0x08001c90        0x0 obj/myproject/../..//startup_stm32f10x_md_gcc.o
+
+.rel.dyn        0x08001c90        0x0
+ .rel.iplt      0x08001c90        0x0 obj/myproject/../..//startup_stm32f10x_md_gcc.o
+
+.ARM.extab
+ *(.ARM.extab* .gnu.linkonce.armextab.*)
+
+.ARM            0x08001c90        0x0
+                0x08001c90                __exidx_start = .
+ *(.ARM.exidx*)
+                0x08001c90                __exidx_end = .
+
+.preinit_array  0x08001c90        0x0
+                [!provide]                PROVIDE (__preinit_array_start, .)
+ *(.preinit_array*)
+                [!provide]                PROVIDE (__preinit_array_end, .)
+
+.init_array     0x08001c90        0x0
+                [!provide]                PROVIDE (__init_array_start, .)
+ *(SORT(.init_array.*))
+ *(.init_array*)
+                [!provide]                PROVIDE (__init_array_end, .)
+
+.fini_array     0x08001c90        0x0
+                [!provide]                PROVIDE (__fini_array_start, .)
+ *(.fini_array*)
+ *(SORT(.fini_array.*))
+                [!provide]                PROVIDE (__fini_array_end, .)
+                0x08001c90                _sidata = .
+
+.data           0x20000000       0x2c load address 0x08001c90
+                0x20000000                . = ALIGN (0x4)
+                0x20000000                _sdata = .
+ *(.data)
+ .data          0x20000000       0x14 /tmp/ccZO6SSz.ltrans0.ltrans.o
+ .data          0x20000014       0x18 /tmp/ccZO6SSz.ltrans2.ltrans.o
+                0x20000014                hse_value
+ *(.data*)
+                0x2000002c                . = ALIGN (0x4)
+                0x2000002c                _edata = .
+
+.igot.plt       0x2000002c        0x0 load address 0x08001cbc
+ .igot.plt      0x2000002c        0x0 obj/myproject/../..//startup_stm32f10x_md_gcc.o
+                0x2000002c                . = ALIGN (0x4)
+
+.bss            0x2000002c      0x290 load address 0x08001cbc
+                0x2000002c                _sbss = .
+                0x2000002c                __bss_start__ = _sbss
+ *(.bss)
+ .bss           0x2000002c      0x218 /tmp/ccZO6SSz.ltrans0.ltrans.o
+ .bss           0x20000244       0x24 /tmp/ccZO6SSz.ltrans1.ltrans.o
+                0x20000248                usTicks.lto_priv.41
+                0x2000024c                I2Cx.lto_priv.37
+                0x20000252                reading.lto_priv.31
+                0x20000254                reg.lto_priv.29
+                0x20000255                bytes.lto_priv.34
+                0x20000256                addr.lto_priv.28
+                0x20000258                read_p.lto_priv.32
+                0x2000025c                writing.lto_priv.30
+                0x20000260                write_p.lto_priv.33
+                0x20000264                busy.lto_priv.35
+                0x20000265                error.lto_priv.36
+ .bss           0x20000268       0x54 /tmp/ccZO6SSz.ltrans2.ltrans.o
+                0x20000268                stdout_putp.lto_priv.39
+                0x2000026c                stdout_putf.lto_priv.38
+                0x20000270                uartPort1.lto_priv.40
+ *(.bss*)
+ *(COMMON)
+                0x200002bc                . = ALIGN (0x4)
+                0x200002bc                _ebss = .
+                0x200002bc                __bss_end__ = _ebss
+
+._user_heap_stack
+                0x200002bc      0x400 load address 0x08001cbc
+                0x200002bc                . = ALIGN (0x4)
+                [!provide]                PROVIDE (end, .)
+                [!provide]                PROVIDE (_end, .)
+                0x200002bc                . = (. + _Min_Heap_Size)
+                0x200006bc                . = (. + _Min_Stack_Size)
+ *fill*         0x200002bc      0x400 
+                0x200006bc                . = ALIGN (0x4)
+
+.memory_b1_text
+ *(.mb1text)
+ *(.mb1text*)
+ *(.mb1rodata)
+ *(.mb1rodata*)
+
+/DISCARD/
+ libc.a(*)
+ libm.a(*)
+ libgcc.a(*)
+
+.ARM.attributes
+                0x00000000       0x2f
+ *(.ARM.attributes)
+ .ARM.attributes
+                0x00000000       0x31 /tmp/ccZO6SSz.ltrans0.ltrans.o
+ .ARM.attributes
+                0x00000031       0x31 /tmp/ccZO6SSz.ltrans1.ltrans.o
+ .ARM.attributes
+                0x00000062       0x31 /tmp/ccZO6SSz.ltrans2.ltrans.o
+ .ARM.attributes
+                0x00000093       0x21 obj/myproject/../..//startup_stm32f10x_md_gcc.o
+ .ARM.attributes
+                0x000000b4       0x1d /home/levy/Development/gcc-arm-none-eabi-5_3-2016q1/bin/../lib/gcc/arm-none-eabi/5.3.1/armv7-m/libgcc.a(_arm_addsubdf3.o)
+ .ARM.attributes
+                0x000000d1       0x1d /home/levy/Development/gcc-arm-none-eabi-5_3-2016q1/bin/../lib/gcc/arm-none-eabi/5.3.1/armv7-m/libgcc.a(_arm_muldivdf3.o)
+ .ARM.attributes
+                0x000000ee       0x1d /home/levy/Development/gcc-arm-none-eabi-5_3-2016q1/bin/../lib/gcc/arm-none-eabi/5.3.1/armv7-m/libgcc.a(_arm_fixdfsi.o)
+OUTPUT(obj/myproject.elf elf32-littlearm)
+
+.debug_info     0x00000000     0x44df
+ .debug_info    0x00000000     0x1978 /tmp/ccZO6SSz.ltrans0.ltrans.o
+ .debug_info    0x00001978     0x14dd /tmp/ccZO6SSz.ltrans1.ltrans.o
+ .debug_info    0x00002e55     0x168a /tmp/ccZO6SSz.ltrans2.ltrans.o
+
+.debug_abbrev   0x00000000      0xd03
+ .debug_abbrev  0x00000000      0x3e2 /tmp/ccZO6SSz.ltrans0.ltrans.o
+ .debug_abbrev  0x000003e2      0x402 /tmp/ccZO6SSz.ltrans1.ltrans.o
+ .debug_abbrev  0x000007e4      0x51f /tmp/ccZO6SSz.ltrans2.ltrans.o
+
+.debug_loc      0x00000000     0x2092
+ .debug_loc     0x00000000      0xb9f /tmp/ccZO6SSz.ltrans0.ltrans.o
+ .debug_loc     0x00000b9f      0x7a4 /tmp/ccZO6SSz.ltrans1.ltrans.o
+ .debug_loc     0x00001343      0xd4f /tmp/ccZO6SSz.ltrans2.ltrans.o
+
+.debug_aranges  0x00000000       0x68
+ .debug_aranges
+                0x00000000       0x28 /tmp/ccZO6SSz.ltrans0.ltrans.o
+ .debug_aranges
+                0x00000028       0x20 /tmp/ccZO6SSz.ltrans1.ltrans.o
+ .debug_aranges
+                0x00000048       0x20 /tmp/ccZO6SSz.ltrans2.ltrans.o
+
+.debug_ranges   0x00000000      0x5d8
+ .debug_ranges  0x00000000      0x320 /tmp/ccZO6SSz.ltrans0.ltrans.o
+ .debug_ranges  0x00000320      0x1c0 /tmp/ccZO6SSz.ltrans1.ltrans.o
+ .debug_ranges  0x000004e0       0xf8 /tmp/ccZO6SSz.ltrans2.ltrans.o
+
+.debug_line     0x00000000     0x1049
+ .debug_line    0x00000000      0x60d /tmp/ccZO6SSz.ltrans0.ltrans.o
+ .debug_line    0x0000060d      0x552 /tmp/ccZO6SSz.ltrans1.ltrans.o
+ .debug_line    0x00000b5f      0x4ea /tmp/ccZO6SSz.ltrans2.ltrans.o
+
+.debug_str      0x00000000     0x145c
+ .debug_str     0x00000000      0xb4d /tmp/ccZO6SSz.ltrans0.ltrans.o
+                                0xbd0 (size before relaxing)
+ .debug_str     0x00000b4d      0x414 /tmp/ccZO6SSz.ltrans1.ltrans.o
+                                0xb3d (size before relaxing)
+ .debug_str     0x00000f61      0x4fb /tmp/ccZO6SSz.ltrans2.ltrans.o
+                                0xb1a (size before relaxing)
+
+.comment        0x00000000       0x6e
+ .comment       0x00000000       0x6e /tmp/ccZO6SSz.ltrans0.ltrans.o
+                                 0x6f (size before relaxing)
+ .comment       0x0000006e       0x6f /tmp/ccZO6SSz.ltrans1.ltrans.o
+ .comment       0x0000006e       0x6f /tmp/ccZO6SSz.ltrans2.ltrans.o
+
+.debug_frame    0x00000000      0x3d4
+ .debug_frame   0x00000000       0xa8 /tmp/ccZO6SSz.ltrans0.ltrans.o
+ .debug_frame   0x000000a8       0xf8 /tmp/ccZO6SSz.ltrans1.ltrans.o
+ .debug_frame   0x000001a0      0x234 /tmp/ccZO6SSz.ltrans2.ltrans.o
