@@ -9,14 +9,11 @@
 # Change this to wherever you put BreezySTM32
 BREEZY_DIR = ../../
 
-# Fill this out with source files for your specific project
-#PROJECT_SRC = ledblink.cpp
+TARGET		?= ledblink
+
+CPP_OBJS = ledblink.o
 
 ###############################################################################
-
-# You probably shouldn't modify anything below here!
-
-TARGET		?= myproject
 
 # Compile-time options
 OPTIONS		?=
@@ -35,7 +32,7 @@ STDPERIPH_DIR	 = $(BREEZY_DIR)/lib/STM32F10x_StdPeriph_Driver
 OBJECT_DIR	 = $(ROOT)/obj
 BIN_DIR		 = $(ROOT)/obj
 
-myproject_SRC = $(BREEZY_DIR)/main.c \
+$(TARGET)_CSRC = $(BREEZY_DIR)/main.c \
 		   $(BREEZY_DIR)/startup_stm32f10x_md_gcc.S \
 		   $(BREEZY_DIR)/drv_gpio.c \
 		   $(BREEZY_DIR)/drv_i2c.c \
@@ -47,7 +44,6 @@ myproject_SRC = $(BREEZY_DIR)/main.c \
 		   $(BREEZY_DIR)/drv_uart.c \
 		   $(BREEZY_DIR)/drv_timer.c \
 		   $(BREEZY_DIR)/printf.c \
-		   $(PROJECT_SRC) \
 		   $(CMSIS_SRC) \
 		   $(STDPERIPH_SRC)
 
@@ -126,7 +122,7 @@ LDFLAGS		 = -lm \
 
 TARGET_HEX	 = $(BIN_DIR)/$(TARGET).hex
 TARGET_ELF	 = $(BIN_DIR)/$(TARGET).elf
-TARGET_OBJS	 = $(addsuffix .o,$(addprefix $(OBJECT_DIR)/$(TARGET)/,$(basename $($(TARGET)_SRC)))) ledblink.o
+TARGET_OBJS	 = $(addsuffix .o,$(addprefix $(OBJECT_DIR)/$(TARGET)/,$(basename $($(TARGET)_CSRC)))) $(CPP_OBJS) 
 TARGET_MAP   = $(OBJECT_DIR)/$(TARGET).map
 
 # List of buildable ELF files and their object dependencies.
@@ -152,6 +148,10 @@ $(OBJECT_DIR)/$(TARGET)/%.o: %.S
 	@echo %% $(notdir $<)
 	@$(CC) -c -o $@ $(ASFLAGS) $< 
 
+# C++ support
+%.o: %.cpp
+	$(CC) -c $(CFLAGS) -o $@ $^
+
 clean:
 	rm -rf $(TARGET_HEX) $(TARGET_ELF) $(TARGET_OBJS) $(TARGET_MAP) *.o obj 
 
@@ -161,5 +161,3 @@ flash_$(TARGET): $(TARGET_HEX)
 
 flash: flash_$(TARGET)
 
-ledblink.o: ledblink.cpp
-	$(CC) $(CFLAGS) -c ledblink.cpp	-o ledblink.o
