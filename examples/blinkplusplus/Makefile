@@ -106,7 +106,6 @@ ASFLAGS		 = $(ARCH_FLAGS) \
 LD_SCRIPT	 = $(BREEZY_DIR)/stm32_flash.ld
 LDFLAGS		 = -lm \
 		   -nostartfiles \
-		   --specs=nano.specs \
 		   -lc \
 		   -lnosys \
 		   $(ARCH_FLAGS) \
