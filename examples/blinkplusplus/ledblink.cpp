@@ -2,8 +2,27 @@ extern "C" {
 
 #include <breezystm32.h>
 
-class Foo {
+class Blinker {
+
+    private:
+
+        int id;
+
+    public:
+
+        Blinker(int _id) {
+
+            this->id = _id;
+        }
+
+        void toggle(void) {
+
+            LED0_TOGGLE;
+        }
+    
 };
+
+Blinker blinker(0);
 
 void setup(void)
 {
@@ -11,7 +30,9 @@ void setup(void)
 
 void loop(void)
 {
-    LED0_TOGGLE;
+    blinker.toggle();
+
     delay(500);
 }
+
 }
