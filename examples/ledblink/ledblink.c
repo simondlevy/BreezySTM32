@@ -1,5 +1,5 @@
 /*
-   ledblink : blink the LED
+   ledblink.c : blink the LED
 
    Copyright (C) 2016 Simon D. Levy 
 

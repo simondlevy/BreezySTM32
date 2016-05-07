@@ -1,5 +1,5 @@
 /*
-   mb1242_read : read values from MaxBotix MB1242 I^2C sonar
+   mb1242_read.c : read values from MaxBotix MB1242 I^2C sonar
 
    Copyright (C) 2016 Simon D. Levy 
 

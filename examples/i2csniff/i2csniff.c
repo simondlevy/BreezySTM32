@@ -1,5 +1,5 @@
 /*
-   i2sniff : sniff and report I^2C devices 
+   i2sniff.c : sniff and report I^2C devices 
 
    Copyright (C) 2016 Simon D. Levy 
 
@@ -35,6 +35,8 @@ void loop(void)
     for (addr=0; addr<128; ++addr)
         if (i2cWrite(addr, 0x00, 0x00))
             printf("Found device at address 0X%02X\n", addr);
+
+    printf("\n");
 
     delay(1000);
 }
