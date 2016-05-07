@@ -107,7 +107,7 @@ LD_SCRIPT	 = $(BREEZY_DIR)/stm32_flash.ld
 LDFLAGS		 = -lm \
 		   -nostartfiles \
 		   -lc \
-		   -lnosys \
+		   --specs=rdimon.specs \
 		   $(ARCH_FLAGS) \
 		   $(LTO_FLAGS) \
 		   $(DEBUG_FLAGS) \
