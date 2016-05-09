@@ -1,7 +1,7 @@
 /*
    drv_mb1242.c : driver for MaxBotix MB1242 sonar
 
-   Copyright (C) 2016 Simon D. Levy 
+   Copyright (C) 2016 Simon D. Levy
 
    This file is part of BreezySTM32.
 
@@ -28,12 +28,12 @@
 
 #define MB1242_ADDRESS 0x70
 
-static void update_timed_task(uint32_t * usec, uint32_t period) 
+static void update_timed_task(uint32_t * usec, uint32_t period)
 {
     *usec = micros() + period;
 }
 
-static bool check_and_update_timed_task(uint32_t * usec, uint32_t period) 
+static bool check_and_update_timed_task(uint32_t * usec, uint32_t period)
 {
 
     bool result = (int32_t)(micros() - *usec) >= 0;
@@ -53,7 +53,7 @@ static void adjust_reading(void) {
 
 static bool attempt_write(void)
 {
-    return i2cWrite(MB1242_ADDRESS, 0x00, 0x51);
+    return i2cWrite(MB1242_ADDRESS, 0xFF, 0x51);
 }
 
 bool mb1242_init(void)
@@ -74,8 +74,8 @@ int32_t mb1242_poll(void)
         }
         else if (state == 1) {
             uint8_t bytes[2];
-            if (i2cRead(MB1242_ADDRESS, 0x8F, 2, bytes)) {
-                distance_cm = (bytes[0] << 8) + bytes[1];  
+            if (i2cRead(MB1242_ADDRESS, 0xFF, 2, bytes)) {
+                distance_cm = (bytes[0] << 8) + bytes[1];
                 adjust_reading();
                 state++;
             }
