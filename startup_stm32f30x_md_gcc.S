@@ -1,54 +1,62 @@
 /**
   ******************************************************************************
-  * @file      startup_stm32f10x_md.s
+  * @file      startup_stm32f30x.s
   * @author    MCD Application Team
-  * @version   V3.5.0
-  * @date      11-March-2011
-  * @brief     STM32F10x Medium Density Devices vector table for Atollic toolchain.
+  * @version   V1.0.0
+  * @date      04-Spetember-2012
+  * @brief     STM32F30x Devices vector table for RIDE7 toolchain.
   *            This module performs:
   *                - Set the initial SP
   *                - Set the initial PC == Reset_Handler,
   *                - Set the vector table entries with the exceptions ISR address
-  *                - Configure the clock system
+  *                - Configure the clock system and the external SRAM mounted on
+  *                  STM3230C-EVAL board to be used as data memory (optional,
+  *                  to be enabled by user)
   *                - Branches to main in the C library (which eventually
   *                  calls main()).
-  *            After Reset the Cortex-M3 processor is in Thread mode,
+  *            After Reset the Cortex-M4 processor is in Thread mode,
   *            priority is Privileged, and the Stack is set to Main.
   ******************************************************************************
   * @attention
   *
-  * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS
-  * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE
-  * TIME. AS A RESULT, STMICROELECTRONICS SHALL NOT BE HELD LIABLE FOR ANY
-  * DIRECT, INDIRECT OR CONSEQUENTIAL DAMAGES WITH RESPECT TO ANY CLAIMS ARISING
-  * FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE
-  * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.
+  * <h2><center>&copy; COPYRIGHT 2012 STMicroelectronics</center></h2>
   *
-  * <h2><center>&copy; COPYRIGHT 2011 STMicroelectronics</center></h2>
+  * Licensed under MCD-ST Liberty SW License Agreement V2, (the "License");
+  * You may not use this file except in compliance with the License.
+  * You may obtain a copy of the License at:
+  *
+  *        http://www.st.com/software_license_agreement_liberty_v2
+  *
+  * Unless required by applicable law or agreed to in writing, software
+  * distributed under the License is distributed on an "AS IS" BASIS,
+  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  * See the License for the specific language governing permissions and
+  * limitations under the License.
+  *
   ******************************************************************************
   */
 
   .syntax unified
-	.cpu cortex-m3
-	.fpu softvfp
-	.thumb
+  .cpu cortex-m4
+  .fpu softvfp
+  .thumb
 
-.global	g_pfnVectors
-.global	Default_Handler
+.global  g_pfnVectors
+.global  Default_Handler
 
 /* start address for the initialization values of the .data section.
 defined in linker script */
-.word	_sidata
+.word  _sidata
 /* start address for the .data section. defined in linker script */
-.word	_sdata
+.word  _sdata
 /* end address for the .data section. defined in linker script */
-.word	_edata
+.word  _edata
 /* start address for the .bss section. defined in linker script */
-.word	_sbss
+.word  _sbss
 /* end address for the .bss section. defined in linker script */
-.word	_ebss
+.word  _ebss
+/* stack used for SystemInit_ExtMemCtl; always internal RAM used */
 
-.equ  BootRAM, 0xF108F85F
 /**
  * @brief  This is the code that gets called when the processor first
  *          starts execution following a reset event. Only the absolutely
@@ -58,116 +66,86 @@ defined in linker script */
  * @retval : None
 */
 
-    .section	.text.Reset_Handler
-	.weak	Reset_Handler
-	.type	Reset_Handler, %function
+    .section  .text.Reset_Handler
+  .weak  Reset_Handler
+  .type  Reset_Handler, %function
 Reset_Handler:
-	ldr	r0, =0x20004FF0              // HJI - TC bootloader entry on reset mod
-	ldr	r1, =0xDEADBEEF              // HJI - TC bootloader entry on reset mod
-	ldr	r2, [r0, #0]                 // HJI - TC bootloader entry on reset mod
-	str	r0, [r0, #0]                 // HJI - TC bootloader entry on reset mod
-	cmp	r2, r1                       // HJI - TC bootloader entry on reset mod
-	beq	Reboot_Loader                // HJI - TC bootloader entry on reset mod
+  ldr r0, =0x20009FFC         // HJI 11/9/2012
+  ldr r1, =0xDEADBEEF         // HJI 11/9/2012
+  ldr r2, [r0, #0]            // HJI 11/9/2012
+  str r0, [r0, #0]            // HJI 11/9/2012
+  cmp r2, r1                  // HJI 11/9/2012
+  beq Reboot_Loader           // HJI 11/9/2012
 
 /* Copy the data segment initializers from flash to SRAM */
-  movs	r1, #0
-  b	LoopCopyDataInit
+  movs  r1, #0
+  b  LoopCopyDataInit
 
 CopyDataInit:
-	ldr	r3, =_sidata
-	ldr	r3, [r3, r1]
-	str	r3, [r0, r1]
-	adds	r1, r1, #4
+  ldr  r3, =_sidata
+  ldr  r3, [r3, r1]
+  str  r3, [r0, r1]
+  adds  r1, r1, #4
 
 LoopCopyDataInit:
-	ldr	r0, =_sdata
-	ldr	r3, =_edata
-	adds	r2, r0, r1
-	cmp	r2, r3
-	bcc	CopyDataInit
-	ldr	r2, =_sbss
-	b	LoopFillZerobss
+  ldr  r0, =_sdata
+  ldr  r3, =_edata
+  adds  r2, r0, r1
+  cmp  r2, r3
+  bcc  CopyDataInit
+  ldr  r2, =_sbss
+  b  LoopFillZerobss
 /* Zero fill the bss segment. */
 FillZerobss:
-	movs	r3, #0
-	str	r3, [r2], #4
+  movs  r3, #0
+  str  r3, [r2], #4
 
 LoopFillZerobss:
-	ldr	r3, = _ebss
-	cmp	r2, r3
-	bcc	FillZerobss
+  ldr  r3, = _ebss
+  cmp  r2, r3
+  bcc  FillZerobss
 
 /* Call the clock system intitialization function.*/
-    bl  SystemInit
+  bl  SystemInit
 /* Call the application's entry point.*/
-	bl	main
-/* Atollic update, branch LoopForever */
+  bl  main
+  bx  lr
+
 LoopForever:
-    b LoopForever
-    
-.equ	RCC_APB2ENR,	0x40021018   // HJI - TC bootloader entry on reset mod
-.equ	GPIO_AFIO_MASK,	0x00000009   // HJI - TC bootloader entry on reset mod
-.equ	GPIOB_CRL,	    0x40010C00   // HJI - TC bootloader entry on reset mod
-.equ	GPIOB_BRR,	    0x40010C14   // HJI - TC bootloader entry on reset mod
-.equ	AFIO_MAPR,	    0x40010004   // HJI - TC bootloader entry on reset mod
+  b LoopForever
 
-Reboot_Loader:                       // HJI - TC bootloader entry on reset mod
-	    // RCC Enable GPIOB+AFIO     // HJI - TC bootloader entry on reset mod
-	    ldr	r6, =RCC_APB2ENR         // HJI - TC bootloader entry on reset mod
-	    ldr	r0, =GPIO_AFIO_MASK      // HJI - TC bootloader entry on reset mod
-	    str	R0, [r6];                // HJI - TC bootloader entry on reset mod
-        
-        // MAPR pt1                  // HJI - TC bootloader entry on reset mod
-        ldr     r0, =AFIO_MAPR       // HJI - TC bootloader entry on reset mod
-        ldr     r1, [r0]             // HJI - TC bootloader entry on reset mod
-        bic     r1, r1, #0x0F000000  // HJI - TC bootloader entry on reset mod
-        str     r1, [r0]             // HJI - TC bootloader entry on reset mod
-        
-        // MAPR pt2                  // HJI - TC bootloader entry on reset mod
-        lsls    r1, r0, #9           // HJI - TC bootloader entry on reset mod
-        str     r1, [r0]             // HJI - TC bootloader entry on reset mod
-        
-        // BRR                       // HJI - TC bootloader entry on reset mod
-        ldr     r4, =GPIOB_BRR       // HJI - TC bootloader entry on reset mod
-        movs    r0, #0x18            // HJI - TC bootloader entry on reset mod
-        str     r0, [r4]             // HJI - TC bootloader entry on reset mod
-        
-        // CRL                       // HJI - TC bootloader entry on reset mod
-        ldr     r1, =GPIOB_CRL       // HJI - TC bootloader entry on reset mod
-        ldr     r0, =0x44433444      // HJI - TC bootloader entry on reset mod
-        str     r0, [r1]             // HJI - TC bootloader entry on reset mod
-        
-        // Reboot to ROM             // HJI - TC bootloader entry on reset mod
-        ldr     r0, =0x1FFFF000      // HJI - TC bootloader entry on reset mod
-        ldr     sp,[r0, #0]          // HJI - TC bootloader entry on reset mod
-        ldr     r0,[r0, #4]          // HJI - TC bootloader entry on reset mod
-        bx      r0                   // HJI - TC bootloader entry on reset mod
+Reboot_Loader:                // HJI 11/9/2012
 
-.size	Reset_Handler, .-Reset_Handler
+  // Reboot to ROM            // HJI 11/9/2012
+  ldr     r0, =0x1FFFD800     // HJI 4/26/2013
+  ldr     sp,[r0, #0]         // HJI 11/9/2012
+  ldr     r0,[r0, #4]         // HJI 11/9/2012
+  bx      r0                  // HJI 11/9/2012
+
+.size  Reset_Handler, .-Reset_Handler
 
 /**
  * @brief  This is the code that gets called when the processor receives an
  *         unexpected interrupt.  This simply enters an infinite loop, preserving
  *         the system state for examination by a debugger.
- *
  * @param  None
- * @retval : None
+ * @retval None
 */
-    .section	.text.Default_Handler,"ax",%progbits
+    .section  .text.Default_Handler,"ax",%progbits
 Default_Handler:
 Infinite_Loop:
-	b	Infinite_Loop
-	.size	Default_Handler, .-Default_Handler
+  b  Infinite_Loop
+  .size  Default_Handler, .-Default_Handler
 /******************************************************************************
 *
-* The minimal vector table for a Cortex M3.  Note that the proper constructs
+* The minimal vector table for a Cortex M4. Note that the proper constructs
 * must be placed on this to ensure that it ends up at physical address
 * 0x0000.0000.
 *
-******************************************************************************/
- 	.section	.isr_vector,"a",%progbits
-	.type	g_pfnVectors, %object
-	.size	g_pfnVectors, .-g_pfnVectors
+*******************************************************************************/
+   .section  .isr_vector,"a",%progbits
+  .type  g_pfnVectors, %object
+  .size  g_pfnVectors, .-g_pfnVectors
 
 
 g_pfnVectors:
@@ -189,13 +167,13 @@ g_pfnVectors:
 	.word	SysTick_Handler
 	.word	WWDG_IRQHandler
 	.word	PVD_IRQHandler
-	.word	TAMPER_IRQHandler
-	.word	RTC_IRQHandler
+	.word	TAMPER_STAMP_IRQHandler
+	.word	RTC_WKUP_IRQHandler
 	.word	FLASH_IRQHandler
 	.word	RCC_IRQHandler
 	.word	EXTI0_IRQHandler
 	.word	EXTI1_IRQHandler
-	.word	EXTI2_IRQHandler
+	.word	EXTI2_TS_IRQHandler
 	.word	EXTI3_IRQHandler
 	.word	EXTI4_IRQHandler
 	.word	DMA1_Channel1_IRQHandler
@@ -211,9 +189,9 @@ g_pfnVectors:
 	.word	CAN1_RX1_IRQHandler
 	.word	CAN1_SCE_IRQHandler
 	.word	EXTI9_5_IRQHandler
-	.word	TIM1_BRK_IRQHandler
-	.word	TIM1_UP_IRQHandler
-	.word	TIM1_TRG_COM_IRQHandler
+	.word	TIM1_BRK_TIM15_IRQHandler
+	.word	TIM1_UP_TIM16_IRQHandler
+	.word	TIM1_TRG_COM_TIM17_IRQHandler
 	.word	TIM1_CC_IRQHandler
 	.word	TIM2_IRQHandler
 	.word	TIM3_IRQHandler
@@ -228,17 +206,47 @@ g_pfnVectors:
 	.word	USART2_IRQHandler
 	.word	USART3_IRQHandler
 	.word	EXTI15_10_IRQHandler
-	.word	RTCAlarm_IRQHandler
+	.word	RTC_Alarm_IRQHandler
 	.word	USBWakeUp_IRQHandler
-  .word	0
+	.word	TIM8_BRK_IRQHandler
+	.word	TIM8_UP_IRQHandler
+	.word	TIM8_TRG_COM_IRQHandler
+	.word	TIM8_CC_IRQHandler
+	.word	ADC3_IRQHandler
+	.word	0
+	.word	0
+	.word	0
+	.word	SPI3_IRQHandler
+	.word	UART4_IRQHandler
+	.word	UART5_IRQHandler
+	.word	TIM6_DAC_IRQHandler
+	.word	TIM7_IRQHandler
+	.word	DMA2_Channel1_IRQHandler
+	.word	DMA2_Channel2_IRQHandler
+	.word	DMA2_Channel3_IRQHandler
+	.word	DMA2_Channel4_IRQHandler
+	.word	DMA2_Channel5_IRQHandler
+	.word	ADC4_IRQHandler
+	.word	0
+	.word	0
+	.word	COMP1_2_3_IRQHandler
+	.word	COMP4_5_6_IRQHandler
+	.word	COMP7_IRQHandler
 	.word	0
 	.word	0
 	.word	0
 	.word	0
 	.word	0
 	.word	0
-	.word	BootRAM          /* @0x108. This is for boot in RAM mode for
-                            STM32F10x Medium Density devices. */
+	.word	0
+	.word	USB_HP_IRQHandler
+	.word	USB_LP_IRQHandler
+	.word	USBWakeUp_RMP_IRQHandler
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	FPU_IRQHandler
 
 /*******************************************************************************
 *
@@ -281,11 +289,11 @@ g_pfnVectors:
 	.weak	PVD_IRQHandler
 	.thumb_set PVD_IRQHandler,Default_Handler
 
-	.weak	TAMPER_IRQHandler
-	.thumb_set TAMPER_IRQHandler,Default_Handler
+	.weak	TAMPER_STAMP_IRQHandler
+	.thumb_set TAMPER_STAMP_IRQHandler,Default_Handler
 
-	.weak	RTC_IRQHandler
-	.thumb_set RTC_IRQHandler,Default_Handler
+	.weak	RTC_WKUP_IRQHandler
+	.thumb_set RTC_WKUP_IRQHandler,Default_Handler
 
 	.weak	FLASH_IRQHandler
 	.thumb_set FLASH_IRQHandler,Default_Handler
@@ -299,8 +307,8 @@ g_pfnVectors:
 	.weak	EXTI1_IRQHandler
 	.thumb_set EXTI1_IRQHandler,Default_Handler
 
-	.weak	EXTI2_IRQHandler
-	.thumb_set EXTI2_IRQHandler,Default_Handler
+	.weak	EXTI2_TS_IRQHandler
+	.thumb_set EXTI2_TS_IRQHandler,Default_Handler
 
 	.weak	EXTI3_IRQHandler
 	.thumb_set EXTI3_IRQHandler,Default_Handler
@@ -347,14 +355,14 @@ g_pfnVectors:
 	.weak	EXTI9_5_IRQHandler
 	.thumb_set EXTI9_5_IRQHandler,Default_Handler
 
-	.weak	TIM1_BRK_IRQHandler
-	.thumb_set TIM1_BRK_IRQHandler,Default_Handler
+	.weak	TIM1_BRK_TIM15_IRQHandler
+	.thumb_set TIM1_BRK_TIM15_IRQHandler,Default_Handler
 
-	.weak	TIM1_UP_IRQHandler
-	.thumb_set TIM1_UP_IRQHandler,Default_Handler
+	.weak	TIM1_UP_TIM16_IRQHandler
+	.thumb_set TIM1_UP_TIM16_IRQHandler,Default_Handler
 
-	.weak	TIM1_TRG_COM_IRQHandler
-	.thumb_set TIM1_TRG_COM_IRQHandler,Default_Handler
+	.weak	TIM1_TRG_COM_TIM17_IRQHandler
+	.thumb_set TIM1_TRG_COM_TIM17_IRQHandler,Default_Handler
 
 	.weak	TIM1_CC_IRQHandler
 	.thumb_set TIM1_CC_IRQHandler,Default_Handler
@@ -398,11 +406,78 @@ g_pfnVectors:
 	.weak	EXTI15_10_IRQHandler
 	.thumb_set EXTI15_10_IRQHandler,Default_Handler
 
-	.weak	RTCAlarm_IRQHandler
-	.thumb_set RTCAlarm_IRQHandler,Default_Handler
+	.weak	RTC_Alarm_IRQHandler
+	.thumb_set RTC_Alarm_IRQHandler,Default_Handler
 
 	.weak	USBWakeUp_IRQHandler
 	.thumb_set USBWakeUp_IRQHandler,Default_Handler
 
-/******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE****/
+	.weak	TIM8_BRK_IRQHandler
+	.thumb_set TIM8_BRK_IRQHandler,Default_Handler
 
+	.weak	TIM8_UP_IRQHandler
+	.thumb_set TIM8_UP_IRQHandler,Default_Handler
+
+	.weak	TIM8_TRG_COM_IRQHandler
+	.thumb_set TIM8_TRG_COM_IRQHandler,Default_Handler
+
+	.weak	TIM8_CC_IRQHandler
+	.thumb_set TIM8_CC_IRQHandler,Default_Handler
+
+	.weak	ADC3_IRQHandler
+	.thumb_set ADC3_IRQHandler,Default_Handler
+
+	.weak	SPI3_IRQHandler
+	.thumb_set SPI3_IRQHandler,Default_Handler
+
+	.weak	UART4_IRQHandler
+	.thumb_set UART4_IRQHandler,Default_Handler
+
+	.weak	UART5_IRQHandler
+	.thumb_set UART5_IRQHandler,Default_Handler
+
+	.weak	TIM6_DAC_IRQHandler
+	.thumb_set TIM6_DAC_IRQHandler,Default_Handler
+
+	.weak	TIM7_IRQHandler
+	.thumb_set TIM7_IRQHandler,Default_Handler
+
+	.weak	DMA2_Channel1_IRQHandler
+	.thumb_set DMA2_Channel1_IRQHandler,Default_Handler
+
+	.weak	DMA2_Channel2_IRQHandler
+	.thumb_set DMA2_Channel2_IRQHandler,Default_Handler
+
+	.weak	DMA2_Channel3_IRQHandler
+	.thumb_set DMA2_Channel3_IRQHandler,Default_Handler
+
+	.weak	DMA2_Channel4_IRQHandler
+	.thumb_set DMA2_Channel4_IRQHandler,Default_Handler
+
+	.weak	DMA2_Channel5_IRQHandler
+	.thumb_set DMA2_Channel5_IRQHandler,Default_Handler
+
+	.weak	ADC4_IRQHandler
+	.thumb_set ADC4_IRQHandler,Default_Handler
+
+	.weak	COMP1_2_3_IRQHandler
+	.thumb_set COMP1_2_3_IRQHandler,Default_Handler
+
+	.weak	COMP4_5_6_IRQHandler
+	.thumb_set COMP4_5_6_IRQHandler,Default_Handler
+
+	.weak	COMP7_IRQHandler
+	.thumb_set COMP7_IRQHandler,Default_Handler
+
+	.weak	USB_HP_IRQHandler
+	.thumb_set USB_HP_IRQHandler,Default_Handler
+
+	.weak	USB_LP_IRQHandler
+	.thumb_set USB_LP_IRQHandler,Default_Handler
+
+	.weak	USBWakeUp_RMP_IRQHandler
+	.thumb_set USBWakeUp_RMP_IRQHandler,Default_Handler
+
+	.weak	FPU_IRQHandler
+	.thumb_set FPU_IRQHandler,Default_Handler
+/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
