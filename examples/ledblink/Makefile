@@ -38,14 +38,10 @@ BIN_DIR		 = $(ROOT)/obj
 myproject_SRC = $(BREEZY_DIR)/main.c \
 		   $(BREEZY_DIR)/startup_stm32f10x_md_gcc.S \
 		   $(BREEZY_DIR)/drv_gpio.c \
-		   $(BREEZY_DIR)/drv_i2c.c \
 		   $(BREEZY_DIR)/drv_adc.c \
-		   $(BREEZY_DIR)/drv_spi.c \
-		   $(BREEZY_DIR)/drv_pwm.c \
 		   $(BREEZY_DIR)/drv_system.c \
 		   $(BREEZY_DIR)/drv_serial.c \
 		   $(BREEZY_DIR)/drv_uart.c \
-		   $(BREEZY_DIR)/drv_timer.c \
 		   $(BREEZY_DIR)/printf.c \
 		   $(PROJECT_SRC) \
 		   $(CMSIS_SRC) \
