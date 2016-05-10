@@ -149,7 +149,7 @@ $(OBJECT_DIR)/$(TARGET)/%.o: %.S
 	@$(CC) -c -o $@ $(ASFLAGS) $< 
 
 clean:
-	rm -rf $(TARGET_HEX) $(TARGET_ELF) $(TARGET_OBJS) $(TARGET_MAP) obj
+	rm -rf *.o obj
 
 flash_$(TARGET): $(TARGET_HEX)
 	stty -F $(SERIAL_DEVICE) raw speed 115200 -crtscts cs8 -parenb -cstopb -ixon
