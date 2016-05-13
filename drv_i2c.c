@@ -1,5 +1,5 @@
 /*
-   drv_i2c.c :  I^2C support for STM32F103CB
+   drv_i2c.c :  I^2C support for STM32F103
 
    Adapted from https://github.com/multiwii/baseflight/blob/master/src/drv_i2c.c
 

@@ -26,12 +26,13 @@ for a special reboot message, which you
 from your compute right before flashing. So if you've got a long-term project to work on, you might consider
 implementing something like that to avoid having to short the pins every time.)
 
-The BreezySTM32 examples directory includes four use cases: 
+The BreezySTM32 examples directory includes the following use cases: 
 <ul>
 <li> a simple LED blinker
 <li> a program that searches the board for I<sup>2</sup>C devices, reporting the addresses of any such devices found
 <li> a program that reads from the MaxBotix MB1242 I<sup>2</sup>C ultrasonic rangefinder and reports distances 
 in centimeters
+<li> a program that reports the size of the flash memory
 <li> a C++ program for blinking one of the LEDs
 </ul>
 
