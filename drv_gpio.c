@@ -47,7 +47,6 @@
 
 #include "drv_adc.h"
 #include "drv_i2c.h"
-#include "drv_spi.h"
 #include "drv_pwm.h"
 #include "drv_timer.h"
 #include "drv_serial.h"
