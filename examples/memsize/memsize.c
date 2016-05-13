@@ -1,5 +1,5 @@
 /*
-   flashmem.c : test the MP25P16 flash memory
+   memsize.c : test the MP25P16 flash memory
 
    Copyright (C) 2016 Simon D. Levy 
 
@@ -30,7 +30,6 @@ void setup(void)
 
 void loop(void)
 {
-    LED0_TOGGLE;
     delay(500);
 
     if (flashfsIsReady())
