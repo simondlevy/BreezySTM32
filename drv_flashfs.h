@@ -31,28 +31,21 @@
 // Automatically trigger a flush when this much data is in the buffer
 #define FLASHFS_WRITE_BUFFER_AUTO_FLUSH_LEN 64
 
-void flashfsEraseCompletely();
-void flashfsEraseRange(uint32_t start, uint32_t end);
-
+void     flashfsEraseCompletely();
+void     flashfsEraseRange(uint32_t start, uint32_t end);
 uint32_t flashfsGetSize();
 uint32_t flashfsGetOffset();
 uint32_t flashfsGetWriteBufferFreeSpace();
 uint32_t flashfsGetWriteBufferSize();
-int flashfsIdentifyStartOfFreeSpace();
-const flashGeometry_t* flashfsGetGeometry();
-
-void flashfsSeekAbs(uint32_t offset);
-void flashfsSeekRel(int32_t offset);
-
-void flashfsWriteByte(uint8_t byte);
-void flashfsWrite(const uint8_t *data, unsigned int len, bool sync);
-
-int flashfsReadAbs(uint32_t offset, uint8_t *data, unsigned int len);
-
-bool flashfsFlushAsync();
-void flashfsFlushSync();
-
-void flashfsInit();
-
-bool flashfsIsReady();
-bool flashfsIsEOF();
+int      flashfsIdentifyStartOfFreeSpace();
+const    flashGeometry_t * flashfsGetGeometry();
+void     flashfsSeekAbs(uint32_t offset);
+void     flashfsSeekRel(int32_t offset);
+void     flashfsWriteByte(uint8_t byte);
+void     flashfsWrite(const uint8_t * data, unsigned int len, bool sync);
+int      flashfsReadAbs(uint32_t offset, uint8_t *data, unsigned int len);
+bool     flashfsFlushAsync();
+void     flashfsFlushSync();
+void     flashfsInit();
+bool     flashfsIsReady();
+bool     flashfsIsEOF();
