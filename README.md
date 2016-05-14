@@ -32,7 +32,7 @@ The BreezySTM32 examples directory includes the following use cases:
 <li> a program that searches the board for I<sup>2</sup>C devices, reporting the addresses of any such devices found
 <li> a program that reads from the MaxBotix MB1242 I<sup>2</sup>C ultrasonic rangefinder and reports distances 
 in centimeters
-<li> a program that reports the size of the SPI-based flash memory
+<li> a program that tests the SPI-based flash memory
 <li> a C++ program for blinking one of the LEDs
 </ul>
 
