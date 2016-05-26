@@ -24,14 +24,36 @@
 #include <breezystm32.h>
 
 
+uint16_t acc1G;
+float gyroScale;
+int16_t accel_data[3];
+int16_t gyro_data[3];
+
 void setup(void)
 {
-  uint16_t acc1G;
-  float gyroScale;
+  delay(500);
+  i2cInit(I2CDEV_2);
   mpu6050_init(true, &acc1G, &gyroScale);
 } 
 
 void loop(void)
 {
+  int32_t accel_scale = 2394;
+  int32_t gyro_scale = 4261;
+  uint32_t now = micros();
+  mpu6050_read_accel(accel_data);
+  mpu6050_read_gyro(gyro_data);
+  printf("%d %d %d %d %d %d\n",
+      ((int32_t)accel_data[0]*accel_scale)/1000,
+      ((int32_t)accel_data[1]*accel_scale)/1000,
+      ((int32_t)accel_data[2]*accel_scale)/1000,
+      ((int32_t)gyro_data[0]*gyro_scale)/1000,
+      ((int32_t)gyro_data[1]*gyro_scale)/1000,
+      ((int32_t)gyro_data[2]*gyro_scale)/1000);
+//  if (mpuDataReady)
+//  {
+//    printf("measurement made %d us ago", now - mpu_measurement_time);
+//  }
+  delay(100);
 
 }
