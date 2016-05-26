@@ -34,7 +34,7 @@
 
 // This is generally where all Invensense devices are at, for default (AD0 down) I2C address
 #define MPU_ADDRESS                         (0x68)
-#define GYRO_INT_GPIO                       (GPIOC)
+#define GYRO_INT_GPIO                       (GPIOB)
 #define GYRO_INT_PIN                        (Pin_13)
 
 #define MPU_RA_WHO_AM_I                     (0x75)
@@ -127,20 +127,17 @@ void configureMPUDataReadyInterruptHandling(void)
   RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO, ENABLE);
 
   // Configure EXTI
+  EXTI_ClearITPendingBit(EXTI_Line13);
   EXTI_InitTypeDef EXTI_InitStrutcure;
   // GPIO Structure Used To initialize external interrupt pin
   // Connect EXTI line to the interrupt pin (which is on exti13)
-  if(rev4){
-    gpioExtiLineConfig(GPIO_PortSourceGPIOB, GPIO_PinSource13);
-  }else{
-    gpioExtiLineConfig(GPIO_PortSourceGPIOC, GPIO_PinSource13);
-  }
+  gpioExtiLineConfig(GPIO_PortSourceGPIOB, GPIO_PinSource13);
+
   // Configure EXTI Line13
   EXTI_InitStrutcure.EXTI_Line = EXTI_Line13;
   EXTI_InitStrutcure.EXTI_Mode = EXTI_Mode_Interrupt;
-  EXTI_InitStrutcure.EXTI_Trigger = EXTI_Trigger_Rising;
+  EXTI_InitStrutcure.EXTI_Trigger = EXTI_Trigger_Falling;
   EXTI_InitStrutcure.EXTI_LineCmd = ENABLE;
-  EXTI_ClearITPendingBit(EXTI_Line13);
   EXTI_Init(&EXTI_InitStrutcure);
 
   // Disable AFIO Clock
@@ -159,14 +156,13 @@ void configureMPUDataReadyInterruptHandling(void)
   NVIC_Init(&NVIC_InitStructure);
 }
 
-void EXTI15_10IRQHandler(void)
+void EXTI15_10_IRQHandler(void)
 {
   if (EXTI_GetITStatus(EXTI_Line13) != RESET)
   {
     mpu_measurement_time = micros();
     mpuDataReady = true;
   }
-
   EXTI_ClearITPendingBit(EXTI_Line13);
 }
 
@@ -217,11 +213,15 @@ void mpu6050_init(bool cuttingEdge, uint16_t * acc1G, float * gyroScale)
 
   // MPU_INT output on rev5+ hardware (PC13)
   if (cuttingEdge) {
-    gpio.pin = GYRO_INT_PIN;
+
+    gpio.pin = Pin_13;
     gpio.speed = Speed_2MHz;
     gpio.mode = Mode_IN_FLOATING;
     gpioInit(GYRO_INT_GPIO, &gpio);
-//    configureMPUDataReadyInterruptHandling();
+
+    configureMPUDataReadyInterruptHandling();
+
+//    LED0_ON;
   }
 
   // Device reset
