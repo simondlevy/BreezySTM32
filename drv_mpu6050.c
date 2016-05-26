@@ -34,6 +34,8 @@
 
 // This is generally where all Invensense devices are at, for default (AD0 down) I2C address
 #define MPU_ADDRESS                         (0x68)
+
+// See line 132 for more discussion on the interrupt pin
 #define GYRO_INT_GPIO                       (GPIOB)
 #define GYRO_INT_PIN                        (Pin_13)
 
@@ -122,7 +124,6 @@ static bool mpuWriteRegisterI2C(uint8_t reg, uint8_t data)
 
 void mpu6050_exti_init(void)
 {
-    bool rev4 = false;
     // enable AFIO for EXTI support
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO, ENABLE);
 
@@ -131,10 +132,10 @@ void mpu6050_exti_init(void)
     EXTI_InitTypeDef EXTI_InitStrutcure;
     // GPIO Structure Used To initialize external interrupt pin
     // This assumes that the interrupt pin is attached to pin 26 (PB13)
-    // Which may not be the case for all boards.  This has been tested
-    // on the flip32+ v2.5.  Based on the cleanflight issue tracker, some
-    // boards have the interrupt pin attached to PC13, so it's a simple change
+    // Which is not be the case for all boards. The naze32 rev5+ has it's
+    // interrupt on PC13, while rev4- and the flip32 devices use PB13.
     // see src/main/sensors/initializiation.c:85 in the cleanflight source code
+    // for their version handling.
     gpioExtiLineConfig(GPIO_PortSourceGPIOB, GPIO_PinSource13);
 
     // Configure EXTI Line13
