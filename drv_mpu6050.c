@@ -110,7 +110,7 @@ static uint8_t mpuLowPassFilter = INV_FILTER_42HZ;
 #define MPU6050_BIT_FIFO_EN     0x40
 
 volatile bool mpuDataReady = false;
-volatile uint32_t mpu_measurement_time = 0;
+volatile uint32_t mpuMeasurementTime = 0;
 
 static bool mpuReadRegisterI2C(uint8_t reg, uint8_t *data, int length)
 {

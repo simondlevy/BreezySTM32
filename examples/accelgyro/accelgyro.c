@@ -51,6 +51,6 @@ void loop(void)
                 (int32_t)((float)gyro_data[0]*gyro_scale), // prints in mrad/s
                 (int32_t)((float)gyro_data[1]*gyro_scale),
                 (int32_t)((float)gyro_data[2]*gyro_scale),
-                micros() - mpu_measurement_time); // the time since the IMU measurement was taken in us
+                micros() - mpuMeasurementTime); // the time since the IMU measurement was taken in us
     }
 }
