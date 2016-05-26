@@ -107,6 +107,8 @@ static uint8_t mpuLowPassFilter = INV_FILTER_42HZ;
 #define MPU6050_BIT_DMP_RST     0x08
 #define MPU6050_BIT_FIFO_EN     0x40
 
+volatile bool mpuDataReady = false;
+
 static bool mpuReadRegisterI2C(uint8_t reg, uint8_t *data, int length)
 {
     return i2cRead(MPU_ADDRESS, reg, length, data);
@@ -116,6 +118,54 @@ static bool mpuWriteRegisterI2C(uint8_t reg, uint8_t data)
 {
     return i2cWrite(MPU_ADDRESS, reg, data);
 }
+
+void configureMPUDataReadyInterruptHandling(void)
+{
+    // enable AFIO for EXTI support
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO, ENABLE);
+
+    // void gpioExtiLineConfig(uint8_t portsrc, uint8_t pinsrc)
+    gpioExtiLineConfig(mpuIntExtiConfig->exti_port_source, mpuIntExtiConfig->exti_pin_source);
+
+    uint8_t status = GPIO_ReadInputDataBit(mpuIntExtiConfig->gpioPort, mpuIntExtiConfig->gpioPin);
+    if (status) {
+        return;
+    }
+
+    registerExtiCallbackHandler(mpuIntExtiConfig->exti_irqn, MPU_DATA_READY_EXTI_Handler);
+
+    EXTI_ClearITPendingBit(mpuIntExtiConfig->exti_line);
+
+    EXTI_InitTypeDef EXTIInit;
+    EXTIInit.EXTI_Line = mpuIntExtiConfig->exti_line;
+    EXTIInit.EXTI_Mode = EXTI_Mode_Interrupt;
+    EXTIInit.EXTI_Trigger = EXTI_Trigger_Rising;
+    EXTIInit.EXTI_LineCmd = ENABLE;
+    EXTI_Init(&EXTIInit);
+
+    NVIC_InitTypeDef NVIC_InitStructure;
+
+    NVIC_InitStructure.NVIC_IRQChannel = mpuIntExtiConfig->exti_irqn;
+    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = NVIC_PRIORITY_BASE(NVIC_PRIO_MPU_DATA_READY);
+    NVIC_InitStructure.NVIC_IRQChannelSubPriority = NVIC_PRIORITY_SUB(NVIC_PRIO_MPU_DATA_READY);
+    NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+    NVIC_Init(&NVIC_InitStructure);
+}
+
+void MPU_DATA_READY_EXTI_Handler(void)
+{
+    if (EXTI_GetITStatus(mpuIntExtiConfig->exti_line) == RESET) {
+        return;
+    }
+
+    EXTI_ClearITPendingBit(mpuIntExtiConfig->exti_line);
+
+    mpuDataReady = true;
+}
+
+
+
+
 
 
 // ======================================================================
@@ -168,6 +218,7 @@ void mpu6050_init(bool cuttingEdge, uint16_t * acc1G, float * gyroScale)
         gpio.speed = Speed_2MHz;
         gpio.mode = Mode_IN_FLOATING;
         gpioInit(GYRO_INT_GPIO, &gpio);
+        configureMPUDataReadyInterruptHandling();
     }
 
     // Device reset
@@ -187,6 +238,7 @@ void mpu6050_init(bool cuttingEdge, uint16_t * acc1G, float * gyroScale)
     // Data ready interrupt configuration:  INT_RD_CLEAR_DIS, I2C_BYPASS_EN
     mpuWriteRegisterI2C(MPU_RA_INT_PIN_CFG, 0 << 7 | 0 << 6 | 0 << 5 | 1 << 4 | 0 << 3 | 0 << 2 | 1 << 1 | 0 << 0); 
     mpuWriteRegisterI2C(MPU_RA_INT_ENABLE, 0x01); // DATA_RDY_EN interrupt enable
+
 }
 
 void mpu6050_read_accel(int16_t *accData)
