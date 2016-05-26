@@ -48,37 +48,37 @@
 #define MPUx0x0_WHO_AM_I_CONST              (0x68)
 
 enum lpf_e {
-  INV_FILTER_256HZ_NOLPF2 = 0,
-  INV_FILTER_188HZ,
-  INV_FILTER_98HZ,
-  INV_FILTER_42HZ,
-  INV_FILTER_20HZ,
-  INV_FILTER_10HZ,
-  INV_FILTER_5HZ,
-  INV_FILTER_2100HZ_NOLPF,
-  NUM_FILTER
+    INV_FILTER_256HZ_NOLPF2 = 0,
+    INV_FILTER_188HZ,
+    INV_FILTER_98HZ,
+    INV_FILTER_42HZ,
+    INV_FILTER_20HZ,
+    INV_FILTER_10HZ,
+    INV_FILTER_5HZ,
+    INV_FILTER_2100HZ_NOLPF,
+    NUM_FILTER
 };
 
 enum gyro_fsr_e {
-  INV_FSR_250DPS = 0,
-  INV_FSR_500DPS,
-  INV_FSR_1000DPS,
-  INV_FSR_2000DPS,
-  NUM_GYRO_FSR
+    INV_FSR_250DPS = 0,
+    INV_FSR_500DPS,
+    INV_FSR_1000DPS,
+    INV_FSR_2000DPS,
+    NUM_GYRO_FSR
 };
 
 enum clock_sel_e {
-  INV_CLK_INTERNAL = 0,
-  INV_CLK_PLL,
-  NUM_CLK
+    INV_CLK_INTERNAL = 0,
+    INV_CLK_PLL,
+    NUM_CLK
 };
 
 enum accel_fsr_e {
-  INV_FSR_2G = 0,
-  INV_FSR_4G,
-  INV_FSR_8G,
-  INV_FSR_16G,
-  NUM_ACCEL_FSR
+    INV_FSR_2G = 0,
+    INV_FSR_4G,
+    INV_FSR_8G,
+    INV_FSR_16G,
+    NUM_ACCEL_FSR
 };
 
 
@@ -112,156 +112,157 @@ volatile uint32_t mpu_measurement_time = 0;
 
 static bool mpuReadRegisterI2C(uint8_t reg, uint8_t *data, int length)
 {
-  return i2cRead(MPU_ADDRESS, reg, length, data);
+    return i2cRead(MPU_ADDRESS, reg, length, data);
 }
 
 static bool mpuWriteRegisterI2C(uint8_t reg, uint8_t data)
 {
-  return i2cWrite(MPU_ADDRESS, reg, data);
+    return i2cWrite(MPU_ADDRESS, reg, data);
 }
 
-void configureMPUDataReadyInterruptHandling(void)
+void mpu6050_exti_init(void)
 {
-  bool rev4 = false;
-  // enable AFIO for EXTI support
-  RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO, ENABLE);
+    bool rev4 = false;
+    // enable AFIO for EXTI support
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO, ENABLE);
 
-  // Configure EXTI
-  EXTI_ClearITPendingBit(EXTI_Line13);
-  EXTI_InitTypeDef EXTI_InitStrutcure;
-  // GPIO Structure Used To initialize external interrupt pin
-  // Connect EXTI line to the interrupt pin (which is on exti13)
-  gpioExtiLineConfig(GPIO_PortSourceGPIOB, GPIO_PinSource13);
+    // Configure EXTI
+    EXTI_ClearITPendingBit(EXTI_Line13);
+    EXTI_InitTypeDef EXTI_InitStrutcure;
+    // GPIO Structure Used To initialize external interrupt pin
+    // This assumes that the interrupt pin is attached to pin 26 (PB13)
+    // Which may not be the case for all boards.  This has been tested
+    // on the flip32+ v2.5.  Based on the cleanflight issue tracker, some
+    // boards have the interrupt pin attached to PC13, so it's a simple change
+    // see src/main/sensors/initializiation.c:85 in the cleanflight source code
+    gpioExtiLineConfig(GPIO_PortSourceGPIOB, GPIO_PinSource13);
 
-  // Configure EXTI Line13
-  EXTI_InitStrutcure.EXTI_Line = EXTI_Line13;
-  EXTI_InitStrutcure.EXTI_Mode = EXTI_Mode_Interrupt;
-  EXTI_InitStrutcure.EXTI_Trigger = EXTI_Trigger_Falling;
-  EXTI_InitStrutcure.EXTI_LineCmd = ENABLE;
-  EXTI_Init(&EXTI_InitStrutcure);
+    // Configure EXTI Line13
+    EXTI_InitStrutcure.EXTI_Line = EXTI_Line13;
+    EXTI_InitStrutcure.EXTI_Mode = EXTI_Mode_Interrupt;
+    EXTI_InitStrutcure.EXTI_Trigger = EXTI_Trigger_Falling;
+    EXTI_InitStrutcure.EXTI_LineCmd = ENABLE;
+    EXTI_Init(&EXTI_InitStrutcure);
 
-  // Disable AFIO Clock
-  RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO, DISABLE);
+    // Disable AFIO Clock - we don't need it anymore
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO, DISABLE);
 
-  // Configure NVIC
-  NVIC_InitTypeDef NVIC_InitStructure;
-  // Select NVIC Channel to configure
-  NVIC_InitStructure.NVIC_IRQChannel = EXTI15_10_IRQn;
-  // Set priority to lowest
-  NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0x0F;
-  // Set subpriority to lowest
-  NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0x0F;
-  NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
-  // Update NVIC registers
-  NVIC_Init(&NVIC_InitStructure);
+    // Configure NVIC (Nested Vector Interrupt Controller)
+    NVIC_InitTypeDef NVIC_InitStructure;
+    // Select NVIC Channel to configure
+    NVIC_InitStructure.NVIC_IRQChannel = EXTI15_10_IRQn;
+    // Set priority to lowest
+    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0x0F;
+    // Set subpriority to lowest
+    NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0x0F;
+    NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+    // Update NVIC registers
+    NVIC_Init(&NVIC_InitStructure);
 }
 
 void EXTI15_10_IRQHandler(void)
 {
-  if (EXTI_GetITStatus(EXTI_Line13) != RESET)
-  {
-    mpu_measurement_time = micros();
-    mpuDataReady = true;
-  }
-  EXTI_ClearITPendingBit(EXTI_Line13);
+    if (EXTI_GetITStatus(EXTI_Line13) != RESET)
+    {
+        mpu_measurement_time = micros();
+        mpuDataReady = true;
+    }
+    EXTI_ClearITPendingBit(EXTI_Line13);
 }
 
 
 // ======================================================================
 
-void mpu6050_init(bool cuttingEdge, uint16_t * acc1G, float * gyroScale)
+void mpu6050_init(bool enableInterrupt, uint16_t * acc1G, float * gyroScale)
 {
-  gpio_config_t gpio;
+    gpio_config_t gpio;
 
-  // Set acc1G. Modified once by mpu6050CheckRevision for old (hopefully nonexistent outside of clones) parts
-  *acc1G = 512 * 8;
+    // Set acc1G. Modified once by mpu6050CheckRevision for old (hopefully nonexistent outside of clones) parts
+    *acc1G = 512 * 8;
 
-  uint8_t rev;
-  uint8_t tmp[6];
-  int half = 0;
+    uint8_t rev;
+    uint8_t tmp[6];
+    int half = 0;
 
-  // determine product ID and accel revision
-  mpuReadRegisterI2C(MPU_RA_XA_OFFS_H, tmp, 6);
-  rev = ((tmp[5] & 0x01) << 2) | ((tmp[3] & 0x01) << 1) | (tmp[1] & 0x01);
-  if (rev) {
-    // Congrats, these parts are better
-    if (rev == 1) {
-      half = 1;
-    } else if (rev == 2) {
-      half = 0;
+    // determine product ID and accel revision
+    mpuReadRegisterI2C(MPU_RA_XA_OFFS_H, tmp, 6);
+    rev = ((tmp[5] & 0x01) << 2) | ((tmp[3] & 0x01) << 1) | (tmp[1] & 0x01);
+    if (rev) {
+        // Congrats, these parts are better
+        if (rev == 1) {
+            half = 1;
+        } else if (rev == 2) {
+            half = 0;
+        } else {
+            failureMode(5);
+        }
     } else {
-      failureMode(5);
+        mpuReadRegisterI2C(MPU_RA_PRODUCT_ID, &rev, 1);
+        rev &= 0x0F;
+        if (!rev) {
+            failureMode(5);
+        } else if (rev == 4) {
+            half = 1;
+        } else {
+            half = 0;
+        }
     }
-  } else {
-    mpuReadRegisterI2C(MPU_RA_PRODUCT_ID, &rev, 1);
-    rev &= 0x0F;
-    if (!rev) {
-      failureMode(5);
-    } else if (rev == 4) {
-      half = 1;
-    } else {
-      half = 0;
+
+    // All this just to set the value
+    if (half)
+        *acc1G = 255 * 8;
+
+    // 16.4 dps/lsb scalefactor for all Invensense devices
+    *gyroScale = (4.0f / 16.4f) * (M_PI / 180.0f) * 0.000001f;
+
+    // MPU_INT output on rev5+ hardware (PC13)
+    if (enableInterrupt) {
+        gpio.pin = Pin_13;
+        gpio.speed = Speed_2MHz;
+        gpio.mode = Mode_IN_FLOATING;
+        gpioInit(GYRO_INT_GPIO, &gpio);
+        mpu6050_exti_init();
     }
-  }
 
-  // All this just to set the value
-  if (half)
-    *acc1G = 255 * 8;
+    // Device reset
+    mpuWriteRegisterI2C(MPU_RA_PWR_MGMT_1, 0x80); // Device reset
+    delay(100);
 
-  // 16.4 dps/lsb scalefactor for all Invensense devices
-  *gyroScale = (4.0f / 16.4f) * (M_PI / 180.0f) * 0.000001f;
+    // Gyro config
+    mpuWriteRegisterI2C(MPU_RA_SMPLRT_DIV, 0x00); // Sample Rate = Gyroscope Output Rate / (1 + SMPLRT_DIV)
+    mpuWriteRegisterI2C(MPU_RA_PWR_MGMT_1, MPU6050_INV_CLK_GYROZ); // Clock source = 3 (PLL with Z Gyro reference)
+    delay(10);
+    mpuWriteRegisterI2C(MPU_RA_CONFIG, mpuLowPassFilter); // set DLPF
+    mpuWriteRegisterI2C(MPU_RA_GYRO_CONFIG, INV_FSR_2000DPS << 3); // full-scale 2kdps gyro range
 
-  // MPU_INT output on rev5+ hardware (PC13)
-  if (cuttingEdge) {
+    // Accel scale 8g (4096 LSB/g)
+    mpuWriteRegisterI2C(MPU_RA_ACCEL_CONFIG, INV_FSR_8G << 3);
 
-    gpio.pin = Pin_13;
-    gpio.speed = Speed_2MHz;
-    gpio.mode = Mode_IN_FLOATING;
-    gpioInit(GYRO_INT_GPIO, &gpio);
-
-    configureMPUDataReadyInterruptHandling();
-
-//    LED0_ON;
-  }
-
-  // Device reset
-  mpuWriteRegisterI2C(MPU_RA_PWR_MGMT_1, 0x80); // Device reset
-  delay(100);
-
-  // Gyro config
-  mpuWriteRegisterI2C(MPU_RA_SMPLRT_DIV, 0x00); // Sample Rate = Gyroscope Output Rate / (1 + SMPLRT_DIV)
-  mpuWriteRegisterI2C(MPU_RA_PWR_MGMT_1, MPU6050_INV_CLK_GYROZ); // Clock source = 3 (PLL with Z Gyro reference)
-  delay(10);
-  mpuWriteRegisterI2C(MPU_RA_CONFIG, mpuLowPassFilter); // set DLPF
-  mpuWriteRegisterI2C(MPU_RA_GYRO_CONFIG, INV_FSR_2000DPS << 3); // full-scale 2kdps gyro range
-
-  // Accel scale 8g (4096 LSB/g)
-  mpuWriteRegisterI2C(MPU_RA_ACCEL_CONFIG, INV_FSR_8G << 3);
-
-  // Data ready interrupt configuration:  INT_RD_CLEAR_DIS, I2C_BYPASS_EN
-  mpuWriteRegisterI2C(MPU_RA_INT_PIN_CFG, 0 << 7 | 0 << 6 | 0 << 5 | 1 << 4 | 0 << 3 | 0 << 2 | 1 << 1 | 0 << 0);
-  mpuWriteRegisterI2C(MPU_RA_INT_ENABLE, 0x01); // DATA_RDY_EN interrupt enable
-
+    // Data ready interrupt configuration:  INT_RD_CLEAR_DIS, I2C_BYPASS_EN
+    mpuWriteRegisterI2C(MPU_RA_INT_PIN_CFG, 0 << 7 | 0 << 6 | 0 << 5 | 1 << 4 | 0 << 3 | 0 << 2 | 1 << 1 | 0 << 0);
+    mpuWriteRegisterI2C(MPU_RA_INT_ENABLE, 0x01); // DATA_RDY_EN interrupt enable
 }
+
 
 void mpu6050_read_accel(int16_t *accData)
 {
-  uint8_t buf[6];
+    uint8_t buf[6];
 
-  mpuReadRegisterI2C(MPU_RA_ACCEL_XOUT_H, buf, 6);
+    mpuReadRegisterI2C(MPU_RA_ACCEL_XOUT_H, buf, 6);
 
-  accData[0] = (int16_t)((buf[0] << 8) | buf[1]);
-  accData[1] = (int16_t)((buf[2] << 8) | buf[3]);
-  accData[2] = (int16_t)((buf[4] << 8) | buf[5]);
+    accData[0] = (int16_t)((buf[0] << 8) | buf[1]);
+    accData[1] = (int16_t)((buf[2] << 8) | buf[3]);
+    accData[2] = (int16_t)((buf[4] << 8) | buf[5]);
 }
+
 
 void mpu6050_read_gyro(int16_t *gyroData)
 {
-  uint8_t buf[6];
+    uint8_t buf[6];
 
-  mpuReadRegisterI2C(MPU_RA_GYRO_XOUT_H, buf, 6);
+    mpuReadRegisterI2C(MPU_RA_GYRO_XOUT_H, buf, 6);
 
-  gyroData[0] = (int16_t)((buf[0] << 8) | buf[1]) / 4;
-  gyroData[1] = (int16_t)((buf[2] << 8) | buf[3]) / 4;
-  gyroData[2] = (int16_t)((buf[4] << 8) | buf[5]) / 4;
+    gyroData[0] = (int16_t)((buf[0] << 8) | buf[1]) / 4;
+    gyroData[1] = (int16_t)((buf[2] << 8) | buf[3]) / 4;
+    gyroData[2] = (int16_t)((buf[4] << 8) | buf[5]) / 4;
 }
