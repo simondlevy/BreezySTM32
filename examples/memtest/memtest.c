@@ -30,9 +30,7 @@ void setup(void)
     while (!flashfsIsReady())
         ;
 
-    const char * s = "Hello world!";
-
-    flashfsWrite((const uint8_t *)s, 14, true); // sync
+    flashfsWrite((const char *)"Hello world!", 14, true); // sync
 }
 
 void loop(void)
