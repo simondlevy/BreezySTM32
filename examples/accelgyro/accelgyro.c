@@ -1,9 +1,7 @@
 /*
-   i2sniff.c : sniff and report I^2C devices
+   accelgyro.c : report accelerometer and gyroscope values
 
-   Copyright (C) 2016 Simon D. Levy
-
-   Adapted from https://github.com/multiwii/baseflight/blob/master/src/drv_adc.c
+   Copyright (C) 2016 James Jackson
 
    This file is part of BreezySTM32.
 
