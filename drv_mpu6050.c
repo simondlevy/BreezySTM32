@@ -34,7 +34,9 @@
 
 // This is generally where all Invensense devices are at, for default (AD0 down) I2C address
 #define MPU_ADDRESS                         (0x68)
-#define GYRO_INT_GPIO                       (GPIOC)
+
+// See line 132 for more discussion on the interrupt pin
+#define GYRO_INT_GPIO                       (GPIOB)
 #define GYRO_INT_PIN                        (Pin_13)
 
 #define MPU_RA_WHO_AM_I                     (0x75)
@@ -107,6 +109,9 @@ static uint8_t mpuLowPassFilter = INV_FILTER_42HZ;
 #define MPU6050_BIT_DMP_RST     0x08
 #define MPU6050_BIT_FIFO_EN     0x40
 
+volatile bool mpuDataReady = false;
+volatile uint32_t mpuMeasurementTime = 0;
+
 static bool mpuReadRegisterI2C(uint8_t reg, uint8_t *data, int length)
 {
     return i2cRead(MPU_ADDRESS, reg, length, data);
@@ -117,10 +122,59 @@ static bool mpuWriteRegisterI2C(uint8_t reg, uint8_t data)
     return i2cWrite(MPU_ADDRESS, reg, data);
 }
 
+void mpu6050_exti_init(void)
+{
+    // enable AFIO for EXTI support
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO, ENABLE);
+
+    // Configure EXTI
+    EXTI_ClearITPendingBit(EXTI_Line13);
+    EXTI_InitTypeDef EXTI_InitStrutcure;
+    // GPIO Structure Used To initialize external interrupt pin
+    // This assumes that the interrupt pin is attached to pin 26 (PB13)
+    // Which is not be the case for all boards. The naze32 rev5+ has it's
+    // interrupt on PC13, while rev4- and the flip32 devices use PB13.
+    // see src/main/sensors/initializiation.c:85 in the cleanflight source code
+    // for their version handling.
+    gpioExtiLineConfig(GPIO_PortSourceGPIOB, GPIO_PinSource13);
+
+    // Configure EXTI Line13
+    EXTI_InitStrutcure.EXTI_Line = EXTI_Line13;
+    EXTI_InitStrutcure.EXTI_Mode = EXTI_Mode_Interrupt;
+    EXTI_InitStrutcure.EXTI_Trigger = EXTI_Trigger_Falling;
+    EXTI_InitStrutcure.EXTI_LineCmd = ENABLE;
+    EXTI_Init(&EXTI_InitStrutcure);
+
+    // Disable AFIO Clock - we don't need it anymore
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO, DISABLE);
+
+    // Configure NVIC (Nested Vector Interrupt Controller)
+    NVIC_InitTypeDef NVIC_InitStructure;
+    // Select NVIC Channel to configure
+    NVIC_InitStructure.NVIC_IRQChannel = EXTI15_10_IRQn;
+    // Set priority to lowest
+    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0x0F;
+    // Set subpriority to lowest
+    NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0x0F;
+    NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+    // Update NVIC registers
+    NVIC_Init(&NVIC_InitStructure);
+}
+
+void EXTI15_10_IRQHandler(void)
+{
+    if (EXTI_GetITStatus(EXTI_Line13) != RESET)
+    {
+        mpu_measurement_time = micros();
+        mpuDataReady = true;
+    }
+    EXTI_ClearITPendingBit(EXTI_Line13);
+}
+
 
 // ======================================================================
 
-void mpu6050_init(bool cuttingEdge, uint16_t * acc1G, float * gyroScale)
+void mpu6050_init(bool enableInterrupt, uint16_t * acc1G, float * gyroScale)
 {
     gpio_config_t gpio;
 
@@ -163,11 +217,12 @@ void mpu6050_init(bool cuttingEdge, uint16_t * acc1G, float * gyroScale)
     *gyroScale = (4.0f / 16.4f) * (M_PI / 180.0f) * 0.000001f;
 
     // MPU_INT output on rev5+ hardware (PC13)
-    if (cuttingEdge) {
-        gpio.pin = GYRO_INT_PIN;
+    if (enableInterrupt) {
+        gpio.pin = Pin_13;
         gpio.speed = Speed_2MHz;
         gpio.mode = Mode_IN_FLOATING;
         gpioInit(GYRO_INT_GPIO, &gpio);
+        mpu6050_exti_init();
     }
 
     // Device reset
@@ -185,9 +240,10 @@ void mpu6050_init(bool cuttingEdge, uint16_t * acc1G, float * gyroScale)
     mpuWriteRegisterI2C(MPU_RA_ACCEL_CONFIG, INV_FSR_8G << 3);
 
     // Data ready interrupt configuration:  INT_RD_CLEAR_DIS, I2C_BYPASS_EN
-    mpuWriteRegisterI2C(MPU_RA_INT_PIN_CFG, 0 << 7 | 0 << 6 | 0 << 5 | 1 << 4 | 0 << 3 | 0 << 2 | 1 << 1 | 0 << 0); 
+    mpuWriteRegisterI2C(MPU_RA_INT_PIN_CFG, 0 << 7 | 0 << 6 | 0 << 5 | 1 << 4 | 0 << 3 | 0 << 2 | 1 << 1 | 0 << 0);
     mpuWriteRegisterI2C(MPU_RA_INT_ENABLE, 0x01); // DATA_RDY_EN interrupt enable
 }
+
 
 void mpu6050_read_accel(int16_t *accData)
 {
@@ -199,6 +255,7 @@ void mpu6050_read_accel(int16_t *accData)
     accData[1] = (int16_t)((buf[2] << 8) | buf[3]);
     accData[2] = (int16_t)((buf[4] << 8) | buf[5]);
 }
+
 
 void mpu6050_read_gyro(int16_t *gyroData)
 {

@@ -21,6 +21,9 @@
 
 #pragma once
 
-void mpu6050_init(bool cuttingEdge, uint16_t * acc1G, float * gyroScale);
+extern volatile bool mpuDataReady;
+extern volatile uint32_t mpuMeasurementTime;
+
+void mpu6050_init(bool enableInterrupt, uint16_t * acc1G, float * gyroScale);
 void mpu6050_read_accel(int16_t *accData);
 void mpu6050_read_gyro(int16_t *gyroData);
