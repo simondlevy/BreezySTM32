@@ -24,9 +24,6 @@
 
 // MS5611, Standard address 0x77
 #define MS5611_ADDR             0x77
-// Autodetect: turn off BMP085 while initializing ms5611 and check PROM crc to confirm device
-#define BMP085_OFF                  digitalLo(BARO_GPIO, BARO_PIN);
-#define BMP085_ON                   digitalHi(BARO_GPIO, BARO_PIN);
 
 #define CMD_RESET               0x1E // ADC reset command
 #define CMD_ADC_READ            0x00 // ADC read command
@@ -213,8 +210,6 @@ bool ms5611_init(void)
 
     delay(10); // No idea how long the chip takes to power-up, but let's make it 10ms
 
-    // BMP085 is disabled. If we have a MS5611, it will reply. if no reply, means either
-    // we have BMP085 or no baro at all.
     ack = i2cRead(MS5611_ADDR, CMD_PROM_RD, 1, &sig);
     if (!ack)
         return false;
@@ -224,7 +219,7 @@ bool ms5611_init(void)
     // read all coefficients
     for (i = 0; i < PROM_NB; i++)
         ms5611_c[i] = ms5611_prom(i);
-    // check crc, bail out if wrong - we are probably talking to BMP085 w/o XCLR line!
+    // check crc, bail out if wrong
     if (ms5611_crc(ms5611_c) != 0)
         return false;
 
