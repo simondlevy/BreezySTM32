@@ -37,6 +37,12 @@ void setup(void)
 
 void loop(void)
 {
-    printf("MS5611 available: %s\n", available ? "yes" : "no");
+    if (available) {
+        printf("Pressure: %d Pa    ", ms5611_read_pressure());
+        int temp = ms5611_read_temperature();
+        printf("Temperature: %d.%d deg C\n", temp/100, temp%100);
+    }
+    else
+        printf("MS5611 unavailable\n");
 
 } 
