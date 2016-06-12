@@ -21,26 +21,15 @@
 
 #include <breezystm32.h>
 
-// XXX for some reason we need to write to the MPU6050 to get the MS5611 to work
-#define MPU_ADDRESS            0x68
-#define MPU_RA_INT_PIN_CFG     0x37
-
 static bool available;
-
-static bool mpuWriteRegisterI2C(uint8_t reg, uint8_t data)
-{
-    return i2cWrite(MPU_ADDRESS, reg, data);
-}
 
 void setup(void)
 {
     // Get particulars for board
     i2cInit(I2CDEV_2);
 
-   // XXX for some reason we need to write to the MPU6050 to get the MS5611 to work
-   // Data ready interrupt configuration:  INT_RD_CLEAR_DIS, I2C_BYPASS_EN
-   //i2cWrite(MPU_ADDRESS, MPU_RA_INT_PIN_CFG, 
-   //         0 << 7 | 0 << 6 | 0 << 5 | 1 << 4 | 0 << 3 | 0 << 2 | 1 << 1 | 0 << 0);
+    // Not sure why the ms5611 needs this, but without this line it doesn't work
+    i2cWrite(0,0,0);
 
     // attempt to initialize barometer
     available = ms5611_init();
