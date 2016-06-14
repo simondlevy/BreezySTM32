@@ -38,6 +38,7 @@ void setup(void)
 void loop(void)
 {
     if (available) {
+        ms5611_update();
         printf("Pressure: %d Pa    ", ms5611_read_pressure());
         int temp = ms5611_read_temperature();
         printf("Temperature: %d.%d deg C\n", temp/100, temp%100);
