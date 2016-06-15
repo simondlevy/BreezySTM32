@@ -22,7 +22,7 @@
 #include <breezystm32.h>
 #include <string.h>
 
-const char * MESSAGE = "Hello!";
+const char * MESSAGE = "Hello, world!";
 
 static int msglen;
 
@@ -37,7 +37,7 @@ void setup(void)
 
     msglen = strlen(MESSAGE);
 
-    flashfsWrite(MESSAGE, msglen, true); // sync
+    flashfsWrite((uint8_t *)MESSAGE, msglen, true); // sync
 }
 
 void loop(void)
