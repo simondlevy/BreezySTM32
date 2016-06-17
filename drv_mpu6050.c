@@ -35,8 +35,6 @@
 // This is generally where all Invensense devices are at, for default (AD0 down) I2C address
 #define MPU_ADDRESS                         (0x68)
 
-// See line 132 for more discussion on the interrupt pin
-#define GYRO_INT_GPIO                       (GPIOB)
 #define GYRO_INT_PIN                        (Pin_13)
 
 #define MPU_RA_WHO_AM_I                     (0x75)
@@ -122,7 +120,7 @@ static bool mpuWriteRegisterI2C(uint8_t reg, uint8_t data)
     return i2cWrite(MPU_ADDRESS, reg, data);
 }
 
-void mpu6050_exti_init(void)
+void mpu6050_exti_init(int boardVersion)
 {
     // enable AFIO for EXTI support
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO, ENABLE);
@@ -136,7 +134,11 @@ void mpu6050_exti_init(void)
     // interrupt on PC13, while rev4- and the flip32 devices use PB13.
     // see src/main/sensors/initializiation.c:85 in the cleanflight source code
     // for their version handling.
-    gpioExtiLineConfig(GPIO_PortSourceGPIOB, GPIO_PinSource13);
+    if (boardVersion > 4) {
+      gpioExtiLineConfig(GPIO_PortSourceGPIOC, GPIO_PinSource13);
+    } else {
+      gpioExtiLineConfig(GPIO_PortSourceGPIOB, GPIO_PinSource13);
+    }
 
     // Configure EXTI Line13
     EXTI_InitStrutcure.EXTI_Line = EXTI_Line13;
@@ -174,7 +176,7 @@ void EXTI15_10_IRQHandler(void)
 
 // ======================================================================
 
-void mpu6050_init(bool enableInterrupt, uint16_t * acc1G, float * gyroScale)
+void mpu6050_init(bool enableInterrupt, uint16_t * acc1G, float * gyroScale, int boardVersion)
 {
     gpio_config_t gpio;
 
@@ -221,8 +223,12 @@ void mpu6050_init(bool enableInterrupt, uint16_t * acc1G, float * gyroScale)
         gpio.pin = Pin_13;
         gpio.speed = Speed_2MHz;
         gpio.mode = Mode_IN_FLOATING;
-        gpioInit(GYRO_INT_GPIO, &gpio);
-        mpu6050_exti_init();
+        if (boardVersion > 4){
+          gpioInit(GPIOC, &gpio);
+        } else {
+          gpioInit(GPIOB, &gpio);
+        }
+        mpu6050_exti_init(boardVersion);
     }
 
     // Device reset
