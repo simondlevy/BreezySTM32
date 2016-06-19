@@ -40,6 +40,7 @@ along with BreezySTM32.  If not, see <http://www.gnu.org/licenses/>.
 #include "drv_gpio.h"
 #include "drv_m25p16.h"
 #include "drv_flashfs.h"
+#include "drv_ms4525.h"
 
 #include "printf.h"
 
