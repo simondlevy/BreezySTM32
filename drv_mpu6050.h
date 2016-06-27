@@ -27,3 +27,4 @@ extern volatile uint32_t mpuMeasurementTime;
 void mpu6050_init(bool enableInterrupt, uint16_t * acc1G, float * gyroScale, int boardVersion);
 void mpu6050_read_accel(int16_t *accData);
 void mpu6050_read_gyro(int16_t *gyroData);
+void mpu6050_read_temperature(int16_t * tempData);
