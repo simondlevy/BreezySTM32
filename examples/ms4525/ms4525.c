@@ -1,7 +1,7 @@
 /*
-   ms5611read.c : read values from MS5611 barometer using I^2C
+   ms4525.c : Airpseed Measurement Values
 
-   Copyright (C) 2016 Simon D. Levy 
+   Copyright (C) 2016 James Jackson
 
    This file is part of BreezySTM32.
 
@@ -21,29 +21,27 @@
 
 #include <breezystm32.h>
 
-static bool available;
 
 void setup(void)
 {
-    // Get particulars for board
+    delay(500);
     i2cInit(I2CDEV_2);
+}
 
-    // Not sure why the ms5611 needs this, but without this line it doesn't work
-    i2cWrite(0,0,0);
-
-    // attempt to initialize barometer
-    available = ms5611_init();
-} 
+int16_t velocity;
+int16_t temp;
 
 void loop(void)
 {
-    if (available) {
-        ms5611_update();
-        printf("Pressure: %d Pa    ", ms5611_read_pressure());
-        int temp = ms5611_read_temperature();
-        printf("Temperature: %d.%d deg C\n", temp/100, temp%100);
+    if( ms4525_detect() )
+    {
+        ms4525_read(&velocity, &temp);
+        printf("velocity = %d, temp = %d\n", velocity, temp);
     }
     else
-        printf("MS5611 unavailable\n");
+    {
+        printf("no airspeed\n");
+    }
+    delay(10);
+}
 
-} 

@@ -1,7 +1,5 @@
 /*
-   drv_mpu6050.h : driver for Invensense MPU6050
-
-   Adapted from https://github.com/multiwii/baseflight/blob/master/src/drv_mpu.h
+   drv_ms4525.h : driver for MS4525 Differential Pressure Sensor
 
    This file is part of BreezySTM32.
 
@@ -21,9 +19,6 @@
 
 #pragma once
 
-extern volatile bool mpuDataReady;
-extern volatile uint32_t mpuMeasurementTime;
-
-void mpu6050_init(bool enableInterrupt, uint16_t * acc1G, float * gyroScale, int boardVersion);
-void mpu6050_read_accel(int16_t *accData);
-void mpu6050_read_gyro(int16_t *gyroData);
+bool ms4525_detect(void);
+void ms4525_init(void);
+void ms4525_read(int16_t* velocity, int16_t* temp);

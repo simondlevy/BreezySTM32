@@ -165,34 +165,6 @@ static baro_t baro;
 static int32_t baroTemperature;
 static int32_t baroPressure;
 
-static int baro_update(void)
-{
-    static uint32_t baroDeadline = 0;
-    static int state = 0;
-
-    uint32_t currentTime = micros();
-
-    if ((int32_t)(currentTime - baroDeadline) < 0)
-        return 0;
-
-    baroDeadline = currentTime;
-
-    if (state) {
-        baro.get_up();
-        baro.start_ut();
-        baroDeadline += baro.ut_delay;
-        baro.calculate(&baroPressure, &baroTemperature);
-        state = 0;
-        return 2;
-    } else {
-        baro.get_ut();
-        baro.start_up();
-        state = 1;
-        baroDeadline += baro.up_delay;
-        return 1;
-    }
-}
-
 // =======================================================================================
 
 
@@ -235,14 +207,39 @@ bool ms5611_init(void)
     return true;
 }
 
+void ms5611_update(void)
+{
+    static uint32_t baroDeadline = 0;
+    static int state = 0;
+
+    uint32_t currentTime = micros();
+
+    if ((int32_t)(currentTime - baroDeadline) < 0)
+        return;
+
+    baroDeadline = currentTime;
+
+    if (state) {
+        baro.get_up();
+        baro.start_ut();
+        baroDeadline += baro.ut_delay;
+        baro.calculate(&baroPressure, &baroTemperature);
+        state = 0;
+    } else {
+        baro.get_ut();
+        baro.start_up();
+        state = 1;
+        baroDeadline += baro.up_delay;
+    }
+}
+
+
 int32_t ms5611_read_pressure(void)
 {
-    baro_update();
     return baroPressure;
 }
 
 int32_t ms5611_read_temperature(void)
 {
-    baro_update();
     return baroTemperature;
 }

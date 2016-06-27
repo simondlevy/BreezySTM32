@@ -20,6 +20,11 @@
  */
 
 #include <breezystm32.h>
+#include <string.h>
+
+const char * MESSAGE = "Hello, world!";
+
+static int msglen;
 
 void setup(void)
 {
@@ -30,14 +35,16 @@ void setup(void)
     while (!flashfsIsReady())
         ;
 
-    flashfsWrite((const char *)"Hello world!", 14, true); // sync
+    msglen = strlen(MESSAGE);
+
+    flashfsWrite((uint8_t *)MESSAGE, msglen, true); // sync
 }
 
 void loop(void)
 {
     delay(500);
 
-    char s[14];
+    char s[100]; // long enough for any message?
 
-    printf("%s\n", flashfsReadAbs(0, (uint8_t *)s, 14) < 14 ? "error reading bytes" : s);
+    printf("%s\n", flashfsReadAbs(0, (uint8_t *)s, msglen) < msglen ? "error reading bytes" : s);
 }
