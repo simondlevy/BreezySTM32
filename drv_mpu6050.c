@@ -108,8 +108,7 @@ static uint8_t mpuLowPassFilter = INV_FILTER_42HZ;
 #define MPU6050_BIT_DMP_RST     0x08
 #define MPU6050_BIT_FIFO_EN     0x40
 
-volatile bool mpuDataReady = false;
-volatile uint32_t mpuMeasurementTime = 0;
+void (*mpuInterruptCallbackPtr)(void) = NULL;
 
 static bool mpuReadRegisterI2C(uint8_t reg, uint8_t *data, int length)
 {
@@ -168,15 +167,16 @@ void EXTI15_10_IRQHandler(void)
 {
     if (EXTI_GetITStatus(EXTI_Line13) != RESET)
     {
-        mpuMeasurementTime = micros();
-        mpuDataReady = true;
+        if(mpuInterruptCallbackPtr != NULL)
+        {
+          mpuInterruptCallbackPtr();
+        }
     }
     EXTI_ClearITPendingBit(EXTI_Line13);
 }
 
 
 // ======================================================================
-
 void mpu6050_init(bool enableInterrupt, uint16_t * acc1G, float * gyroScale, int boardVersion)
 {
     gpio_config_t gpio;
@@ -284,7 +284,8 @@ void mpu6050_read_temperature(int16_t *tempData)
     *tempData = (int16_t)((buf[0] << 8) | buf[1]) / 4;
 }
 
-
-
-void mpu6050_read_temperature(int16_t * tempData);
+void mpu6050_register_interrupt_cb(void (*functionPtr)(void))
+{
+  mpuInterruptCallbackPtr = functionPtr;
+}
 
