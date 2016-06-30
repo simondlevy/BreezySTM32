@@ -1,3 +1,3 @@
-# i2csniff: Detect and report I^2 devices 
+# i2csniff: Detect and report I<sup>2</sup> devices 
 
 Don't forget to supply external power for external sensors (like MB1242 sonar)!
