@@ -5,6 +5,8 @@
 
    Adapted from https://github.com/multiwii/baseflight/blob/master/src/drv_adc.c
 
+   Don't forget to supply external power for external sensors (like MB1242 sonar)!
+
    This file is part of BreezySTM32.
 
    BreezySTM32 is free software: you can redistribute it and/or modify
