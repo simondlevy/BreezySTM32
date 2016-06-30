@@ -1,6 +1,8 @@
 /*
    mb1242_read.c : read values from MaxBotix MB1242 I^2C sonar
 
+   Don't forget to supply external power to the board!
+
    Copyright (C) 2016 Simon D. Levy 
 
    This file is part of BreezySTM32.
