@@ -40,6 +40,7 @@
 #define MPU_RA_WHO_AM_I                     (0x75)
 #define MPU_RA_GYRO_XOUT_H                  (0x43)
 #define MPU_RA_ACCEL_XOUT_H                 (0x3B)
+#define MPU_RA_TEMP_OUT_A                   (0x41)
 // For debugging/identification purposes
 #define MPU_RA_XA_OFFS_H                    (0x06)    //[15:0] XA_OFFS
 #define MPU_RA_PRODUCT_ID                   (0x0C)    // Product ID Register
@@ -107,8 +108,7 @@ static uint8_t mpuLowPassFilter = INV_FILTER_42HZ;
 #define MPU6050_BIT_DMP_RST     0x08
 #define MPU6050_BIT_FIFO_EN     0x40
 
-volatile bool mpuDataReady = false;
-volatile uint32_t mpuMeasurementTime = 0;
+void (*mpuInterruptCallbackPtr)(void) = NULL;
 
 static bool mpuReadRegisterI2C(uint8_t reg, uint8_t *data, int length)
 {
@@ -143,7 +143,7 @@ void mpu6050_exti_init(int boardVersion)
     // Configure EXTI Line13
     EXTI_InitStrutcure.EXTI_Line = EXTI_Line13;
     EXTI_InitStrutcure.EXTI_Mode = EXTI_Mode_Interrupt;
-    EXTI_InitStrutcure.EXTI_Trigger = EXTI_Trigger_Falling;
+    EXTI_InitStrutcure.EXTI_Trigger = EXTI_Trigger_Rising;
     EXTI_InitStrutcure.EXTI_LineCmd = ENABLE;
     EXTI_Init(&EXTI_InitStrutcure);
 
@@ -167,15 +167,16 @@ void EXTI15_10_IRQHandler(void)
 {
     if (EXTI_GetITStatus(EXTI_Line13) != RESET)
     {
-        mpuMeasurementTime = micros();
-        mpuDataReady = true;
+        if(mpuInterruptCallbackPtr != NULL)
+        {
+          mpuInterruptCallbackPtr();
+        }
     }
     EXTI_ClearITPendingBit(EXTI_Line13);
 }
 
 
 // ======================================================================
-
 void mpu6050_init(bool enableInterrupt, uint16_t * acc1G, float * gyroScale, int boardVersion)
 {
     gpio_config_t gpio;
@@ -273,3 +274,18 @@ void mpu6050_read_gyro(int16_t *gyroData)
     gyroData[1] = (int16_t)((buf[2] << 8) | buf[3]) / 4;
     gyroData[2] = (int16_t)((buf[4] << 8) | buf[5]) / 4;
 }
+
+void mpu6050_read_temperature(int16_t *tempData)
+{
+    uint8_t buf[2];
+
+    mpuReadRegisterI2C(MPU_RA_TEMP_OUT_A, buf, 2);
+
+    *tempData = (int16_t)((buf[0] << 8) | buf[1]) / 4;
+}
+
+void mpu6050_register_interrupt_cb(void (*functionPtr)(void))
+{
+  mpuInterruptCallbackPtr = functionPtr;
+}
+
