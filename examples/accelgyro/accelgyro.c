@@ -56,25 +56,16 @@ void loop(void)
         mpu6050_read_accel(accel_data);
         mpu6050_read_gyro(gyro_data);
         mpu6050_read_temperature(&temp_data);
-        printf("%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n",
-               accel_scale,
-               (int32_t)gyro_scale,
-               accel_data[0],
-               accel_data[1],
-               accel_data[2],
-               gyro_data[0],
-               gyro_data[1],
-               gyro_data[2],
-               temp_data,
-               mpu_cb_time-prev_time); // the time since the previous IMU measurement was taken in us
-              //  ((int32_t)accel_data[0]*accel_scale)/1000, // prints in mm/s^s
-              //   ((int32_t)accel_data[1]*accel_scale)/1000,
-              //   ((int32_t)accel_data[2]*accel_scale)/1000,
-              //   (int32_t)((float)gyro_data[0]*gyro_scale), // prints in mrad/s
-              //   (int32_t)((float)gyro_data[1]*gyro_scale),
-              //   (int32_t)((float)gyro_data[2]*gyro_scale),
-              //   (int32_t)((temp_data/340.0 + 36.53)*1000),
-              //   mpu_cb_time-prev_time); // the time since the previous IMU measurement was taken in us
+        
+        printf("%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n",
+              ((int32_t)accel_data[0]*accel_scale)/1000, // prints in mm/s^s
+              ((int32_t)accel_data[1]*accel_scale)/1000,
+              ((int32_t)accel_data[2]*accel_scale)/1000,
+              (int32_t)((float)gyro_data[0]*gyro_scale), // prints in mrad/s
+              (int32_t)((float)gyro_data[1]*gyro_scale),
+              (int32_t)((float)gyro_data[2]*gyro_scale),
+              (int32_t)((temp_data/340.0 + 36.53)*1000),
+              mpu_cb_time-prev_time); // the time since the previous IMU measurement was taken in us
     }
     else
     {
