@@ -61,7 +61,7 @@ bool mb1242_init(void)
   // The only way to know if a sonar is attached is to try to get a reading (doesn't always ACK on i2c)
   mb1242_poll();
   delay(200);    // You have to wait 200 ms for the sensor to read
-  return (mb1242_poll > 0); // if you have a measurement, return true, otherwise, there was no sonar attached
+  return (mb1242_poll() > 0); // if you have a measurement, return true, otherwise, there was no sonar attached
 }
 
 int32_t mb1242_poll(void)
