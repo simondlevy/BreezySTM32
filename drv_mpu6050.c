@@ -214,7 +214,7 @@ void mpu6050_init(bool enableInterrupt, uint16_t * acc1G, float * gyroScale, int
 
     // All this just to set the value
     if (half)
-        *acc1G = 255 * 8;
+        *acc1G = 256 * 8;
 
     // 16.4 dps/lsb scalefactor for all Invensense devices
     *gyroScale = (4.0f / 16.4f) * (M_PI / 180.0f) * 0.000001f;
@@ -288,4 +288,3 @@ void mpu6050_register_interrupt_cb(void (*functionPtr)(void))
 {
   mpuInterruptCallbackPtr = functionPtr;
 }
-
