@@ -217,7 +217,7 @@ void mpu6050_init(bool enableInterrupt, uint16_t * acc1G, float * gyroScale, int
         *acc1G = 256 * 8;
 
     // 16.4 dps/lsb scalefactor for all Invensense devices
-    *gyroScale = (4.0f / 16.4f) * (M_PI / 180.0f) * 0.000001f;
+    *gyroScale = (1.0f / 16.4f) * (M_PI / 180.0f);
 
     // MPU_INT output on rev5+ hardware (PC13)
     if (enableInterrupt) {
@@ -270,9 +270,9 @@ void mpu6050_read_gyro(int16_t *gyroData)
 
     mpuReadRegisterI2C(MPU_RA_GYRO_XOUT_H, buf, 6);
 
-    gyroData[0] = (int16_t)((buf[0] << 8) | buf[1]) / 4;
-    gyroData[1] = (int16_t)((buf[2] << 8) | buf[3]) / 4;
-    gyroData[2] = (int16_t)((buf[4] << 8) | buf[5]) / 4;
+    gyroData[0] = (int16_t)((buf[0] << 8) | buf[1]);
+    gyroData[1] = (int16_t)((buf[2] << 8) | buf[3]);
+    gyroData[2] = (int16_t)((buf[4] << 8) | buf[5]);
 }
 
 void mpu6050_read_temperature(int16_t *tempData)
