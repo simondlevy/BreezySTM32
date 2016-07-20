@@ -40,6 +40,12 @@ in centimeters
 A makefile is included with each example,
 to show you how to start your own projects.  Type  <b><tt>make flash</tt></b> to flash the example to your board.
 
+Projects known to be using BreezySTM32 include:
+<ul>
+<li> <a href="https://github.com/simondlevy/hackflight">Hackflight</a>
+<p><li> <a href="https://github.com/BYU-MAGICC/ROSflight2">Hackflight</a>
+</ul>
+
 If you find BreezySTM32 helpful, please consider donating
 to the [Baseflight](https://goo.gl/3tyFhz) or
 [Cleanflight](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=TSQKVT6UYKGL6)
