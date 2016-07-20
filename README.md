@@ -43,7 +43,7 @@ to show you how to start your own projects.  Type  <b><tt>make flash</tt></b> to
 Projects known to be using BreezySTM32 include:
 <ul>
 <li> <a href="https://github.com/simondlevy/hackflight">Hackflight</a>
-<p><li> <a href="https://github.com/BYU-MAGICC/ROSflight2">Hackflight</a>
+<p><li> <a href="https://github.com/BYU-MAGICC/ROSflight2">ROSflight2</a>
 </ul>
 
 If you find BreezySTM32 helpful, please consider donating
