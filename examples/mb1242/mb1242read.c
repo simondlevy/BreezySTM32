@@ -24,18 +24,19 @@
 #include <breezystm32.h>
 
 static bool sonar_present;
+mb1242_t mb1242;
 
 void setup(void)
 {
     i2cInit(I2CDEV_2);
     delay(500);
-    sonar_present = mb1242_init();
+    sonar_present = mb1242_init(&mb1242);
 }
 
 void loop(void)
 {
     if(sonar_present)
-        printf("%d\n", mb1242_poll());
+        printf("%d\n", mb1242_poll(&mb1242));
     else
         printf("no sonar\n");
     delay(100);

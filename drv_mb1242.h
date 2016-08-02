@@ -21,6 +21,13 @@
 
 #pragma once
 
-bool mb1242_init(void);
+typedef struct {
+    uint8_t  address;
+    uint32_t time;
+    uint8_t state;
+} mb1242_t;
 
-int32_t mb1242_poll(void);
+
+bool mb1242_init(mb1242_t * mb1242);
+
+int32_t mb1242_poll(mb1242_t * mb1242);
