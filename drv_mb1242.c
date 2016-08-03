@@ -26,7 +26,7 @@
 
 #include "drv_i2c.h"
 
-#define MB1242_ADDRESS 0x70
+#define MB1242_DEFAULT_ADDRESS 0x70
 
 static void update_timed_task(uint32_t * usec, uint32_t period)
 {
@@ -51,13 +51,16 @@ static void adjust_reading(void) {
     distance_cm = 1.071 * distance_cm + 3.103; // emprically determined
 }
 
-static bool attempt_write(void)
+static bool attempt_write(uint8_t addr)
 {
-    return i2cWrite(MB1242_ADDRESS, 0xFF, 0x51);
+    return i2cWrite(addr, 0xFF, 0x51);
 }
 
-bool mb1242_init(mb1242_t * mb1242)
+bool mb1242_init(mb1242_t * mb1242, uint8_t addr)
 {
+    if (!addr)
+        mb1242->address = MB1242_DEFAULT_ADDRESS;
+
     mb1242->time = 0;
     mb1242->state = 0;
 
@@ -72,12 +75,12 @@ int32_t mb1242_poll(mb1242_t * mb1242)
     if (check_and_update_timed_task(&mb1242->time, 10000)) {
 
         if (mb1242->state == 0) {
-            if (attempt_write())
+            if (attempt_write(mb1242->address))
                 mb1242->state++;
         }
         else if (mb1242->state == 1) {
             uint8_t bytes[2];
-            if (i2cRead(MB1242_ADDRESS, 0xFF, 2, bytes)) {
+            if (i2cRead(mb1242->address, 0xFF, 2, bytes)) {
                 distance_cm = (bytes[0] << 8) + bytes[1];
                 adjust_reading();
                 mb1242->state++;

@@ -1,5 +1,5 @@
 /*
-   mb1242_read.c : read values from MaxBotix MB1242 I^2C sonar
+   mb1242read.c : read values from MaxBotix MB1242 I^2C sonar
 
    Don't forget to supply external power to the board!
 
@@ -30,7 +30,7 @@ void setup(void)
 {
     i2cInit(I2CDEV_2);
     delay(500);
-    sonar_present = mb1242_init(&mb1242);
+    sonar_present = mb1242_init(&mb1242, 0); // Use default address
 }
 
 void loop(void)
