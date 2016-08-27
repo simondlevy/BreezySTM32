@@ -26,7 +26,7 @@
 
 #include "drv_i2c.h"
 
-#define MB1242_ADDRESS 0x70
+#define MB1242_DEFAULT_ADDRESS 0x70
 
 static void update_timed_task(uint32_t * usec, uint32_t period)
 {
@@ -51,40 +51,43 @@ static void adjust_reading(void) {
     distance_cm = 1.071 * distance_cm + 3.103; // emprically determined
 }
 
-static bool attempt_write(void)
+static bool attempt_write(uint8_t addr)
 {
-    return i2cWrite(MB1242_ADDRESS, 0xFF, 0x51);
+    return i2cWrite(addr, 0xFF, 0x51);
 }
 
-bool mb1242_init(void)
+bool mb1242_init(mb1242_t * mb1242, uint8_t addr)
 {
-  // The only way to know if a sonar is attached is to try to get a reading (doesn't always ACK on i2c)
-  mb1242_poll();
-  delay(200);    // You have to wait 200 ms for the sensor to read
-  return (mb1242_poll() > 0); // if you have a measurement, return true, otherwise, there was no sonar attached
+    if (!addr)
+        mb1242->address = MB1242_DEFAULT_ADDRESS;
+
+    mb1242->time = 0;
+    mb1242->state = 0;
+
+    // The only way to know if a sonar is attached is to try to get a reading (doesn't always ACK on i2c)
+    mb1242_poll(mb1242);
+    delay(200);    // You have to wait 200 ms for the sensor to read
+    return (mb1242_poll(mb1242) > 0); // if you have a measurement, return true, otherwise, there was no sonar attached
 }
 
-int32_t mb1242_poll(void)
+int32_t mb1242_poll(mb1242_t * mb1242)
 {
-    static uint32_t mb1242Time = 0;
-    static uint8_t state;
+    if (check_and_update_timed_task(&mb1242->time, 10000)) {
 
-    if (check_and_update_timed_task(&mb1242Time, 10000)) {
-
-        if (state == 0) {
-            if (attempt_write())
-                state++;
+        if (mb1242->state == 0) {
+            if (attempt_write(mb1242->address))
+                mb1242->state++;
         }
-        else if (state == 1) {
+        else if (mb1242->state == 1) {
             uint8_t bytes[2];
-            if (i2cRead(MB1242_ADDRESS, 0xFF, 2, bytes)) {
+            if (i2cRead(mb1242->address, 0xFF, 2, bytes)) {
                 distance_cm = (bytes[0] << 8) + bytes[1];
                 adjust_reading();
-                state++;
+                mb1242->state++;
             }
         }
         else {
-            state = 0;
+            mb1242->state = 0;
         }
     }
 
