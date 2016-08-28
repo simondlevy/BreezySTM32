@@ -27,8 +27,41 @@ typedef enum I2CDevice {
     I2CDEV_MAX = I2CDEV_2
 } I2CDevice;
 
+typedef enum {
+  READ,
+  WRITE
+} i2cJobType_t;
+
+enum {
+  I2C_JOB_DEFAULT,
+  I2C_JOB_QUEUED,
+  I2C_JOB_BUSY,
+  I2C_JOB_COMPLETE,
+  I2C_JOB_ERROR
+};
+
+typedef struct i2cJob{
+  i2cJobType_t type;
+  uint8_t addr;
+  uint8_t reg;
+  uint8_t* data;
+  uint8_t length;
+  struct i2cJob* next_job;
+  uint8_t* status;
+} i2cJob_t;
+
+i2cJob_t* i2c_job_queue_front;
+i2cJob_t* i2c_job_queue_back;
+
+bool i2c_queue_job(i2cJobType_t type, uint8_t addr, uint8_t reg, uint8_t *data, uint8_t length, uint8_t* status);
+
+void i2c_job_handler();
+
 void i2cInit(I2CDevice index);
 bool i2cWriteBuffer(uint8_t addr_, uint8_t reg_, uint8_t len_, uint8_t *data);
 bool i2cWrite(uint8_t addr_, uint8_t reg, uint8_t data);
 bool i2cRead(uint8_t addr_, uint8_t reg, uint8_t len, uint8_t *buf);
 uint16_t i2cGetErrorCounter(void);
+
+bool i2cReadAsync(uint8_t addr_, uint8_t reg_, uint8_t len, uint8_t *buf, uint8_t* result_flag_);
+bool i2cWriteAsync(uint8_t addr_, uint8_t reg_, uint8_t len, uint8_t *buf, uint8_t* result_flag_);

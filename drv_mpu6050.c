@@ -284,6 +284,29 @@ void mpu6050_read_temperature(int16_t *tempData)
     *tempData = (int16_t)((buf[0] << 8) | buf[1]) / 4;
 }
 
+static uint8_t accel_buffer[6];
+static volatile int16_t* accel_data;
+
+void mpu6050_request_accel_read(int16_t *accData, uint8_t* status)
+{
+  accel_data = accData;
+  (*status) = I2C_JOB_QUEUED;
+//  static int32_t count = 0;
+//  if(count > 1000)
+//  {
+//    LED1_TOGGLE;
+//    count = 0;
+//  }
+//  count++;
+//  i2c_queue_job(READ,
+//                MPU_ADDRESS,
+//                MPU_RA_ACCEL_XOUT_H,
+//                accel_buffer,
+//                6,
+//                status);
+//  async_accel_read_CB();
+}
+
 void mpu6050_register_interrupt_cb(void (*functionPtr)(void))
 {
   mpuInterruptCallbackPtr = functionPtr;

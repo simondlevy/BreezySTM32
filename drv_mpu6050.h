@@ -19,13 +19,20 @@
    along with BreezySTM32.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+//#include "drv_i2c.h"
+
 #pragma once
 
-extern volatile bool mpuDataReady;
-extern volatile uint32_t mpuMeasurementTime;
 
 void mpu6050_init(bool enableInterrupt, uint16_t * acc1G, float * gyroScale, int boardVersion);
 void mpu6050_register_interrupt_cb(void (*functionPtr)(void));
+
+// Blocking Read Functions
 void mpu6050_read_accel(int16_t *accData);
 void mpu6050_read_gyro(int16_t *gyroData);
 void mpu6050_read_temperature(int16_t * tempData);
+
+// Asynchronous Read Functions
+void mpu6050_request_accel_read(int16_t *accData, uint8_t *status_);
+void mpu6050_request_gyro_read(int16_t *gyroData, uint8_t *status_);
+void mpu6050_request_temp_read(int16_t * tempData, uint8_t *status_);
