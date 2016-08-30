@@ -529,6 +529,7 @@ void i2c_queue_job(i2cJobType_t type, uint8_t addr_, uint8_t reg_, uint8_t *data
 
   // change job status
   (*job->status) = I2C_JOB_QUEUED;
+
   if(i2c_job_queue_back == NULL && i2c_job_queue_front == NULL) {
       // if the job queue is empty, restart it.
       i2c_job_queue_back = job;
@@ -536,14 +537,11 @@ void i2c_queue_job(i2cJobType_t type, uint8_t addr_, uint8_t reg_, uint8_t *data
 
       // restart i2c job handling
       i2c_job_handler();
-      return;
+  } else {
+      // enque the data, make this newest message the back (FIFO)
+      i2c_job_queue_back->next_job = job;
+      i2c_job_queue_back = job;
   }
-  else {
-    free(job);
-  }
-  // enque the data, make this newest message the back (FIFO)
-  i2c_job_queue_back->next_job = job;
-  i2c_job_queue_back = job;
   return;
 }
 
@@ -553,6 +551,13 @@ void i2c_job_handler()
   {
      // the queue is empty, stop performing i2c until
      // a new job is enqueued
+    return;
+  }
+
+  if(busy)
+  {
+    // wait for the current job to finish.  This function
+    // will get called again when the job is done
     return;
   }
 

@@ -353,7 +353,7 @@ void mpu6050_request_temp_read(volatile int16_t *tempData, volatile uint8_t *sta
   temp_data = tempData;
   i2c_queue_job(READ,
                 MPU_ADDRESS,
-                MPU_RA_ACCEL_XOUT_H,
+                MPU_RA_TEMP_OUT_A,
                 temp_buffer,
                 2,
                 status,
