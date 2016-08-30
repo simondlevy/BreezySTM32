@@ -19,7 +19,7 @@
    along with BreezySTM32.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-//#include "drv_i2c.h"
+#include "drv_i2c.h"
 
 #pragma once
 
@@ -33,6 +33,6 @@ void mpu6050_read_gyro(int16_t *gyroData);
 void mpu6050_read_temperature(int16_t * tempData);
 
 // Asynchronous Read Functions
-void mpu6050_request_accel_read(int16_t *accData, uint8_t *status_);
+void mpu6050_request_accel_read(int16_t *accData, volatile uint8_t *status_);
 void mpu6050_request_gyro_read(int16_t *gyroData, uint8_t *status_);
 void mpu6050_request_temp_read(int16_t * tempData, uint8_t *status_);

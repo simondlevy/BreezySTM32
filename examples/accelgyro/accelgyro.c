@@ -31,14 +31,24 @@ int16_t accel_data[3];
 int16_t gyro_data[3];
 int16_t temp_data;
 
-uint8_t accel_status = 0;
-bool mpu_new_measurement = false;
+volatile uint8_t accel_status = 0;
+volatile uint8_t gyro_status = 0;
+volatile uint8_t temp_status = 0;
+volatile bool mpu_new_measurement = false;
+
+//void test(uint8_t *status_)
+//{
+//  (*status_) = I2C_JOB_COMPLETE;
+//}
 
 void interruptCallback(void)
 {
   mpu_new_measurement = true;
 //  mpu6050_request_accel_read(accel_data, &accel_status);
   mpu6050_request_accel_read(accel_data, &accel_status);
+//  mpu6050_request_gyro_read(gyro_data, &gyro_status);
+//  test(&accel_status);
+//  accel_status = I2C_JOB_COMPLETE;
 }
 
 uint32_t start_time = 0;
@@ -47,7 +57,7 @@ void setup(void)
 {
     delay(500);
     i2cInit(I2CDEV_2);
-//    mpu6050_register_interrupt_cb(&interruptCallback);
+    mpu6050_register_interrupt_cb(&interruptCallback);
 
     uint16_t acc1G;
     mpu6050_init(true, &acc1G, &gyro_scale, 5);
@@ -56,11 +66,14 @@ void setup(void)
 
 void loop(void)
 {
-    interruptCallback();
+//  if(mpu_new_measurement)
+//    accel_status = I2C_JOB_COMPLETE;
+//    interruptCallback();
+//    test(&accel_status);
     if (accel_status == I2C_JOB_QUEUED)
     {
-      LED1_ON;
-      LED0_OFF;
+//      LED1_ON;
+//      LED0_OFF;
     }
     else if (accel_status == I2C_JOB_BUSY)
     {
@@ -69,8 +82,29 @@ void loop(void)
     }
     else if (accel_status == I2C_JOB_COMPLETE)
     {
-      LED1_ON;
       LED0_ON;
+      static int32_t count = 0;
+      static bool on = 0;
+      if(count > 100000)
+      {
+        on = !on;
+        count = 0;
+        printf("%d\t %d\t %d\t \n",
+               accel_data[0],
+               accel_data[1],
+               accel_data[2]);
+      }
+      if(on){
+        LED1_ON;
+      }else{
+        LED1_OFF;
+      }
+      count++;
+    }
+    else if (accel_status == I2C_JOB_ERROR)
+    {
+      LED0_ON;
+      LED1_ON;
     }
 }
 //    if (millis() - start_time > 1000)
