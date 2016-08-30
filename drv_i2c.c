@@ -210,7 +210,6 @@ bool i2cReadAsync(uint8_t addr_, uint8_t reg_, uint8_t len, uint8_t *buf, volati
     error = false;
     status = status_;
     complete_CB = CB;
-    //  (*status) = I2C_JOB_BUSY;
 
     if(!I2Cx)
         return false;
@@ -244,7 +243,6 @@ bool i2cWriteAsync(uint8_t addr_, uint8_t reg_, uint8_t len_, uint8_t *buf_, vol
     error = false;
     status = status_;
     complete_CB = CB;
-    //  (*status) = I2C_JOB_BUSY;
 
     if (!I2Cx)
         return false;
@@ -301,7 +299,6 @@ static void i2c_er_handler(void)
 
 void i2c_ev_handler(void)
 {
-    //    (*status) = I2C_JOB_COMPLETE;
     static uint8_t subaddress_sent, final_stop;                         // flag to indicate if subaddess sent, flag to indicate final bus condition
     static int8_t index;                                                // index is signed -1 == send the subaddress
     uint8_t SReg_1 = I2Cx->SR1;                                         // read the status register here

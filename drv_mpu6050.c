@@ -287,7 +287,7 @@ void mpu6050_read_temperature(int16_t *tempData)
 
 /*=======================================================
  * Asynchronous I2C Read Functions:
- * These methods use the asynchronous
+ * These methods use the asynchronous I2C
  * read capability on the naze32.
  */
 
