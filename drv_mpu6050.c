@@ -329,16 +329,16 @@ void gyro_read_CB(void)
   gyro_data[2] = (int16_t)((gyro_buffer[4] << 8) | gyro_buffer[5]);
 }
 
-void mpu6050_request_gyro_read(int16_t *gyroData, uint8_t *status)
+void mpu6050_request_gyro_read(int16_t *gyroData, volatile uint8_t *status)
 {
   gyro_data = gyroData;
   i2c_queue_job(READ,
                 MPU_ADDRESS,
-                MPU_RA_ACCEL_XOUT_H,
+                MPU_RA_GYRO_XOUT_H,
                 gyro_buffer,
                 6,
                 status,
-                &accel_read_CB);
+                &gyro_read_CB);
 }
 
 static uint8_t temp_buffer[2];
@@ -348,7 +348,7 @@ void temp_read_CB(void)
   (*temp_data) = (int16_t)((temp_buffer[0] << 8)| temp_buffer[1])/4;
 }
 
-void mpu6050_request_temp_read(int16_t *tempData, uint8_t *status)
+void mpu6050_request_temp_read(volatile int16_t *tempData, volatile uint8_t *status)
 {
   temp_data = tempData;
   i2c_queue_job(READ,

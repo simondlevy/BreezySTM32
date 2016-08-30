@@ -596,4 +596,16 @@ void i2c_job_handler()
   free(temp);
 }
 
+uint32_t get_i2c_queue_length()
+{
+  uint32_t count = 0;
+  i2cJob_t* iterator = i2c_job_queue_front;
+  while(iterator != NULL)
+  {
+    count++;
+    iterator = iterator->next_job;
+  }
+  return count;
+}
+
 #endif

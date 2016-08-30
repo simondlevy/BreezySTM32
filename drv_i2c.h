@@ -63,6 +63,7 @@ bool i2cWrite(uint8_t addr_, uint8_t reg, uint8_t data);
 bool i2cRead(uint8_t addr_, uint8_t reg, uint8_t len, uint8_t *buf);
 
 // Asynchronous I2C functions (return false if hardware failure, otherwise return true)
+uint32_t get_i2c_queue_length();
 void i2c_queue_job(i2cJobType_t type, uint8_t addr_, uint8_t reg_, uint8_t *data, uint8_t length, volatile uint8_t *status_, void (*CB)(void));
 void i2c_job_handler();
 bool i2cReadAsync(uint8_t addr_, uint8_t reg_, uint8_t len, uint8_t *buf, volatile uint8_t* status_, void (*CB)(void));
