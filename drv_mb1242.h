@@ -34,3 +34,5 @@ typedef struct {
 bool mb1242_init(mb1242_t * mb1242, uint8_t addr);
 
 int32_t mb1242_poll(mb1242_t * mb1242);
+
+void mb1242_request_read(mb1242_t * mb1242, volatile int32-t* sonarData, volatile uint8_t* status);

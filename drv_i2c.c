@@ -196,70 +196,70 @@ bool i2cRead(uint8_t addr_, uint8_t reg_, uint8_t len, uint8_t *buf)
 
 bool i2cReadAsync(uint8_t addr_, uint8_t reg_, uint8_t len, uint8_t *buf, volatile uint8_t* status_, void (*CB)(void))
 {
-  uint32_t timeout = I2C_DEFAULT_TIMEOUT;
+    uint32_t timeout = I2C_DEFAULT_TIMEOUT;
 
-  addr = addr_ << 1;
-  reg = reg_;
-  writing = 0;
-  reading = 1;
-  read_p = buf;
-  write_p = buf;
-  bytes = len;
-  busy = 1;
-  error = false;
-  status = status_;
-  complete_CB = CB;
-//  (*status) = I2C_JOB_BUSY;
+    addr = addr_ << 1;
+    reg = reg_;
+    writing = 0;
+    reading = 1;
+    read_p = buf;
+    write_p = buf;
+    bytes = len;
+    busy = 1;
+    error = false;
+    status = status_;
+    complete_CB = CB;
+    //  (*status) = I2C_JOB_BUSY;
 
-  if(!I2Cx)
-    return false;
+    if(!I2Cx)
+        return false;
 
-  if (!(I2Cx->CR2 & I2C_IT_EVT)) {                                    // if we are restarting the driver
-      if (!(I2Cx->CR1 & 0x0100)) {                                    // ensure sending a start
-          while (I2Cx->CR1 & 0x0200 && --timeout > 0) {               // This is blocking, but happens only
-              ;    // wait for any stop to finish sending             // if we are stomping on the port (try to avoid)
-          }
-          if (timeout == 0)
-              return i2cHandleHardwareFailure();
-          I2C_GenerateSTART(I2Cx, ENABLE);                            // send the start for the new job
-      }
-      I2C_ITConfig(I2Cx, I2C_IT_EVT | I2C_IT_ERR, ENABLE);            // allow the interrupts to fire off again
-  }
-  return true;
+    if (!(I2Cx->CR2 & I2C_IT_EVT)) {                                    // if we are restarting the driver
+        if (!(I2Cx->CR1 & 0x0100)) {                                    // ensure sending a start
+            while (I2Cx->CR1 & 0x0200 && --timeout > 0) {               // This is blocking, but happens only
+                ;    // wait for any stop to finish sending             // if we are stomping on the port (try to avoid)
+            }
+            if (timeout == 0)
+                return i2cHandleHardwareFailure();
+            I2C_GenerateSTART(I2Cx, ENABLE);                            // send the start for the new job
+        }
+        I2C_ITConfig(I2Cx, I2C_IT_EVT | I2C_IT_ERR, ENABLE);            // allow the interrupts to fire off again
+    }
+    return true;
 }
 
 bool i2cWriteAsync(uint8_t addr_, uint8_t reg_, uint8_t len_, uint8_t *buf_, volatile uint8_t* status_, void (*CB)(void))
 {
-  uint32_t timeout = I2C_DEFAULT_TIMEOUT;
+    uint32_t timeout = I2C_DEFAULT_TIMEOUT;
 
-  addr = addr_ << 1;
-  reg = reg_;
-  writing = 1;
-  reading = 0;
-  write_p = buf_;
-  read_p = buf_;
-  bytes = len_;
-  busy = 1;
-  error = false;
-  status = status_;
-  complete_CB = CB;
-//  (*status) = I2C_JOB_BUSY;
+    addr = addr_ << 1;
+    reg = reg_;
+    writing = 1;
+    reading = 0;
+    write_p = buf_;
+    read_p = buf_;
+    bytes = len_;
+    busy = 1;
+    error = false;
+    status = status_;
+    complete_CB = CB;
+    //  (*status) = I2C_JOB_BUSY;
 
-  if (!I2Cx)
-      return false;
+    if (!I2Cx)
+        return false;
 
-  if (!(I2Cx->CR2 & I2C_IT_EVT)) {                                    // if we are restarting the driver
-      if (!(I2Cx->CR1 & 0x0100)) {                                    // ensure sending a start
-          while (I2Cx->CR1 & 0x0200 && --timeout > 0) {
-              ;    // wait for any stop to finish sending
-          }
-          if (timeout == 0)
-              return i2cHandleHardwareFailure();
-          I2C_GenerateSTART(I2Cx, ENABLE);                            // send the start for the new job
-      }
-      I2C_ITConfig(I2Cx, I2C_IT_EVT | I2C_IT_ERR, ENABLE);            // allow the interrupts to fire off again
-  }
-  return true;
+    if (!(I2Cx->CR2 & I2C_IT_EVT)) {                                    // if we are restarting the driver
+        if (!(I2Cx->CR1 & 0x0100)) {                                    // ensure sending a start
+            while (I2Cx->CR1 & 0x0200 && --timeout > 0) {
+                ;    // wait for any stop to finish sending
+            }
+            if (timeout == 0)
+                return i2cHandleHardwareFailure();
+            I2C_GenerateSTART(I2Cx, ENABLE);                            // send the start for the new job
+        }
+        I2C_ITConfig(I2Cx, I2C_IT_EVT | I2C_IT_ERR, ENABLE);            // allow the interrupts to fire off again
+    }
+    return true;
 }
 
 
@@ -300,7 +300,7 @@ static void i2c_er_handler(void)
 
 void i2c_ev_handler(void)
 {
-//    (*status) = I2C_JOB_COMPLETE;
+    //    (*status) = I2C_JOB_COMPLETE;
     static uint8_t subaddress_sent, final_stop;                         // flag to indicate if subaddess sent, flag to indicate final bus condition
     static int8_t index;                                                // index is signed -1 == send the subaddress
     uint8_t SReg_1 = I2Cx->SR1;                                         // read the status register here
@@ -514,103 +514,103 @@ static void i2cUnstick(void)
 
 void i2c_queue_job(i2cJobType_t type, uint8_t addr_, uint8_t reg_, uint8_t *data, uint8_t length, volatile uint8_t* status_, void (*CB)(void))
 {
-  // create space for the new job
-  i2cJob_t* job = (i2cJob_t*)malloc(sizeof(i2cJob_t));
+    // create space for the new job
+    i2cJob_t* job = (i2cJob_t*)malloc(sizeof(i2cJob_t));
 
-  // save the data about the job
-  job->type = type;
-  job->data = data;
-  job->addr = addr_;
-  job->reg = reg_;
-  job->length = length;
-  job->next_job = NULL;
-  job->status = status_;
-  job->CB = CB;
+    // save the data about the job
+    job->type = type;
+    job->data = data;
+    job->addr = addr_;
+    job->reg = reg_;
+    job->length = length;
+    job->next_job = NULL;
+    job->status = status_;
+    job->CB = CB;
 
-  // change job status
-  (*job->status) = I2C_JOB_QUEUED;
+    // change job status
+    (*job->status) = I2C_JOB_QUEUED;
 
-  if(i2c_job_queue_back == NULL && i2c_job_queue_front == NULL) {
-      // if the job queue is empty, restart it.
-      i2c_job_queue_back = job;
-      i2c_job_queue_front = job;
+    if(i2c_job_queue_back == NULL && i2c_job_queue_front == NULL) {
+        // if the job queue is empty, restart it.
+        i2c_job_queue_back = job;
+        i2c_job_queue_front = job;
 
-      // restart i2c job handling
-      i2c_job_handler();
-  } else {
-      // enque the data, make this newest message the back (FIFO)
-      i2c_job_queue_back->next_job = job;
-      i2c_job_queue_back = job;
-  }
-  return;
+        // restart i2c job handling
+        i2c_job_handler();
+    } else {
+        // enque the data, make this newest message the back (FIFO)
+        i2c_job_queue_back->next_job = job;
+        i2c_job_queue_back = job;
+    }
+    return;
 }
 
 void i2c_job_handler()
 {
-  if(i2c_job_queue_back == NULL && i2c_job_queue_front == NULL)
-  {
-     // the queue is empty, stop performing i2c until
-     // a new job is enqueued
-    return;
-  }
+    if(i2c_job_queue_back == NULL && i2c_job_queue_front == NULL)
+    {
+        // the queue is empty, stop performing i2c until
+        // a new job is enqueued
+        return;
+    }
 
-  if(busy)
-  {
-    // wait for the current job to finish.  This function
-    // will get called again when the job is done
-    return;
-  }
+    if(busy)
+    {
+        // wait for the current job to finish.  This function
+        // will get called again when the job is done
+        return;
+    }
 
-  // Perform the job on the front of the queue
-  // First, change status to BUSY
-  (*i2c_job_queue_front->status) = I2C_JOB_BUSY;
-  if(i2c_job_queue_front->type == READ)
-  {
-    // perform the appropriate job
-    i2cReadAsync(i2c_job_queue_front->addr,
-                 i2c_job_queue_front->reg,
-                 i2c_job_queue_front->length,
-                 i2c_job_queue_front->data,
-                 i2c_job_queue_front->status,
-                 i2c_job_queue_front->CB);
-  }
-  else
-  {
-    i2cWriteAsync(i2c_job_queue_front->addr,
-                 i2c_job_queue_front->reg,
-                 i2c_job_queue_front->length,
-                 i2c_job_queue_front->data,
-                 i2c_job_queue_front->status,
-                 i2c_job_queue_front->CB);
-  }
+    // Perform the job on the front of the queue
+    // First, change status to BUSY
+    (*i2c_job_queue_front->status) = I2C_JOB_BUSY;
+    if(i2c_job_queue_front->type == READ)
+    {
+        // perform the appropriate job
+        i2cReadAsync(i2c_job_queue_front->addr,
+                     i2c_job_queue_front->reg,
+                     i2c_job_queue_front->length,
+                     i2c_job_queue_front->data,
+                     i2c_job_queue_front->status,
+                     i2c_job_queue_front->CB);
+    }
+    else
+    {
+        i2cWriteAsync(i2c_job_queue_front->addr,
+                      i2c_job_queue_front->reg,
+                      i2c_job_queue_front->length,
+                      i2c_job_queue_front->data,
+                      i2c_job_queue_front->status,
+                      i2c_job_queue_front->CB);
+    }
 
-  // Dequeue the job
-  i2cJob_t* temp = i2c_job_queue_front;
-  if(i2c_job_queue_back == i2c_job_queue_front)
-  {
-    // Last job on the queue
-    i2c_job_queue_back = NULL;
-    i2c_job_queue_front = NULL;
-  }
-  else
-  {
-    i2c_job_queue_front = i2c_job_queue_front->next_job;
-  }
+    // Dequeue the job
+    i2cJob_t* temp = i2c_job_queue_front;
+    if(i2c_job_queue_back == i2c_job_queue_front)
+    {
+        // Last job on the queue
+        i2c_job_queue_back = NULL;
+        i2c_job_queue_front = NULL;
+    }
+    else
+    {
+        i2c_job_queue_front = i2c_job_queue_front->next_job;
+    }
 
-  // so we don't have memory leaks, free memory allocated when the job was queued
-  free(temp);
+    // so we don't have memory leaks, free memory allocated when the job was queued
+    free(temp);
 }
 
 uint32_t get_i2c_queue_length()
 {
-  uint32_t count = 0;
-  i2cJob_t* iterator = i2c_job_queue_front;
-  while(iterator != NULL)
-  {
-    count++;
-    iterator = iterator->next_job;
-  }
-  return count;
+    uint32_t count = 0;
+    i2cJob_t* iterator = i2c_job_queue_front;
+    while(iterator != NULL)
+    {
+        count++;
+        iterator = iterator->next_job;
+    }
+    return count;
 }
 
 #endif

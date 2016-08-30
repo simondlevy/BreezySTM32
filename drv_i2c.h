@@ -28,27 +28,27 @@ typedef enum I2CDevice {
 } I2CDevice;
 
 typedef enum {
-  READ,
-  WRITE
+    READ,
+    WRITE
 } i2cJobType_t;
 
 enum {
-  I2C_JOB_DEFAULT,
-  I2C_JOB_QUEUED,
-  I2C_JOB_BUSY,
-  I2C_JOB_COMPLETE,
-  I2C_JOB_ERROR
+    I2C_JOB_DEFAULT,
+    I2C_JOB_QUEUED,
+    I2C_JOB_BUSY,
+    I2C_JOB_COMPLETE,
+    I2C_JOB_ERROR
 };
 
 typedef struct i2cJob{
-  i2cJobType_t type;
-  uint8_t addr;
-  uint8_t reg;
-  uint8_t* data;
-  uint8_t length;
-  struct i2cJob* next_job;
-  volatile uint8_t* status;
-  void (*CB)(void);
+    i2cJobType_t type;
+    uint8_t addr;
+    uint8_t reg;
+    uint8_t* data;
+    uint8_t length;
+    struct i2cJob* next_job;
+    volatile uint8_t* status;
+    void (*CB)(void);
 } i2cJob_t;
 
 i2cJob_t* i2c_job_queue_front;
@@ -62,9 +62,16 @@ bool i2cWriteBuffer(uint8_t addr_, uint8_t reg_, uint8_t len_, uint8_t *data);
 bool i2cWrite(uint8_t addr_, uint8_t reg, uint8_t data);
 bool i2cRead(uint8_t addr_, uint8_t reg, uint8_t len, uint8_t *buf);
 
-// Asynchronous I2C functions (return false if hardware failure, otherwise return true)
+// ===================================================================
+// Asynchronous I2C handler
+// To use this, queue up a job, and create a callback you want called when the job is finished
+// You can track progress of the job using the status pointer.  Otherwise, functions the same
+// as the blocking versions.
+//
+// There is no checking that the queue length stays within reasonable limits.  Just don't go crazy
+// queunig jobs, because it won't stop you from overflowing the memory
+//
+// For an example of how to use, check out mpu6050_request_read_accel - the non-blocking way to read
+// the accelerometer
 uint32_t get_i2c_queue_length();
 void i2c_queue_job(i2cJobType_t type, uint8_t addr_, uint8_t reg_, uint8_t *data, uint8_t length, volatile uint8_t *status_, void (*CB)(void));
-void i2c_job_handler();
-bool i2cReadAsync(uint8_t addr_, uint8_t reg_, uint8_t len, uint8_t *buf, volatile uint8_t* status_, void (*CB)(void));
-bool i2cWriteAsync(uint8_t addr_, uint8_t reg_, uint8_t len_, uint8_t *buf_, volatile uint8_t* status_, void (*CB)(void));

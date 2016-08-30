@@ -35,45 +35,47 @@ volatile bool mpu_new_measurement = false;
 
 void interruptCallback(void)
 {
-  mpu_new_measurement = true;
+    mpu_new_measurement = true;
 
-  mpu6050_request_accel_read(accel_data, &accel_status);
-  mpu6050_request_gyro_read(gyro_data, &gyro_status);
-  mpu6050_request_temp_read(&temp_data, &temp_status);
+    mpu6050_request_accel_read(accel_data, &accel_status);
+    mpu6050_request_gyro_read(gyro_data, &gyro_status);
+    mpu6050_request_temp_read(&temp_data, &temp_status);
 }
 
 uint32_t start_time = 0;
 
 void setup(void)
 {
-  delay(500);
-  i2cInit(I2CDEV_2);
-  mpu6050_register_interrupt_cb(&interruptCallback);
+    delay(500);
+    i2cInit(I2CDEV_2);
+    mpu6050_register_interrupt_cb(&interruptCallback);
 
-  uint16_t acc1G;
-  mpu6050_init(true, &acc1G, &gyro_scale, 2);
-  accel_scale = 9.80665f / acc1G;
+    uint16_t acc1G;
+    mpu6050_init(true, &acc1G, &gyro_scale, 2);
+    accel_scale = 9.80665f / acc1G;
 }
 
 void loop(void)
 {
-  if (accel_status == I2C_JOB_COMPLETE
-      && gyro_status == I2C_JOB_COMPLETE
-      && temp_status == I2C_JOB_COMPLETE)
-  {
-    static int32_t count = 0;
-    if(count > 10000)
+    if (accel_status == I2C_JOB_COMPLETE
+        && gyro_status == I2C_JOB_COMPLETE
+        && temp_status == I2C_JOB_COMPLETE)
     {
-      count = 0;
-      printf("%d\t %d\t %d\t %d\t %d\t %d\t %d\t \n",
-             (int32_t)(accel_data[0]*accel_scale*1000.0f),
-             (int32_t)(accel_data[1]*accel_scale*1000.0f),
-             (int32_t)(accel_data[2]*accel_scale*1000.0f),
-             (int32_t)(gyro_data[0]*gyro_scale*1000.0f),
-             (int32_t)(gyro_data[1]*gyro_scale*1000.0f),
-             (int32_t)(gyro_data[2]*gyro_scale*1000.0f),
-             temp_data);
+        static int32_t count = 0;
+
+        // Throttle printing
+        if(count > 10000)
+        {
+            count = 0;
+            printf("%d\t %d\t %d\t %d\t %d\t %d\t %d\t \n",
+                   (int32_t)(accel_data[0]*accel_scale*1000.0f),
+                    (int32_t)(accel_data[1]*accel_scale*1000.0f),
+                    (int32_t)(accel_data[2]*accel_scale*1000.0f),
+                    (int32_t)(gyro_data[0]*gyro_scale*1000.0f),
+                    (int32_t)(gyro_data[1]*gyro_scale*1000.0f),
+                    (int32_t)(gyro_data[2]*gyro_scale*1000.0f),
+                    temp_data);
+        }
+        count++;
     }
-    count++;
-  }
 }

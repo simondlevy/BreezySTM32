@@ -135,9 +135,9 @@ void mpu6050_exti_init(int boardVersion)
     // see src/main/sensors/initializiation.c:85 in the cleanflight source code
     // for their version handling.
     if (boardVersion > 4) {
-      gpioExtiLineConfig(GPIO_PortSourceGPIOC, GPIO_PinSource13);
+        gpioExtiLineConfig(GPIO_PortSourceGPIOC, GPIO_PinSource13);
     } else {
-      gpioExtiLineConfig(GPIO_PortSourceGPIOB, GPIO_PinSource13);
+        gpioExtiLineConfig(GPIO_PortSourceGPIOB, GPIO_PinSource13);
     }
 
     // Configure EXTI Line13
@@ -169,7 +169,7 @@ void EXTI15_10_IRQHandler(void)
     {
         if(mpuInterruptCallbackPtr != NULL)
         {
-          mpuInterruptCallbackPtr();
+            mpuInterruptCallbackPtr();
         }
     }
     EXTI_ClearITPendingBit(EXTI_Line13);
@@ -225,9 +225,9 @@ void mpu6050_init(bool enableInterrupt, uint16_t * acc1G, float * gyroScale, int
         gpio.speed = Speed_2MHz;
         gpio.mode = Mode_IN_FLOATING;
         if (boardVersion > 4){
-          gpioInit(GPIOC, &gpio);
+            gpioInit(GPIOC, &gpio);
         } else {
-          gpioInit(GPIOB, &gpio);
+            gpioInit(GPIOB, &gpio);
         }
         mpu6050_exti_init(boardVersion);
     }
@@ -298,25 +298,25 @@ static volatile int16_t* accel_data;
 // This function is called when the I2C job is finished
 void accel_read_CB(void)
 {
-  accel_data[0] = (int16_t)((accel_buffer[0] << 8) | accel_buffer[1]);
-  accel_data[1] = (int16_t)((accel_buffer[2] << 8) | accel_buffer[3]);
-  accel_data[2] = (int16_t)((accel_buffer[4] << 8) | accel_buffer[5]);
+    accel_data[0] = (int16_t)((accel_buffer[0] << 8) | accel_buffer[1]);
+    accel_data[1] = (int16_t)((accel_buffer[2] << 8) | accel_buffer[3]);
+    accel_data[2] = (int16_t)((accel_buffer[4] << 8) | accel_buffer[5]);
 }
 
 void mpu6050_request_accel_read(int16_t *accData, volatile uint8_t *status)
 {
-  accel_data = accData;
-  // Adds a new i2c job to the I2C job queue.
-  // Current status of the job can be read by polling the
-  // status variable, and the callback will be called when the function
-  // is finished
-  i2c_queue_job(READ,
-                MPU_ADDRESS,
-                MPU_RA_ACCEL_XOUT_H,
-                accel_buffer,
-                6,
-                status,
-                &accel_read_CB);
+    accel_data = accData;
+    // Adds a new i2c job to the I2C job queue.
+    // Current status of the job can be read by polling the
+    // status variable, and the callback will be called when the function
+    // is finished
+    i2c_queue_job(READ,
+                  MPU_ADDRESS,
+                  MPU_RA_ACCEL_XOUT_H,
+                  accel_buffer,
+                  6,
+                  status,
+                  &accel_read_CB);
 }
 
 
@@ -324,40 +324,40 @@ static uint8_t gyro_buffer[6];
 static volatile int16_t* gyro_data;
 void gyro_read_CB(void)
 {
-  gyro_data[0] = (int16_t)((gyro_buffer[0] << 8) | gyro_buffer[1]);
-  gyro_data[1] = (int16_t)((gyro_buffer[2] << 8) | gyro_buffer[3]);
-  gyro_data[2] = (int16_t)((gyro_buffer[4] << 8) | gyro_buffer[5]);
+    gyro_data[0] = (int16_t)((gyro_buffer[0] << 8) | gyro_buffer[1]);
+    gyro_data[1] = (int16_t)((gyro_buffer[2] << 8) | gyro_buffer[3]);
+    gyro_data[2] = (int16_t)((gyro_buffer[4] << 8) | gyro_buffer[5]);
 }
 
 void mpu6050_request_gyro_read(int16_t *gyroData, volatile uint8_t *status)
 {
-  gyro_data = gyroData;
-  i2c_queue_job(READ,
-                MPU_ADDRESS,
-                MPU_RA_GYRO_XOUT_H,
-                gyro_buffer,
-                6,
-                status,
-                &gyro_read_CB);
+    gyro_data = gyroData;
+    i2c_queue_job(READ,
+                  MPU_ADDRESS,
+                  MPU_RA_GYRO_XOUT_H,
+                  gyro_buffer,
+                  6,
+                  status,
+                  &gyro_read_CB);
 }
 
 static uint8_t temp_buffer[2];
 static volatile int16_t* temp_data;
 void temp_read_CB(void)
 {
-  (*temp_data) = (int16_t)((temp_buffer[0] << 8)| temp_buffer[1])/4;
+    (*temp_data) = (int16_t)((temp_buffer[0] << 8)| temp_buffer[1])/4;
 }
 
 void mpu6050_request_temp_read(volatile int16_t *tempData, volatile uint8_t *status)
 {
-  temp_data = tempData;
-  i2c_queue_job(READ,
-                MPU_ADDRESS,
-                MPU_RA_TEMP_OUT_A,
-                temp_buffer,
-                2,
-                status,
-                &temp_read_CB);
+    temp_data = tempData;
+    i2c_queue_job(READ,
+                  MPU_ADDRESS,
+                  MPU_RA_TEMP_OUT_A,
+                  temp_buffer,
+                  2,
+                  status,
+                  &temp_read_CB);
 }
 
 
@@ -368,5 +368,5 @@ void mpu6050_request_temp_read(volatile int16_t *tempData, volatile uint8_t *sta
  */
 void mpu6050_register_interrupt_cb(void (*functionPtr)(void))
 {
-  mpuInterruptCallbackPtr = functionPtr;
+    mpuInterruptCallbackPtr = functionPtr;
 }
