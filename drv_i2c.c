@@ -42,6 +42,7 @@
 
 static void i2c_er_handler(void);
 static void i2c_ev_handler(void);
+static void i2c_job_handler(void);
 static void i2cUnstick(void);
 
 typedef struct i2cDevice_t {
@@ -511,40 +512,6 @@ static void i2cUnstick(void)
     gpioInit(gpio, &cfg);
 }
 
-
-void i2c_queue_job(i2cJobType_t type, uint8_t addr_, uint8_t reg_, uint8_t *data, uint8_t length, volatile uint8_t* status_, void (*CB)(void))
-{
-    // create space for the new job
-    i2cJob_t* job = (i2cJob_t*)malloc(sizeof(i2cJob_t));
-
-    // save the data about the job
-    job->type = type;
-    job->data = data;
-    job->addr = addr_;
-    job->reg = reg_;
-    job->length = length;
-    job->next_job = NULL;
-    job->status = status_;
-    job->CB = CB;
-
-    // change job status
-    (*job->status) = I2C_JOB_QUEUED;
-
-    if(i2c_job_queue_back == NULL && i2c_job_queue_front == NULL) {
-        // if the job queue is empty, restart it.
-        i2c_job_queue_back = job;
-        i2c_job_queue_front = job;
-
-        // restart i2c job handling
-        i2c_job_handler();
-    } else {
-        // enque the data, make this newest message the back (FIFO)
-        i2c_job_queue_back->next_job = job;
-        i2c_job_queue_back = job;
-    }
-    return;
-}
-
 void i2c_job_handler()
 {
     if(i2c_job_queue_back == NULL && i2c_job_queue_front == NULL)
@@ -599,6 +566,40 @@ void i2c_job_handler()
 
     // so we don't have memory leaks, free memory allocated when the job was queued
     free(temp);
+}
+
+
+void i2c_queue_job(i2cJobType_t type, uint8_t addr_, uint8_t reg_, uint8_t *data, uint8_t length, volatile uint8_t* status_, void (*CB)(void))
+{
+    // create space for the new job
+    i2cJob_t* job = (i2cJob_t*)malloc(sizeof(i2cJob_t));
+
+    // save the data about the job
+    job->type = type;
+    job->data = data;
+    job->addr = addr_;
+    job->reg = reg_;
+    job->length = length;
+    job->next_job = NULL;
+    job->status = status_;
+    job->CB = CB;
+
+    // change job status
+    (*job->status) = I2C_JOB_QUEUED;
+
+    if(i2c_job_queue_back == NULL && i2c_job_queue_front == NULL) {
+        // if the job queue is empty, restart it.
+        i2c_job_queue_back = job;
+        i2c_job_queue_front = job;
+
+        // restart i2c job handling
+        i2c_job_handler();
+    } else {
+        // enque the data, make this newest message the back (FIFO)
+        i2c_job_queue_back->next_job = job;
+        i2c_job_queue_back = job;
+    }
+    return;
 }
 
 uint32_t get_i2c_queue_length()

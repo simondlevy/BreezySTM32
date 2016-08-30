@@ -21,6 +21,8 @@
 
 #include <breezystm32.h>
 
+#define BOARD_REV 2
+
 float accel_scale; // converts to units of m/s^2
 float gyro_scale; // converts to units of rad/s
 
@@ -51,7 +53,7 @@ void setup(void)
     mpu6050_register_interrupt_cb(&interruptCallback);
 
     uint16_t acc1G;
-    mpu6050_init(true, &acc1G, &gyro_scale, 2);
+    mpu6050_init(true, &acc1G, &gyro_scale, BOARD_REV);
     accel_scale = 9.80665f / acc1G;
 }
 
