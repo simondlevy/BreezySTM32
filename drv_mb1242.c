@@ -77,7 +77,6 @@ bool mb1242_init()
 }
 
 
-
 void start_sonar_measurement_CB(void)
 {
     // indicate a completed started measurement

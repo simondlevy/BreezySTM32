@@ -39,9 +39,9 @@ void interruptCallback(void)
 {
     mpu_new_measurement = true;
 
-    mpu6050_request_accel_read(accel_data, &accel_status);
-    mpu6050_request_gyro_read(gyro_data, &gyro_status);
-    mpu6050_request_temp_read(&temp_data, &temp_status);
+    mpu6050_request_async_accel_read(accel_data, &accel_status);
+    mpu6050_request_async_gyro_read(gyro_data, &gyro_status);
+    mpu6050_request_async_temp_read(&temp_data, &temp_status);
 }
 
 uint32_t start_time = 0;

@@ -34,7 +34,7 @@ void setup(void)
     airspeed_present = ms4525_detect();
 
     if(airspeed_present)
-        ms4525_read(&velocity, &temp, &read_status);
+        ms4525_request_async_read(&velocity, &temp, &read_status);
 }
 
 
@@ -49,13 +49,12 @@ void loop(void)
             printf("velocity = %d, temp = %d\n", velocity, temp);
 
             // start a new job
-            ms4525_read(&velocity, &temp, &read_status);
+            ms4525_request_async_read(&velocity, &temp, &read_status);
         }
     }
     else
     {
         printf("no airspeed\n");
     }
-    delay(100);
 }
 

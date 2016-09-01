@@ -251,9 +251,6 @@ static volatile uint8_t pressure_start_status = 0;
 
 void pressure_read_CB(void)
 {
-
-    LED1_ON;
-    LED0_OFF;
     ms5611_up = (pressure_buffer[0] << 16) | (pressure_buffer[1] << 8) | pressure_buffer[2];
     baro.calculate(&baroPressure, &baroTemperature);
 }
@@ -262,12 +259,10 @@ static void temp_read_CB(void)
 {
     ms5611_ut = (temp_buffer[0] << 16) | (temp_buffer[1] << 8) | temp_buffer[2];
     baro.calculate(&baroPressure, &baroTemperature);
-    LED1_OFF;
-    LED0_ON;
 }
 
 
-void ms5611_request_update(void)
+void ms5611_request_async_update(void)
 {
     static int state = 0;
     static uint32_t next_update_us = 0;
