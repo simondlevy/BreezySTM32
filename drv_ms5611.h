@@ -25,3 +25,4 @@ bool    ms5611_init(void);
 void    ms5611_update(void);
 int32_t ms5611_read_pressure(void);
 int32_t ms5611_read_temperature(void);
+void ms5611_request_update(void);
