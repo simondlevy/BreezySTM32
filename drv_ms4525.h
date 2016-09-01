@@ -21,4 +21,4 @@
 
 bool ms4525_detect(void);
 void ms4525_init(void);
-void ms4525_read(int16_t* velocity, int16_t* temp);
+void ms4525_read(volatile int16_t* velocity, volatile int16_t* temp, volatile uint8_t *status);
