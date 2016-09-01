@@ -31,11 +31,7 @@ void setup(void)
     delay(500);
     i2cInit(I2CDEV_2);
 
-    for(uint8_t i = 0; i < 10; i++)
-    {
-        airspeed_present |= ms4525_detect();
-        delay(100);
-    }
+    airspeed_present = ms4525_detect();
 
     if(airspeed_present)
         ms4525_read(&velocity, &temp, &read_status);
@@ -55,7 +51,6 @@ void loop(void)
             // start a new job
             ms4525_read(&velocity, &temp, &read_status);
         }
-
     }
     else
     {

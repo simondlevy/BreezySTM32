@@ -28,7 +28,13 @@
 bool ms4525_detect(void)
 {
     uint8_t buf[1];
-    return i2cRead(MS4525_ADDR, 0xFF, 1, buf);
+    bool airspeed_present = false;
+    for(uint8_t i = 0; i < 10; i++)
+    {
+        airspeed_present |= i2cRead(MS4525_ADDR, 0xFF, 1, buf);
+        delay(10);
+    }
+    return airspeed_present;
 }
 
 void ms4525_init(void)
