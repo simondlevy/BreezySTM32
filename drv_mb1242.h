@@ -21,16 +21,7 @@
 
 #pragma once
 
-typedef struct {
-    uint8_t  address;
-    uint32_t time;
-    uint8_t state;
-} mb1242_t;
+bool mb1242_init();
 
-
-/**
-  * Use addr=0 to default to factory-set address.
-  */
-bool mb1242_init(mb1242_t * mb1242, uint8_t addr);
-
-int32_t mb1242_poll(mb1242_t * mb1242);
+// This is a non-blocking function call
+int32_t mb1242_poll();

@@ -30,14 +30,10 @@ void setup(void)
 {
     i2cInit(I2CDEV_2);
     delay(500);
-    sonar_present = mb1242_init(&mb1242, 0); // Use default address
+    sonar_present = mb1242_init(); // Use default address
 }
 
 void loop(void)
 {
-    if(sonar_present)
-        printf("%d\n", mb1242_poll(&mb1242));
-    else
-        printf("no sonar\n");
-    delay(100);
+        printf("%d\n", mb1242_poll());
 }

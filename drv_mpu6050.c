@@ -303,7 +303,7 @@ void accel_read_CB(void)
     accel_data[2] = (int16_t)((accel_buffer[4] << 8) | accel_buffer[5]);
 }
 
-void mpu6050_request_accel_read(int16_t *accData, volatile uint8_t *status)
+void mpu6050_request_async_accel_read(int16_t *accData, volatile uint8_t *status)
 {
     accel_data = accData;
     // Adds a new i2c job to the I2C job queue.
@@ -329,7 +329,7 @@ void gyro_read_CB(void)
     gyro_data[2] = (int16_t)((gyro_buffer[4] << 8) | gyro_buffer[5]);
 }
 
-void mpu6050_request_gyro_read(int16_t *gyroData, volatile uint8_t *status)
+void mpu6050_request_async_gyro_read(int16_t *gyroData, volatile uint8_t *status)
 {
     gyro_data = gyroData;
     i2c_queue_job(READ,
@@ -348,7 +348,7 @@ void temp_read_CB(void)
     (*temp_data) = (int16_t)((temp_buffer[0] << 8)| temp_buffer[1])/4;
 }
 
-void mpu6050_request_temp_read(volatile int16_t *tempData, volatile uint8_t *status)
+void mpu6050_request_async_temp_read(volatile int16_t *tempData, volatile uint8_t *status)
 {
     temp_data = tempData;
     i2c_queue_job(READ,

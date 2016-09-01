@@ -233,6 +233,96 @@ void ms5611_update(void)
     }
 }
 
+/*=======================================================
+ * Asynchronous I2C Read Functions:
+ * These methods use the asynchronous I2C
+ * read capability on the naze32.
+ */
+
+static uint8_t pressure_buffer[3];
+static uint8_t temp_buffer[3];
+
+static uint8_t temp_command = 1;
+static uint8_t pressure_command = 1;
+static volatile uint8_t temp_start_status = 0;
+static volatile uint8_t temp_read_status = 0;
+static volatile uint8_t pressure_read_status = 0;
+static volatile uint8_t pressure_start_status = 0;
+
+void pressure_read_CB(void)
+{
+    ms5611_up = (pressure_buffer[0] << 16) | (pressure_buffer[1] << 8) | pressure_buffer[2];
+    baro.calculate(&baroPressure, &baroTemperature);
+}
+
+static void temp_read_CB(void)
+{
+    ms5611_ut = (temp_buffer[0] << 16) | (temp_buffer[1] << 8) | temp_buffer[2];
+    baro.calculate(&baroPressure, &baroTemperature);
+}
+
+
+void ms5611_request_async_update(void)
+{
+    static int state = 0;
+    static uint32_t next_update_us = 0;
+
+    uint32_t now_us = micros();
+
+    // if it's not time to do anything, just return
+    if ((int32_t)(now_us - next_update_us) < 0)
+    {
+        return;
+    }
+    else
+    {
+        if(state == 1)
+        {
+            // Read The pressure started earlier
+            i2c_queue_job(READ,
+                          MS5611_ADDR,
+                          CMD_ADC_READ,
+                          pressure_buffer,
+                          3,
+                          &pressure_read_status,
+                          &pressure_read_CB);
+            // start a temperature update
+            i2c_queue_job(WRITE,
+                          MS5611_ADDR,
+                          CMD_ADC_CONV + CMD_ADC_D2 + ms5611_osr,
+                          &temp_command,
+                          1,
+                          &temp_start_status,
+                          NULL);
+            next_update_us = now_us + baro.ut_delay;
+            state = 0;
+        }
+        else if(state == 0)
+        {
+
+            // Read the temperature started earlier
+            i2c_queue_job(READ,
+                          MS5611_ADDR,
+                          CMD_ADC_READ,
+                          temp_buffer,
+                          3,
+                          &temp_read_status,
+                          &temp_read_CB);
+            // Start a pressure update
+            i2c_queue_job(WRITE,
+                          MS5611_ADDR,
+                          CMD_ADC_CONV + CMD_ADC_D1 + ms5611_osr,
+                          &pressure_command,
+                          1,
+                          &pressure_start_status,
+                          NULL);
+            next_update_us = now_us + baro.up_delay;
+            state = 1;
+        }
+    }
+
+
+}
 
 int32_t ms5611_read_pressure(void)
 {
