@@ -36,13 +36,13 @@ void ms4525_init(void)
     ms4525_detect();
 }
 
-void ms4525_read(int16_t* velocity, int16_t* temp)
+static uint8_t buf[4];
+static volatile int16_t* velocity_data;
+static volatile int16_t* temperature_data;
+
+void ms4525_read_CB(void)
 {
     int16_t data[2];
-    uint8_t buf[4];
-
-    i2cRead(MS4525_ADDR, 0xFF, 4, buf);
-
     uint8_t status = (buf[0] >> 5); // first two bits are status bits
     if(status == 0x00) // good data packet
     {
@@ -58,7 +58,14 @@ void ms4525_read(int16_t* velocity, int16_t* temp)
     {
         return;
     }
-    *velocity = data[0];
-    *temp = data[1];
+    (*velocity_data) = data[0];
+    (*temperature_data) = data[1];
+}
+
+void ms4525_read(volatile int16_t* velocity, volatile int16_t* temp, volatile uint8_t *status)
+{
+    velocity_data = velocity;
+    temperature_data = temp;
+    i2c_queue_job(READ, MS4525_ADDR, 0xFF, buf, 4, status, &ms4525_read_CB);
     return;
 }

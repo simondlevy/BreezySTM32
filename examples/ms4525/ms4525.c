@@ -21,27 +21,46 @@
 
 #include <breezystm32.h>
 
+bool airspeed_present = false;
+volatile uint8_t read_status;
+volatile int16_t velocity;
+volatile int16_t temp;
 
 void setup(void)
 {
     delay(500);
     i2cInit(I2CDEV_2);
+
+    for(uint8_t i = 0; i < 10; i++)
+    {
+        airspeed_present |= ms4525_detect();
+        delay(100);
+    }
+
+    if(airspeed_present)
+        ms4525_read(&velocity, &temp, &read_status);
 }
 
-int16_t velocity;
-int16_t temp;
+
 
 void loop(void)
 {
-    if( ms4525_detect() )
+    if (airspeed_present)
     {
-        ms4525_read(&velocity, &temp);
-        printf("velocity = %d, temp = %d\n", velocity, temp);
+        if(read_status == I2C_JOB_COMPLETE)
+        {
+            // print the measurement
+            printf("velocity = %d, temp = %d\n", velocity, temp);
+
+            // start a new job
+            ms4525_read(&velocity, &temp, &read_status);
+        }
+
     }
     else
     {
         printf("no airspeed\n");
     }
-    delay(10);
+    delay(100);
 }
 
