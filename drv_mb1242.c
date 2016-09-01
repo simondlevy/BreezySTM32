@@ -28,10 +28,19 @@
 
 #define MB1242_DEFAULT_ADDRESS 0x70
 
+static uint8_t start_measurement_command = 0x51;
+static uint8_t read_buffer[2];
+static volatile uint8_t start_measurement_status;
+static volatile uint8_t read_measurement_status;
+static uint8_t state = 0;
+static uint32_t last_update_time_us;
+static int32_t distance_cm;
+
 static void update_timed_task(uint32_t * usec, uint32_t period)
 {
     *usec = micros() + period;
 }
+
 
 static bool check_and_update_timed_task(uint32_t * usec, uint32_t period)
 {
@@ -44,52 +53,72 @@ static bool check_and_update_timed_task(uint32_t * usec, uint32_t period)
     return result;
 }
 
-static int32_t distance_cm;
 
 static void adjust_reading(void) {
 
     distance_cm = 1.071 * distance_cm + 3.103; // emprically determined
 }
 
-static bool attempt_write(uint8_t addr)
-{
-    return i2cWrite(addr, 0xFF, 0x51);
-}
 
-bool mb1242_init(mb1242_t * mb1242, uint8_t addr)
+bool mb1242_init()
 {
-    if (!addr)
-        mb1242->address = MB1242_DEFAULT_ADDRESS;
-
-    mb1242->time = 0;
-    mb1242->state = 0;
 
     // The only way to know if a sonar is attached is to try to get a reading (doesn't always ACK on i2c)
-    mb1242_poll(mb1242);
-    delay(200);    // You have to wait 200 ms for the sensor to read
-    return (mb1242_poll(mb1242) > 0); // if you have a measurement, return true, otherwise, there was no sonar attached
+    int count = 0;
+    bool sonar_present = false;
+    mb1242_poll();
+    while(!sonar_present && count < 5)
+    {
+        delay(200);    // You have to wait 200 ms for the sensor to read
+        sonar_present |= (mb1242_poll() > 0);
+        count++;
+    }
+    return sonar_present; // if you have a measurement, return true, otherwise, there was no sonar attached
 }
 
-int32_t mb1242_poll(mb1242_t * mb1242)
-{
-    if (check_and_update_timed_task(&mb1242->time, 10000)) {
 
-        if (mb1242->state == 0) {
-            if (attempt_write(mb1242->address))
-                mb1242->state++;
+
+void start_sonar_measurement_CB(void)
+{
+    // indicate a completed started measurement
+    state = 1;
+}
+
+
+void read_sonar_measurement_CB(void)
+{
+    // switch data into appropriate units
+    distance_cm = (read_buffer[0] << 8) + read_buffer[1];
+    adjust_reading();
+    state = 0;
+}
+
+
+int32_t mb1242_poll()
+{
+    if (check_and_update_timed_task(&last_update_time_us, 10000))
+    {
+        if (state == 0)
+        {
+            // Start a sonar measurement,
+            i2c_queue_job(WRITE,
+                          MB1242_DEFAULT_ADDRESS,
+                          0xFF,
+                          &start_measurement_command,
+                          1,
+                          &start_measurement_status,
+                          &start_sonar_measurement_CB);
         }
-        else if (mb1242->state == 1) {
-            uint8_t bytes[2];
-            if (i2cRead(mb1242->address, 0xFF, 2, bytes)) {
-                distance_cm = (bytes[0] << 8) + bytes[1];
-                adjust_reading();
-                mb1242->state++;
-            }
-        }
-        else {
-            mb1242->state = 0;
+        else if (state == 1) {
+            // Read the sonar measurement
+            i2c_queue_job(READ,
+                          MB1242_DEFAULT_ADDRESS,
+                          0xFF,
+                          read_buffer,
+                          2,
+                          &read_measurement_status,
+                          &read_sonar_measurement_CB);
         }
     }
-
     return distance_cm;
 }
