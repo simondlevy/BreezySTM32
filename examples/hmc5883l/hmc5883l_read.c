@@ -1,5 +1,5 @@
 /*
-   accelgyro.c : report accelerometer and gyroscope values
+   hmc5883l_read.c : report magnetometer measurements
 
    Copyright (C) 2016 James Jackson
 
