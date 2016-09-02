@@ -1,6 +1,8 @@
 
 #include <breezystm32.h>
 
+#include <math.h>
+
 // HMC5883L, default address 0x1E
 // PB12 connected to MAG_DRDY on rev4 hardware
 // PC14 connected to MAG_DRDY on rev5 hardware
@@ -140,7 +142,6 @@ bool hmc5883lInit(int boardVersion)
             bret = false;
             break;              // Breaks out of the for loop.  No sense in continuing if we saturated.
         }
-        //LED1_TOGGLE;
     }
 
     // Apply the negative bias. (Same gain)
@@ -160,7 +161,6 @@ bool hmc5883lInit(int boardVersion)
             bret = false;
             break;              // Breaks out of the for loop.  No sense in continuing if we saturated.
         }
-        //LED1_TOGGLE;
     }
 
     magGain[X] = fabsf(660.0f * HMC58X3_X_SELF_TEST_GAUSS * 2.0f * 10.0f / xyz_total[X]);
