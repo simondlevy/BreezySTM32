@@ -23,6 +23,10 @@
 
 #define BOARD_REV 2
 
+
+volatile uint8_t mag_status = 0;
+int16_t mag_data[3];
+
 void setup(void)
 {
     delay(500);
@@ -30,23 +34,28 @@ void setup(void)
 
     // Initialize the Magnetometer
     hmc5883lInit(BOARD_REV);
+    hmc5883l_request_async_read(mag_data, &mag_status);
 }
 
 void loop(void)
 {
-    static int16_t mag_data[3];
     static uint32_t counter = 0;
 
-    hmc5883lRead(mag_data);
-
-    if (counter > 100)
+    if(mag_status == I2C_JOB_COMPLETE)
     {
-      printf("%d\t %d\t %d\n",
-             mag_data[0],
-             mag_data[1],
-             mag_data[2]);
-      counter = 0;
+
+        // Throttle Printing
+        if (counter > 1000)
+        {
+
+            printf("%d\t %d\t %d\n",
+                   mag_data[0],
+                    mag_data[1],
+                    mag_data[2]);
+            counter = 0;
+            hmc5883l_request_async_read(mag_data, &mag_status);
+        }
+        counter++;
     }
-    counter++;
 }
 

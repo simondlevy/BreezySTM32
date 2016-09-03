@@ -110,13 +110,13 @@ static float magGain[3] = { 1.0f, 1.0f, 1.0f };
     bool ack = false;
     uint8_t sig = 0;
     
-    hmc5883lInit(); 
+    hmc5883lInit();
     delay(100);
 
     ack = i2cRead(MAG_ADDRESS, 0x0A, 1, &sig);
     if (!ack || sig != 'H')
         return false;
-    
+
     return true;
 }*/
 
@@ -220,4 +220,31 @@ void hmc5883lRead(int16_t *magData)
     magData[X] = (int16_t)(buf[0] << 8 | buf[1]) * magGain[X];
     magData[Z] = (int16_t)(buf[2] << 8 | buf[3]) * magGain[Z];
     magData[Y] = (int16_t)(buf[4] << 8 | buf[5]) * magGain[Y];
+}
+
+
+/* =================================================================
+ * Asynchronous Method
+ */
+static uint8_t mag_buffer[6];
+static volatile int16_t* mag_data;
+
+void mag_read_CB(void)
+{
+    mag_data[X] = (int16_t)(mag_buffer[0] << 8 | mag_buffer[1]) * magGain[X];
+    mag_data[Z] = (int16_t)(mag_buffer[2] << 8 | mag_buffer[3]) * magGain[Z];
+    mag_data[Y] = (int16_t)(mag_buffer[4] << 8 | mag_buffer[5]) * magGain[Y];
+}
+
+void hmc5883l_request_async_read(int16_t *magData, volatile uint8_t* status)
+{
+    mag_data = magData;
+
+    i2c_queue_job(READ,
+                  MAG_ADDRESS,
+                  MAG_DATA_REGISTER,
+                  mag_buffer,
+                  6,
+                  status,
+                  &mag_read_CB);
 }
