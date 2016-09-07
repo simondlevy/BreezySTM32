@@ -1,5 +1,5 @@
 /*
-   drv_pwm.c : PWM support for STM32F103CB
+   drv_pwm.c : PWM support for STM32F103
 
    Adapted from https://github.com/multiwii/baseflight/blob/master/src/drv_pwm.c
 
