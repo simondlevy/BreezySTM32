@@ -45,6 +45,8 @@
 #include "drv_timer.h"
 #include "drv_pwm.h"
 
+#include "printf.h"
+
 typedef struct {
     volatile uint16_t *ccr;
     volatile uint16_t *cr1;
@@ -266,7 +268,7 @@ static uint8_t numInputs = 0;
 
 static void pwmWriteBrushed(uint8_t index, uint16_t value)
 {
-    *motors[index]->ccr = (value - 1000) * motors[index]->period / 1000;
+    *motors[index]->ccr = (value<1000) ? 0 : (value - 1000) * motors[index]->period / 1000;
 }
 
 static void pwmWriteStandard(uint8_t index, uint16_t value)
