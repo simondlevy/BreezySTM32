@@ -70,10 +70,12 @@ void ms4525_read(volatile int16_t* velocity, volatile int16_t* temp)
     return;
 }
 
+//=================================================
 // Asynchronus data storage
 static uint8_t buf[4];
-static volatile int16_t* velocity_data;
-static volatile int16_t* temperature_data;
+static volatile uint8_t read_status;
+static volatile int16_t velocity_data;
+static volatile int16_t temperature_data;
 
 void ms4525_read_CB(void)
 {
@@ -93,14 +95,36 @@ void ms4525_read_CB(void)
     {
         return;
     }
-    (*velocity_data) = data[0];
-    (*temperature_data) = data[1];
+    velocity_data = data[0];
+    temperature_data = data[1];
 }
 
-void ms4525_request_async_read(volatile int16_t* velocity, volatile int16_t* temp, volatile uint8_t *status)
+int16_t ms4525_read_velocity(void)
 {
-    velocity_data = velocity;
-    temperature_data = temp;
-    i2c_queue_job(READ, MS4525_ADDR, 0xFF, buf, 4, status, &ms4525_read_CB);
+  return velocity_data;
+}
+
+
+int16_t ms4525_read_temperature(void)
+{
+  return temperature_data;
+}
+
+
+void ms4525_request_async_update(void)
+{
+  static uint32_t next_update_us = 0;
+  uint32_t now_us = micros();
+
+  // if it's not time to do anything, just return
+  if((int32_t)(now_us - next_update_us) < 0)
+  {
     return;
+  }
+  else
+  {
+    i2c_queue_job(READ, MS4525_ADDR, 0xFF, buf, 4, &read_status, &ms4525_read_CB);
+    next_update_us = now_us + 1000; // response time is 1ms
+  }
+
 }

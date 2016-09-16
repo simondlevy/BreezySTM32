@@ -22,7 +22,6 @@
 #include <breezystm32.h>
 
 bool airspeed_present = false;
-volatile uint8_t read_status;
 volatile int16_t velocity;
 volatile int16_t temp;
 
@@ -34,7 +33,7 @@ void setup(void)
     airspeed_present = ms4525_detect();
 
     if(airspeed_present)
-        ms4525_request_async_read(&velocity, &temp, &read_status);
+        ms4525_request_async_update();
 }
 
 
@@ -43,14 +42,9 @@ void loop(void)
 {
     if (airspeed_present)
     {
-        if(read_status == I2C_JOB_COMPLETE)
-        {
-            // print the measurement
-            printf("velocity = %d, temp = %d\n", velocity, temp);
-
-            // start a new job
-            ms4525_request_async_read(&velocity, &temp, &read_status);
-        }
+        ms4525_request_async_update();
+        printf("Velocity: %d ", ms4525_read_velocity());
+        printf("\tTemperature: %d\n", ms4525_read_temperature());
     }
     else
     {
