@@ -248,23 +248,25 @@ static volatile uint8_t temp_start_status = 0;
 static volatile uint8_t temp_read_status = 0;
 static volatile uint8_t pressure_read_status = 0;
 static volatile uint8_t pressure_start_status = 0;
+static uint8_t baro_state = 0;
 
 void pressure_read_CB(void)
 {
     ms5611_up = (pressure_buffer[0] << 16) | (pressure_buffer[1] << 8) | pressure_buffer[2];
     baro.calculate(&baroPressure, &baroTemperature);
+    baro_state = 0;
 }
 
 static void temp_read_CB(void)
 {
     ms5611_ut = (temp_buffer[0] << 16) | (temp_buffer[1] << 8) | temp_buffer[2];
     baro.calculate(&baroPressure, &baroTemperature);
+    baro_state = 1;
 }
 
 
 void ms5611_request_async_update(void)
 {
-    static int state = 0;
     static uint32_t next_update_us = 0;
 
     uint32_t now_us = micros();
@@ -276,7 +278,7 @@ void ms5611_request_async_update(void)
     }
     else
     {
-        if(state == 1)
+        if(baro_state == 1)
         {
             // Read The pressure started earlier
             i2c_queue_job(READ,
@@ -295,11 +297,9 @@ void ms5611_request_async_update(void)
                           &temp_start_status,
                           NULL);
             next_update_us = now_us + baro.ut_delay;
-            state = 0;
         }
-        else if(state == 0)
+        else if(baro_state == 0)
         {
-
             // Read the temperature started earlier
             i2c_queue_job(READ,
                           MS5611_ADDR,
@@ -317,7 +317,6 @@ void ms5611_request_async_update(void)
                           &pressure_start_status,
                           NULL);
             next_update_us = now_us + baro.up_delay;
-            state = 1;
         }
     }
 
