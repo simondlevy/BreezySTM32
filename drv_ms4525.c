@@ -123,8 +123,10 @@ void ms4525_request_async_update(void)
   }
   else
   {
-    i2c_queue_job(READ, MS4525_ADDR, 0xFF, buf, 4, &read_status, &ms4525_read_CB);
-    next_update_us = now_us + 1000; // response time is 1ms
+    if(get_i2c_queue_length() < 3) {
+      i2c_queue_job(READ, MS4525_ADDR, 0xFF, buf, 4, &read_status, &ms4525_read_CB);
+      next_update_us = now_us + 1000; // response time is 1ms
+    }
   }
 
 }
