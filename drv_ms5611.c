@@ -278,7 +278,7 @@ void ms5611_request_async_update(void)
     }
     else
     {
-        if(baro_state == 1 && get_i2c_queue_length() < 3)
+        if(baro_state == 1)
         {
             // Read The pressure started earlier
             i2c_queue_job(READ,
@@ -298,7 +298,7 @@ void ms5611_request_async_update(void)
                           NULL);
             next_update_us = now_us + baro.ut_delay;
         }
-        else if(baro_state == 0 && get_i2c_queue_length() < 3)
+        else if(baro_state == 0)
         {
             // Read the temperature started earlier
             i2c_queue_job(READ,

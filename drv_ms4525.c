@@ -27,47 +27,47 @@
 
 bool ms4525_detect(void)
 {
-    uint8_t buf[1];
-    bool airspeed_present = false;
-    for(uint8_t i = 0; i < 10; i++)
-    {
-        airspeed_present |= i2cRead(MS4525_ADDR, 0xFF, 1, buf);
-        delay(10);
-    }
-    return airspeed_present;
+  uint8_t buf[1];
+  bool airspeed_present = false;
+  for(uint8_t i = 0; i < 10; i++)
+  {
+    airspeed_present |= i2cRead(MS4525_ADDR, 0xFF, 1, buf);
+    delay(10);
+  }
+  return airspeed_present;
 }
 
 void ms4525_init(void)
 {
-    ms4525_detect();
+  ms4525_detect();
 }
 
 
 void ms4525_read(volatile int16_t* velocity, volatile int16_t* temp)
 {
-    int16_t data[2];
-    uint8_t buf[4];
+  int16_t data[2];
+  uint8_t buf[4];
 
-    i2cRead(MS4525_ADDR, 0xFF, 4, buf);
+  i2cRead(MS4525_ADDR, 0xFF, 4, buf);
 
-    uint8_t status = (buf[0] >> 5); // first two bits are status bits
-    if(status == 0x00) // good data packet
-    {
-        data[0] = (int16_t)(((STATUS_MASK | buf[0]) << 8) | buf[1]);
-        data[1] = (int16_t)((buf[2] << 3) | (buf[3] >> 5));
-    }
-    else if(status == 0x02) // stale data packet
-    {
-        data[0] = (int16_t)(((STATUS_MASK | buf[0]) << 8) | buf[1]);
-        data[1] = (int16_t)((buf[2] << 3) | (buf[3] >> 5));
-    }
-    else
-    {
-        return;
-    }
-    *velocity = data[0];
-    *temp = data[1];
+  uint8_t status = (buf[0] >> 5); // first two bits are status bits
+  if(status == 0x00) // good data packet
+  {
+    data[0] = (int16_t)(((STATUS_MASK | buf[0]) << 8) | buf[1]);
+    data[1] = (int16_t)((buf[2] << 3) | (buf[3] >> 5));
+  }
+  else if(status == 0x02) // stale data packet
+  {
+    data[0] = (int16_t)(((STATUS_MASK | buf[0]) << 8) | buf[1]);
+    data[1] = (int16_t)((buf[2] << 3) | (buf[3] >> 5));
+  }
+  else
+  {
     return;
+  }
+  *velocity = data[0];
+  *temp = data[1];
+  return;
 }
 
 //=================================================
@@ -79,24 +79,24 @@ static volatile int16_t temperature_data;
 
 void ms4525_read_CB(void)
 {
-    int16_t data[2];
-    uint8_t status = (buf[0] >> 5); // first two bits are status bits
-    if(status == 0x00) // good data packet
-    {
-        data[0] = (int16_t)(((STATUS_MASK | buf[0]) << 8) | buf[1]);
-        data[1] = (int16_t)((buf[2] << 3) | (buf[3] >> 5));
-    }
-    else if(status == 0x02) // stale data packet
-    {
-        data[0] = (int16_t)(((STATUS_MASK | buf[0]) << 8) | buf[1]);
-        data[1] = (int16_t)((buf[2] << 3) | (buf[3] >> 5));
-    }
-    else
-    {
-        return;
-    }
-    velocity_data = data[0];
-    temperature_data = data[1];
+  int16_t data[2];
+  uint8_t status = (buf[0] >> 5); // first two bits are status bits
+  if(status == 0x00) // good data packet
+  {
+    data[0] = (int16_t)(((STATUS_MASK | buf[0]) << 8) | buf[1]);
+    data[1] = (int16_t)((buf[2] << 3) | (buf[3] >> 5));
+  }
+  else if(status == 0x02) // stale data packet
+  {
+    data[0] = (int16_t)(((STATUS_MASK | buf[0]) << 8) | buf[1]);
+    data[1] = (int16_t)((buf[2] << 3) | (buf[3] >> 5));
+  }
+  else
+  {
+    return;
+  }
+  velocity_data = data[0];
+  temperature_data = data[1];
 }
 
 int16_t ms4525_read_velocity(void)
@@ -123,10 +123,8 @@ void ms4525_request_async_update(void)
   }
   else
   {
-    if(get_i2c_queue_length() < 3) {
-      i2c_queue_job(READ, MS4525_ADDR, 0xFF, buf, 4, &read_status, &ms4525_read_CB);
-      next_update_us = now_us + 1000; // response time is 1ms
-    }
+    i2c_queue_job(READ, MS4525_ADDR, 0xFF, buf, 4, &read_status, &ms4525_read_CB);
+    next_update_us = now_us + 1000; // Response time is 1 ms (1000 microseconds)
   }
-
+  return;
 }
