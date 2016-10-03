@@ -25,37 +25,28 @@
 
 
 volatile uint8_t mag_status = 0;
-int16_t mag_data[3];
+int16_t mag_data[3] = {0.0, 0.0, 0.0};
 
 void setup(void)
 {
-    delay(500);
-    i2cInit(I2CDEV_2);
+  delay(500);
+  i2cInit(I2CDEV_2);
 
-    // Initialize the Magnetometer
-    hmc5883lInit(BOARD_REV);
-    hmc5883l_request_async_read(mag_data, &mag_status);
+  // Initialize the Magnetometer
+  hmc5883lInit(BOARD_REV);
+  hmc5883l_request_async_update();
 }
 
 void loop(void)
 {
-    static uint32_t counter = 0;
+  hmc5883l_request_async_update();
+  hmc5883l_read_magnetometer(mag_data);
+  printf("%d\t %d\t %d\n",
+         (int32_t)(mag_data[0]),
+         (int32_t)(mag_data[1]),
+         (int32_t)(mag_data[2]));
+  delay(6);
 
-    if(mag_status == I2C_JOB_COMPLETE)
-    {
 
-        // Throttle Printing
-        if (counter > 1000)
-        {
-
-            printf("%d\t %d\t %d\n",
-                   mag_data[0],
-                    mag_data[1],
-                    mag_data[2]);
-            counter = 0;
-            hmc5883l_request_async_read(mag_data, &mag_status);
-        }
-        counter++;
-    }
 }
 

@@ -27,5 +27,6 @@ bool hmc5883lInit(int boardVersion);
 // Blocking I2C Read Method
 void hmc5883lRead(int16_t *magData);
 
-// Asynchronous I2C Method
-void hmc5883l_request_async_read(int16_t *magData, volatile uint8_t* status);
+// Asynchronous I2C method
+void hmc5883l_request_async_update();
+void hmc5883l_read_magnetometer(int16_t *magData);

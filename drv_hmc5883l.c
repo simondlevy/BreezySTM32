@@ -227,24 +227,42 @@ void hmc5883lRead(int16_t *magData)
  * Asynchronous Method
  */
 static uint8_t mag_buffer[6];
-static volatile int16_t* mag_data;
+static int16_t mag_data[3];
+static volatile uint8_t status;
 
 void mag_read_CB(void)
 {
-    mag_data[X] = (int16_t)(mag_buffer[0] << 8 | mag_buffer[1]) * magGain[X];
-    mag_data[Z] = (int16_t)(mag_buffer[2] << 8 | mag_buffer[3]) * magGain[Z];
-    mag_data[Y] = (int16_t)(mag_buffer[4] << 8 | mag_buffer[5]) * magGain[Y];
+    LED1_TOGGLE;
+    mag_data[X] = (mag_buffer[0] << 8 | mag_buffer[1]);
+    mag_data[Z] = (mag_buffer[2] << 8 | mag_buffer[3]);
+    mag_data[Y] = (mag_buffer[4] << 8 | mag_buffer[5]);
 }
 
-void hmc5883l_request_async_read(int16_t *magData, volatile uint8_t* status)
+void hmc5883l_request_async_update()
 {
-    mag_data = magData;
+  static uint32_t last_update_us = 0;
+  uint32_t now = micros();
 
+  if(now - last_update_us > 6250)
+  {
+    // 160 Hz update rate (datasheet)
     i2c_queue_job(READ,
                   MAG_ADDRESS,
                   MAG_DATA_REGISTER,
                   mag_buffer,
                   6,
-                  status,
+                  &status,
                   &mag_read_CB);
+
+    last_update_us = now;
+  }
+  return;
+}
+
+void hmc5883l_read_magnetometer(int16_t *magData)
+{
+  magData[0] = mag_data[X];
+  magData[1] = mag_data[Y];
+  magData[2] = mag_data[Z];
+  return;
 }
