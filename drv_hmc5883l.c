@@ -232,7 +232,6 @@ static volatile uint8_t status;
 
 void mag_read_CB(void)
 {
-    LED1_TOGGLE;
     mag_data[X] = (mag_buffer[0] << 8 | mag_buffer[1]);
     mag_data[Z] = (mag_buffer[2] << 8 | mag_buffer[3]);
     mag_data[Y] = (mag_buffer[4] << 8 | mag_buffer[5]);
