@@ -79,9 +79,9 @@ void setup(void)
 void loop(void)
 {
 
-  double baro = 0;
-  double sonar = 0;
-  double airspeed = 0;
+  int32_t baro = 0;
+  int32_t sonar = 0;
+  int32_t airspeed = 0;
   // Update Baro
   if(baro_present)
   {
@@ -119,9 +119,9 @@ void loop(void)
     {
       count = 0;
       printf("%d\t %d\t %d\t %d\t %d\t %d\n",
+             (int32_t)baro,
              (int32_t)(accel_data[2]*accel_scale*1000.0f),
              (int32_t)(gyro_data[2]*gyro_scale*1000.0f),
-             (int32_t)baro,
              (int32_t)mag_data[2],
              (int32_t)sonar,
              (int32_t)airspeed);
