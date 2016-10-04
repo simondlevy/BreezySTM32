@@ -47,10 +47,10 @@ void interruptCallback(void)
 
 uint32_t start_time = 0;
 
-bool baro_present;
-bool mag_present;
-bool sonar_present;
-bool airspeed_present;
+bool baro_present= false;
+bool mag_present=false;
+bool sonar_present=false;
+bool airspeed_present=false;
 void setup(void)
 {
   delay(500);
@@ -67,7 +67,7 @@ void setup(void)
   sonar_present = mb1242_init();
 
   // Init Airspeed
-  airspeed_present = ms4525_detect();
+//  airspeed_present = ms4525_detect();
 
   //Init IMU (has to come last because of the ISR)
   mpu6050_register_interrupt_cb(&interruptCallback);
