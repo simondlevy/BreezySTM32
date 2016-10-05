@@ -80,6 +80,7 @@ void loop(void)
 {
 
   int32_t baro = 0;
+  int32_t temp = 0;
   int32_t sonar = 0;
   int32_t airspeed = 0;
   // Update Baro
@@ -87,6 +88,7 @@ void loop(void)
   {
     ms5611_request_async_update();
     baro = ms5611_read_pressure();
+    temp = ms5611_read_temperature();
   }
 
   // Update Mag
@@ -115,18 +117,19 @@ void loop(void)
   {
     static int32_t count = 0;
     // Throttle printing
-    if(count > 100)
+    if(count > 1)
     {
       count = 0;
       printf("%d\t %d\t %d\t %d\t %d\t %d\n",
-             (int32_t)baro,
              (int32_t)(accel_data[2]*accel_scale*1000.0f),
              (int32_t)(gyro_data[2]*gyro_scale*1000.0f),
              (int32_t)mag_data[2],
              (int32_t)sonar,
-             (int32_t)airspeed);
+             (int32_t)temp,
+             (int32_t)baro);
       //                    0);
     }
+    delay(10);
     count++;
   }
 }
