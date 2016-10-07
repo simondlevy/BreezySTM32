@@ -30,5 +30,5 @@ void ms5611_update(void);
 void ms5611_request_async_update(void);
 
 // Data access methods
-int32_t ms5611_read_pressure(void);
-int32_t ms5611_read_temperature(void);
+uint32_t ms5611_read_pressure(void);
+uint32_t ms5611_read_temperature(void);

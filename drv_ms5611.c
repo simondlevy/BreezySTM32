@@ -21,6 +21,7 @@
 
 
 #include <breezystm32.h>
+#include <limits.h>
 
 // MS5611, Standard address 0x77
 #define MS5611_ADDR             0x77
@@ -41,7 +42,7 @@
 static uint32_t ms5611_ut;  // static result of temperature measurement
 static uint32_t ms5611_up;  // static result of pressure measurement
 static uint16_t ms5611_c[PROM_NB];  // on-chip ROM
-static uint8_t ms5611_osr = CMD_ADC_4096;
+static uint8_t  ms5611_osr = CMD_ADC_4096;
 
 static void ms5611_reset(void)
 {
@@ -56,23 +57,19 @@ static uint16_t ms5611_prom(int8_t coef_num)
     return rxbuf[0] << 8 | rxbuf[1];
 }
 
-static int8_t ms5611_crc(uint16_t *prom)
+int8_t ms5611_crc(uint16_t *prom)
 {
     int32_t i, j;
     uint32_t res = 0;
-    uint8_t zero = 1;
     uint8_t crc = prom[7] & 0xF;
     prom[7] &= 0xFF00;
 
-    // if eeprom is all zeros, we're probably fucked - BUT this will return valid CRC lol
-    for (i = 0; i < 8; i++) {
-        if (prom[i] != 0)
-            zero = 0;
-    }
-    if (zero)
-        return -1;
+    bool blankEeprom = true;
 
     for (i = 0; i < 16; i++) {
+        if (prom[i >> 1]) {
+            blankEeprom = false;
+        }
         if (i & 1)
             res ^= ((prom[i >> 1]) & 0x00FF);
         else
@@ -84,7 +81,7 @@ static int8_t ms5611_crc(uint16_t *prom)
         }
     }
     prom[7] |= crc;
-    if (crc == ((res >> 12) & 0xF))
+    if (!blankEeprom && crc == ((res >> 12) & 0xF))
         return 0;
 
     return -1;
@@ -117,12 +114,12 @@ static void ms5611_get_up(void)
     ms5611_up = ms5611_read_adc();
 }
 
-static void ms5611_calculate(int32_t *pressure, int32_t *temperature)
+static void ms5611_calculate(uint32_t *pressure, uint32_t *temperature)
 {
     uint32_t press;
     int64_t temp;
     int64_t delt;
-    int32_t dT = (int64_t)ms5611_ut - ((uint64_t)ms5611_c[5] * 256);
+    int64_t dT = (int64_t)ms5611_ut - ((uint64_t)ms5611_c[5] * 256);
     int64_t off = ((int64_t)ms5611_c[2] << 16) + (((int64_t)ms5611_c[4] * dT) >> 7);
     int64_t sens = ((int64_t)ms5611_c[1] << 15) + (((int64_t)ms5611_c[3] * dT) >> 8);
     temp = 2000 + ((dT * (int64_t)ms5611_c[6]) >> 23);
@@ -138,8 +135,10 @@ static void ms5611_calculate(int32_t *pressure, int32_t *temperature)
             off -= 7 * delt;
             sens -= (11 * delt) >> 1;
         }
+    temp -= ((dT * dT) >> 31);
     }
     press = ((((int64_t)ms5611_up * sens) >> 21) - off) >> 15;
+
 
     if (pressure)
         *pressure = press;
@@ -148,7 +147,7 @@ static void ms5611_calculate(int32_t *pressure, int32_t *temperature)
 }
 
 typedef void (*baroOpFuncPtr)(void);                       // baro start operation
-typedef void (*baroCalculateFuncPtr)(int32_t *pressure, int32_t *temperature);             // baro calculation (filled params are pressure and temperature)
+typedef void (*baroCalculateFuncPtr)(uint32_t *pressure, uint32_t *temperature);             // baro calculation (filled params are pressure and temperature)
 
 typedef struct baro_t {
     uint16_t ut_delay;
@@ -162,8 +161,8 @@ typedef struct baro_t {
 
 static baro_t baro;
 
-static int32_t baroTemperature;
-static int32_t baroPressure;
+static uint32_t baroTemperature;
+static uint32_t baroPressure;
 
 // =======================================================================================
 
@@ -174,11 +173,11 @@ bool ms5611_init(void)
     uint8_t sig;
     int i;
 
-    gpio_config_t gpio;
-    gpio.pin = Pin_13;
-    gpio.speed = Speed_2MHz;
-    gpio.mode = Mode_Out_PP;
-    gpioInit(GPIOC, &gpio);
+//    gpio_config_t gpio;
+//    gpio.pin = Pin_13;
+//    gpio.speed = Speed_2MHz;
+//    gpio.mode = Mode_Out_PP;
+//    gpioInit(GPIOC, &gpio);
 
     delay(10); // No idea how long the chip takes to power-up, but let's make it 10ms
 
@@ -249,18 +248,19 @@ static volatile uint8_t temp_read_status = 0;
 static volatile uint8_t pressure_read_status = 0;
 static volatile uint8_t pressure_start_status = 0;
 static uint8_t baro_state = 0;
-static uint32_t next_update_us = 0;
+static volatile uint32_t next_update_us = 0;
 
 void temp_request_CB(void)
 {
-    next_update_us = micros() + baro.ut_delay;
+    next_update_us = micros() + 10000;
     baro_state = 0;
 }
 
 void pressure_request_CB(void)
 {
-    next_update_us = micros() + baro.up_delay;
+    next_update_us = micros() + 10000;
     baro_state = 1;
+
 }
 
 void pressure_read_CB(void)
@@ -276,7 +276,6 @@ void pressure_read_CB(void)
                   1,
                   &temp_start_status,
                   &temp_request_CB);
-    LED1_ON;
 }
 
 static void temp_read_CB(void)
@@ -293,26 +292,18 @@ static void temp_read_CB(void)
                   1,
                   &pressure_start_status,
                   &pressure_request_CB);
-    LED1_OFF;
 }
 
 
 void ms5611_request_async_update(void)
 {
-    uint32_t now_us = micros();
-
-    // if it's not time to do anything, just return
-    if ((int32_t)(now_us - next_update_us) < 0)
+      // if it's not time to do anything, just return
+    if (next_update_us > micros())
     {
         return;
     }
-    else if(baro_state == 255)
-    {
-        // or, if we are waiting for an I2C job to finish
-        return;
-    }
 
-    if(baro_state == 1)
+    else if(baro_state == 1)
     {
         // Read The pressure started earlier
         i2c_queue_job(READ,
@@ -324,7 +315,7 @@ void ms5611_request_async_update(void)
                       &pressure_read_CB);
 
         // put into a waiting state until the I2C is done
-        baro_state = 255;
+        next_update_us = UINT_MAX;
     }
     else if(baro_state == 0)
     {
@@ -338,16 +329,18 @@ void ms5611_request_async_update(void)
                       &temp_read_CB);
 
         // put into a waiting state until the I2C is done
-        baro_state = 255;
+        next_update_us = UINT_MAX;
     }
 }
 
-int32_t ms5611_read_pressure(void)
+uint32_t ms5611_read_pressure(void)
 {
     return baroPressure;
+//  return ms5611_up;
 }
 
-int32_t ms5611_read_temperature(void)
+uint32_t ms5611_read_temperature(void)
 {
     return baroTemperature;
+//  return ms5611_ut;
 }

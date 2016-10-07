@@ -300,7 +300,11 @@ static void i2c_er_handler(void)
   I2Cx->SR1 &= ~0x0F00;                                               // reset all the error bits to clear the interrupt
   if (status != NULL)
     (*status) = I2C_JOB_ERROR;                                      // Update job status
+  if (complete_CB != NULL)
+      complete_CB();
   busy = 0;
+  LED0_ON;
+  i2c_job_handler();
 }
 
 void i2c_ev_handler(void)
