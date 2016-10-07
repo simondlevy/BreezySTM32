@@ -315,7 +315,7 @@ void ms5611_request_async_update(void)
                       &pressure_read_CB);
 
         // put into a waiting state until the I2C is done
-        next_update_us = UINT_MAX;
+        next_update_us = micros() + 3*baro.up_delay;
     }
     else if(baro_state == 0)
     {
@@ -329,7 +329,7 @@ void ms5611_request_async_update(void)
                       &temp_read_CB);
 
         // put into a waiting state until the I2C is done
-        next_update_us = UINT_MAX;
+        next_update_us = micros() + 3*baro.ut_delay;
     }
 }
 

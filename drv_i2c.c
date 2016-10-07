@@ -303,7 +303,6 @@ static void i2c_er_handler(void)
   if (complete_CB != NULL)
       complete_CB();
   busy = 0;
-  LED0_ON;
   i2c_job_handler();
 }
 
