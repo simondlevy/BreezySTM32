@@ -67,7 +67,7 @@ void setup(void)
   sonar_present = mb1242_init();
 
   // Init Airspeed
-//  airspeed_present = ms4525_detect();
+  airspeed_present = ms4525_detect();
 
   //Init IMU (has to come last because of the ISR)
   mpu6050_register_interrupt_cb(&interruptCallback);
@@ -125,7 +125,7 @@ void loop(void)
              (int32_t)(gyro_data[2]*gyro_scale*1000.0f),
              (int32_t)mag_data[2],
              (int32_t)sonar,
-             (int32_t)temp,
+             (int32_t)airspeed,
              (int32_t)baro);
       //                    0);
     }

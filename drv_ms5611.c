@@ -265,8 +265,12 @@ void pressure_request_CB(void)
 
 void pressure_read_CB(void)
 {
-    ms5611_up = (pressure_buffer[0] << 16) | (pressure_buffer[1] << 8) | pressure_buffer[2];
-    baro.calculate(&baroPressure, &baroTemperature);
+    uint32_t read = (pressure_buffer[0] << 16) | (pressure_buffer[1] << 8) | pressure_buffer[2];
+    if(read != 0)
+    {
+      ms5611_up = read;
+      baro.calculate(&baroPressure, &baroTemperature);
+    }
 
     // start a temperature update
     i2c_queue_job(WRITE,
@@ -280,9 +284,12 @@ void pressure_read_CB(void)
 
 static void temp_read_CB(void)
 {
-    ms5611_ut = (temp_buffer[0] << 16) | (temp_buffer[1] << 8) | temp_buffer[2];
-    baro.calculate(&baroPressure, &baroTemperature);
-    baro_state = 1;
+    uint32_t read = (temp_buffer[0] << 16) | (temp_buffer[1] << 8) | temp_buffer[2];
+    if(read != 0)
+    {
+      ms5611_ut = read;
+      baro.calculate(&baroPressure, &baroTemperature);
+    }
 
     // start a pressure read
     i2c_queue_job(WRITE,
