@@ -35,39 +35,9 @@ static bool spekDataIncoming = false;
 static GPIO_TypeDef *spekBindPort = NULL;
 static USART_TypeDef *spekUart = NULL;
 static uint16_t spekBindPin = 0;
+static uint8_t numRCChannels;
 
 volatile uint8_t spekFrame[SPEK_FRAME_SIZE];
-static void spektrumDataReceive(uint16_t c);
-static uint16_t spektrumReadRawRC(uint8_t chan);
-
-// external vars (ugh)
-extern int16_t failsafeCnt;
-
-void spektrumInit(rcReadRawDataPtr *callback)
-{
-    switch (mcfg.serialrx_type) {
-        case SERIALRX_SPEKTRUM2048:
-            // 11 bit frames
-            spek_chan_shift = 3;
-            spek_chan_mask = 0x07;
-            spekHiRes = true;
-            core.numRCChannels = SPEK_2048_MAX_CHANNEL;
-            break;
-        case SERIALRX_SPEKTRUM1024:
-            // 10 bit frames
-            spek_chan_shift = 2;
-            spek_chan_mask = 0x03;
-            spekHiRes = false;
-            core.numRCChannels = SPEK_1024_MAX_CHANNEL;
-            break;
-    }
-
-    // spekUart is set by spektrumBind() which is called very early at startup
-    core.rcvrport = uartOpen(spekUart, spektrumDataReceive, 115200, MODE_RX);
-
-    if (callback)
-        *callback = spektrumReadRawRC;
-}
 
 // Receive ISR callback
 static void spektrumDataReceive(uint16_t c)
@@ -91,6 +61,31 @@ static void spektrumDataReceive(uint16_t c)
     }
 }
 
+void spektrumInit(spektrum_rx_t radiotype)
+{
+    switch (radiotype) {
+
+        case SPEKTRUM_2048:
+            // 11 bit frames
+            spek_chan_shift = 3;
+            spek_chan_mask = 0x07;
+            spekHiRes = true;
+            numRCChannels = SPEK_2048_MAX_CHANNEL;
+            break;
+
+        case SPEKTRUM_1024:
+            // 10 bit frames
+            spek_chan_shift = 2;
+            spek_chan_mask = 0x03;
+            spekHiRes = false;
+            numRCChannels = SPEK_2048_MAX_CHANNEL;
+            break;
+    }
+
+    // spekUart is set by spektrumBind() which is called very early at startup
+    //core.rcvrport = uartOpen(spekUart, spektrumDataReceive, 115200, MODE_RX);
+}
+
 bool spektrumFrameComplete(void)
 {
     return rcFrameComplete;
@@ -105,7 +100,7 @@ static uint16_t spektrumReadRawRC(uint8_t chan)
     if (rcFrameComplete) {
         for (b = 3; b < SPEK_FRAME_SIZE; b += 2) {
             uint8_t spekChannel = 0x0F & (spekFrame[b - 1] >> spek_chan_shift);
-            if (spekChannel < core.numRCChannels)
+            if (spekChannel < numRCChannels)
                 spekChannelData[spekChannel] = ((uint32_t)(spekFrame[b - 1] & spek_chan_mask) << 8) + spekFrame[b];
         }
         rcFrameComplete = false;
