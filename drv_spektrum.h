@@ -22,6 +22,8 @@
  * Licensed under GPL V3 or modified DCL - see https://github.com/multiwii/baseflight/blob/master/README.md
  */
 
+#pragma once
+
 typedef enum {
 
     SPEKTRUM_1024,

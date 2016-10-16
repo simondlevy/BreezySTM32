@@ -24,6 +24,8 @@
  * Licensed under GPL V3 or modified DCL - see https://github.com/multiwii/baseflight/blob/master/README.md
  */
 
+#include <breezystm32.h>
+
 #define SPEK_2048_MAX_CHANNEL 8
 #define SPEK_1024_MAX_CHANNEL 7
 #define SPEK_FRAME_SIZE 16
@@ -55,7 +57,6 @@ static void spektrumDataReceive(uint16_t c)
     spekFrame[spekFramePosition] = (uint8_t)c;
     if (spekFramePosition == SPEK_FRAME_SIZE - 1) {
         rcFrameComplete = true;
-        failsafeCnt = 0;   // clear FailSafe counter
     } else {
         spekFramePosition++;
     }
@@ -93,6 +94,7 @@ bool spektrumFrameComplete(void)
 
 static uint16_t spektrumReadRawRC(uint8_t chan)
 {
+    /*
     uint16_t data;
     static uint32_t spekChannelData[SPEK_2048_MAX_CHANNEL];
     uint8_t b;
@@ -107,7 +109,7 @@ static uint16_t spektrumReadRawRC(uint8_t chan)
     }
 
     if (chan >= core.numRCChannels || !spekDataIncoming) {
-        data = mcfg.midrc;
+        data = 1500;
     } else {
         if (spekHiRes)
             data = 988 + (spekChannelData[mcfg.rcmap[chan]] >> 1);   // 2048 mode
@@ -115,5 +117,6 @@ static uint16_t spektrumReadRawRC(uint8_t chan)
             data = 988 + spekChannelData[mcfg.rcmap[chan]];          // 1024 mode
     }
 
-    return data;
+    return data;*/
+    return 0;
 }
