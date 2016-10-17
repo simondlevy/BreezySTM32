@@ -19,6 +19,7 @@
    along with BreezySTM32.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+
 #pragma once
 
 #define UART_BUFFER_SIZE    64
