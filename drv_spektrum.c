@@ -1,5 +1,5 @@
 /*
-   drv_spektrum.c : driver for Spektrum DSM receivers
+   drv_spektrum.c : code for Spektrum DSM receivers
 
    Adapted from https://github.com/multiwii/baseflight/blob/master/src/spektrum.c
 
@@ -19,12 +19,9 @@
    along with BreezySTM32.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * This file is part of baseflight
- * Licensed under GPL V3 or modified DCL - see https://github.com/multiwii/baseflight/blob/master/README.md
- */
-
 #include <breezystm32.h>
+
+// driver for spektrum satellite receiver / sbus using UART2 (freeing up more motor outputs for stuff)
 
 #define SPEK_2048_MAX_CHANNEL 8
 #define SPEK_1024_MAX_CHANNEL 7
@@ -34,12 +31,12 @@ static uint8_t spek_chan_mask;
 static bool rcFrameComplete = false;
 static bool spekHiRes = false;
 static bool spekDataIncoming = false;
-static GPIO_TypeDef *spekBindPort = NULL;
-static USART_TypeDef *spekUart = NULL;
-static uint16_t spekBindPin = 0;
-static uint8_t numRCChannels;
+static USART_TypeDef *spekUart = USART2;
 
 volatile uint8_t spekFrame[SPEK_FRAME_SIZE];
+static void spektrumDataReceive(uint16_t c);
+
+static uint8_t numRCChannels;
 
 // Receive ISR callback
 static void spektrumDataReceive(uint16_t c)
@@ -62,29 +59,16 @@ static void spektrumDataReceive(uint16_t c)
     }
 }
 
-void spektrumInit(spektrum_rx_t radiotype)
+
+void spektrumInit(void)
 {
-    switch (radiotype) {
+    // 11 bit frames
+    spek_chan_shift = 3;
+    spek_chan_mask = 0x07;
+    spekHiRes = true;
+    numRCChannels = SPEK_2048_MAX_CHANNEL;
 
-        case SPEKTRUM_2048:
-            // 11 bit frames
-            spek_chan_shift = 3;
-            spek_chan_mask = 0x07;
-            spekHiRes = true;
-            numRCChannels = SPEK_2048_MAX_CHANNEL;
-            break;
-
-        case SPEKTRUM_1024:
-            // 10 bit frames
-            spek_chan_shift = 2;
-            spek_chan_mask = 0x03;
-            spekHiRes = false;
-            numRCChannels = SPEK_2048_MAX_CHANNEL;
-            break;
-    }
-
-    // spekUart is set by spektrumBind() which is called very early at startup
-    //core.rcvrport = uartOpen(spekUart, spektrumDataReceive, 115200, MODE_RX);
+    uartOpen(spekUart, spektrumDataReceive, 115200, MODE_RX);
 }
 
 bool spektrumFrameComplete(void)
@@ -92,9 +76,8 @@ bool spektrumFrameComplete(void)
     return rcFrameComplete;
 }
 
-static uint16_t spektrumReadRawRC(uint8_t chan)
+uint16_t spektrumReadRawRC(uint8_t chan)
 {
-    /*
     uint16_t data;
     static uint32_t spekChannelData[SPEK_2048_MAX_CHANNEL];
     uint8_t b;
@@ -108,15 +91,16 @@ static uint16_t spektrumReadRawRC(uint8_t chan)
         rcFrameComplete = false;
     }
 
-    if (chan >= core.numRCChannels || !spekDataIncoming) {
+    if (chan >= numRCChannels || !spekDataIncoming) {
         data = 1500;
     } else {
-        if (spekHiRes)
-            data = 988 + (spekChannelData[mcfg.rcmap[chan]] >> 1);   // 2048 mode
+        if (true/*spekHiRes*/)
+            data = 988 + (spekChannelData[chan] >> 1);   // 2048 mode
         else
-            data = 988 + spekChannelData[mcfg.rcmap[chan]];          // 1024 mode
+            data = 988 + spekChannelData[chan];          // 1024 mode
     }
 
-    return data;*/
-    return 0;
+    return data;
 }
+
+

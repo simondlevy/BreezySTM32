@@ -23,6 +23,7 @@ along with BreezySTM32.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <stdbool.h>
 #include <stdlib.h>
+#include <stdint.h>
 
 #include "stm32f10x_conf.h"
 

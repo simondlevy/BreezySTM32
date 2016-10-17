@@ -1,5 +1,7 @@
 /*
-   drv_spektrum.h : header for driver for Spektrum DSM receivers
+   drv_spektrum.h : function prototypes for Spektrum DSM receivers
+
+   Adapted from https://github.com/cleanflight/cleanflight/blob/master/src/main/drivers/flash_m25p16.h
 
    This file is part of BreezySTM32.
 
@@ -17,21 +19,14 @@
    along with BreezySTM32.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * This file is part of baseflight
- * Licensed under GPL V3 or modified DCL - see https://github.com/multiwii/baseflight/blob/master/README.md
- */
-
 #pragma once
 
-typedef enum {
+#include <stdint.h>
 
-    SPEKTRUM_1024,
-    SPEKTRUM_2048
-
-} spektrum_rx_t;
-
-void spektrumInit(spektrum_rx_t radiotype);
+void spektrumInit(void);
 
 bool spektrumFrameComplete(void);
+
+uint16_t spektrumReadRawRC(uint8_t chan);
+
 
