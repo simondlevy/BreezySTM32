@@ -60,13 +60,25 @@ static void spektrumDataReceive(uint16_t c)
 }
 
 
-void spektrumInit(void)
+void spektrumInit(serialrx_t serialrx_type)
 {
-    // 11 bit frames
-    spek_chan_shift = 3;
-    spek_chan_mask = 0x07;
-    spekHiRes = true;
-    numRCChannels = SPEK_2048_MAX_CHANNEL;
+    switch (serialrx_type) {
+
+        case SERIALRX_SPEKTRUM2048:
+            // 11 bit frames
+            spek_chan_shift = 3;
+            spek_chan_mask = 0x07;
+            spekHiRes = true;
+            numRCChannels = SPEK_2048_MAX_CHANNEL;
+            break;
+        case SERIALRX_SPEKTRUM1024:
+            // 10 bit frames
+            spek_chan_shift = 2;
+            spek_chan_mask = 0x03;
+            spekHiRes = false;
+            numRCChannels = SPEK_1024_MAX_CHANNEL;
+            break;
+    }
 
     uartOpen(spekUart, spektrumDataReceive, 115200, MODE_RX);
 }
@@ -94,7 +106,7 @@ uint16_t spektrumReadRawRC(uint8_t chan)
     if (chan >= numRCChannels || !spekDataIncoming) {
         data = 1500;
     } else {
-        if (true/*spekHiRes*/)
+        if (spekHiRes)
             data = 988 + (spekChannelData[chan] >> 1);   // 2048 mode
         else
             data = 988 + spekChannelData[chan];          // 1024 mode

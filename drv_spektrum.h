@@ -23,7 +23,12 @@
 
 #include <stdint.h>
 
-void spektrumInit(void);
+typedef enum {
+    SERIALRX_SPEKTRUM1024,
+    SERIALRX_SPEKTRUM2048
+} serialrx_t;
+
+void spektrumInit(serialrx_t serialrx_type);
 
 bool spektrumFrameComplete(void);
 
