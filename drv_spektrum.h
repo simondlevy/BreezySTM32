@@ -1,8 +1,6 @@
 /*
    drv_spektrum.h : function prototypes for Spektrum DSM receivers
 
-   Adapted from https://github.com/cleanflight/cleanflight/blob/master/src/main/drivers/flash_m25p16.h
-
    This file is part of BreezySTM32.
 
    BreezySTM32 is free software: you can redistribute it and/or modify
@@ -28,7 +26,7 @@ typedef enum {
     SERIALRX_SPEKTRUM2048
 } serialrx_t;
 
-void spektrumInit(serialrx_t serialrx_type);
+void spektrumInit(USART_TypeDef * uart, serialrx_t serialrx_type);
 
 bool spektrumFrameComplete(void);
 

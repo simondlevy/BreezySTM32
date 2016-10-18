@@ -28,10 +28,10 @@
 #define SPEK_FRAME_SIZE 16
 static uint8_t spek_chan_shift;
 static uint8_t spek_chan_mask;
-static bool rcFrameComplete = false;
-static bool spekHiRes = false;
-static bool spekDataIncoming = false;
-static USART_TypeDef *spekUart = USART2;
+static bool rcFrameComplete;
+static bool spekHiRes;
+static bool spekDataIncoming;
+static USART_TypeDef *spekUart;
 
 volatile uint8_t spekFrame[SPEK_FRAME_SIZE];
 static void spektrumDataReceive(uint16_t c);
@@ -60,8 +60,10 @@ static void spektrumDataReceive(uint16_t c)
 }
 
 
-void spektrumInit(serialrx_t serialrx_type)
+void spektrumInit(USART_TypeDef * uart, serialrx_t serialrx_type)
 {
+    spekUart = uart;
+
     switch (serialrx_type) {
 
         case SERIALRX_SPEKTRUM2048:
