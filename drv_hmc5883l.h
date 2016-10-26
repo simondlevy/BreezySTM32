@@ -1,7 +1,7 @@
 /*
-   drv_ms5611.h : driver for Measurement Specialties MS5611 barometer
+   drv_hmc5883l.h :  Support for HMC5883L Magnetometer
 
-   Adapted from https://github.com/multiwii/baseflight/blob/master/src/drv_ms5611.h
+   Adapted from https://github.com/multiwii/baseflight/blob/master/src/drv_hmc5883l.h
 
    This file is part of BreezySTM32.
 
@@ -19,16 +19,14 @@
    along with BreezySTM32.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+
 #pragma once
 
-bool ms5611_init(void);
+bool hmc5883lInit(int boardVersion);
 
-// blocking I2C update function
-void ms5611_update(void);
+// Blocking I2C Read Method
+void hmc5883lRead(int16_t *magData);
 
-// asynchronous I2C update function
-void ms5611_request_async_update(void);
-
-// Data access methods
-uint32_t ms5611_read_pressure(void);
-uint32_t ms5611_read_temperature(void);
+// Asynchronous I2C method
+void hmc5883l_request_async_update();
+void hmc5883l_read_magnetometer(int16_t *magData);

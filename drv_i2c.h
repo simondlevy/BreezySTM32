@@ -51,8 +51,7 @@ typedef struct i2cJob{
     void (*CB)(void);
 } i2cJob_t;
 
-i2cJob_t* i2c_job_queue_front;
-i2cJob_t* i2c_job_queue_back;
+#define I2C_BUFFER_SIZE 64
 
 void i2cInit(I2CDevice index);
 uint16_t i2cGetErrorCounter(void);
@@ -68,10 +67,11 @@ bool i2cRead(uint8_t addr_, uint8_t reg, uint8_t len, uint8_t *buf);
 // You can track progress of the job using the status pointer.  Otherwise, functions the same
 // as the blocking versions.
 //
-// There is no checking that the queue length stays within reasonable limits.  Just don't go crazy
-// queueig jobs, because it won't stop you from overflowing the memory
+// This uses a circular buffer to stage jobs for the I2C peripheral.  The buffer is, by default, 64 jobs
+// long (I2C_BUFFER_SIZE), with a maximum size of 256. I hope you never queue up that many jobs, because
+// that will take a long time to process However, if you were to reach the limit, it would then start
+// ignoring new jobs until there was space on the buffer.
 //
 // For an example of how to use, check out mpu6050_request_read_temp - the non-blocking way to read
 // the accelerometer
-uint32_t get_i2c_queue_length();
 void i2c_queue_job(i2cJobType_t type, uint8_t addr_, uint8_t reg_, uint8_t *data, uint8_t length, volatile uint8_t *status_, void (*CB)(void));

@@ -33,6 +33,6 @@ void mpu6050_read_gyro(int16_t *gyroData);
 void mpu6050_read_temperature(int16_t * tempData);
 
 // Asynchronous Read Functions
-void mpu6050_request_accel_read(int16_t *accData, volatile uint8_t *status_);
-void mpu6050_request_gyro_read(int16_t *gyroData, volatile uint8_t *status_);
-void mpu6050_request_temp_read(volatile int16_t *tempData, volatile uint8_t *status_);
+void mpu6050_request_async_accel_read(int16_t *accData, volatile uint8_t *status_);
+void mpu6050_request_async_gyro_read(int16_t *gyroData, volatile uint8_t *status_);
+void mpu6050_request_async_temp_read(volatile int16_t *tempData, volatile uint8_t *status_);

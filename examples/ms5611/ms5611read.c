@@ -1,7 +1,7 @@
 /*
    ms5611read.c : read values from MS5611 barometer using I^2C
 
-   Copyright (C) 2016 Simon D. Levy 
+   Copyright (C) 2016 Simon D. Levy
 
    This file is part of BreezySTM32.
 
@@ -25,25 +25,27 @@ static bool available;
 
 void setup(void)
 {
-    // Get particulars for board
-    i2cInit(I2CDEV_2);
+  // Get particulars for board
+  i2cInit(I2CDEV_2);
 
-    // Not sure why the ms5611 needs this, but without this line it doesn't work
-    i2cWrite(0,0,0);
+  // Not sure why the ms5611 needs this, but without this line it doesn't work
+  i2cWrite(0,0,0);
 
-    // attempt to initialize barometer
-    available = ms5611_init();
+  // attempt to initialize barometer
+  available = ms5611_init();
 } 
 
 void loop(void)
 {
-    if (available) {
-        ms5611_update();
-        printf("Pressure: %d Pa    ", ms5611_read_pressure());
-        int temp = ms5611_read_temperature();
-        printf("Temperature: %d.%d deg C\n", temp/100, temp%100);
-    }
-    else
-        printf("MS5611 unavailable\n");
+  int32_t baro;
+  int32_t temp;
+  if (available) {
+    baro = ms5611_read_pressure();
+    temp = ms5611_read_temperature();
+    ms5611_request_async_update();
+    printf("Pressure: %d Pa    \t Temperature: %d.%d deg C\n", baro, temp/100, temp%100);
+  }
+  else
+    printf("MS5611 unavailable\n");
 
 } 

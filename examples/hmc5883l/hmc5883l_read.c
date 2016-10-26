@@ -1,5 +1,5 @@
 /*
-   ms4525.c : Airpseed Measurement Values
+   hmc5883l_read.c : report magnetometer measurements
 
    Copyright (C) 2016 James Jackson
 
@@ -21,34 +21,32 @@
 
 #include <breezystm32.h>
 
-bool airspeed_present = false;
-volatile int16_t velocity;
-volatile int16_t temp;
+#define BOARD_REV 2
+
+
+volatile uint8_t mag_status = 0;
+int16_t mag_data[3] = {0.0, 0.0, 0.0};
 
 void setup(void)
 {
     delay(500);
     i2cInit(I2CDEV_2);
 
-    airspeed_present = ms4525_detect();
-
-    if(airspeed_present)
-        ms4525_request_async_update();
+    // Initialize the Magnetometer
+    hmc5883lInit(BOARD_REV);
+    hmc5883l_request_async_update();
 }
-
-
 
 void loop(void)
 {
-    if (airspeed_present)
-    {
-        ms4525_request_async_update();
-        printf("Velocity: %d ", ms4525_read_velocity());
-        printf("\tTemperature: %d\n", ms4525_read_temperature());
-    }
-    else
-    {
-        printf("no airspeed\n");
-    }
+    hmc5883l_request_async_update();
+    hmc5883l_read_magnetometer(mag_data);
+    printf("%d\t %d\t %d\n",
+           (int32_t)(mag_data[0]),
+            (int32_t)(mag_data[1]),
+            (int32_t)(mag_data[2]));
+    delay(6);
+
+
 }
 

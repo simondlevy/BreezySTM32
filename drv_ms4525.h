@@ -21,4 +21,11 @@
 
 bool ms4525_detect(void);
 void ms4525_init(void);
-void ms4525_read(int16_t* velocity, int16_t* temp);
+
+// Blocking I2C function
+void ms4525_read(volatile int16_t* velocity, volatile int16_t* temp);
+
+// Asynchronous I2C function
+void ms4525_request_async_update(void);
+int16_t ms4525_read_velocity(void);
+int16_t ms4525_read_temperature(void);

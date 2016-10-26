@@ -1,7 +1,7 @@
 /*
    drv_mb1242.h : driver for MaxBotix MB1242 sonar
 
-   Copyright (C) 2016 Simon D. Levy 
+   Copyright (C) 2016 Simon D. Levy
 
    This file is part of BreezySTM32.
 
@@ -22,15 +22,17 @@
 #pragma once
 
 typedef struct {
-    uint8_t  address;
-    uint32_t time;
+    uint16_t address;
+    uint8_t read_buffer[2];
+    volatile uint8_t measurement_status;
     uint8_t state;
+    uint32_t last_update_time_us;
+    int32_t distance_cm;
+    uint8_t index;
+    void (*CB)(void);
 } mb1242_t;
 
+bool mb1242_init(mb1242_t *sonar);
 
-/**
-  * Use addr=0 to default to factory-set address.
-  */
-bool mb1242_init(mb1242_t * mb1242, uint8_t addr);
-
-int32_t mb1242_poll(mb1242_t * mb1242);
+// This is a non-blocking function call
+int32_t mb1242_poll(mb1242_t *sonar);
