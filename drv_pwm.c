@@ -1,5 +1,5 @@
 /*
-   drv_pwm.c : PWM support for STM32F103CB
+   drv_pwm.c : PWM support for STM32F103
 
    Adapted from https://github.com/multiwii/baseflight/blob/master/src/drv_pwm.c
 
@@ -44,6 +44,8 @@
 #include "drv_gpio.h"
 #include "drv_timer.h"
 #include "drv_pwm.h"
+
+#include "printf.h"
 
 typedef struct {
     volatile uint16_t *ccr;
@@ -266,7 +268,7 @@ static uint8_t numInputs = 0;
 
 static void pwmWriteBrushed(uint8_t index, uint16_t value)
 {
-    *motors[index]->ccr = (value - 1000) * motors[index]->period / 1000;
+    *motors[index]->ccr = (value<1000) ? 0 : (value - 1000) * motors[index]->period / 1000;
 }
 
 static void pwmWriteStandard(uint8_t index, uint16_t value)

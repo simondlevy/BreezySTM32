@@ -23,6 +23,7 @@ along with BreezySTM32.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <stdbool.h>
 #include <stdlib.h>
+#include <stdint.h>
 
 #include "stm32f10x_conf.h"
 
@@ -42,6 +43,7 @@ along with BreezySTM32.  If not, see <http://www.gnu.org/licenses/>.
 #include "drv_flashfs.h"
 #include "drv_ms4525.h"
 #include "drv_hmc5883l.h"
+#include "drv_spektrum.h"
 #include "printf.h"
 
 

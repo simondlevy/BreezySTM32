@@ -144,7 +144,6 @@ int32_t mb1242_poll(mb1242_t* sonar)
 }
 
 void sonar_0_CB(void){
-    LED1_TOGGLE;
     if(sonar_array[0]->state == 0){
         sonar_array[0]->state = 1;
     }else{
