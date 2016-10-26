@@ -21,7 +21,18 @@
 
 #pragma once
 
-bool mb1242_init();
+typedef struct {
+    uint16_t address;
+    uint8_t read_buffer[2];
+    volatile uint8_t measurement_status;
+    uint8_t state;
+    uint32_t last_update_time_us;
+    int32_t distance_cm;
+    uint8_t index;
+    void (*CB)(void);
+} mb1242_t;
+
+bool mb1242_init(mb1242_t *sonar);
 
 // This is a non-blocking function call
-int32_t mb1242_poll();
+int32_t mb1242_poll(mb1242_t *sonar);

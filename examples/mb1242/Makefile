@@ -22,10 +22,10 @@ TARGET		?= myproject
 OPTIONS		?=
 
 # Debugger optons, must be empty or GDB
-DEBUG ?=
+DEBUG ?= GDB
 
 # Serial port/Device for flashing
-SERIAL_DEVICE	?= /dev/ttyUSB0
+SERIAL_DEVICE	?= /dev/ttyUSB1
 
 # Working directories
 ROOT		 = $(dir $(lastword $(MAKEFILE_LIST)))

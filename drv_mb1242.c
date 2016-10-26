@@ -27,20 +27,39 @@
 #include "drv_i2c.h"
 
 #define MB1242_DEFAULT_ADDRESS 0x70
-
 static uint8_t start_measurement_command = 0x51;
-static uint8_t read_buffer[2];
-static volatile uint8_t start_measurement_status;
-static volatile uint8_t read_measurement_status;
-static uint8_t state = 0;
-static uint32_t last_update_time_us;
-static int32_t distance_cm;
+
+void sonar_0_CB(void);
+void sonar_1_CB(void);
+void sonar_2_CB(void);
+void sonar_3_CB(void);
+void sonar_4_CB(void);
+void sonar_5_CB(void);
+void sonar_6_CB(void);
+void sonar_7_CB(void);
+void sonar_8_CB(void);
+void sonar_9_CB(void);
+
+static mb1242_t * sonar_array[10];
+static int num_sonars=0;
+static void (*sonar_CB[10])(void) =
+{
+    &sonar_0_CB,
+    &sonar_1_CB,
+    &sonar_2_CB,
+    &sonar_3_CB,
+    &sonar_4_CB,
+    &sonar_5_CB,
+    &sonar_6_CB,
+    &sonar_7_CB,
+    &sonar_8_CB,
+    &sonar_9_CB,
+};
 
 static void update_timed_task(uint32_t * usec, uint32_t period)
 {
     *usec = micros() + period;
 }
-
 
 static bool check_and_update_timed_task(uint32_t * usec, uint32_t period)
 {
@@ -54,70 +73,165 @@ static bool check_and_update_timed_task(uint32_t * usec, uint32_t period)
 }
 
 
-static void adjust_reading(void) {
-
-    distance_cm = 1.071 * distance_cm + 3.103; // emprically determined
+static void adjust_reading(mb1242_t* sonar) {
+    sonar->distance_cm = 1.071 * sonar->distance_cm + 3.103; // emprically determined
 }
 
 
-bool mb1242_init()
-{
-
+bool mb1242_init(mb1242_t *sonar)
+{    
     // The only way to know if a sonar is attached is to try to get a reading (doesn't always ACK on i2c)
     int count = 0;
     bool sonar_present = false;
-    mb1242_poll();
+
+    sonar->index = num_sonars;
+    sonar_array[sonar->index] = sonar;
+    sonar->CB = sonar_CB[sonar->index];
+    sonar->last_update_time_us = 0;
+    sonar->distance_cm = 0;
+    sonar->state = 0;
+
+
+    mb1242_poll(sonar);
     while(!sonar_present && count < 5)
     {
         delay(200);    // You have to wait 200 ms for the sensor to read
-        sonar_present |= (mb1242_poll() > 0);
+        sonar_present |= (mb1242_poll(sonar) > 0);
         count++;
+    }
+
+    if(sonar_present)
+    {
+        num_sonars++;
+    }
+    else
+    {
+        sonar_array[sonar->index] = NULL;
+        sonar->CB = NULL;
     }
     return sonar_present; // if you have a measurement, return true, otherwise, there was no sonar attached
 }
 
 
-void start_sonar_measurement_CB(void)
+int32_t mb1242_poll(mb1242_t* sonar)
 {
-    // indicate a completed started measurement
-    state = 1;
-}
-
-
-void read_sonar_measurement_CB(void)
-{
-    // switch data into appropriate units
-    distance_cm = (read_buffer[0] << 8) + read_buffer[1];
-    adjust_reading();
-    state = 0;
-}
-
-
-int32_t mb1242_poll()
-{
-    if (check_and_update_timed_task(&last_update_time_us, 10000))
+    if (check_and_update_timed_task(&sonar->last_update_time_us, 10000))
     {
-        if (state == 0)
+        if (sonar->state == 0)
         {
             // Start a sonar measurement,
             i2c_queue_job(WRITE,
-                          MB1242_DEFAULT_ADDRESS,
+                          sonar->address,
                           0xFF,
                           &start_measurement_command,
                           1,
-                          &start_measurement_status,
-                          &start_sonar_measurement_CB);
+                          &sonar->measurement_status,
+                          sonar->CB);
         }
-        else if (state == 1) {
+        else if (sonar->state == 1)
+        {
             // Read the sonar measurement
             i2c_queue_job(READ,
-                          MB1242_DEFAULT_ADDRESS,
+                          sonar->address,
                           0xFF,
-                          read_buffer,
+                          sonar->read_buffer,
                           2,
-                          &read_measurement_status,
-                          &read_sonar_measurement_CB);
+                          &sonar->measurement_status,
+                          sonar->CB);
         }
     }
-    return distance_cm;
+    return sonar->distance_cm;
+}
+
+void sonar_0_CB(void){
+    LED1_TOGGLE;
+    if(sonar_array[0]->state == 0){
+        sonar_array[0]->state = 1;
+    }else{
+        sonar_array[0]->distance_cm = (sonar_array[0]->read_buffer[0] << 8) + sonar_array[0]->read_buffer[1];
+        adjust_reading((sonar_array[0]));
+        sonar_array[0]->state = 0;
+    }
+}
+
+void sonar_1_CB(void){
+    if(sonar_array[1]->state == 0){
+        sonar_array[1]->state = 1;
+    }else{
+        sonar_array[1]->distance_cm = (sonar_array[1]->read_buffer[1] << 8) + sonar_array[1]->read_buffer[1];
+        adjust_reading((sonar_array[1]));
+        sonar_array[1]->state = 0;
+    }
+}
+void sonar_2_CB(void){
+    if(sonar_array[2]->state == 0){
+        sonar_array[2]->state = 1;
+    }else{
+        sonar_array[2]->distance_cm = (sonar_array[2]->read_buffer[2] << 8) + sonar_array[2]->read_buffer[1];
+        adjust_reading((sonar_array[2]));
+        sonar_array[2]->state = 0;
+    }
+}
+void sonar_3_CB(void){
+    if(sonar_array[3]->state == 0){
+        sonar_array[3]->state = 1;
+    }else{
+        sonar_array[3]->distance_cm = (sonar_array[3]->read_buffer[3] << 8) + sonar_array[3]->read_buffer[1];
+        adjust_reading((sonar_array[3]));
+        sonar_array[3]->state = 0;
+    }
+}
+void sonar_4_CB(void){
+    if(sonar_array[4]->state == 0){
+        sonar_array[4]->state = 1;
+    }else{
+        sonar_array[4]->distance_cm = (sonar_array[4]->read_buffer[4] << 8) + sonar_array[4]->read_buffer[1];
+        adjust_reading((sonar_array[4]));
+        sonar_array[4]->state = 0;
+    }
+}
+void sonar_5_CB(void){
+    if(sonar_array[5]->state == 0){
+        sonar_array[5]->state = 1;
+    }else{
+        sonar_array[5]->distance_cm = (sonar_array[5]->read_buffer[5] << 8) + sonar_array[5]->read_buffer[1];
+        adjust_reading((sonar_array[5]));
+        sonar_array[5]->state = 0;
+    }
+}
+void sonar_6_CB(void){
+    if(sonar_array[6]->state == 0){
+        sonar_array[6]->state = 1;
+    }else{
+        sonar_array[6]->distance_cm = (sonar_array[6]->read_buffer[6] << 8) + sonar_array[6]->read_buffer[1];
+        adjust_reading((sonar_array[6]));
+        sonar_array[6]->state = 0;
+    }
+}
+void sonar_7_CB(void){
+    if(sonar_array[7]->state == 0){
+        sonar_array[7]->state = 1;
+    }else{
+        sonar_array[7]->distance_cm = (sonar_array[7]->read_buffer[7] << 8) + sonar_array[7]->read_buffer[1];
+        adjust_reading((sonar_array[7]));
+        sonar_array[7]->state = 0;
+    }
+}
+void sonar_8_CB(void){
+    if(sonar_array[8]->state == 0){
+        sonar_array[8]->state = 1;
+    }else{
+        sonar_array[8]->distance_cm = (sonar_array[8]->read_buffer[8] << 8) + sonar_array[8]->read_buffer[1];
+        adjust_reading((sonar_array[8]));
+        sonar_array[8]->state = 0;
+    }
+}
+void sonar_9_CB(void){
+    if(sonar_array[9]->state == 0){
+        sonar_array[9]->state = 1;
+    }else{
+        sonar_array[9]->distance_cm = (sonar_array[9]->read_buffer[9] << 8) + sonar_array[9]->read_buffer[1];
+        adjust_reading((sonar_array[9]));
+        sonar_array[9]->state = 0;
+    }
 }

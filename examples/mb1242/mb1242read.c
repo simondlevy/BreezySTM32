@@ -25,19 +25,21 @@
 
 static bool sonar_present;
 
+mb1242_t sonar;
+
 void setup(void)
 {
     i2cInit(I2CDEV_2);
     delay(500);
-    sonar_present = mb1242_init(); // Use default address
+    sonar.address = 0x70;
+    sonar_present = mb1242_init(&sonar); // Use default address
 }
 
 void loop(void)
 {
   if(sonar_present)
-        printf("%d\n", mb1242_poll());
+        printf("%d\n", mb1242_poll(&sonar));
   else
         printf("no sonar\n");
   delay(100);
-  LED1_TOGGLE;
 }
