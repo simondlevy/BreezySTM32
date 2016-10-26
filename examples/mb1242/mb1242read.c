@@ -3,7 +3,7 @@
 
    Don't forget to supply external power to the board!
 
-   Copyright (C) 2016 Simon D. Levy 
+   Copyright (C) 2016 Simon D. Levy
 
    This file is part of BreezySTM32.
 
@@ -37,9 +37,9 @@ void setup(void)
 
 void loop(void)
 {
-  if(sonar_present)
+    if(sonar_present)
         printf("%d\n", mb1242_poll(&sonar));
-  else
+    else
         printf("no sonar\n");
-  delay(100);
+    delay(100);
 }

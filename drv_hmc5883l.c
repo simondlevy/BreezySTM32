@@ -239,29 +239,29 @@ void mag_read_CB(void)
 
 void hmc5883l_request_async_update()
 {
-  static uint32_t last_update_us = 0;
-  uint32_t now = micros();
+    static uint32_t last_update_us = 0;
+    uint32_t now = micros();
 
-  if(now - last_update_us > 6250)
-  {
-    // 160 Hz update rate (datasheet)
-    i2c_queue_job(READ,
-                  MAG_ADDRESS,
-                  MAG_DATA_REGISTER,
-                  mag_buffer,
-                  6,
-                  &status,
-                  &mag_read_CB);
+    if(now - last_update_us > 6250)
+    {
+        // 160 Hz update rate (datasheet)
+        i2c_queue_job(READ,
+                      MAG_ADDRESS,
+                      MAG_DATA_REGISTER,
+                      mag_buffer,
+                      6,
+                      &status,
+                      &mag_read_CB);
 
-    last_update_us = now;
-  }
-  return;
+        last_update_us = now;
+    }
+    return;
 }
 
 void hmc5883l_read_magnetometer(int16_t *magData)
 {
-  magData[0] = mag_data[X];
-  magData[1] = mag_data[Y];
-  magData[2] = mag_data[Z];
-  return;
+    magData[0] = mag_data[X];
+    magData[1] = mag_data[Y];
+    magData[2] = mag_data[Z];
+    return;
 }

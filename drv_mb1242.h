@@ -1,7 +1,7 @@
 /*
    drv_mb1242.h : driver for MaxBotix MB1242 sonar
 
-   Copyright (C) 2016 Simon D. Levy 
+   Copyright (C) 2016 Simon D. Levy
 
    This file is part of BreezySTM32.
 

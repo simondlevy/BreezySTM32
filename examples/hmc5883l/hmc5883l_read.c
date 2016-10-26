@@ -29,23 +29,23 @@ int16_t mag_data[3] = {0.0, 0.0, 0.0};
 
 void setup(void)
 {
-  delay(500);
-  i2cInit(I2CDEV_2);
+    delay(500);
+    i2cInit(I2CDEV_2);
 
-  // Initialize the Magnetometer
-  hmc5883lInit(BOARD_REV);
-  hmc5883l_request_async_update();
+    // Initialize the Magnetometer
+    hmc5883lInit(BOARD_REV);
+    hmc5883l_request_async_update();
 }
 
 void loop(void)
 {
-  hmc5883l_request_async_update();
-  hmc5883l_read_magnetometer(mag_data);
-  printf("%d\t %d\t %d\n",
-         (int32_t)(mag_data[0]),
-         (int32_t)(mag_data[1]),
-         (int32_t)(mag_data[2]));
-  delay(6);
+    hmc5883l_request_async_update();
+    hmc5883l_read_magnetometer(mag_data);
+    printf("%d\t %d\t %d\n",
+           (int32_t)(mag_data[0]),
+            (int32_t)(mag_data[1]),
+            (int32_t)(mag_data[2]));
+    delay(6);
 
 
 }

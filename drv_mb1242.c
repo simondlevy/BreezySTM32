@@ -44,17 +44,17 @@ static mb1242_t * sonar_array[10];
 static int num_sonars=0;
 static void (*sonar_CB[10])(void) =
 {
-    &sonar_0_CB,
-    &sonar_1_CB,
-    &sonar_2_CB,
-    &sonar_3_CB,
-    &sonar_4_CB,
-    &sonar_5_CB,
-    &sonar_6_CB,
-    &sonar_7_CB,
-    &sonar_8_CB,
-    &sonar_9_CB,
-};
+        &sonar_0_CB,
+        &sonar_1_CB,
+        &sonar_2_CB,
+        &sonar_3_CB,
+        &sonar_4_CB,
+        &sonar_5_CB,
+        &sonar_6_CB,
+        &sonar_7_CB,
+        &sonar_8_CB,
+        &sonar_9_CB,
+        };
 
 static void update_timed_task(uint32_t * usec, uint32_t period)
 {
