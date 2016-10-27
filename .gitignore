@@ -1,4 +1,5 @@
 *.bak
+*.swp
+*.o
 examples/*/obj
 examples/*/*.o
-*.o
