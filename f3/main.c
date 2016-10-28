@@ -50,8 +50,3 @@ int main(void) {
     while (true) 
         loop();
 }
-
-void HardFault_Handler(void)
-{
-    while (1);
-}
