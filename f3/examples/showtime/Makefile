@@ -5,7 +5,6 @@ DRIVERS_DIR = $(SRC_DIR)/drivers
 PROJECT_SRC = showtime.c \
 		   $(DRIVERS_DIR)/buf_writer.c \
 		   $(DRIVERS_DIR)/dma.c \
-		   $(DRIVERS_DIR)/serial.c \
 		   $(DRIVERS_DIR)/system.c \
 		   $(DRIVERS_DIR)/adc.c \
 		   $(DRIVERS_DIR)/adc_stm32f30x.c \
@@ -20,6 +19,7 @@ PROJECT_SRC = showtime.c \
 		   $(DRIVERS_DIR)/io.c \
 		   $(DRIVERS_DIR)/rcc.c \
 		   $(BREEZY_DIR)/startup_stm32f30x_md_gcc.S \
+		   $(DRIVERS_DIR)/serial.c \
 		   $(BREEZY_DIR)/printf.c \
 		   $(SRC_DIR)/main.c \
 		   $(DEVICE_STDPERIPH_SRC) \
