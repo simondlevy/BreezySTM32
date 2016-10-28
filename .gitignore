@@ -1,5 +1,8 @@
 *.bak
 *.swp
 *.o
+*.d
+*.i
+*.hex
 examples/*/obj
 examples/*/*.o
