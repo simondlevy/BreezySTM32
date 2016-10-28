@@ -1,3 +1,4 @@
+/*
 #include <stdbool.h>
 #include <stdint.h>
 #include <string.h>
@@ -13,11 +14,13 @@
 #endif
 
 #include <printf.h>
+*/
+#include "breezystm32.h"
+
+serialPort_t *Serial1;
 
 // from system_stm32f30x.c
 void SetSysClock(void);
-
-static serialPort_t *Serial1;
 
 static void _putc(void *p, char c)
 {
