@@ -1,5 +1,5 @@
 /*
-   main.c : entry routine for for STM32F103CB
+   main.c : entry routine for for STM32
 
    Adapted from https://github.com/multiwii/baseflight/blob/master/src/main.c
 
@@ -35,18 +35,19 @@ static void _putc(void *p, char c)
 
 int main(void)
 {
-    // Configure clock, this figures out HSE for hardware autodetect
-    SetSysClock(0);
+    // F3: start fpu
+    //SCB->CPACR = (0x3 << (10*2)) | (0x3 << (11*2));
+
+    SetSysClock(false);
 
     systemInit();
 
-    // Suport just one baud rate for now
-    Serial1 = uartOpen(USART1, NULL, 115200, MODE_RXTX);
+    Serial1 = uartOpen(USART1, NULL, 115200, MODE_RXTX, SERIAL_NOT_INVERTED);
 
     setup();
 
     init_printf( NULL, _putc);
    
-    while (1) 
+    while (true) 
         loop();
 }

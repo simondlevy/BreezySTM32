@@ -30,12 +30,24 @@ typedef enum portMode_t {
     MODE_SBUS = 1 << 2
 } portMode_t;
 
+typedef enum portOptions_t {
+    SERIAL_NOT_INVERTED  = 0 << 0,
+    SERIAL_INVERTED      = 1 << 0,
+    SERIAL_STOPBITS_1    = 0 << 1,
+    SERIAL_STOPBITS_2    = 1 << 1,
+    SERIAL_PARITY_NO     = 0 << 2,
+    SERIAL_PARITY_EVEN   = 1 << 2,
+    SERIAL_UNIDIR        = 0 << 3,
+    SERIAL_BIDIR         = 1 << 3
+} portOptions_t;
+
 typedef struct serialPort {
 
     const struct serialPortVTable *vTable;
 
     portMode_t mode;
     uint32_t baudRate;
+    portOptions_t options;
 
     uint32_t rxBufferSize;
     uint32_t txBufferSize;

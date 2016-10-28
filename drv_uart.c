@@ -170,8 +170,10 @@ uartPort_t *serialUSART3(uint32_t baudRate, portMode_t mode)
     return s;
 }
 
-serialPort_t *uartOpen(USART_TypeDef *USARTx, serialReceiveCallbackPtr callback, uint32_t baudRate, portMode_t mode)
+serialPort_t *uartOpen(USART_TypeDef *USARTx, serialReceiveCallbackPtr callback, uint32_t baudRate, portMode_t mode, portOptions_t options)
 {
+    (void)options;
+
     DMA_InitTypeDef DMA_InitStructure;
     USART_InitTypeDef USART_InitStructure;
 

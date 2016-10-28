@@ -21,7 +21,7 @@ PROJECT_SRC = showtime.c \
 		   $(BREEZY_DIR)/startup_stm32f30x_md_gcc.S \
 		   $(DRIVERS_DIR)/serial.c \
 		   $(BREEZY_DIR)/printf.c \
-		   $(SRC_DIR)/main.c \
+		   $(BREEZY_DIR)/main.c \
 		   $(DEVICE_STDPERIPH_SRC) \
 		   $(CMSIS_SRC)
 
