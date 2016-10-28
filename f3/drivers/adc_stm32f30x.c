@@ -25,7 +25,6 @@
 #include "gpio.h"
 
 #include "sensor.h"
-#include "accgyro.h"
 
 #include "adc.h"
 #include "adc_impl.h"
