@@ -25,8 +25,9 @@
 #define DEFIO_TAG_GPIOID(tag) (((tag) >> 4) - 1)
 #define DEFIO_TAG_PIN(tag) ((tag) & 0x0f)
 
-// TARGET must define used pins
-#include "target.h"
+// defines pins
+#include "platform.h"
+
 // include template-generated macros for IO pins
 #include "io_def_generated.h"
 

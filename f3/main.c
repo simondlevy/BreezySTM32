@@ -5,15 +5,10 @@
 
 #include <platform.h>
 
-#include "drivers/serial.h"
-#include "drivers/system.h"
-#include "drivers/gpio.h"
-#include "drivers/exti.h"
 #include "drivers/dma.h"
-#include "drivers/bus_spi.h"
-#include "drivers/bus_i2c.h"
-#include "drivers/adc.h"
+#include "drivers/serial.h"
 #include "drivers/serial_uart.h"
+#include "drivers/system.h"
 
 #include <printf.h>
 

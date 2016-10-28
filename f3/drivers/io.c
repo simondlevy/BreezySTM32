@@ -5,7 +5,7 @@
 #include "drivers/io_impl.h"
 #include "drivers/rcc.h"
 
-#include "target.h"
+#include "platform.h"
 
 // io ports defs are stored in array by index now
 struct ioPortDef_s {
