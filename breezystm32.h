@@ -25,6 +25,17 @@ along with BreezySTM32.  If not, see <http://www.gnu.org/licenses/>.
 #include <stdlib.h>
 #include <stdint.h>
 
+#include <platform.h>
+
+#ifdef STM32F303xC
+
+#include "f3/drivers/dma.h"
+#include "f3/drivers/serial.h"
+#include "f3/drivers/serial_uart.h"
+#include "f3/drivers/system.h"
+
+#else
+
 #include "stm32f10x_conf.h"
 
 #include "drv_adc.h"
@@ -44,6 +55,8 @@ along with BreezySTM32.  If not, see <http://www.gnu.org/licenses/>.
 #include "drv_ms4525.h"
 #include "drv_hmc5883l.h"
 #include "drv_spektrum.h"
+
+#endif
 
 #include "printf.h"
 

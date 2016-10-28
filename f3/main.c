@@ -5,10 +5,12 @@
 
 #include <platform.h>
 
+#ifdef STM32F303xC
 #include "drivers/dma.h"
 #include "drivers/serial.h"
 #include "drivers/serial_uart.h"
 #include "drivers/system.h"
+#endif
 
 #include <printf.h>
 
