@@ -68,3 +68,32 @@ void gpioInit(GPIO_TypeDef *gpio, const gpio_config_t *config)
         }
     }
 }
+
+void enableGPIOPowerUsageAndNoiseReductions(void)
+{
+    RCC_AHBPeriphClockCmd(
+        RCC_AHBPeriph_GPIOA |
+        RCC_AHBPeriph_GPIOB |
+        RCC_AHBPeriph_GPIOC |
+        RCC_AHBPeriph_GPIOD |
+        RCC_AHBPeriph_GPIOE |
+        RCC_AHBPeriph_GPIOF,
+        ENABLE
+    );
+
+    gpio_config_t gpio;
+
+    gpio.mode = Mode_AIN;
+
+    gpio.pin = Pin_All & ~(Pin_13 | Pin_14 | Pin_15);  // Leave JTAG pins alone
+    gpioInit(GPIOA, &gpio);
+
+    gpio.pin = Pin_All;
+    gpioInit(GPIOB, &gpio);
+    gpioInit(GPIOC, &gpio);
+    gpioInit(GPIOD, &gpio);
+    gpioInit(GPIOE, &gpio);
+    gpioInit(GPIOF, &gpio);
+}
+
+

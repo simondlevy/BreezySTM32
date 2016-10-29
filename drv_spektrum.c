@@ -82,7 +82,7 @@ void spektrumInit(USART_TypeDef * uart, serialrx_t serialrx_type)
             break;
     }
 
-    uartOpen(spekUart, spektrumDataReceive, 115200, MODE_RX);
+    uartOpen(spekUart, spektrumDataReceive, 115200, MODE_RX, SERIAL_NOT_INVERTED);
 }
 
 bool spektrumFrameComplete(void)

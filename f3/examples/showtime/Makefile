@@ -15,7 +15,6 @@ PROJECT_SRC = showtime.c \
 		   $(SRC_DIR)/timer_stm32f30x.c \
 		   $(SRC_DIR)/serial_uart_stm32f30x.c \
 		   $(SRC_DIR)/gpio_stm32f30x.c \
-		   $(SRC_DIR)/system_support_stm32f30x.c \
 		   $(BREEZY_DIR)/startup_stm32f30x_md_gcc.S \
 		   $(BREEZY_DIR)/printf.c \
 		   $(BREEZY_DIR)/main.c \
