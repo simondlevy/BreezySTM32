@@ -3,7 +3,7 @@ SRC_DIR      = $(BREEZY_DIR)/f3
 DRIVERS_DIR = $(SRC_DIR)/drivers
 
 PROJECT_SRC = showtime.c \
-		   $(DRIVERS_DIR)/adc.c \
+		   $(SRC_DIR)/adc.c \
 		   $(DRIVERS_DIR)/adc_stm32f30x.c \
 		   $(DRIVERS_DIR)/bus_i2c_stm32f30x.c \
 		   $(DRIVERS_DIR)/bus_spi.c \
