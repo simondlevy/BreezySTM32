@@ -4,18 +4,18 @@ DRIVERS_DIR = $(SRC_DIR)/drivers
 
 PROJECT_SRC = showtime.c \
 		   $(SRC_DIR)/adc.c \
-		   $(SRC_DIR)/adc_stm32f30x.c \
-		   $(SRC_DIR)/bus_i2c_stm32f30x.c \
 		   $(SRC_DIR)/dma.c \
 		   $(SRC_DIR)/exti.c \
-		   $(SRC_DIR)/gpio_stm32f30x.c \
 		   $(SRC_DIR)/io.c \
 		   $(SRC_DIR)/serial.c \
 		   $(SRC_DIR)/serial_uart.c \
-		   $(SRC_DIR)/serial_uart_stm32f30x.c \
 		   $(SRC_DIR)/system.c \
-		   $(DRIVERS_DIR)/system_stm32f30x.c \
+		   $(SRC_DIR)/adc_stm32f30x.c \
+		   $(SRC_DIR)/bus_i2c_stm32f30x.c \
 		   $(SRC_DIR)/timer_stm32f30x.c \
+		   $(SRC_DIR)/serial_uart_stm32f30x.c \
+		   $(SRC_DIR)/gpio_stm32f30x.c \
+		   $(SRC_DIR)/system_support_stm32f30x.c \
 		   $(BREEZY_DIR)/startup_stm32f30x_md_gcc.S \
 		   $(BREEZY_DIR)/printf.c \
 		   $(BREEZY_DIR)/main.c \
@@ -69,7 +69,7 @@ ROOT		 := $(patsubst %/,%,$(dir $(lastword $(MAKEFILE_LIST))))
 OBJECT_DIR	 = $(ROOT)/obj/main
 BIN_DIR		 = $(ROOT)/obj
 CMSIS_DIR	 = $(BREEZY_DIR)/lib/CMSIS
-INCLUDE_DIRS = $(SRC_DIR) $(ROOT)/src/target $(BREEZY_DIR) $(DRIVERS_DIR)
+INCLUDE_DIRS = $(SRC_DIR) $(ROOT)/src/target $(BREEZY_DIR)
 LINKER_DIR	 = $(BREEZY_DIR)
 
 # Search path for sources
@@ -93,6 +93,9 @@ DEVICE_STDPERIPH_SRC =  $(STDPERIPH_SRC)
 VPATH		:= $(VPATH):$(CMSIS_DIR)/CM1/CoreSupport:$(CMSIS_DIR)/CM1/DeviceSupport/ST/STM32F30x
 CMSIS_SRC	 = $(notdir $(wildcard $(CMSIS_DIR)/CM1/CoreSupport/*.c \
 			   $(CMSIS_DIR)/CM1/DeviceSupport/ST/STM32F30x/*.c))
+
+echo:
+	echo $(CMSIS_SRC)
 
 INCLUDE_DIRS := $(INCLUDE_DIRS) \
 		   $(STDPERIPH_DIR)/inc \
@@ -255,9 +258,6 @@ clean:
 	#rm -f $(TARGET_BIN) $(TARGET_HEX) $(TARGET_ELF) $(TARGET_OBJS) $(TARGET_MAP)
 	#rm -rf $(OBJECT_DIR)/$(TARGET)
 	#cd src/test && $(MAKE) clean || true
-
-echo:
-	echo $(DRIVERS_DIR)
 
 flash: $(TARGET_HEX)
 	stty -F $(SERIAL_DEVICE) raw speed 115200 -crtscts cs8 -parenb -cstopb -ixon
