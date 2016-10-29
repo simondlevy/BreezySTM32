@@ -25,7 +25,7 @@ OPTIONS		?=
 DEBUG ?= GDB
 
 # Serial port/Device for flashing
-SERIAL_DEVICE	?= /dev/ttyUSB1
+SERIAL_DEVICE	?= /dev/ttyUSB0
 
 # Working directories
 ROOT		 = $(dir $(lastword $(MAKEFILE_LIST)))

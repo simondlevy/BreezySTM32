@@ -3,14 +3,12 @@ SRC_DIR      = $(BREEZY_DIR)/f3
 DRIVERS_DIR = $(SRC_DIR)/drivers
 
 PROJECT_SRC = showtime.c \
-		   $(SRC_DIR)/adc.c \
 		   $(SRC_DIR)/dma.c \
 		   $(SRC_DIR)/exti.c \
 		   $(SRC_DIR)/io.c \
 		   $(SRC_DIR)/serial.c \
 		   $(SRC_DIR)/serial_uart.c \
 		   $(SRC_DIR)/system.c \
-		   $(SRC_DIR)/adc_stm32f30x.c \
 		   $(SRC_DIR)/bus_i2c_stm32f30x.c \
 		   $(SRC_DIR)/timer_stm32f30x.c \
 		   $(SRC_DIR)/serial_uart_stm32f30x.c \
