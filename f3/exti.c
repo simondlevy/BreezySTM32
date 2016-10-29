@@ -4,8 +4,8 @@
 
 #include "platform.h"
 
-#include "drivers/nvic.h"
-#include "drivers/io_impl.h"
+#include "nvic.h"
+#include "io_impl.h"
 
 #include "exti.h"
 
