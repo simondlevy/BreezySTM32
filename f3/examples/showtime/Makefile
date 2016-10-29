@@ -5,9 +5,9 @@ DRIVERS_DIR = $(SRC_DIR)/drivers
 PROJECT_SRC = showtime.c \
 		   $(SRC_DIR)/adc.c \
 		   $(SRC_DIR)/dma.c \
+		   $(SRC_DIR)/exti.c \
 		   $(DRIVERS_DIR)/adc_stm32f30x.c \
 		   $(DRIVERS_DIR)/bus_i2c_stm32f30x.c \
-		   $(DRIVERS_DIR)/exti.c \
 		   $(DRIVERS_DIR)/gpio_stm32f30x.c \
 		   $(DRIVERS_DIR)/io.c \
 		   $(DRIVERS_DIR)/serial.c \
