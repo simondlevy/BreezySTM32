@@ -29,7 +29,7 @@ along with BreezySTM32.  If not, see <http://www.gnu.org/licenses/>.
 
 #ifdef STM32F303xC
 
-#include "f3/drivers/dma.h"
+#include "f3/dma.h"
 #include "f3/drivers/serial.h"
 #include "f3/drivers/serial_uart.h"
 #include "f3/drivers/system.h"
