@@ -6,8 +6,6 @@ PROJECT_SRC = showtime.c \
 		   $(SRC_DIR)/adc.c \
 		   $(DRIVERS_DIR)/adc_stm32f30x.c \
 		   $(DRIVERS_DIR)/bus_i2c_stm32f30x.c \
-		   $(DRIVERS_DIR)/bus_spi.c \
-		   $(DRIVERS_DIR)/buf_writer.c \
 		   $(DRIVERS_DIR)/dma.c \
 		   $(DRIVERS_DIR)/exti.c \
 		   $(DRIVERS_DIR)/gpio_stm32f30x.c \
