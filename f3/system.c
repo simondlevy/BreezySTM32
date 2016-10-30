@@ -77,12 +77,6 @@ uint32_t millis(void)
 
 void systemInit(void)
 {
-#ifdef CC3D
-    /* Accounts for OP Bootloader, set the Vector Table base address as specified in .ld file */
-    extern void *isr_vector_table_base;
-
-    NVIC_SetVectorTable((uint32_t)&isr_vector_table_base, 0x0);
-#endif
     // Configure NVIC preempt/priority groups
     NVIC_PriorityGroupConfig(NVIC_PRIORITY_GROUPING);
 
@@ -112,81 +106,15 @@ void systemInit(void)
     SysTick_Config(SystemCoreClock / 1000);
 }
 
-#if 1
+
 void delayMicroseconds(uint32_t us)
 {
     uint32_t now = micros();
     while (micros() - now < us);
 }
-#else
-void delayMicroseconds(uint32_t us)
-{
-    uint32_t elapsed = 0;
-    uint32_t lastCount = SysTick->VAL;
-
-    for (;;) {
-        register uint32_t current_count = SysTick->VAL;
-        uint32_t elapsed_us;
-
-        // measure the time elapsed since the last time we checked
-        elapsed += current_count - lastCount;
-        lastCount = current_count;
-
-        // convert to microseconds
-        elapsed_us = elapsed / usTicks;
-        if (elapsed_us >= us)
-            break;
-
-        // reduce the delay by the elapsed time
-        us -= elapsed_us;
-
-        // keep fractional microseconds for the next iteration
-        elapsed %= usTicks;
-    }
-}
-#endif
 
 void delay(uint32_t ms)
 {
     while (ms--)
         delayMicroseconds(1000);
-}
-
-#define SHORT_FLASH_DURATION 50
-#define CODE_FLASH_DURATION 250
-
-void failureMode(failureMode_e mode)
-{
-    int codeRepeatsRemaining = 10;
-    int codeFlashesRemaining;
-    int shortFlashesRemaining;
-
-    while (codeRepeatsRemaining--) {
-        shortFlashesRemaining = 5;
-        codeFlashesRemaining = mode + 1;
-        uint8_t flashDuration = SHORT_FLASH_DURATION;
-
-        while (shortFlashesRemaining || codeFlashesRemaining) {
-            delay(flashDuration);
-
-            delay(flashDuration);
-
-            if (shortFlashesRemaining) {
-                shortFlashesRemaining--;
-                if (shortFlashesRemaining == 0) {
-                    delay(500);
-                    flashDuration = CODE_FLASH_DURATION;
-                }
-            } else {
-                codeFlashesRemaining--;
-            }
-        }
-        delay(1000);
-    }
-
-#ifdef DEBUG
-    systemReset();
-#else
-    systemResetToBootloader();
-#endif
 }
