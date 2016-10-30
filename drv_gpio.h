@@ -1,7 +1,7 @@
 /*
-   drv_gpio.c :  GPIO support for STM32F103CB
+   drv_gpio.h :  GPIO support for STM32
 
-   Adapted from https://github.com/multiwii/baseflight/blob/master/src/drv_gpio.c
+   Adapted from https://github.com/cleanflight/cleanflight/blob/master/src/main/drivers/gpio.h
 
    This file is part of BreezySTM32.
 
@@ -21,7 +21,23 @@
 
 #pragma once
 
-typedef enum {
+#ifdef STM32F303xC
+typedef enum
+{
+    Mode_AIN =          (GPIO_PuPd_NOPULL << 2) | GPIO_Mode_AN,
+    Mode_IN_FLOATING =  (GPIO_PuPd_NOPULL << 2) | GPIO_Mode_IN,
+    Mode_IPD =          (GPIO_PuPd_DOWN   << 2) | GPIO_Mode_IN,
+    Mode_IPU =          (GPIO_PuPd_UP     << 2) | GPIO_Mode_IN,
+    Mode_Out_OD =       (GPIO_OType_OD << 4) | GPIO_Mode_OUT,
+    Mode_Out_PP =       (GPIO_OType_PP << 4) | GPIO_Mode_OUT,
+    Mode_AF_OD =        (GPIO_OType_OD << 4) | GPIO_Mode_AF,
+    Mode_AF_PP =        (GPIO_OType_PP << 4) | GPIO_Mode_AF,
+    Mode_AF_PP_PD =     (GPIO_OType_PP << 4) | (GPIO_PuPd_DOWN  << 2) | GPIO_Mode_AF,
+    Mode_AF_PP_PU =     (GPIO_OType_PP << 4) | (GPIO_PuPd_UP    << 2) | GPIO_Mode_AF
+} GPIO_Mode;
+#else
+typedef enum
+{
     Mode_AIN = 0x0,
     Mode_IN_FLOATING = 0x04,
     Mode_IPD = 0x28,
@@ -32,13 +48,17 @@ typedef enum {
     Mode_AF_PP = 0x18
 } GPIO_Mode;
 
-typedef enum {
+#endif
+
+typedef enum
+{
     Speed_10MHz = 1,
     Speed_2MHz,
     Speed_50MHz
 } GPIO_Speed;
 
-typedef enum {
+typedef enum
+{
     Pin_0 = 0x0001,
     Pin_1 = 0x0002,
     Pin_2 = 0x0004,
@@ -58,16 +78,17 @@ typedef enum {
     Pin_All = 0xFFFF
 } GPIO_Pin;
 
-typedef struct {
+typedef struct
+{
     uint16_t pin;
     GPIO_Mode mode;
     GPIO_Speed speed;
 } gpio_config_t;
 
-#define digitalHi(p, i)     { p->BSRR = i; }
-#define digitalLo(p, i)     { p->BRR = i; }
-#define digitalToggle(p, i) { p->ODR ^= i; }
-#define digitalIn(p, i)     (p->IDR & i)
+static inline void digitalHi(GPIO_TypeDef *p, uint16_t i) { p->BSRR = i; }
+static inline void digitalLo(GPIO_TypeDef *p, uint16_t i)     { p->BRR = i; }
+static inline void digitalToggle(GPIO_TypeDef *p, uint16_t i) { p->ODR ^= i; }
+static inline uint16_t digitalIn(GPIO_TypeDef *p, uint16_t i) {return p->IDR & i; }
 
 void gpioInit(GPIO_TypeDef *gpio, gpio_config_t *config);
 void gpioExtiLineConfig(uint8_t portsrc, uint8_t pinsrc);

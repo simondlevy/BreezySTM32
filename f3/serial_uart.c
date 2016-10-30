@@ -26,7 +26,7 @@
 
 #include <platform.h>
 
-#include "gpio.h"
+#include "drv_gpio.h"
 #include "inverter.h"
 
 #include "dma.h"

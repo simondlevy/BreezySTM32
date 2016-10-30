@@ -22,9 +22,9 @@
 #include <platform.h>
 
 
-#include "gpio.h"
-#include "system.h"
+#include "drv_gpio.h"
 
+#include "system.h"
 #include "bus_i2c.h"
 
 #ifndef SOFT_I2C

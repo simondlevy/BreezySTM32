@@ -24,7 +24,7 @@
 
 
 #include "dma.h"
-#include "gpio.h"
+#include "drv_gpio.h"
 #include "nvic.h"
 
 #include "drv_serial.h"
