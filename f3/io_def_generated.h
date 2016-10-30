@@ -5,6 +5,10 @@
 // DEFIO_PORT_<port>_USED_MASK is bitmask of used pins on target
 // DEFIO_PORT_<port>_USED_COUNT is count of used pins on target
 
+#define BIT(x) (1 << (x))
+#define BITCOUNT(x) (((BX_(x)+(BX_(x)>>4)) & 0x0F0F0F0F) % 255)
+#define BX_(x) ((x) - (((x)>>1)&0x77777777) - (((x)>>2)&0x33333333) - (((x)>>3)&0x11111111))
+
 #if defined(TARGET_IO_PORTA)
 # define DEFIO_PORT_A_USED_MASK TARGET_IO_PORTA
 # define DEFIO_PORT_A_USED_COUNT BITCOUNT(DEFIO_PORT_A_USED_MASK)

@@ -29,8 +29,6 @@
 
 #include <platform.h>
 
-#include "utils.h"
-
 #include "dma.h"
 #include "system.h"
 #include "gpio.h"
@@ -41,6 +39,10 @@
 #include "serial_uart.h"
 #include "serial_uart_impl.h"
 #include "serial_uart_stm32f30x.h"
+
+#define container_of(ptr, type, member)  ( __extension__ ({     \
+        const typeof( ((type *)0)->member ) *__mptr = (ptr);    \
+        (type *)( (char *)__mptr - offsetof(type,member) );}))
 
 
 // Using RX DMA disables the use of receive callbacks

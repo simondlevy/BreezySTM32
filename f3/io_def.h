@@ -1,7 +1,5 @@
 #pragma once
 
-#include "utils.h"
-
 // return ioTag_t for given pinid
 // tag for NONE must be false
 #define DEFIO_TAG(pinid) CONCAT(DEFIO_TAG__, pinid)

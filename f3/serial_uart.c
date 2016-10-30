@@ -26,8 +26,6 @@
 
 #include <platform.h>
 
-
-#include "utils.h"
 #include "gpio.h"
 #include "inverter.h"
 

@@ -1,11 +1,13 @@
-
-#include "utils.h"
+#include <stdint.h>
+#include <stddef.h>
 
 #include "io.h"
 #include "io_impl.h"
 #include "rcc.h"
 
 #include "platform.h"
+
+#define ARRAYLEN(x) (sizeof(x) / sizeof((x)[0]))
 
 // io ports defs are stored in array by index now
 struct ioPortDef_s {
