@@ -35,7 +35,7 @@
 #include "nvic.h"
 #include "dma.h"
 
-#include "serial.h"
+#include "drv_serial.h"
 #include "drv_uart.h"
 #include "serial_uart_impl.h"
 #include "serial_uart_stm32f30x.h"

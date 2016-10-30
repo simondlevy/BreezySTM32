@@ -30,7 +30,7 @@
 #include "inverter.h"
 
 #include "dma.h"
-#include "serial.h"
+#include "drv_serial.h"
 #include "drv_uart.h"
 #include "serial_uart_impl.h"
 #ifdef STM32F10X
@@ -383,7 +383,6 @@ const struct serialPortVTable uartVTable[] = {
     {
         uartWrite,
         uartTotalRxBytesWaiting,
-        uartTotalTxBytesFree,
         uartRead,
         uartSetBaudRate,
         isUartTransmitBufferEmpty,
