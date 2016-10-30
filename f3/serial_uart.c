@@ -32,7 +32,7 @@
 #include "dma.h"
 #include "drv_serial.h"
 #include "drv_uart.h"
-#include "serial_uart_impl.h"
+
 #ifdef STM32F10X
 #include "serial_uart_stm32f10x.h"
 #endif

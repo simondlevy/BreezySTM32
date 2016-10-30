@@ -67,3 +67,12 @@
 #define UART5_AHB_PERIPHERALS_RX    RCC_AHBPeriph_GPIOD
 #define UART5_TX_PINSOURCE          GPIO_PinSource12
 #define UART5_RX_PINSOURCE          GPIO_PinSource2
+
+void uartStartTxDMA(uartPort_t *s);
+
+uartPort_t *serialUART1(uint32_t baudRate, portMode_t mode, portOptions_t options);
+uartPort_t *serialUART2(uint32_t baudRate, portMode_t mode, portOptions_t options);
+uartPort_t *serialUART3(uint32_t baudRate, portMode_t mode, portOptions_t options);
+uartPort_t *serialUART4(uint32_t baudRate, portMode_t mode, portOptions_t options);
+uartPort_t *serialUART5(uint32_t baudRate, portMode_t mode, portOptions_t options);
+

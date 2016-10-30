@@ -37,8 +37,15 @@
 
 #include "drv_serial.h"
 #include "drv_uart.h"
-#include "serial_uart_impl.h"
 #include "serial_uart_stm32f30x.h"
+
+void uartStartTxDMA(uartPort_t *s);
+
+uartPort_t *serialUART1(uint32_t baudRate, portMode_t mode, portOptions_t options);
+uartPort_t *serialUART2(uint32_t baudRate, portMode_t mode, portOptions_t options);
+uartPort_t *serialUART3(uint32_t baudRate, portMode_t mode, portOptions_t options);
+uartPort_t *serialUART4(uint32_t baudRate, portMode_t mode, portOptions_t options);
+uartPort_t *serialUART5(uint32_t baudRate, portMode_t mode, portOptions_t options);
 
 #define container_of(ptr, type, member)  ( __extension__ ({     \
         const typeof( ((type *)0)->member ) *__mptr = (ptr);    \
