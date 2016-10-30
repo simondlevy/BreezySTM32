@@ -1,18 +1,16 @@
 BREEZY_DIR  = ../../..
-SRC_DIR      = $(BREEZY_DIR)/f3
-DRIVERS_DIR = $(SRC_DIR)/drivers
+F3_DIR      = $(BREEZY_DIR)/f3
 
 PROJECT_SRC = showtime.c \
-		   $(SRC_DIR)/dma.c \
-		   $(SRC_DIR)/exti.c \
-		   $(SRC_DIR)/io.c \
-		   $(SRC_DIR)/serial.c \
-		   $(SRC_DIR)/serial_uart.c \
-		   $(SRC_DIR)/system.c \
-		   $(SRC_DIR)/bus_i2c_stm32f30x.c \
-		   $(SRC_DIR)/timer_stm32f30x.c \
-		   $(SRC_DIR)/serial_uart_stm32f30x.c \
-		   $(SRC_DIR)/gpio_stm32f30x.c \
+		   $(F3_DIR)/dma.c \
+		   $(F3_DIR)/io.c \
+		   $(F3_DIR)/serial.c \
+		   $(F3_DIR)/serial_uart.c \
+		   $(F3_DIR)/system.c \
+		   $(F3_DIR)/bus_i2c_stm32f30x.c \
+		   $(F3_DIR)/timer_stm32f30x.c \
+		   $(F3_DIR)/serial_uart_stm32f30x.c \
+		   $(F3_DIR)/gpio_stm32f30x.c \
 		   $(BREEZY_DIR)/startup_stm32f30x_md_gcc.S \
 		   $(BREEZY_DIR)/printf.c \
 		   $(BREEZY_DIR)/main.c \
@@ -66,15 +64,15 @@ ROOT		 := $(patsubst %/,%,$(dir $(lastword $(MAKEFILE_LIST))))
 OBJECT_DIR	 = $(ROOT)/obj/main
 BIN_DIR		 = $(ROOT)/obj
 CMSIS_DIR	 = $(BREEZY_DIR)/lib/CMSIS
-INCLUDE_DIRS = $(SRC_DIR) $(ROOT)/src/target $(BREEZY_DIR)
+INCLUDE_DIRS = $(F3_DIR) $(ROOT)/src/target $(BREEZY_DIR)
 LINKER_DIR	 = $(BREEZY_DIR)
 
 # Search path for sources
-VPATH		:= $(SRC_DIR):$(SRC_DIR)/startup
+VPATH		:= $(F3_DIR):$(F3_DIR)/startup
 USBFS_DIR	= $(ROOT)/lib/STM32_USB-FS-Device_Driver
 USBPERIPH_SRC = $(notdir $(wildcard $(USBFS_DIR)/src/*.c))
 
-CSOURCES        := $(shell find $(SRC_DIR) -name '*.c')
+CSOURCES        := $(shell find $(F3_DIR) -name '*.c')
 
 STDPERIPH_DIR	= $(BREEZY_DIR)/lib/STM32F30x_StdPeriph_Driver
 
