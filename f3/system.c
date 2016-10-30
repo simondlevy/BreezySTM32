@@ -27,7 +27,8 @@
 #include "gpio.h"
 #include "nvic.h"
 #include "serial.h"
-#include "serial_uart.h"
+
+#include "drv_uart.h"
 
 #include "system.h"
 

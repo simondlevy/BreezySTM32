@@ -31,7 +31,7 @@
 
 #include "dma.h"
 #include "serial.h"
-#include "serial_uart.h"
+#include "drv_uart.h"
 #include "serial_uart_impl.h"
 #ifdef STM32F10X
 #include "serial_uart_stm32f10x.h"
@@ -277,7 +277,7 @@ void uartStartTxDMA(uartPort_t *s)
     DMA_Cmd(s->txDMAChannel, ENABLE);
 }
 
-uint32_t uartTotalRxBytesWaiting(const serialPort_t *instance)
+uint32_t uartTotalRxBytesWaiting(serialPort_t *instance)
 {
     const uartPort_t *s = (const uartPort_t*)instance;
     if (s->rxDMAChannel) {
@@ -296,7 +296,7 @@ uint32_t uartTotalRxBytesWaiting(const serialPort_t *instance)
     }
 }
 
-uint8_t uartTotalTxBytesFree(const serialPort_t *instance)
+uint8_t uartTotalTxBytesFree(serialPort_t *instance)
 {
     const uartPort_t *s = (const uartPort_t*)instance;
 
@@ -331,7 +331,7 @@ uint8_t uartTotalTxBytesFree(const serialPort_t *instance)
     return (s->port.txBufferSize - 1) - bytesUsed;
 }
 
-bool isUartTransmitBufferEmpty(const serialPort_t *instance)
+bool isUartTransmitBufferEmpty(serialPort_t *instance)
 {
     uartPort_t *s = (uartPort_t *)instance;
     if (s->txDMAChannel)
@@ -387,9 +387,6 @@ const struct serialPortVTable uartVTable[] = {
         uartRead,
         uartSetBaudRate,
         isUartTransmitBufferEmpty,
-        uartSetMode,
-        .writeBuf = NULL,
-        .beginWrite = NULL,
-        .endWrite = NULL,
+        uartSetMode
     }
 };

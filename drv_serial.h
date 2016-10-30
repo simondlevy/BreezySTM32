@@ -63,13 +63,13 @@ typedef struct serialPort {
 } serialPort_t;
 
 struct serialPortVTable {
+
     void (*serialWrite)(serialPort_t *instance, uint8_t ch);
 
-    uint8_t (*serialTotalBytesWaiting)(serialPort_t *instance);
+    uint32_t (*serialTotalRxBytesWaiting)(serialPort_t *instance);
 
     uint8_t (*serialRead)(serialPort_t *instance);
 
-    // Specified baud rate may not be allowed by an implementation, use serialGetBaudRate to determine actual baud rate in use.
     void (*serialSetBaudRate)(serialPort_t *instance, uint32_t baudRate);
 
     bool (*isSerialTransmitBufferEmpty)(serialPort_t *instance);
@@ -79,7 +79,7 @@ struct serialPortVTable {
 
 uint32_t serialGetBaudRate(serialPort_t *instance);
 void serialWrite(serialPort_t *instance, uint8_t ch);
-uint8_t serialTotalBytesWaiting(serialPort_t *instance);
+uint32_t serialTotalRxBytesWaiting(serialPort_t *instance);
 uint8_t serialRead(serialPort_t *instance);
 void serialSetBaudRate(serialPort_t *instance, uint32_t baudRate);
 bool isSerialTransmitBufferEmpty(serialPort_t *instance);

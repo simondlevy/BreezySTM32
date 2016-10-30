@@ -31,7 +31,6 @@ along with BreezySTM32.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "f3/dma.h"
 #include "f3/serial.h"
-#include "f3/serial_uart.h"
 #include "f3/system.h"
 
 #else
@@ -44,7 +43,6 @@ along with BreezySTM32.  If not, see <http://www.gnu.org/licenses/>.
 #include "drv_gpio.h"
 #include "drv_system.h"
 #include "drv_pwm.h"
-#include "drv_uart.h"
 #include "drv_mpu6050.h"
 #include "drv_ms5611.h"
 #include "drv_mb1242.h"
@@ -57,6 +55,8 @@ along with BreezySTM32.  If not, see <http://www.gnu.org/licenses/>.
 #include "drv_spektrum.h"
 
 #endif
+
+#include "drv_uart.h"
 
 #include "printf.h"
 

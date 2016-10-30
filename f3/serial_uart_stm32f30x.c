@@ -36,7 +36,7 @@
 #include "dma.h"
 
 #include "serial.h"
-#include "serial_uart.h"
+#include "drv_uart.h"
 #include "serial_uart_impl.h"
 #include "serial_uart_stm32f30x.h"
 
@@ -44,17 +44,6 @@
         const typeof( ((type *)0)->member ) *__mptr = (ptr);    \
         (type *)( (char *)__mptr - offsetof(type,member) );}))
 
-
-#define UART1_RX_BUFFER_SIZE    256
-#define UART1_TX_BUFFER_SIZE    256
-#define UART2_RX_BUFFER_SIZE    256
-#define UART2_TX_BUFFER_SIZE    256
-#define UART3_RX_BUFFER_SIZE    256
-#define UART3_TX_BUFFER_SIZE    256
-#define UART4_RX_BUFFER_SIZE    256
-#define UART4_TX_BUFFER_SIZE    256
-#define UART5_RX_BUFFER_SIZE    256
-#define UART5_TX_BUFFER_SIZE    256
 
 #ifdef USE_UART1
 static uartPort_t uartPort1;

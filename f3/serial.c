@@ -38,7 +38,7 @@ void serialSetBaudRate(serialPort_t *instance, uint32_t baudRate)
     instance->vTable->serialSetBaudRate(instance, baudRate);
 }
 
-bool isSerialTransmitBufferEmpty(const serialPort_t *instance)
+bool isSerialTransmitBufferEmpty(serialPort_t *instance)
 {
     return instance->vTable->isSerialTransmitBufferEmpty(instance);
 }

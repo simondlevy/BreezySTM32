@@ -19,7 +19,7 @@
 
 // device specific uart implementation is defined here
 
-extern const struct serialPortVTable uartVTable[];
+//extern const struct serialPortVTable uartVTable[];
 
 void uartStartTxDMA(uartPort_t *s);
 
