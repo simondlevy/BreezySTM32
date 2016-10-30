@@ -45,13 +45,16 @@
         (type *)( (char *)__mptr - offsetof(type,member) );}))
 
 
-// Using RX DMA disables the use of receive callbacks
-//#define USE_UART1_TX_DMA
-//#define USE_UART1_RX_DMA
-//#define USE_UART2_RX_DMA
-//#define USE_UART2_TX_DMA
-//#define USE_UART3_RX_DMA
-//#define USE_UART3_TX_DMA
+#define UART1_RX_BUFFER_SIZE    256
+#define UART1_TX_BUFFER_SIZE    256
+#define UART2_RX_BUFFER_SIZE    256
+#define UART2_TX_BUFFER_SIZE    256
+#define UART3_RX_BUFFER_SIZE    256
+#define UART3_TX_BUFFER_SIZE    256
+#define UART4_RX_BUFFER_SIZE    256
+#define UART4_TX_BUFFER_SIZE    256
+#define UART5_RX_BUFFER_SIZE    256
+#define UART5_TX_BUFFER_SIZE    256
 
 #ifdef USE_UART1
 static uartPort_t uartPort1;

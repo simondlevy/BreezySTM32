@@ -24,14 +24,6 @@
 
 #include "drv_serial.h"
 
-void serialPrint(serialPort_t *instance, const char *str)
-{
-    uint8_t ch;
-    while ((ch = *(str++)) != 0) {
-        serialWrite(instance, ch);
-    }
-}
-
 uint32_t serialGetBaudRate(serialPort_t *instance)
 {
     return instance->baudRate;
