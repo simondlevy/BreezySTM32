@@ -1,5 +1,5 @@
 /*
-   accelgyro.c : report accelerometer and gyroscope values
+   multisense.c : report baro, mag, sonar, airspeed
 
    Copyright (C) 2016 James Jackson
 
@@ -51,6 +51,9 @@ bool baro_present= false;
 bool mag_present=false;
 bool sonar_present=false;
 bool airspeed_present=false;
+
+mb1242_t sonar;
+
 void setup(void)
 {
   delay(500);
@@ -64,7 +67,8 @@ void setup(void)
   mag_present = hmc5883lInit(BOARD_REV);
 
   // Init Sonar
-  sonar_present = mb1242_init();
+    sonar.address = 0x70;
+    sonar_present = mb1242_init(&sonar); 
 
   // Init Airspeed
   airspeed_present = ms4525_detect();
@@ -80,15 +84,13 @@ void loop(void)
 {
 
   int32_t baro = 0;
-  int32_t temp = 0;
-  int32_t sonar = 0;
+  int32_t sonardist = 0;
   int32_t airspeed = 0;
   // Update Baro
   if(baro_present)
   {
     ms5611_request_async_update();
     baro = ms5611_read_pressure();
-    temp = ms5611_read_temperature();
   }
 
   // Update Mag
@@ -101,7 +103,7 @@ void loop(void)
   // Update Sonar
   if(sonar_present)
   {
-    sonar = mb1242_poll();
+    sonardist = mb1242_poll(&sonar);
   }
 
   // Update Airspeed
@@ -124,7 +126,7 @@ void loop(void)
              (int32_t)(accel_data[2]*accel_scale*1000.0f),
              (int32_t)(gyro_data[2]*gyro_scale*1000.0f),
              (int32_t)mag_data[2],
-             (int32_t)sonar,
+             (int32_t)sonardist,
              (int32_t)airspeed,
              (int32_t)baro);
       //                    0);
