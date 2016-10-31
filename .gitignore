@@ -1,8 +1,10 @@
+*.elf
+*.map
 *.bak
 *.swp
 *.o
 *.d
 *.i
 *.hex
-examples/*/obj
+examples/f1/*/obj
 examples/*/*.o

@@ -7,10 +7,10 @@
 ###############################################################################
 
 # Change this to wherever you put BreezySTM32
-BREEZY_DIR = ../../
+BREEZY_DIR = ../../../
 
 # Fill this out with source files for your specific project
-PROJECT_SRC = i2csniff.c
+PROJECT_SRC = ms4525.c
 
 ###############################################################################
 
@@ -44,6 +44,8 @@ myproject_SRC = $(BREEZY_DIR)/main.c \
 		   $(BREEZY_DIR)/drv_uart_stm32f10x.c \
 		   $(BREEZY_DIR)/drv_timer.c \
 		   $(BREEZY_DIR)/printf.c \
+           $(BREEZY_DIR)/drv_mpu6050.c \
+           $(BREEZY_DIR)/drv_ms4525.c \
 		   $(PROJECT_SRC) \
 		   $(CMSIS_SRC) \
 		   $(STDPERIPH_SRC)
@@ -150,7 +152,7 @@ $(OBJECT_DIR)/$(TARGET)/%.o: %.S
 	@$(CC) -c -o $@ $(ASFLAGS) $< 
 
 clean:
-	rm -rf $(TARGET_HEX) $(TARGET_ELF) $(TARGET_OBJS) $(TARGET_MAP) obj
+	rm -rf $(TARGET_HEX) $(TARGET_ELF) $(TARGET_OBJS) $(TARGET_MAP) obj ../*.o
 
 flash_$(TARGET): $(TARGET_HEX)
 	stty -F $(SERIAL_DEVICE) raw speed 115200 -crtscts cs8 -parenb -cstopb -ixon

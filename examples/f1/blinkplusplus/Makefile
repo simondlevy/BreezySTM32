@@ -7,16 +7,13 @@
 ###############################################################################
 
 # Change this to wherever you put BreezySTM32
-BREEZY_DIR = ../../
+BREEZY_DIR = ../../../
 
-# Fill this out with source files for your specific project
-PROJECT_SRC = accelgyro.c
+TARGET		?= ledblink
+
+CPP_OBJS = ledblink.o
 
 ###############################################################################
-
-# You probably shouldn't modify anything below here!
-
-TARGET		?= myproject
 
 # Compile-time options
 OPTIONS		?=
@@ -35,17 +32,18 @@ STDPERIPH_DIR	 = $(BREEZY_DIR)/lib/STM32F10x_StdPeriph_Driver
 OBJECT_DIR	 = $(ROOT)/obj
 BIN_DIR		 = $(ROOT)/obj
 
-myproject_SRC = $(BREEZY_DIR)/main.c \
+$(TARGET)_CSRC = $(BREEZY_DIR)/main.c \
 		   $(BREEZY_DIR)/startup_stm32f10x_md_gcc.S \
 		   $(BREEZY_DIR)/drv_gpio.c \
 		   $(BREEZY_DIR)/drv_i2c.c \
-		   $(BREEZY_DIR)/drv_system.c \
+		   $(BREEZY_DIR)/drv_adc.c \
+		   $(BREEZY_DIR)/drv_spi.c \
+		   $(BREEZY_DIR)/drv_pwm.c \
+		   $(BREEZY_DIR)/drv_system_stm32f10x.c \
 		   $(BREEZY_DIR)/drv_serial.c \
-		   $(BREEZY_DIR)/drv_uart.c \
+		   $(BREEZY_DIR)/drv_uart_stm32f10x.c \
 		   $(BREEZY_DIR)/drv_timer.c \
 		   $(BREEZY_DIR)/printf.c \
-                   $(BREEZY_DIR)/drv_mpu6050.c \
-		   $(PROJECT_SRC) \
 		   $(CMSIS_SRC) \
 		   $(STDPERIPH_SRC)
 
@@ -65,7 +63,7 @@ STDPERIPH_SRC	 = $(notdir $(wildcard $(STDPERIPH_DIR)/src/*.c))
 #
 
 # Tool names
-CC		 = arm-none-eabi-gcc -std=gnu99
+CC		 = arm-none-eabi-gcc 
 OBJCOPY	 = arm-none-eabi-objcopy
 
 #
@@ -108,9 +106,8 @@ ASFLAGS		 = $(ARCH_FLAGS) \
 LD_SCRIPT	 = $(BREEZY_DIR)/stm32_flash.ld
 LDFLAGS		 = -lm \
 		   -nostartfiles \
-		   --specs=nano.specs \
 		   -lc \
-		   -lnosys \
+		   --specs=rdimon.specs \
 		   $(ARCH_FLAGS) \
 		   $(LTO_FLAGS) \
 		   $(DEBUG_FLAGS) \
@@ -124,7 +121,7 @@ LDFLAGS		 = -lm \
 
 TARGET_HEX	 = $(BIN_DIR)/$(TARGET).hex
 TARGET_ELF	 = $(BIN_DIR)/$(TARGET).elf
-TARGET_OBJS	 = $(addsuffix .o,$(addprefix $(OBJECT_DIR)/$(TARGET)/,$(basename $($(TARGET)_SRC))))
+TARGET_OBJS	 = $(addsuffix .o,$(addprefix $(OBJECT_DIR)/$(TARGET)/,$(basename $($(TARGET)_CSRC)))) $(CPP_OBJS) 
 TARGET_MAP   = $(OBJECT_DIR)/$(TARGET).map
 
 # List of buildable ELF files and their object dependencies.
@@ -150,20 +147,16 @@ $(OBJECT_DIR)/$(TARGET)/%.o: %.S
 	@echo %% $(notdir $<)
 	@$(CC) -c -o $@ $(ASFLAGS) $< 
 
+# C++ support
+%.o: %.cpp
+	$(CC) -c $(CFLAGS) -o $@ $^
+
 clean:
-	rm -rf $(TARGET_HEX) $(TARGET_ELF) $(TARGET_OBJS) $(TARGET_MAP) obj
+	rm -rf $(TARGET_HEX) $(TARGET_ELF) $(TARGET_OBJS) $(TARGET_MAP) *.o obj 
 
 flash_$(TARGET): $(TARGET_HEX)
-	stty -F $(SERIAL_DEVICE) raw speed 921600 -crtscts cs8 -parenb -cstopb -ixon
-	stm32flash -w $(TARGET_HEX) -v -g 0x0 -b 921600 $(SERIAL_DEVICE)
-
-flash: flash_$(TARGET)
-
-unbrick: $(TARGET_HEX)
 	stty -F $(SERIAL_DEVICE) raw speed 115200 -crtscts cs8 -parenb -cstopb -ixon
 	stm32flash -w $(TARGET_HEX) -v -g 0x0 -b 115200 $(SERIAL_DEVICE)
 
-listen:
-	miniterm.py $(SERIAL_DEVICE) 115200
-
+flash: flash_$(TARGET)
 
