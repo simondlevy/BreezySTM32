@@ -2,15 +2,15 @@ BREEZY_DIR  = ../../..
 F3_DIR      = $(BREEZY_DIR)/f3
 
 PROJECT_SRC = showtime.c \
-		   $(F3_DIR)/dma.c \
 		   $(F3_DIR)/serial_uart.c \
 		   $(F3_DIR)/system.c \
-		   $(F3_DIR)/bus_i2c_stm32f30x.c \
-		   $(F3_DIR)/timer_stm32f30x.c \
-		   $(F3_DIR)/serial_uart_stm32f30x.c \
-		   $(F3_DIR)/gpio_stm32f30x.c \
-		   $(BREEZY_DIR)/drv_serial.c \
+		   $(BREEZY_DIR)/dma.c \
+		   $(BREEZY_DIR)/bus_i2c_stm32f30x.c \
+		   $(BREEZY_DIR)/timer_stm32f30x.c \
 		   $(BREEZY_DIR)/startup_stm32f30x_md_gcc.S \
+		   $(BREEZY_DIR)/serial_uart_stm32f30x.c \
+		   $(BREEZY_DIR)/gpio_stm32f30x.c \
+		   $(BREEZY_DIR)/drv_serial.c \
 		   $(BREEZY_DIR)/printf.c \
 		   $(BREEZY_DIR)/main.c \
 		   $(DEVICE_STDPERIPH_SRC) \
