@@ -19,11 +19,7 @@
 #include <stdint.h>
 #include <stdlib.h>
 
-#include <platform.h>
-
-#include "drv_gpio.h"
-#include "drv_system.h"
-#include "drv_i2c.h"
+#include "breezystm32.h"
 
 #ifndef SOFT_I2C
 

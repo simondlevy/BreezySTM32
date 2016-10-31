@@ -28,16 +28,17 @@ along with BreezySTM32.  If not, see <http://www.gnu.org/licenses/>.
 #include <platform.h>
 
 #include "drv_system.h"
+#include "drv_i2c.h"
 
 #ifdef STM32F303xC
 
 #include "dma.h"
+#include "nvic.h"
 
 #else
 
 #include "stm32f10x_conf.h"
 
-#include "drv_i2c.h"
 #include "drv_gpio.h"
 #include "drv_system.h"
 #include "drv_pwm.h"

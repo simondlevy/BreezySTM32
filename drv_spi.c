@@ -23,7 +23,6 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-//#include <platform.h>
 #include <stm32f10x.h>
 
 #include "drv_gpio.h"

@@ -1,5 +1,4 @@
 BREEZY_DIR  = ../../..
-F3_DIR      = $(BREEZY_DIR)/f3
 
 PROJECT_SRC = showtime.c \
 		   $(BREEZY_DIR)/drv_system_stm32f30x.c \
