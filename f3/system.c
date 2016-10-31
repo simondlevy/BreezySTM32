@@ -26,11 +26,9 @@
 #include "dma.h"
 #include "drv_gpio.h"
 #include "nvic.h"
-
 #include "drv_serial.h"
 #include "drv_uart.h"
-
-#include "system.h"
+#include "drv_system.h"
 
 // cycles per microsecond
 static uint32_t usTicks = 0;

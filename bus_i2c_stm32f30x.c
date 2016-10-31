@@ -21,10 +21,8 @@
 
 #include <platform.h>
 
-
 #include "drv_gpio.h"
-
-#include "system.h"
+#include "drv_system.h"
 #include "drv_i2c.h"
 
 #ifndef SOFT_I2C

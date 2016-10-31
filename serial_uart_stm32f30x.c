@@ -30,7 +30,7 @@
 #include <platform.h>
 
 #include "dma.h"
-#include "system.h"
+#include "drv_system.h"
 #include "drv_gpio.h"
 #include "nvic.h"
 #include "dma.h"
