@@ -2,7 +2,7 @@ BREEZY_DIR  = ../../..
 F3_DIR      = $(BREEZY_DIR)/f3
 
 PROJECT_SRC = showtime.c \
-		   $(F3_DIR)/system.c \
+		   $(BREEZY_DIR)/drv_system_stm32f30x.c \
 		   $(BREEZY_DIR)/drv_uart_stm32f30x.c \
 		   $(BREEZY_DIR)/dma.c \
 		   $(BREEZY_DIR)/bus_i2c_stm32f30x.c \
