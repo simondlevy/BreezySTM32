@@ -1,52 +1,50 @@
+#define USE_UART1
+#define USE_UART2
+#define USE_UART3
+#define USE_SOFTSERIAL1
+#define USE_SOFTSERIAL2
+#define SERIAL_PORT_COUNT 5
+
+#define USE_UART1_TX_DMA
+#define UART1_TX_PIN        GPIO_Pin_9  // PA9
+#define UART1_RX_PIN        GPIO_Pin_10 // PA10
+#define UART1_GPIO          GPIOA
+#define UART1_GPIO_AF       GPIO_AF_7
+#define UART1_TX_PINSOURCE  GPIO_PinSource9
+#define UART1_RX_PINSOURCE  GPIO_PinSource10
+
+#define UART2_TX_PIN        GPIO_Pin_14 // PA14 / SWCLK
+#define UART2_RX_PIN        GPIO_Pin_15 // PA15
+#define UART2_GPIO          GPIOA
+#define UART2_GPIO_AF       GPIO_AF_7
+#define UART2_TX_PINSOURCE  GPIO_PinSource14
+#define UART2_RX_PINSOURCE  GPIO_PinSource15
+
+#define UART3_TX_PIN        GPIO_Pin_10 // PB10 (AF7)
+#define UART3_RX_PIN        GPIO_Pin_11 // PB11 (AF7)
+#define UART3_GPIO_AF       GPIO_AF_7
+#define UART3_GPIO          GPIOB
+#define UART3_TX_PINSOURCE  GPIO_PinSource10
+#define UART3_RX_PINSOURCE  GPIO_PinSource11
+
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdlib.h>
 
-#include <platform.h>
-
+#include "stm32f30x_conf.h"
+#include "stm32f30x_rcc.h"
+#include "stm32f30x_gpio.h"
+#include "core_cm4.h"
 #include "drv_gpio.h"
 #include "inverter.h"
-
 #include "dma.h"
 #include "drv_serial.h"
 #include "drv_uart.h"
 
-#ifdef STM32F10X
-#include "serial_uart_stm32f10x.h"
-#endif
-#ifdef STM32F303xC
 #include "serial_uart_stm32f30x.h"
-#endif
 
 void usartInitAllIOSignals(void)
 {
-#ifdef STM32F10X
-    // Set UART1 TX to output and high state to prevent a rs232 break condition on reset.
-    // See issue https://github.com/cleanflight/cleanflight/issues/1433
-    gpio_config_t gpio;
-
-    gpio.mode = Mode_Out_PP;
-    gpio.speed = Speed_2MHz;
-    gpio.pin = UART1_TX_PIN;
-    digitalHi(UART1_GPIO, gpio.pin);
-    gpioInit(UART1_GPIO, &gpio);
-
-    // Set TX of UART2 and UART3 to input with pull-up to prevent floating TX outputs.
-    gpio.mode = Mode_IPU;
-
-#ifdef USE_UART2
-    gpio.pin = UART2_TX_PIN;
-    gpioInit(UART2_GPIO, &gpio);
-#endif
-
-#ifdef USE_UART3
-    gpio.pin = UART3_TX_PIN;
-    gpioInit(UART3_GPIO, &gpio);
-#endif
-
-#endif
-
-#ifdef STM32F303
     // Set TX for UART1, UART2 and UART3 to input with pull-up to prevent floating TX outputs.
     gpio_config_t gpio;
 
@@ -66,8 +64,6 @@ void usartInitAllIOSignals(void)
 #ifdef USE_UART3
     gpio.pin = UART3_TX_PIN;
     gpioInit(UART3_GPIO, &gpio);
-#endif
-
 #endif
 }
 
