@@ -27,10 +27,11 @@ along with BreezySTM32.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <platform.h>
 
+#include "drv_system.h"
+
 #ifdef STM32F303xC
 
 #include "dma.h"
-#include "f3/system.h"
 
 #else
 

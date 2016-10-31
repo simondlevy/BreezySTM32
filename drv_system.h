@@ -1,31 +1,5 @@
-/*
-   drv_sytem.h : system utilities (init, reset, delay, etc.)  for STM32F103CB
-
-   Adapted from https://github.com/multiwii/baseflight/blob/master/src/drv_system.h
-
-   This file is part of BreezySTM32.
-
-   BreezySTM32 is free software: you can redistribute it and/or modify
-   it under the terms of the GNU General Public License as published by
-   the Free Software Foundation, either version 3 of the License, or
-   (at your option) any later version.
-
-   BreezySTM32 is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
-
-   You should have received a copy of the GNU General Public License
-   along with BreezySTM32.  If not, see <http://www.gnu.org/licenses/>.
- */
-
 #pragma once
 
-#define BKP_SOFTRESET (0x50F7B007)
-
-//#define GYRO
-//#define ACC
-//#define BUZZER
 #define LED0
 #define LED1
 #define INVERTER
@@ -65,6 +39,8 @@
 #define INV_ON                  ;
 #endif
 
+#define BKP_SOFTRESET (0x50F7B007)
+
 void systemInit(void);
 void delayMicroseconds(uint32_t us);
 void delay(uint32_t ms);
@@ -72,13 +48,27 @@ void delay(uint32_t ms);
 uint32_t micros(void);
 uint32_t millis(void);
 
-// Backup SRAM R/W
-uint32_t rccReadBkpDr(void);
-void rccWriteBkpDr(uint32_t value);
-
 // failure
 void failureMode(uint8_t mode);
 
 // bootloader/IAP
 void systemReset(bool toBootloader);
+void systemResetToBootloader(void);
+bool isMPUSoftReset(void);
+
+void enableGPIOPowerUsageAndNoiseReductions(void);
+// current crystal frequency - 8 or 12MHz
+extern uint32_t hse_value;
+
+extern uint32_t cachedRccCsrValue;
+
+typedef enum {
+    FAILURE_DEVELOPER = 0,
+    FAILURE_MISSING_ACC,
+    FAILURE_ACC_INIT,
+    FAILURE_ACC_INCOMPATIBLE,
+    FAILURE_INVALID_EEPROM_CONTENTS,
+    FAILURE_FLASH_WRITE_FAILED,
+    FAILURE_GYRO_INIT_FAILED
+} failureMode_e;
 
