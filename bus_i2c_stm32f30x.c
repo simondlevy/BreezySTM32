@@ -25,7 +25,7 @@
 #include "drv_gpio.h"
 
 #include "system.h"
-#include "bus_i2c.h"
+#include "drv_i2c.h"
 
 #ifndef SOFT_I2C
 
@@ -53,6 +53,10 @@
 #define I2C2_SDA_CLK_SOURCE  RCC_AHBPeriph_GPIOA
 
 #endif
+
+#define I2C_SHORT_TIMEOUT            ((uint32_t)0x1000)
+#define I2C_LONG_TIMEOUT             ((uint32_t)(10 * I2C_SHORT_TIMEOUT))
+#define I2C_DEFAULT_TIMEOUT          I2C_SHORT_TIMEOUT
 
 static uint32_t i2cTimeout;
 
