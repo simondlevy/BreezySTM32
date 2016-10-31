@@ -29,7 +29,6 @@ along with BreezySTM32.  If not, see <http://www.gnu.org/licenses/>.
 #include "stm32f30x_conf.h"
 #include "stm32f30x_rcc.h"
 #include "stm32f30x_gpio.h"
-#include "core_cm4.h"
 
 // Chip Unique ID on F303
 #define U_ID_0 (*(uint32_t*)0x1FFFF7AC)
@@ -164,14 +163,12 @@ along with BreezySTM32.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stm32f10x_conf.h"
 
-#include "drv_gpio.h"
 #include "drv_system.h"
 #include "drv_pwm.h"
 #include "drv_mpu6050.h"
 #include "drv_ms5611.h"
 #include "drv_mb1242.h"
 #include "drv_spi.h"
-#include "drv_gpio.h"
 #include "drv_m25p16.h"
 #include "drv_flashfs.h"
 #include "drv_ms4525.h"
@@ -180,14 +177,12 @@ along with BreezySTM32.  If not, see <http://www.gnu.org/licenses/>.
 
 #endif
 
+#include "drv_gpio.h"
 #include "drv_serial.h"
 #include "drv_uart.h"
 
 #include "printf.h"
 
-
 extern serialPort_t * Serial1;
-
 void setup(void);
-
 void loop(void);

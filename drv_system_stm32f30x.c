@@ -45,27 +45,53 @@ uint32_t millis(void)
 
 void systemInit(void)
 {
-    // Configure NVIC preempt/priority groups
-    NVIC_PriorityGroupConfig(NVIC_PRIORITY_GROUPING);
+    struct {
+        GPIO_TypeDef *gpio;
+        gpio_config_t cfg;
+    } gpio_setup[3];
 
-#ifdef STM32F10X
-    // Turn on clocks for stuff we use
-    RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO, ENABLE);
-#endif
+    gpio_setup[0].gpio = LED0_GPIO;
+    gpio_setup[0].cfg.pin = LED0_PIN;
+    gpio_setup[0].cfg.mode = Mode_Out_PP;
+    gpio_setup[0].cfg.speed = Speed_2MHz;
+
+    gpio_setup[1].gpio = LED1_GPIO;
+    gpio_setup[1].cfg.pin = LED1_PIN;
+    gpio_setup[1].cfg.mode = Mode_Out_PP;
+    gpio_setup[1].cfg.speed = Speed_2MHz;
+
+    gpio_setup[2].gpio = INV_GPIO;
+    gpio_setup[2].cfg.pin = INV_PIN;
+    gpio_setup[2].cfg.mode = Mode_Out_PP;
+    gpio_setup[2].cfg.speed = Speed_2MHz;
+
+    gpio_config_t gpio;
+    int i, gpio_count = sizeof(gpio_setup) / sizeof(gpio_setup[0]);
+
+     // Configure NVIC preempt/priority groups
+    NVIC_PriorityGroupConfig(NVIC_PRIORITY_GROUPING);
 
     // cache RCC->CSR value to use it in isMPUSoftreset() and others
     cachedRccCsrValue = RCC->CSR;
     RCC_ClearFlag();
 
+    // Make all GPIO in by default to save power and reduce noise
+    gpio.pin = Pin_All;
+    gpio.mode = Mode_AIN;
+    gpioInit(GPIOA, &gpio);
+    gpioInit(GPIOB, &gpio);
+    gpioInit(GPIOC, &gpio);
+
     enableGPIOPowerUsageAndNoiseReductions();
 
     usartInitAllIOSignals();
 
-#ifdef STM32F10X
-    // Turn off JTAG port 'cause we're using the GPIO for leds
-#define AFIO_MAPR_SWJ_CFG_NO_JTAG_SW            (0x2 << 24)
-    AFIO->MAPR |= AFIO_MAPR_SWJ_CFG_NO_JTAG_SW;
-#endif
+    LED0_OFF;
+    LED1_OFF;
+
+    for (i = 0; i < gpio_count; i++) {
+        gpioInit(gpio_setup[i].gpio, &gpio_setup[i].cfg);
+    }
 
     // Init cycle counter
     cycleCounterInit();
