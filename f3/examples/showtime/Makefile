@@ -3,7 +3,6 @@ F3_DIR      = $(BREEZY_DIR)/f3
 
 PROJECT_SRC = showtime.c \
 		   $(F3_DIR)/dma.c \
-		   $(F3_DIR)/io.c \
 		   $(F3_DIR)/serial_uart.c \
 		   $(F3_DIR)/system.c \
 		   $(F3_DIR)/bus_i2c_stm32f30x.c \
