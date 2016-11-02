@@ -1,5 +1,5 @@
 /*
-   drv_sytem.c : system utilities (init, reset, delay, etc.)  for STM32F103CB
+   drv_sytem_stm32f10x.c : system utilities (init, reset, delay, etc.)  for STM32F103CB
 
    Adapted from https://github.com/multiwii/baseflight/blob/master/src/drv_system.c
 
@@ -20,14 +20,7 @@
  */
 
 
-#include <stdint.h>
-#include <stdbool.h>
-#include <stdlib.h>
-
-#include "stm32f10x_conf.h"
-
-#include "drv_gpio.h"
-#include "drv_system.h"
+#include "breezystm32.h"
 
 // cycles per microsecond
 static volatile uint32_t usTicks = 0;
@@ -163,17 +156,19 @@ void rccWriteBkpDr(uint32_t value)
 
 #define AIRCR_VECTKEY_MASK    ((uint32_t)0x05FA0000)
 
-void systemReset(bool toBootloader)
+void systemReset(void)
 {
-    if (toBootloader) {
+        // Generate system reset
+        SCB->AIRCR = AIRCR_VECTKEY_MASK | (uint32_t)0x04;
+}
+
+void systemResetToBootloader(void)
+{
         // 1FFFF000 -> 20000200 -> SP
         // 1FFFF004 -> 1FFFF021 -> PC
+
         *((uint32_t *)0x20004FF0) = 0xDEADBEEF; // 20KB STM32F103
-    }
-
-    // write magic value that we're doing a soft reset
-    rccWriteBkpDr(BKP_SOFTRESET);
-
-    // Generate system reset
-    SCB->AIRCR = AIRCR_VECTKEY_MASK | (uint32_t)0x04;
+            systemReset();
 }
+
+
