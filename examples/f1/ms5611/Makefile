@@ -37,11 +37,11 @@ BIN_DIR		 = $(ROOT)/obj
 
 myproject_SRC = $(BREEZY_DIR)/main.c \
 		   $(BREEZY_DIR)/startup_stm32f10x_md_gcc.S \
+		   $(BREEZY_DIR)/drv_system_stm32f10x.c \
+		   $(BREEZY_DIR)/drv_uart_stm32f10x.c \
 		   $(BREEZY_DIR)/drv_gpio.c \
 		   $(BREEZY_DIR)/drv_i2c.c \
-		   $(BREEZY_DIR)/drv_system_stm32f10x.c \
 		   $(BREEZY_DIR)/drv_serial.c \
-		   $(BREEZY_DIR)/drv_uart_stm32f10x.c \
 		   $(BREEZY_DIR)/drv_timer.c \
 		   $(BREEZY_DIR)/printf.c \
            $(BREEZY_DIR)/drv_mpu6050.c \
@@ -152,7 +152,7 @@ $(OBJECT_DIR)/$(TARGET)/%.o: %.S
 	@$(CC) -c -o $@ $(ASFLAGS) $< 
 
 clean:
-	rm -rf $(TARGET_HEX) $(TARGET_ELF) $(TARGET_OBJS) $(TARGET_MAP) obj
+	rm -rf $(TARGET_HEX) $(TARGET_ELF) $(TARGET_OBJS) $(TARGET_MAP) obj ../*.o
 
 flash_$(TARGET): $(TARGET_HEX)
 	stty -F $(SERIAL_DEVICE) raw speed 115200 -crtscts cs8 -parenb -cstopb -ixon

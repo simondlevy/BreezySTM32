@@ -1,3 +1,11 @@
+#ifdef INVERTER
+#define INVERTER_OFF digitalLo(INVERTER_GPIO, INVERTER_PIN)
+#define INVERTER_ON digitalHi(INVERTER_GPIO, INVERTER_PIN)
+#else
+#define INVERTER_OFF do {} while(0)
+#define INVERTER_ON do {} while(0)
+#endif
+
 #define USE_UART1
 #define USE_UART2
 #define USE_UART3
@@ -36,7 +44,6 @@
 #include "stm32f30x_gpio.h"
 #include "core_cm4.h"
 #include "drv_gpio.h"
-#include "inverter.h"
 #include "dma.h"
 #include "drv_serial.h"
 #include "drv_uart.h"

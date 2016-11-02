@@ -247,10 +247,7 @@ all_targets : $(VALID_TARGETS)
 
 ## clean       : clean up all temporary / machine-generated files
 clean:
-	rm -rf *.o *.i *.d *.s obj f3
-	#rm -f $(TARGET_BIN) $(TARGET_HEX) $(TARGET_ELF) $(TARGET_OBJS) $(TARGET_MAP)
-	#rm -rf $(OBJECT_DIR)/$(TARGET)
-	#cd src/test && $(MAKE) clean || true
+	rm -rf ../*.o *.i *.d *.s obj f3
 
 flash: $(TARGET_HEX)
 	stty -F $(SERIAL_DEVICE) raw speed 115200 -crtscts cs8 -parenb -cstopb -ixon
