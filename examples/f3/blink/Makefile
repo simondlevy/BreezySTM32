@@ -18,13 +18,12 @@ TARGET		?= PROJECT
 
 # Compile-time options
 OPTIONS		?=
-export OPTIONS
 
 # Debugger optons, must be empty or GDB
 DEBUG ?=
 
 # Serial port/Device for flashing
-SERIAL_DEVICE	?= $(firstword $(wildcard /dev/ttyUSB*) no-port-found)
+SERIAL_DEVICE	?= /dev/ttyUSB0
 
 # Flash size (KB).  Some low-end chips actually have more flash than advertised, use this to override.
 FLASH_SIZE ?=
