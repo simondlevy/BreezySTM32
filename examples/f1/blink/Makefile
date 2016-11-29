@@ -28,9 +28,9 @@ SERIAL_DEVICE	?= /dev/ttyUSB0
 # Working directories
 ROOT		 = $(dir $(lastword $(MAKEFILE_LIST)))
 CMSIS_DIR	 = $(BREEZY_DIR)/lib/CMSIS
-STDPERIPH_DIR	 = $(BREEZY_DIR)/lib/STM32F10x_StdPeriph_Driver
 OBJECT_DIR	 = $(ROOT)/obj
 BIN_DIR		 = $(ROOT)/obj
+STDPERIPH_DIR	 = $(BREEZY_DIR)/lib/STM32F10x_StdPeriph_Driver
 
 VPATH		:= $(ROOT):$(ROOT)/startups
 

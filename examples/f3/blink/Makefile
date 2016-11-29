@@ -27,12 +27,10 @@ SERIAL_DEVICE	?= /dev/ttyUSB0
 
 # Working directories
 ROOT		 := $(patsubst %/,%,$(dir $(lastword $(MAKEFILE_LIST))))
-
 CMSIS_DIR	 = $(BREEZY_DIR)/lib/CMSIS
-
 OBJECT_DIR	 = $(ROOT)/obj/main
 BIN_DIR		 = $(ROOT)/obj
-INCLUDE_DIRS = $(F3_DIR) $(ROOT)/src/target $(BREEZY_DIR)
+STDPERIPH_DIR	= $(BREEZY_DIR)/lib/STM32F30x_StdPeriph_Driver
 
 # Search path for sources
 VPATH		:= $(F3_DIR):$(F3_DIR)/startup
@@ -41,7 +39,6 @@ USBPERIPH_SRC = $(notdir $(wildcard $(USBFS_DIR)/src/*.c))
 
 CSOURCES        := $(shell find $(F3_DIR) -name '*.c')
 
-STDPERIPH_DIR	= $(BREEZY_DIR)/lib/STM32F30x_StdPeriph_Driver
 
 STDPERIPH_SRC = $(notdir $(wildcard $(STDPERIPH_DIR)/src/*.c))
 
@@ -86,10 +83,12 @@ CMSIS_SRC	 = $(notdir $(wildcard $(CMSIS_DIR)/CM1/CoreSupport/*.c \
 echo:
 	echo $(CMSIS_SRC)
 
-INCLUDE_DIRS := $(INCLUDE_DIRS) \
+INCLUDE_DIRS	 = $(ROOT) \
+		   $(BREEZY_DIR) \
 		   $(STDPERIPH_DIR)/inc \
 		   $(CMSIS_DIR)/CM1/CoreSupport \
-		   $(CMSIS_DIR)/CM1/DeviceSupport/ST/STM32F30x
+		   $(CMSIS_DIR)/CM1/DeviceSupport/ST/STM32F30x \
+
 
 LD_SCRIPT	 = $(BREEZY_DIR)/stm32_flash.ld
 
