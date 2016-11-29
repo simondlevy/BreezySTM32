@@ -6,5 +6,7 @@
 *.d
 *.i
 *.hex
-examples/f1/*/obj
-examples/*/*.o
+examples/*/*/obj
+examples/*/*/*.o
+examples/*/*/*.i
+examples/*/*/*.s
