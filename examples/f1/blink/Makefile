@@ -1,16 +1,5 @@
-###############################################################################
-# "THE BEER-WARE LICENSE" (Revision 42):
-# <msmith@FreeBSD.ORG> wrote this file. As long as you retain this notice you
-# can do whatever you want with this stuff. If we meet some day, and you think
-# this stuff is worth it, you can buy me a beer in return
-
-###############################################################################
-
 # Change this to wherever you put BreezySTM32
 BREEZY_DIR = ../../..
-
-# Fill this out with source files for your specific project
-PROJECT_SRC = ledblink.c
 
 ###############################################################################
 
@@ -43,7 +32,7 @@ myproject_SRC = $(BREEZY_DIR)/main.c \
 		   $(BREEZY_DIR)/drv_adc.c \
 		   $(BREEZY_DIR)/drv_serial.c \
 		   $(BREEZY_DIR)/printf.c \
-		   $(PROJECT_SRC) \
+		   ledblink.c \
 		   $(CMSIS_SRC) \
 		   $(STDPERIPH_SRC)
 

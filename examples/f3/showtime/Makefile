@@ -1,3 +1,4 @@
+# Change this to wherever you put BreezySTM32
 BREEZY_DIR  = ../../..
 
 PROJECT_SRC = showtime.c \
