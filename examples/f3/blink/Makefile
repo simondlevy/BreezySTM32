@@ -7,7 +7,6 @@ PROJECT_SRC = ledblink.c \
 		   $(BREEZY_DIR)/drv_system_stm32f30x.c \
 		   $(BREEZY_DIR)/drv_uart_stm32f30x.c \
 		   $(BREEZY_DIR)/dma.c \
-		   $(BREEZY_DIR)/timer_stm32f30x.c \
 		   $(BREEZY_DIR)/serial_uart_stm32f30x.c \
 		   $(BREEZY_DIR)/gpio_stm32f30x.c \
 		   $(BREEZY_DIR)/drv_serial.c \
