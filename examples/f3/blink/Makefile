@@ -25,6 +25,24 @@ DEBUG ?=
 # Serial port/Device for flashing
 SERIAL_DEVICE	?= /dev/ttyUSB0
 
+# Working directories
+ROOT		 := $(patsubst %/,%,$(dir $(lastword $(MAKEFILE_LIST))))
+OBJECT_DIR	 = $(ROOT)/obj/main
+BIN_DIR		 = $(ROOT)/obj
+CMSIS_DIR	 = $(BREEZY_DIR)/lib/CMSIS
+INCLUDE_DIRS = $(F3_DIR) $(ROOT)/src/target $(BREEZY_DIR)
+
+# Search path for sources
+VPATH		:= $(F3_DIR):$(F3_DIR)/startup
+USBFS_DIR	= $(ROOT)/lib/STM32_USB-FS-Device_Driver
+USBPERIPH_SRC = $(notdir $(wildcard $(USBFS_DIR)/src/*.c))
+
+CSOURCES        := $(shell find $(F3_DIR) -name '*.c')
+
+STDPERIPH_DIR	= $(BREEZY_DIR)/lib/STM32F30x_StdPeriph_Driver
+
+STDPERIPH_SRC = $(notdir $(wildcard $(STDPERIPH_DIR)/src/*.c))
+
 # Flash size (KB).  Some low-end chips actually have more flash than advertised, use this to override.
 FLASH_SIZE ?=
 
@@ -52,25 +70,6 @@ endif
 
 REVISION := $(shell git log -1 --format="%h")
 
-# Working directories
-ROOT		 := $(patsubst %/,%,$(dir $(lastword $(MAKEFILE_LIST))))
-OBJECT_DIR	 = $(ROOT)/obj/main
-BIN_DIR		 = $(ROOT)/obj
-CMSIS_DIR	 = $(BREEZY_DIR)/lib/CMSIS
-INCLUDE_DIRS = $(F3_DIR) $(ROOT)/src/target $(BREEZY_DIR)
-LINKER_DIR	 = $(BREEZY_DIR)
-
-# Search path for sources
-VPATH		:= $(F3_DIR):$(F3_DIR)/startup
-USBFS_DIR	= $(ROOT)/lib/STM32_USB-FS-Device_Driver
-USBPERIPH_SRC = $(notdir $(wildcard $(USBFS_DIR)/src/*.c))
-
-CSOURCES        := $(shell find $(F3_DIR) -name '*.c')
-
-STDPERIPH_DIR	= $(BREEZY_DIR)/lib/STM32F30x_StdPeriph_Driver
-
-STDPERIPH_SRC = $(notdir $(wildcard $(STDPERIPH_DIR)/src/*.c))
-
 EXCLUDES	= stm32f30x_crc.c stm32f30x_can.c
 
 STDPERIPH_SRC := $(filter-out ${EXCLUDES}, $(STDPERIPH_SRC))
@@ -90,7 +89,7 @@ INCLUDE_DIRS := $(INCLUDE_DIRS) \
 		   $(CMSIS_DIR)/CM1/CoreSupport \
 		   $(CMSIS_DIR)/CM1/DeviceSupport/ST/STM32F30x
 
-LD_SCRIPT	 = $(LINKER_DIR)/stm32_flash.ld
+LD_SCRIPT	 = $(BREEZY_DIR)/stm32_flash.ld
 
 ARCH_FLAGS	 = -mthumb -mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16 -fsingle-precision-constant -Wdouble-promotion
 DEVICE_FLAGS = -DSTM32F303xC -DSTM32F303
@@ -185,7 +184,6 @@ LDFLAGS		 = -lm \
 		   $(DEBUG_FLAGS) \
 		   -static \
 		   -Wl,-gc-sections,-Map,$(TARGET_MAP) \
-		   -Wl,-L$(LINKER_DIR) \
 		   -Wl,--cref \
 		   -T$(LD_SCRIPT)
 

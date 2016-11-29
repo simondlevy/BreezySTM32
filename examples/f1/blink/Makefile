@@ -13,6 +13,7 @@ PROJECT_SRC = ledblink.c \
 		   $(CMSIS_SRC) \
 		   $(STDPERIPH_SRC)
 
+
 TARGET		?= PROJECT
 
 # Compile-time options
