@@ -27,9 +27,11 @@ SERIAL_DEVICE	?= /dev/ttyUSB0
 
 # Working directories
 ROOT		 := $(patsubst %/,%,$(dir $(lastword $(MAKEFILE_LIST))))
+
+CMSIS_DIR	 = $(BREEZY_DIR)/lib/CMSIS
+
 OBJECT_DIR	 = $(ROOT)/obj/main
 BIN_DIR		 = $(ROOT)/obj
-CMSIS_DIR	 = $(BREEZY_DIR)/lib/CMSIS
 INCLUDE_DIRS = $(F3_DIR) $(ROOT)/src/target $(BREEZY_DIR)
 
 # Search path for sources
@@ -191,10 +193,6 @@ LDFLAGS		 = -lm \
 # No user-serviceable parts below
 ###############################################################################
 
-CPPCHECK         = cppcheck $(CSOURCES) --enable=all --platform=unix64 \
-		   --std=c99 --inline-suppr --quiet --force \
-		   $(addprefix -I,$(INCLUDE_DIRS)) \
-		   -I/usr/include -I/usr/include/linux
 
 TARGET_BIN	 = $(BIN_DIR)/$(FORKNAME)_$(TARGET).bin
 TARGET_HEX	 = $(BIN_DIR)/$(FORKNAME)_$(TARGET).hex
@@ -230,31 +228,6 @@ clean:
 flash: $(TARGET_HEX)
 	stty -F $(SERIAL_DEVICE) raw speed 115200 -crtscts cs8 -parenb -cstopb -ixon
 	stm32flash -w $(TARGET_HEX) -v -g 0x0 -b 115200 $(SERIAL_DEVICE)
-
-## unbrick     : unbrick flight controller
-unbrick: unbrick_$(TARGET)
-
-## cppcheck    : run static analysis on C source code
-cppcheck: $(CSOURCES)
-	$(CPPCHECK)
-
-cppcheck-result.xml: $(CSOURCES)
-	$(CPPCHECK) --xml-version=2 2> cppcheck-result.xml
-
-## help        : print this help message and exit
-help: Makefile
-	@echo ""
-	@echo "Makefile for the $(FORKNAME) firmware"
-	@echo ""
-	@echo "Usage:"
-	@echo "        make [goal] [TARGET=<target>] [OPTIONS=\"<options>\"]"
-	@echo ""
-	@sed -n 's/^## //p' $<
-
-## test        : run the cleanflight test suite
-## junittest   : run the cleanflight test suite, producing Junit XML result files.
-test junittest:
-	cd src/test && $(MAKE) $@
 
 # rebuild everything when makefile changes
 $(TARGET_OBJS) : Makefile

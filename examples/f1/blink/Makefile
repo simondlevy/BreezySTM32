@@ -27,13 +27,12 @@ SERIAL_DEVICE	?= /dev/ttyUSB0
 
 # Working directories
 ROOT		 = $(dir $(lastword $(MAKEFILE_LIST)))
-SRC_DIR		 = $(ROOT)
 CMSIS_DIR	 = $(BREEZY_DIR)/lib/CMSIS
 STDPERIPH_DIR	 = $(BREEZY_DIR)/lib/STM32F10x_StdPeriph_Driver
 OBJECT_DIR	 = $(ROOT)/obj
 BIN_DIR		 = $(ROOT)/obj
 
-VPATH		:= $(SRC_DIR):$(SRC_DIR)/startups
+VPATH		:= $(ROOT):$(ROOT)/startups
 
 # Search path and source files for the CMSIS sources
 VPATH		:= $(VPATH):$(CMSIS_DIR)/CM3/CoreSupport:$(CMSIS_DIR)/CM3/DeviceSupport/ST/STM32F10x
@@ -55,7 +54,7 @@ OBJCOPY	 = arm-none-eabi-objcopy
 #
 # Tool options.
 #
-INCLUDE_DIRS	 = $(SRC_DIR) \
+INCLUDE_DIRS	 = $(ROOT) \
 		   $(BREEZY_DIR) \
 		   $(STDPERIPH_DIR)/inc \
 		   $(CMSIS_DIR)/CM3/CoreSupport \
