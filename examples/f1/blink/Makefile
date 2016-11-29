@@ -1,9 +1,17 @@
 # Change this to wherever you put BreezySTM32
 BREEZY_DIR = ../../..
 
-###############################################################################
-
-# You probably shouldn't modify anything below here!
+PROJECT_SRC = ledblink.c \
+           $(BREEZY_DIR)/main.c \
+		   $(BREEZY_DIR)/startup_stm32f10x_md_gcc.S \
+		   $(BREEZY_DIR)/drv_system_stm32f10x.c \
+		   $(BREEZY_DIR)/drv_uart_stm32f10x.c \
+		   $(BREEZY_DIR)/drv_gpio.c \
+		   $(BREEZY_DIR)/drv_adc.c \
+		   $(BREEZY_DIR)/drv_serial.c \
+		   $(BREEZY_DIR)/printf.c \
+		   $(CMSIS_SRC) \
+		   $(STDPERIPH_SRC)
 
 TARGET		?= PROJECT
 
@@ -23,18 +31,6 @@ CMSIS_DIR	 = $(BREEZY_DIR)/lib/CMSIS
 STDPERIPH_DIR	 = $(BREEZY_DIR)/lib/STM32F10x_StdPeriph_Driver
 OBJECT_DIR	 = $(ROOT)/obj
 BIN_DIR		 = $(ROOT)/obj
-
-PROJECT_SRC = $(BREEZY_DIR)/main.c \
-		   $(BREEZY_DIR)/startup_stm32f10x_md_gcc.S \
-		   $(BREEZY_DIR)/drv_system_stm32f10x.c \
-		   $(BREEZY_DIR)/drv_uart_stm32f10x.c \
-		   $(BREEZY_DIR)/drv_gpio.c \
-		   $(BREEZY_DIR)/drv_adc.c \
-		   $(BREEZY_DIR)/drv_serial.c \
-		   $(BREEZY_DIR)/printf.c \
-		   ledblink.c \
-		   $(CMSIS_SRC) \
-		   $(STDPERIPH_SRC)
 
 VPATH		:= $(SRC_DIR):$(SRC_DIR)/startups
 
