@@ -5,7 +5,7 @@ BREEZY_DIR = ../../..
 
 # You probably shouldn't modify anything below here!
 
-TARGET		?= myproject
+TARGET		?= PROJECT
 
 # Compile-time options
 OPTIONS		?=
@@ -24,7 +24,7 @@ STDPERIPH_DIR	 = $(BREEZY_DIR)/lib/STM32F10x_StdPeriph_Driver
 OBJECT_DIR	 = $(ROOT)/obj
 BIN_DIR		 = $(ROOT)/obj
 
-myproject_SRC = $(BREEZY_DIR)/main.c \
+PROJECT_SRC = $(BREEZY_DIR)/main.c \
 		   $(BREEZY_DIR)/startup_stm32f10x_md_gcc.S \
 		   $(BREEZY_DIR)/drv_system_stm32f10x.c \
 		   $(BREEZY_DIR)/drv_uart_stm32f10x.c \
