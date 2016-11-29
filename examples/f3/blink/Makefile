@@ -2,17 +2,17 @@
 BREEZY_DIR  = ../../..
 
 PROJECT_SRC = ledblink.c \
+		   $(BREEZY_DIR)/main.c \
+		   $(BREEZY_DIR)/startup_stm32f30x_md_gcc.S \
 		   $(BREEZY_DIR)/drv_system_stm32f30x.c \
 		   $(BREEZY_DIR)/drv_uart_stm32f30x.c \
 		   $(BREEZY_DIR)/dma.c \
 		   $(BREEZY_DIR)/bus_i2c_stm32f30x.c \
 		   $(BREEZY_DIR)/timer_stm32f30x.c \
-		   $(BREEZY_DIR)/startup_stm32f30x_md_gcc.S \
 		   $(BREEZY_DIR)/serial_uart_stm32f30x.c \
 		   $(BREEZY_DIR)/gpio_stm32f30x.c \
 		   $(BREEZY_DIR)/drv_serial.c \
 		   $(BREEZY_DIR)/printf.c \
-		   $(BREEZY_DIR)/main.c \
 		   $(DEVICE_STDPERIPH_SRC) \
 		   $(CMSIS_SRC)
 
@@ -39,8 +39,6 @@ FLASH_SIZE ?=
 256K_TARGETS = PROJECT 
 
 F3_TARGETS = PROJECT 
-
-VALID_TARGETS = $(256K_TARGETS)
 
 # Configure default flash sizes for the targets
 ifeq ($(FLASH_SIZE),)
@@ -203,13 +201,6 @@ CPPCHECK         = cppcheck $(CSOURCES) --enable=all --platform=unix64 \
 		   $(addprefix -I,$(INCLUDE_DIRS)) \
 		   -I/usr/include -I/usr/include/linux
 
-#
-# Things we will build
-#
-ifeq ($(filter $(TARGET),$(VALID_TARGETS)),)
-$(error Target '$(TARGET)' is not valid, must be one of $(VALID_TARGETS))
-endif
-
 TARGET_BIN	 = $(BIN_DIR)/$(FORKNAME)_$(TARGET).bin
 TARGET_HEX	 = $(BIN_DIR)/$(FORKNAME)_$(TARGET).hex
 TARGET_ELF	 = $(OBJECT_DIR)/$(FORKNAME)_$(TARGET).elf
@@ -237,14 +228,6 @@ hex:    $(TARGET_HEX)
 # rules that should be handled in toplevel Makefile, not dependent on TARGET
 GLOBAL_GOALS	= all_targets cppcheck test
 
-.PHONY: $(VALID_TARGETS)
-$(VALID_TARGETS):
-	$(MAKE) TARGET=$@ $(filter-out $(VALID_TARGETS) $(GLOBAL_GOALS), $(MAKECMDGOALS))
-
-## all_targets : Make all TARGETs
-.PHONY: all_targets
-all_targets : $(VALID_TARGETS)
-
 ## clean       : clean up all temporary / machine-generated files
 clean:
 	rm -rf *.o ../*.o *.i *.d *.s obj f3
@@ -270,8 +253,6 @@ help: Makefile
 	@echo ""
 	@echo "Usage:"
 	@echo "        make [goal] [TARGET=<target>] [OPTIONS=\"<options>\"]"
-	@echo ""
-	@echo "Valid TARGET values are: $(VALID_TARGETS)"
 	@echo ""
 	@sed -n 's/^## //p' $<
 
