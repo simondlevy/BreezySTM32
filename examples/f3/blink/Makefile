@@ -42,81 +42,13 @@ CMSIS_SRC	 = $(notdir $(wildcard $(CMSIS_DIR)/CM1/CoreSupport/*.c \
 # Search path and source files for the ST stdperiph library
 VPATH		:= $(VPATH):$(STDPERIPH_DIR)/src
 
-# Flash size (KB).  Some low-end chips actually have more flash than advertised, use this to override.
-#FLASH_SIZE ?=
-
-
-###############################################################################
-# Things that need to be maintained as the source changes
-#
-
-
-256K_TARGETS = PROJECT 
-
-F3_TARGETS = PROJECT 
-
-# Configure default flash sizes for the targets
-ifeq ($(FLASH_SIZE),)
-ifeq ($(TARGET),$(filter $(TARGET),$(64K_TARGETS)))
-FLASH_SIZE = 64
-else ifeq ($(TARGET),$(filter $(TARGET),$(128K_TARGETS)))
-FLASH_SIZE = 128
-else ifeq ($(TARGET),$(filter $(TARGET),$(256K_TARGETS)))
-FLASH_SIZE = 256
-else
-$(error FLASH_SIZE not configured for target $(TARGET))
-endif
-endif
-
-REVISION := $(shell git log -1 --format="%h")
-
-EXCLUDES	= stm32f30x_crc.c stm32f30x_can.c
-
-STDPERIPH_SRC := $(filter-out ${EXCLUDES}, $(STDPERIPH_SRC))
-
-echo:
-	echo $(CMSIS_SRC)
-
-INCLUDE_DIRS	 = $(ROOT) \
-		   $(BREEZY_DIR) \
-		   $(STDPERIPH_DIR)/inc \
-		   $(CMSIS_DIR)/CM1/CoreSupport \
-		   $(CMSIS_DIR)/CM1/DeviceSupport/ST/STM32F30x \
-
-
-LD_SCRIPT	 = $(BREEZY_DIR)/stm32_flash.ld
-
-ARCH_FLAGS	 = -mthumb -mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16 -fsingle-precision-constant -Wdouble-promotion
-DEVICE_FLAGS = -DSTM32F303xC -DSTM32F303
-TARGET_FLAGS = -D$(TARGET)
-
-ifneq ($(FLASH_SIZE),)
-DEVICE_FLAGS := $(DEVICE_FLAGS) -DFLASH_SIZE=$(FLASH_SIZE)
-endif
-
-TARGET_DIR = $(ROOT)/src/target/$(TARGET)
-TARGET_SRC = $(notdir $(wildcard $(TARGET_DIR)/*.c))
-
-INCLUDE_DIRS := \
-		    $(INCLUDE_DIRS) \
-		    $(TARGET_DIR)
-
 ###############################################################################
 # Things that might need changing to use different tools
 #
 
-# Find out if ccache is installed on the system
-CCACHE := ccache
-RESULT = $(shell (which $(CCACHE) > /dev/null 2>&1; echo $$?) )
-ifneq ($(RESULT),0)
-CCACHE :=
-endif
-
 # Tool names
-#CC          := $(CCACHE) arm-none-eabi-gcc
-CC          := arm-none-eabi-gcc
+CC          := arm-none-eabi-gcc -std=gnu99
 OBJCOPY     := arm-none-eabi-objcopy
-SIZE        := arm-none-eabi-size
 
 #
 # Tool options.
@@ -177,6 +109,61 @@ LDFLAGS		 = -lm \
 		   -T$(LD_SCRIPT)
 
 ###############################################################################
+# Things that need to be maintained as the source changes
+#
+
+
+256K_TARGETS = PROJECT 
+
+F3_TARGETS = PROJECT 
+
+# Configure default flash sizes for the targets
+ifeq ($(FLASH_SIZE),)
+ifeq ($(TARGET),$(filter $(TARGET),$(64K_TARGETS)))
+FLASH_SIZE = 64
+else ifeq ($(TARGET),$(filter $(TARGET),$(128K_TARGETS)))
+FLASH_SIZE = 128
+else ifeq ($(TARGET),$(filter $(TARGET),$(256K_TARGETS)))
+FLASH_SIZE = 256
+else
+$(error FLASH_SIZE not configured for target $(TARGET))
+endif
+endif
+
+REVISION := $(shell git log -1 --format="%h")
+
+EXCLUDES	= stm32f30x_crc.c stm32f30x_can.c
+
+STDPERIPH_SRC := $(filter-out ${EXCLUDES}, $(STDPERIPH_SRC))
+
+echo:
+	echo $(CMSIS_SRC)
+
+INCLUDE_DIRS	 = $(ROOT) \
+		   $(BREEZY_DIR) \
+		   $(STDPERIPH_DIR)/inc \
+		   $(CMSIS_DIR)/CM1/CoreSupport \
+		   $(CMSIS_DIR)/CM1/DeviceSupport/ST/STM32F30x \
+
+
+LD_SCRIPT	 = $(BREEZY_DIR)/stm32_flash.ld
+
+ARCH_FLAGS	 = -mthumb -mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16 -fsingle-precision-constant -Wdouble-promotion
+DEVICE_FLAGS = -DSTM32F303xC -DSTM32F303
+TARGET_FLAGS = -D$(TARGET)
+
+ifneq ($(FLASH_SIZE),)
+DEVICE_FLAGS := $(DEVICE_FLAGS) -DFLASH_SIZE=$(FLASH_SIZE)
+endif
+
+TARGET_DIR = $(ROOT)/src/target/$(TARGET)
+TARGET_SRC = $(notdir $(wildcard $(TARGET_DIR)/*.c))
+
+INCLUDE_DIRS := \
+		    $(INCLUDE_DIRS) \
+		    $(TARGET_DIR)
+
+###############################################################################
 # No user-serviceable parts below
 ###############################################################################
 
@@ -228,7 +215,6 @@ $(TARGET_BIN): $(TARGET_ELF)
 
 $(TARGET_ELF):  $(TARGET_OBJS)
 	$(CC) -o $@ $^ $(LDFLAGS)
-	$(SIZE) $(TARGET_ELF)
 
 # Compile
 $(OBJECT_DIR)/$(TARGET)/%.o: %.c
