@@ -61,7 +61,9 @@ INCLUDE_DIRS	 = $(ROOT) \
 		   $(CMSIS_DIR)/CM1/DeviceSupport/ST/STM32F30x \
 
 
-#ARCH_FLAGS	 = -mthumb -mcpu=cortex-m3
+ARCH_FLAGS	 = -mthumb -mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16 -fsingle-precision-constant -Wdouble-promotion
+DEVICE_FLAGS = -DSTM32F303xC -DSTM32F303
+
 
 ifeq ($(DEBUG),GDB)
 OPTIMIZE	 = -O0
@@ -88,7 +90,6 @@ CFLAGS	 = $(ARCH_FLAGS) \
 		   -fdata-sections \
 		   $(DEVICE_FLAGS) \
 		   -DUSE_STDPERIPH_DRIVER \
-		   $(TARGET_FLAGS) \
 		   -fverbose-asm -ffat-lto-objects \
 		   -save-temps=obj \
 		   -MMD -MP
@@ -150,10 +151,6 @@ flash: $(TARGET_HEX)
 ######################################################################3
 
 
-
-ARCH_FLAGS	 = -mthumb -mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16 -fsingle-precision-constant -Wdouble-promotion
-DEVICE_FLAGS = -DSTM32F303xC -DSTM32F303
-TARGET_FLAGS = -D$(TARGET)
 
 ifneq ($(FLASH_SIZE),)
 DEVICE_FLAGS := $(DEVICE_FLAGS) -DFLASH_SIZE=$(FLASH_SIZE)
