@@ -2,16 +2,20 @@ BREEZY_DIR  = $(HOME)/Desktop/BreezySTM32
 
 include makefile.project
 
-$(PROJECT_NAME)_SRC = $(PROJECT_SRC_FILE) \
-		   $(BREEZY_DIR)/main.c \
-		   $(BREEZY_DIR)/startup_stm32f30x_md_gcc.S \
+#################################################################
+DEVICE_SRC = $(BREEZY_DIR)/startup_stm32f30x_md_gcc.S \
 		   $(BREEZY_DIR)/drv_system_stm32f30x.c \
 		   $(BREEZY_DIR)/drv_uart_stm32f30x.c \
 		   $(BREEZY_DIR)/dma.c \
 		   $(BREEZY_DIR)/serial_uart_stm32f30x.c \
 		   $(BREEZY_DIR)/gpio_stm32f30x.c \
+#################################################################
+
+$(PROJECT_NAME)_SRC = $(PROJECT_SRC_FILE) \
+		   $(BREEZY_DIR)/main.c \
 		   $(BREEZY_DIR)/drv_serial.c \
 		   $(BREEZY_DIR)/printf.c \
+		   $(DEVICE_SRC) \
 		   $(CMSIS_SRC) \
 		   $(STDPERIPH_SRC) 
 
