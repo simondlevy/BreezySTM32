@@ -9,13 +9,11 @@ include ../makefile.f1
 $(PROJECT_NAME)_SRC = $(PROJECT_SRC_FILE) \
 	       $(PROJECT_BREEZY_FILES) \
            $(BREEZY_DIR)/main.c \
-		   $(BREEZY_DIR)/drv_gpio.c \
-		   $(BREEZY_DIR)/drv_adc.c \
 		   $(BREEZY_DIR)/drv_serial.c \
 		   $(BREEZY_DIR)/printf.c \
+		   $(DEVICE_SRC) \
 		   $(CMSIS_SRC) \
-		   $(STDPERIPH_SRC) \
-		   $(DEVICE_SRC)
+		   $(STDPERIPH_SRC) 
 
 TARGET		?= $(PROJECT_NAME)
 

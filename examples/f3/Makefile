@@ -40,7 +40,7 @@ VPATH		:= $(VPATH):$(STDPERIPH_DIR)/src
 #
 
 # Tool names
-CC          := arm-none-eabi-gcc -std=gnu99
+CC          := arm-none-eabi-gcc
 OBJCOPY     := arm-none-eabi-objcopy
 
 #
