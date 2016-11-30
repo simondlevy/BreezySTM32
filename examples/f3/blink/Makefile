@@ -113,10 +113,11 @@ LDFLAGS		 = -lm \
 		   -Wl,--cref \
 		   -T$(LD_SCRIPT)
 
-###############################################################################
-# Things that need to be maintained as the source changes
-#
 
+TARGET_HEX	 = $(BIN_DIR)/$(TARGET).hex
+TARGET_ELF	 = $(BIN_DIR)/$(TARGET).elf
+TARGET_OBJS	 = $(addsuffix .o,$(addprefix $(OBJECT_DIR)/$(TARGET)/,$(basename $($(TARGET)_SRC))))
+TARGET_MAP   = $(OBJECT_DIR)/$(TARGET).map
 
 256K_TARGETS = PROJECT 
 
@@ -165,11 +166,6 @@ INCLUDE_DIRS := \
 # No user-serviceable parts below
 ###############################################################################
 
-
-TARGET_HEX	 = $(BIN_DIR)/$(TARGET).hex
-TARGET_ELF	 = $(BIN_DIR)/$(TARGET).elf
-TARGET_OBJS	 = $(addsuffix .o,$(addprefix $(OBJECT_DIR)/$(TARGET)/,$(basename $($(TARGET)_SRC))))
-TARGET_MAP   = $(OBJECT_DIR)/$(TARGET).map
 
 
 ## Default make goal:
