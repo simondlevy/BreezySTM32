@@ -135,6 +135,9 @@ $(OBJECT_DIR)/$(TARGET)/%.o: %.S
 	@echo %% $(notdir $<)
 	@$(CC) -c -o $@ $(ASFLAGS) $< 
 
+# rebuild everything when makefile changes
+$(TARGET_OBJS) : Makefile
+
 ## clean       : clean up all temporary / machine-generated files
 clean:
 	rm -rf *.o ../*.o *.i *.d *.s obj f3

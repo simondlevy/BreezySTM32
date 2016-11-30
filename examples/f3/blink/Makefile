@@ -139,6 +139,9 @@ $(OBJECT_DIR)/$(TARGET)/%.o: %.S
 	@$(CC) -c -o $@ $(ASFLAGS) $<
 
 
+# rebuild everything when makefile changes
+$(TARGET_OBJS) : Makefile
+
 ## clean       : clean up all temporary / machine-generated files
 clean:
 	rm -rf *.o ../*.o *.i *.d *.s obj f3
@@ -148,11 +151,4 @@ flash: $(TARGET_HEX)
 	stm32flash -w $(TARGET_HEX) -v -g 0x0 -b 115200 $(SERIAL_DEVICE)
 
 
-######################################################################3
-# rule to reinvoke make with TARGET= parameter
-# rules that should be handled in toplevel Makefile, not dependent on TARGET
-GLOBAL_GOALS	= all_targets cppcheck test
 
-
-# rebuild everything when makefile changes
-$(TARGET_OBJS) : Makefile
