@@ -34,11 +34,16 @@ STDPERIPH_DIR	= $(BREEZY_DIR)/lib/STM32F30x_StdPeriph_Driver
 
 STDPERIPH_SRC = $(notdir $(wildcard $(STDPERIPH_DIR)/src/*.c))
 
+# Search path and source files for the CMSIS sources
+VPATH		:= $(CMSIS_DIR)/CM1/CoreSupport:$(CMSIS_DIR)/CM1/DeviceSupport/ST/STM32F30x
+CMSIS_SRC	 = $(notdir $(wildcard $(CMSIS_DIR)/CM1/CoreSupport/*.c \
+			               $(CMSIS_DIR)/CM1/DeviceSupport/ST/STM32F30x/*.c))
+
+# Search path and source files for the ST stdperiph library
+VPATH		:= $(VPATH):$(STDPERIPH_DIR)/src
+
 # Flash size (KB).  Some low-end chips actually have more flash than advertised, use this to override.
-FLASH_SIZE ?=
-
-
-
+#FLASH_SIZE ?=
 
 
 ###############################################################################
@@ -69,10 +74,6 @@ EXCLUDES	= stm32f30x_crc.c stm32f30x_can.c
 
 STDPERIPH_SRC := $(filter-out ${EXCLUDES}, $(STDPERIPH_SRC))
 
-VPATH		:= $(VPATH):$(CMSIS_DIR)/CM1/CoreSupport:$(CMSIS_DIR)/CM1/DeviceSupport/ST/STM32F30x
-CMSIS_SRC	 = $(notdir $(wildcard $(CMSIS_DIR)/CM1/CoreSupport/*.c \
-			   $(CMSIS_DIR)/CM1/DeviceSupport/ST/STM32F30x/*.c))
-
 echo:
 	echo $(CMSIS_SRC)
 
@@ -99,12 +100,6 @@ TARGET_SRC = $(notdir $(wildcard $(TARGET_DIR)/*.c))
 INCLUDE_DIRS := \
 		    $(INCLUDE_DIRS) \
 		    $(TARGET_DIR)
-
-VPATH		:= $(VPATH):$(TARGET_DIR)
-
-
-# Search path and source files for the ST stdperiph library
-VPATH		:= $(VPATH):$(STDPERIPH_DIR)/src
 
 ###############################################################################
 # Things that might need changing to use different tools
