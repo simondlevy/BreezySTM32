@@ -74,7 +74,6 @@ DEBUG_FLAGS	 = -ggdb3 -DDEBUG
 
 CFLAGS	 = $(ARCH_FLAGS) \
 		   $(LTO_FLAGS) \
-		   $(WARN_FLAGS) \
 		   $(addprefix -D,$(OPTIONS)) \
 		   $(addprefix -I,$(INCLUDE_DIRS)) \
 		   $(DEBUG_FLAGS) \
@@ -84,13 +83,11 @@ CFLAGS	 = $(ARCH_FLAGS) \
 		   -fdata-sections \
 		   $(DEVICE_FLAGS) \
 		   -DUSE_STDPERIPH_DRIVER \
-		   $(TARGET_FLAGS) \
 		   -fverbose-asm -ffat-lto-objects \
 		   -save-temps=obj \
 		   -MMD -MP
 
 ASFLAGS		 = $(ARCH_FLAGS) \
-		   $(WARN_FLAGS) \
 		   -x assembler-with-cpp \
 		   $(addprefix -I,$(INCLUDE_DIRS)) \
 		  -MMD -MP
@@ -102,7 +99,6 @@ LDFLAGS		 = -lm \
 		   -lnosys \
 		   $(ARCH_FLAGS) \
 		   $(LTO_FLAGS) \
-		   $(WARN_FLAGS) \
 		   $(DEBUG_FLAGS) \
 		   -static \
 		   -Wl,-gc-sections,-Map,$(TARGET_MAP) \

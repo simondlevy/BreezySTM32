@@ -61,6 +61,7 @@ INCLUDE_DIRS	 = $(ROOT) \
 		   $(CMSIS_DIR)/CM3/DeviceSupport/ST/STM32F10x \
 
 ARCH_FLAGS	 = -mthumb -mcpu=cortex-m3
+DEVICE_FLAGS = -DSTM32F10X_MD
 
 ifeq ($(DEBUG),GDB)
 OPTIMIZE	 = -O0
@@ -72,17 +73,21 @@ endif
 
 DEBUG_FLAGS	 = -ggdb3 -DDEBUG
 
-CFLAGS		 = $(ARCH_FLAGS) \
+CFLAGS	 = $(ARCH_FLAGS) \
 		   $(LTO_FLAGS) \
 		   $(addprefix -D,$(OPTIONS)) \
 		   $(addprefix -I,$(INCLUDE_DIRS)) \
 		   $(DEBUG_FLAGS) \
-		   -Wall -pedantic -Wextra -Wshadow -Wunsafe-loop-optimizations \
+		   -std=gnu99 \
+		   -Wall -Wpedantic -Wextra -Wunsafe-loop-optimizations -Wdouble-promotion -Wundef \
 		   -ffunction-sections \
 		   -fdata-sections \
-		   -DSTM32F10X_MD \
+		   $(DEVICE_FLAGS) \
 		   -DUSE_STDPERIPH_DRIVER \
-		   -D$(TARGET)
+		   -fverbose-asm -ffat-lto-objects \
+		   -save-temps=obj \
+		   -MMD -MP
+
 
 ASFLAGS		 = $(ARCH_FLAGS) \
 		   -x assembler-with-cpp \
