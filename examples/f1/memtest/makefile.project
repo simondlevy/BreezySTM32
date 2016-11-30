@@ -1,0 +1,7 @@
+PROJECT_NAME = memtest
+
+# Contains your setup() and loop()
+PROJECT_SRC_FILE  = memtest.c
+
+# Drivers, etc.
+PROJECT_BREEZY_FILES = $(BREEZY_DIR)/drv_spi.c $(BREEZY_DIR)/drv_m25p16.c $(BREEZY_DIR)/drv_flashfs.c
