@@ -54,6 +54,14 @@ OBJCOPY     := arm-none-eabi-objcopy
 # Tool options.
 #
 
+INCLUDE_DIRS	 = $(ROOT) \
+		   $(BREEZY_DIR) \
+		   $(STDPERIPH_DIR)/inc \
+		   $(CMSIS_DIR)/CM1/CoreSupport \
+		   $(CMSIS_DIR)/CM1/DeviceSupport/ST/STM32F30x \
+
+#ARCH_FLAGS	 = -mthumb -mcpu=cortex-m3
+
 ifeq ($(DEBUG),GDB)
 OPTIMIZE	 = -O0
 LTO_FLAGS	 = $(OPTIMIZE)
@@ -138,12 +146,6 @@ STDPERIPH_SRC := $(filter-out ${EXCLUDES}, $(STDPERIPH_SRC))
 
 echo:
 	echo $(CMSIS_SRC)
-
-INCLUDE_DIRS	 = $(ROOT) \
-		   $(BREEZY_DIR) \
-		   $(STDPERIPH_DIR)/inc \
-		   $(CMSIS_DIR)/CM1/CoreSupport \
-		   $(CMSIS_DIR)/CM1/DeviceSupport/ST/STM32F30x \
 
 
 LD_SCRIPT	 = $(BREEZY_DIR)/stm32_flash.ld

@@ -53,6 +53,7 @@ OBJCOPY	 = arm-none-eabi-objcopy
 #
 # Tool options.
 #
+
 INCLUDE_DIRS	 = $(ROOT) \
 		   $(BREEZY_DIR) \
 		   $(STDPERIPH_DIR)/inc \
@@ -62,12 +63,19 @@ INCLUDE_DIRS	 = $(ROOT) \
 ARCH_FLAGS	 = -mthumb -mcpu=cortex-m3
 
 ifeq ($(DEBUG),GDB)
-OPTIMIZE	 = -Og
-
+OPTIMIZE	 = -O0
+LTO_FLAGS	 = $(OPTIMIZE)
 else
 OPTIMIZE	 = -Os
-LTO_FLAGS	 = -flto -fuse-linker-plugin $(OPTIMIZE)
+LTO_FLAGS	 =  -flto -fuse-linker-plugin $(OPTIMIZE)
 endif
+
+#ifeq ($(DEBUG),GDB)
+#OPTIMIZE	 = -Og
+#else
+#OPTIMIZE	 = -Os
+#LTO_FLAGS	 = -flto -fuse-linker-plugin $(OPTIMIZE)
+#endif
 
 DEBUG_FLAGS	 = -ggdb3
 
