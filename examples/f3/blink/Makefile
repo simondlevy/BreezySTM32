@@ -1,5 +1,4 @@
-# Change this to wherever you put BreezySTM32
-BREEZY_DIR  = ../../..
+BREEZY_DIR  = $(HOME)/Desktop/BreezySTM32
 
 PROJECT_SRC = blink.c \
 		   $(BREEZY_DIR)/main.c \
@@ -28,7 +27,7 @@ SERIAL_DEVICE	?= /dev/ttyUSB0
 # Working directories
 ROOT		 = $(dir $(lastword $(MAKEFILE_LIST)))
 CMSIS_DIR	 = $(BREEZY_DIR)/lib/CMSIS
-OBJECT_DIR	 = $(ROOT)/obj/main
+OBJECT_DIR	 = $(ROOT)/obj
 BIN_DIR		 = $(ROOT)/obj
 STDPERIPH_DIR	= $(BREEZY_DIR)/lib/STM32F30x_StdPeriph_Driver
 
