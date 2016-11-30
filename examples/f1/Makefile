@@ -32,14 +32,8 @@ SERIAL_DEVICE	?= /dev/ttyUSB0
 ROOT		 = $(dir $(lastword $(MAKEFILE_LIST)))
 OBJECT_DIR	 = $(ROOT)/obj
 BIN_DIR		 = $(ROOT)/obj
-STDPERIPH_DIR	 = $(BREEZY_DIR)/lib/STM32F10x_StdPeriph_Driver
 
 STDPERIPH_SRC	 = $(notdir $(wildcard $(STDPERIPH_DIR)/src/*.c))
-
-# Search path and source files for the CMSIS sources
-VPATH		:= $(CMSIS_DIR)/CM3/CoreSupport:$(CMSIS_DIR)/CM3/DeviceSupport/ST/STM32F10x
-CMSIS_SRC	 = $(notdir $(wildcard $(CMSIS_DIR)/CM3/CoreSupport/*.c \
-			               $(CMSIS_DIR)/CM3/DeviceSupport/ST/STM32F10x/*.c))
 
 # Search path and source files for the ST stdperiph library
 VPATH		:= $(VPATH):$(STDPERIPH_DIR)/src
@@ -59,11 +53,7 @@ OBJCOPY	 = arm-none-eabi-objcopy
 INCLUDE_DIRS	 = $(ROOT) \
 		   $(BREEZY_DIR) \
 		   $(STDPERIPH_DIR)/inc \
-		   $(CMSIS_DIR)/CM3/CoreSupport \
-		   $(CMSIS_DIR)/CM3/DeviceSupport/ST/STM32F10x \
-
-ARCH_FLAGS	 = -mthumb -mcpu=cortex-m3
-DEVICE_FLAGS = -DSTM32F10X_MD
+		   $(DEVICE_INCLUDES)
 
 ifeq ($(DEBUG),GDB)
 OPTIMIZE	 = -O0
