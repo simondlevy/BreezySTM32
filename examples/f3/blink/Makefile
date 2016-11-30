@@ -122,9 +122,6 @@ TARGET_MAP   = $(OBJECT_DIR)/$(TARGET).map
 $(TARGET_HEX): $(TARGET_ELF)
 	$(OBJCOPY) -O ihex --set-start 0x8000000 $< $@
 
-$(TARGET_BIN): $(TARGET_ELF)
-	$(OBJCOPY) -O binary $< $@
-
 $(TARGET_ELF):  $(TARGET_OBJS)
 	$(CC) -o $@ $^ $(LDFLAGS)
 
