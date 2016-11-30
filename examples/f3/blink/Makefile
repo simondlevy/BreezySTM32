@@ -1,7 +1,7 @@
 # Change this to wherever you put BreezySTM32
 BREEZY_DIR  = ../../..
 
-PROJECT_SRC = ledblink.c \
+PROJECT_SRC = blink.c \
 		   $(BREEZY_DIR)/main.c \
 		   $(BREEZY_DIR)/startup_stm32f30x_md_gcc.S \
 		   $(BREEZY_DIR)/drv_system_stm32f30x.c \
