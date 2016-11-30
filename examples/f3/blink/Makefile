@@ -149,18 +149,6 @@ flash: $(TARGET_HEX)
 
 
 ######################################################################3
-
-
-
-INCLUDE_DIRS := \
-		    $(INCLUDE_DIRS) \
-		    $(TARGET_DIR)
-
-
-## Default make goal:
-## hex         : Make filetype hex only
-.DEFAULT_GOAL := hex
-
 ## Optional make goals:
 ## all         : Make all filetypes, binary and hex
 all: hex bin
