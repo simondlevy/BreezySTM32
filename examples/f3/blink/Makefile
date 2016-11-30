@@ -138,6 +138,10 @@ $(OBJECT_DIR)/$(TARGET)/%.o: %.S
 	@$(CC) -c -o $@ $(ASFLAGS) $<
 
 
+## clean       : clean up all temporary / machine-generated files
+clean:
+	rm -rf *.o ../*.o *.i *.d *.s obj f3
+
 
 
 
@@ -215,10 +219,6 @@ hex:    $(TARGET_HEX)
 # rule to reinvoke make with TARGET= parameter
 # rules that should be handled in toplevel Makefile, not dependent on TARGET
 GLOBAL_GOALS	= all_targets cppcheck test
-
-## clean       : clean up all temporary / machine-generated files
-clean:
-	rm -rf *.o ../*.o *.i *.d *.s obj f3
 
 flash: $(TARGET_HEX)
 	stty -F $(SERIAL_DEVICE) raw speed 115200 -crtscts cs8 -parenb -cstopb -ixon
