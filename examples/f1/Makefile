@@ -2,19 +2,20 @@ BREEZY_DIR = $(HOME)/Desktop/BreezySTM32
 
 include makefile.project
 
+CMSIS_DIR	 = $(BREEZY_DIR)/lib/CMSIS
+
+include ../makefile.f1
+
 $(PROJECT_NAME)_SRC = $(PROJECT_SRC_FILE) \
 	       $(PROJECT_BREEZY_FILES) \
            $(BREEZY_DIR)/main.c \
-		   $(BREEZY_DIR)/startup_stm32f10x_md_gcc.S \
-		   $(BREEZY_DIR)/drv_system_stm32f10x.c \
-		   $(BREEZY_DIR)/drv_uart_stm32f10x.c \
 		   $(BREEZY_DIR)/drv_gpio.c \
 		   $(BREEZY_DIR)/drv_adc.c \
 		   $(BREEZY_DIR)/drv_serial.c \
-		   $(BREEZY_DIR)/drv_timer.c \
 		   $(BREEZY_DIR)/printf.c \
 		   $(CMSIS_SRC) \
-		   $(STDPERIPH_SRC)
+		   $(STDPERIPH_SRC) \
+		   $(DEVICE_SRC)
 
 TARGET		?= $(PROJECT_NAME)
 
@@ -29,7 +30,6 @@ SERIAL_DEVICE	?= /dev/ttyUSB0
 
 # Working directories
 ROOT		 = $(dir $(lastword $(MAKEFILE_LIST)))
-CMSIS_DIR	 = $(BREEZY_DIR)/lib/CMSIS
 OBJECT_DIR	 = $(ROOT)/obj
 BIN_DIR		 = $(ROOT)/obj
 STDPERIPH_DIR	 = $(BREEZY_DIR)/lib/STM32F10x_StdPeriph_Driver
