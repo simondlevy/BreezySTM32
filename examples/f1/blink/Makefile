@@ -70,14 +70,7 @@ OPTIMIZE	 = -Os
 LTO_FLAGS	 =  -flto -fuse-linker-plugin $(OPTIMIZE)
 endif
 
-#ifeq ($(DEBUG),GDB)
-#OPTIMIZE	 = -Og
-#else
-#OPTIMIZE	 = -Os
-#LTO_FLAGS	 = -flto -fuse-linker-plugin $(OPTIMIZE)
-#endif
-
-DEBUG_FLAGS	 = -ggdb3
+DEBUG_FLAGS	 = -ggdb3 -DDEBUG
 
 CFLAGS		 = $(ARCH_FLAGS) \
 		   $(LTO_FLAGS) \

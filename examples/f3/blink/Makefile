@@ -70,10 +70,6 @@ OPTIMIZE	 = -Os
 LTO_FLAGS	 =  -flto -fuse-linker-plugin $(OPTIMIZE)
 endif
 
-ifneq ($(filter $(OPTIONS),FAIL_ON_WARNINGS),)
-WARN_FLAGS      += -Werror
-endif
-
 DEBUG_FLAGS	 = -ggdb3 -DDEBUG
 
 CFLAGS	 = $(ARCH_FLAGS) \
@@ -89,9 +85,6 @@ CFLAGS	 = $(ARCH_FLAGS) \
 		   $(DEVICE_FLAGS) \
 		   -DUSE_STDPERIPH_DRIVER \
 		   $(TARGET_FLAGS) \
-		   -D'__FORKNAME__="$(FORKNAME)"' \
-		   -D'__TARGET__="$(TARGET)"' \
-		   -D'__REVISION__="$(REVISION)"' \
 		   -fverbose-asm -ffat-lto-objects \
 		   -save-temps=obj \
 		   -MMD -MP
