@@ -96,6 +96,7 @@ ASFLAGS		 = $(ARCH_FLAGS) \
 
 
 LD_SCRIPT	 = $(BREEZY_DIR)/stm32_flash.ld
+
 LDFLAGS		 = -lm \
 		   -nostartfiles \
 		   --specs=nano.specs \
@@ -113,9 +114,6 @@ TARGET_HEX	 = $(BIN_DIR)/$(TARGET).hex
 TARGET_ELF	 = $(BIN_DIR)/$(TARGET).elf
 TARGET_OBJS	 = $(addsuffix .o,$(addprefix $(OBJECT_DIR)/$(TARGET)/,$(basename $($(TARGET)_SRC))))
 TARGET_MAP   = $(OBJECT_DIR)/$(TARGET).map
-
-# List of buildable ELF files and their object dependencies.
-# It would be nice to compute these lists, but that seems to be just beyond make.
 
 $(TARGET_HEX): $(TARGET_ELF)
 	$(OBJCOPY) -O ihex --set-start 0x8000000 $< $@
