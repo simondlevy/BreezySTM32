@@ -151,17 +151,6 @@ flash: $(TARGET_HEX)
 
 
 
-REVISION := $(shell git log -1 --format="%h")
-
-EXCLUDES	= stm32f30x_crc.c stm32f30x_can.c
-
-STDPERIPH_SRC := $(filter-out ${EXCLUDES}, $(STDPERIPH_SRC))
-
-echo:
-	echo $(CMSIS_SRC)
-
-
-
 ARCH_FLAGS	 = -mthumb -mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16 -fsingle-precision-constant -Wdouble-promotion
 DEVICE_FLAGS = -DSTM32F303xC -DSTM32F303
 TARGET_FLAGS = -D$(TARGET)
