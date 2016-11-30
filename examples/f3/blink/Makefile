@@ -98,6 +98,8 @@ ASFLAGS		 = $(ARCH_FLAGS) \
 		   $(addprefix -I,$(INCLUDE_DIRS)) \
 		  -MMD -MP
 
+LD_SCRIPT	 = $(BREEZY_DIR)/stm32_flash.ld
+
 LDFLAGS		 = -lm \
 		   -nostartfiles \
 		   --specs=nano.specs \
@@ -105,7 +107,6 @@ LDFLAGS		 = -lm \
 		   -lnosys \
 		   $(ARCH_FLAGS) \
 		   $(LTO_FLAGS) \
-		   $(WARN_FLAGS) \
 		   $(DEBUG_FLAGS) \
 		   -static \
 		   -Wl,-gc-sections,-Map,$(TARGET_MAP) \
@@ -144,7 +145,6 @@ echo:
 	echo $(CMSIS_SRC)
 
 
-LD_SCRIPT	 = $(BREEZY_DIR)/stm32_flash.ld
 
 ARCH_FLAGS	 = -mthumb -mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16 -fsingle-precision-constant -Wdouble-promotion
 DEVICE_FLAGS = -DSTM32F303xC -DSTM32F303
