@@ -149,8 +149,11 @@ $(TARGET_OBJS) : Makefile
 
 ## clean       : clean up all temporary / machine-generated files
 clean:
-	rm -rf *.o ../*.o *.i *.d *.s obj f3
+	rm -rf obj
 
 flash: $(TARGET_HEX)
 	stty -F $(SERIAL_DEVICE) raw speed 115200 -crtscts cs8 -parenb -cstopb -ixon
 	stm32flash -w $(TARGET_HEX) -v -g 0x0 -b 115200 $(SERIAL_DEVICE)
+
+listen:
+	miniterm.py $(SERIAL_DEVICE) 115200
