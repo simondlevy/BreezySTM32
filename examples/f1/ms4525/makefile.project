@@ -4,5 +4,5 @@ PROJECT_NAME = ms4525
 PROJECT_SRC_FILE  = ms4525.c
 
 # Drivers, etc.
-PROJECT_BREEZY_FILES =  $(BREEZY_DIR)/drv_i2c.c $(BREEZY_DIR)/drv_mpu6050.c $(BREEZY_DIR)/drv_ms4525.c
+PROJECT_BREEZY_FILES =  $(BREEZY_DIR)/drv_i2c_stm32f10x.c $(BREEZY_DIR)/drv_mpu6050.c $(BREEZY_DIR)/drv_ms4525.c
 	
