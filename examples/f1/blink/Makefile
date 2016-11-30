@@ -139,8 +139,6 @@ $(OBJECT_DIR)/$(TARGET)/%.o: %.S
 clean:
 	rm -rf *.o ../*.o *.i *.d *.s obj f3
 
-flash_$(TARGET): $(TARGET_HEX)
+flash: $(TARGET_HEX)
 	stty -F $(SERIAL_DEVICE) raw speed 115200 -crtscts cs8 -parenb -cstopb -ixon
 	stm32flash -w $(TARGET_HEX) -v -g 0x0 -b 115200 $(SERIAL_DEVICE)
-
-flash: flash_$(TARGET)
