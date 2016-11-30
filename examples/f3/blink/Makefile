@@ -142,37 +142,14 @@ $(OBJECT_DIR)/$(TARGET)/%.o: %.S
 clean:
 	rm -rf *.o ../*.o *.i *.d *.s obj f3
 
+flash: $(TARGET_HEX)
+	stty -F $(SERIAL_DEVICE) raw speed 115200 -crtscts cs8 -parenb -cstopb -ixon
+	stm32flash -w $(TARGET_HEX) -v -g 0x0 -b 115200 $(SERIAL_DEVICE)
 
 
+######################################################################3
 
 
-
-
-
-
-
-
-
-
-
-
-
-256K_TARGETS = PROJECT 
-
-F3_TARGETS = PROJECT 
-
-# Configure default flash sizes for the targets
-ifeq ($(FLASH_SIZE),)
-ifeq ($(TARGET),$(filter $(TARGET),$(64K_TARGETS)))
-FLASH_SIZE = 64
-else ifeq ($(TARGET),$(filter $(TARGET),$(128K_TARGETS)))
-FLASH_SIZE = 128
-else ifeq ($(TARGET),$(filter $(TARGET),$(256K_TARGETS)))
-FLASH_SIZE = 256
-else
-$(error FLASH_SIZE not configured for target $(TARGET))
-endif
-endif
 
 REVISION := $(shell git log -1 --format="%h")
 
@@ -220,9 +197,6 @@ hex:    $(TARGET_HEX)
 # rules that should be handled in toplevel Makefile, not dependent on TARGET
 GLOBAL_GOALS	= all_targets cppcheck test
 
-flash: $(TARGET_HEX)
-	stty -F $(SERIAL_DEVICE) raw speed 115200 -crtscts cs8 -parenb -cstopb -ixon
-	stm32flash -w $(TARGET_HEX) -v -g 0x0 -b 115200 $(SERIAL_DEVICE)
 
 # rebuild everything when makefile changes
 $(TARGET_OBJS) : Makefile
