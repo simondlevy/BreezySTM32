@@ -149,10 +149,6 @@ flash: $(TARGET_HEX)
 
 
 ######################################################################3
-## Optional make goals:
-## all         : Make all filetypes, binary and hex
-all: hex bin
-
 ## binary      : Make binary filetype
 ## bin         : Alias of 'binary'
 ## hex         : Make hex filetype
