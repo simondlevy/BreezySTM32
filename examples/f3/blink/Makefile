@@ -94,7 +94,6 @@ CFLAGS	 = $(ARCH_FLAGS) \
 		   -MMD -MP
 
 ASFLAGS		 = $(ARCH_FLAGS) \
-		   $(WARN_FLAGS) \
 		   -x assembler-with-cpp \
 		   $(addprefix -I,$(INCLUDE_DIRS)) \
 		  -MMD -MP
