@@ -91,7 +91,9 @@ CFLAGS	 = $(ARCH_FLAGS) \
 
 ASFLAGS		 = $(ARCH_FLAGS) \
 		   -x assembler-with-cpp \
-		   $(addprefix -I,$(INCLUDE_DIRS))
+		   $(addprefix -I,$(INCLUDE_DIRS)) \
+		  -MMD -MP
+
 
 LD_SCRIPT	 = $(BREEZY_DIR)/stm32_flash.ld
 LDFLAGS		 = -lm \
@@ -104,11 +106,8 @@ LDFLAGS		 = -lm \
 		   $(DEBUG_FLAGS) \
 		   -static \
 		   -Wl,-gc-sections,-Map,$(TARGET_MAP) \
+		   -Wl,--cref \
 		   -T$(LD_SCRIPT)
-
-#
-# Things we will build
-#
 
 TARGET_HEX	 = $(BIN_DIR)/$(TARGET).hex
 TARGET_ELF	 = $(BIN_DIR)/$(TARGET).elf

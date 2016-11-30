@@ -60,7 +60,6 @@ INCLUDE_DIRS	 = $(ROOT) \
 		   $(CMSIS_DIR)/CM1/CoreSupport \
 		   $(CMSIS_DIR)/CM1/DeviceSupport/ST/STM32F30x \
 
-#ARCH_FLAGS	 = -mthumb -mcpu=cortex-m3
 
 ifeq ($(DEBUG),GDB)
 OPTIMIZE	 = -O0
@@ -70,10 +69,15 @@ OPTIMIZE	 = -Os
 LTO_FLAGS	 =  -flto -fuse-linker-plugin $(OPTIMIZE)
 endif
 
+ifneq ($(filter $(OPTIONS),FAIL_ON_WARNINGS),)
+WARN_FLAGS      += -Werror
+endif
+
 DEBUG_FLAGS	 = -ggdb3 -DDEBUG
 
 CFLAGS	 = $(ARCH_FLAGS) \
 		   $(LTO_FLAGS) \
+		   $(WARN_FLAGS) \
 		   $(addprefix -D,$(OPTIONS)) \
 		   $(addprefix -I,$(INCLUDE_DIRS)) \
 		   $(DEBUG_FLAGS) \
@@ -83,11 +87,16 @@ CFLAGS	 = $(ARCH_FLAGS) \
 		   -fdata-sections \
 		   $(DEVICE_FLAGS) \
 		   -DUSE_STDPERIPH_DRIVER \
+		   $(TARGET_FLAGS) \
+		   -D'__FORKNAME__="$(FORKNAME)"' \
+		   -D'__TARGET__="$(TARGET)"' \
+		   -D'__REVISION__="$(REVISION)"' \
 		   -fverbose-asm -ffat-lto-objects \
 		   -save-temps=obj \
 		   -MMD -MP
 
 ASFLAGS		 = $(ARCH_FLAGS) \
+		   $(WARN_FLAGS) \
 		   -x assembler-with-cpp \
 		   $(addprefix -I,$(INCLUDE_DIRS)) \
 		  -MMD -MP
@@ -99,6 +108,7 @@ LDFLAGS		 = -lm \
 		   -lnosys \
 		   $(ARCH_FLAGS) \
 		   $(LTO_FLAGS) \
+		   $(WARN_FLAGS) \
 		   $(DEBUG_FLAGS) \
 		   -static \
 		   -Wl,-gc-sections,-Map,$(TARGET_MAP) \
