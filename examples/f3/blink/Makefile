@@ -61,6 +61,8 @@ INCLUDE_DIRS	 = $(ROOT) \
 		   $(CMSIS_DIR)/CM1/DeviceSupport/ST/STM32F30x \
 
 
+#ARCH_FLAGS	 = -mthumb -mcpu=cortex-m3
+
 ifeq ($(DEBUG),GDB)
 OPTIMIZE	 = -O0
 LTO_FLAGS	 = $(OPTIMIZE)
@@ -77,7 +79,6 @@ DEBUG_FLAGS	 = -ggdb3 -DDEBUG
 
 CFLAGS	 = $(ARCH_FLAGS) \
 		   $(LTO_FLAGS) \
-		   $(WARN_FLAGS) \
 		   $(addprefix -D,$(OPTIONS)) \
 		   $(addprefix -I,$(INCLUDE_DIRS)) \
 		   $(DEBUG_FLAGS) \
@@ -88,9 +89,6 @@ CFLAGS	 = $(ARCH_FLAGS) \
 		   $(DEVICE_FLAGS) \
 		   -DUSE_STDPERIPH_DRIVER \
 		   $(TARGET_FLAGS) \
-		   -D'__FORKNAME__="$(FORKNAME)"' \
-		   -D'__TARGET__="$(TARGET)"' \
-		   -D'__REVISION__="$(REVISION)"' \
 		   -fverbose-asm -ffat-lto-objects \
 		   -save-temps=obj \
 		   -MMD -MP
