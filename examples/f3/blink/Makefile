@@ -226,22 +226,3 @@ flash: $(TARGET_HEX)
 
 # rebuild everything when makefile changes
 $(TARGET_OBJS) : Makefile
-
-# List of buildable ELF files and their object dependencies.
-# It would be nice to compute these lists, but that seems to be just beyond make.
-
-
-
-# include auto-generated dependencies
--include $(TARGET_DEPS)
-
-backup:
-	cp -r src bak
-	cp Makefile bak
-
-listen:
-	miniterm.py /dev/ttyUSB0 115200
-
-commit:
-		git commit -a --allow-empty-message -m ''
-		git push
