@@ -126,14 +126,18 @@ $(TARGET_HEX): $(TARGET_ELF)
 $(TARGET_ELF):  $(TARGET_OBJS)
 	$(CC) -o $@ $^ $(LDFLAGS)
 
+MKDIR_OBJDIR = @mkdir -p $(dir $@)
+
 # Compile
 $(OBJECT_DIR)/$(TARGET)/%.o: %.c
+	$(MKDIR_OBJDIR)
 	@mkdir -p $(dir $@)
 	@echo %% $(notdir $<)
 	@$(CC) -c -o $@ $(CFLAGS) $<
 
 # Assemble
 $(OBJECT_DIR)/$(TARGET)/%.o: %.S
+	$(MKDIR_OBJDIR)
 	@mkdir -p $(dir $@)
 	@echo %% $(notdir $<)
 	@$(CC) -c -o $@ $(ASFLAGS) $<
@@ -149,6 +153,3 @@ clean:
 flash: $(TARGET_HEX)
 	stty -F $(SERIAL_DEVICE) raw speed 115200 -crtscts cs8 -parenb -cstopb -ixon
 	stm32flash -w $(TARGET_HEX) -v -g 0x0 -b 115200 $(SERIAL_DEVICE)
-
-
-
