@@ -11,8 +11,8 @@ PROJECT_SRC = ledblink.c \
 		   $(BREEZY_DIR)/gpio_stm32f30x.c \
 		   $(BREEZY_DIR)/drv_serial.c \
 		   $(BREEZY_DIR)/printf.c \
-		   $(DEVICE_STDPERIPH_SRC) \
-		   $(CMSIS_SRC)
+		   $(CMSIS_SRC) \
+		   $(STDPERIPH_SRC) 
 
 TARGET		?= PROJECT
 
@@ -26,24 +26,20 @@ DEBUG ?=
 SERIAL_DEVICE	?= /dev/ttyUSB0
 
 # Working directories
-ROOT		 := $(patsubst %/,%,$(dir $(lastword $(MAKEFILE_LIST))))
+ROOT		 = $(dir $(lastword $(MAKEFILE_LIST)))
 CMSIS_DIR	 = $(BREEZY_DIR)/lib/CMSIS
 OBJECT_DIR	 = $(ROOT)/obj/main
 BIN_DIR		 = $(ROOT)/obj
 STDPERIPH_DIR	= $(BREEZY_DIR)/lib/STM32F30x_StdPeriph_Driver
 
-# Search path for sources
-VPATH		:= $(F3_DIR):$(F3_DIR)/startup
-USBFS_DIR	= $(ROOT)/lib/STM32_USB-FS-Device_Driver
-USBPERIPH_SRC = $(notdir $(wildcard $(USBFS_DIR)/src/*.c))
-
-CSOURCES        := $(shell find $(F3_DIR) -name '*.c')
-
-
 STDPERIPH_SRC = $(notdir $(wildcard $(STDPERIPH_DIR)/src/*.c))
 
 # Flash size (KB).  Some low-end chips actually have more flash than advertised, use this to override.
 FLASH_SIZE ?=
+
+
+
+
 
 ###############################################################################
 # Things that need to be maintained as the source changes
@@ -72,9 +68,6 @@ REVISION := $(shell git log -1 --format="%h")
 EXCLUDES	= stm32f30x_crc.c stm32f30x_can.c
 
 STDPERIPH_SRC := $(filter-out ${EXCLUDES}, $(STDPERIPH_SRC))
-
-DEVICE_STDPERIPH_SRC =  $(STDPERIPH_SRC)
-
 
 VPATH		:= $(VPATH):$(CMSIS_DIR)/CM1/CoreSupport:$(CMSIS_DIR)/CM1/DeviceSupport/ST/STM32F30x
 CMSIS_SRC	 = $(notdir $(wildcard $(CMSIS_DIR)/CM1/CoreSupport/*.c \
@@ -193,12 +186,10 @@ LDFLAGS		 = -lm \
 ###############################################################################
 
 
-TARGET_BIN	 = $(BIN_DIR)/$(FORKNAME)_$(TARGET).bin
-TARGET_HEX	 = $(BIN_DIR)/$(FORKNAME)_$(TARGET).hex
-TARGET_ELF	 = $(OBJECT_DIR)/$(FORKNAME)_$(TARGET).elf
+TARGET_HEX	 = $(BIN_DIR)/$(TARGET).hex
+TARGET_ELF	 = $(BIN_DIR)/$(TARGET).elf
 TARGET_OBJS	 = $(addsuffix .o,$(addprefix $(OBJECT_DIR)/$(TARGET)/,$(basename $($(TARGET)_SRC))))
-TARGET_DEPS	 = $(addsuffix .d,$(addprefix $(OBJECT_DIR)/$(TARGET)/,$(basename $($(TARGET)_SRC))))
-TARGET_MAP	 = $(OBJECT_DIR)/$(FORKNAME)_$(TARGET).map
+TARGET_MAP   = $(OBJECT_DIR)/$(TARGET).map
 
 
 ## Default make goal:

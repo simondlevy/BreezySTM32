@@ -32,7 +32,7 @@ OBJECT_DIR	 = $(ROOT)/obj
 BIN_DIR		 = $(ROOT)/obj
 STDPERIPH_DIR	 = $(BREEZY_DIR)/lib/STM32F10x_StdPeriph_Driver
 
-VPATH		:= $(ROOT):$(ROOT)/startups
+VPATH		:= $(ROOT)
 
 # Search path and source files for the CMSIS sources
 VPATH		:= $(VPATH):$(CMSIS_DIR)/CM3/CoreSupport:$(CMSIS_DIR)/CM3/DeviceSupport/ST/STM32F10x
