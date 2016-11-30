@@ -1,0 +1,7 @@
+PROJECT_NAME = i2csniff
+
+# Contains your setup() and loop()
+PROJECT_SRC_FILE  = i2csniff.c
+
+# Drivers, etc.
+PROJECT_BREEZY_FILES = $(BREEZY_DIR)/bus_i2c_stm32f30x.c
