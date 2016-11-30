@@ -125,7 +125,13 @@ $(TARGET_ELF):  $(TARGET_OBJS)
 MKDIR_OBJDIR = @mkdir -p $(dir $@)
 
 # Compile
+
 $(OBJECT_DIR)/$(TARGET)/%.o: %.c
+	$(MKDIR_OBJDIR)
+	@echo %% $(notdir $<)
+	@$(CC) -c -o $@ $(CFLAGS) $<
+
+$(OBJECT_DIR)/$(TARGET)/%.o: %.cpp
 	$(MKDIR_OBJDIR)
 	@echo %% $(notdir $<)
 	@$(CC) -c -o $@ $(CFLAGS) $<
