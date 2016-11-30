@@ -149,13 +149,6 @@ flash: $(TARGET_HEX)
 
 
 ######################################################################3
-## binary      : Make binary filetype
-## bin         : Alias of 'binary'
-## hex         : Make hex filetype
-bin:    $(TARGET_BIN)
-binary: $(TARGET_BIN)
-hex:    $(TARGET_HEX)
-
 # rule to reinvoke make with TARGET= parameter
 # rules that should be handled in toplevel Makefile, not dependent on TARGET
 GLOBAL_GOALS	= all_targets cppcheck test
