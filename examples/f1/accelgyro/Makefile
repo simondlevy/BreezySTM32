@@ -1,10 +1,27 @@
-# Change this to wherever you put BreezySTM32
-BREEZY_DIR = ../../../
+BREEZY_DIR = ../../..
 
-# Fill this out with source files for your specific project
-PROJECT_SRC = accelgyro.c
+PROJECT_NAME = accelgyro
 
-TARGET		?= myproject
+# Contains your setup() and loop()
+PROJECT_SRC_FILE  = accelgyro.c
+
+# Drivers, etc.
+PROJECT_BREEZY_FILES = $(BREEZY_DIR)/drv_i2c.c $(BREEZY_DIR)/drv_timer.c $(BREEZY_DIR)/drv_mpu6050.c
+
+$(PROJECT_NAME)_SRC = $(PROJECT_SRC_FILE) \
+	       $(PROJECT_BREEZY_FILES) \
+           $(BREEZY_DIR)/main.c \
+		   $(BREEZY_DIR)/startup_stm32f10x_md_gcc.S \
+		   $(BREEZY_DIR)/drv_system_stm32f10x.c \
+		   $(BREEZY_DIR)/drv_uart_stm32f10x.c \
+		   $(BREEZY_DIR)/drv_gpio.c \
+		   $(BREEZY_DIR)/drv_adc.c \
+		   $(BREEZY_DIR)/drv_serial.c \
+		   $(BREEZY_DIR)/printf.c \
+		   $(CMSIS_SRC) \
+		   $(STDPERIPH_SRC)
+
+TARGET		?= $(PROJECT_NAME)
 
 # Compile-time options
 OPTIONS		?=
@@ -17,36 +34,20 @@ SERIAL_DEVICE	?= /dev/ttyUSB0
 
 # Working directories
 ROOT		 = $(dir $(lastword $(MAKEFILE_LIST)))
-SRC_DIR		 = $(ROOT)
 CMSIS_DIR	 = $(BREEZY_DIR)/lib/CMSIS
-STDPERIPH_DIR = $(BREEZY_DIR)/lib/STM32F10x_StdPeriph_Driver
 OBJECT_DIR	 = $(ROOT)/obj
 BIN_DIR		 = $(ROOT)/obj
+STDPERIPH_DIR	 = $(BREEZY_DIR)/lib/STM32F10x_StdPeriph_Driver
 
-myproject_SRC = $(BREEZY_DIR)/main.c \
-		   $(BREEZY_DIR)/startup_stm32f10x_md_gcc.S \
-		   $(BREEZY_DIR)/drv_system_stm32f10x.c \
-		   $(BREEZY_DIR)/drv_uart_stm32f10x.c \
-		   $(BREEZY_DIR)/drv_gpio.c \
-		   $(BREEZY_DIR)/drv_i2c.c \
-		   $(BREEZY_DIR)/drv_serial.c \
-		   $(BREEZY_DIR)/drv_timer.c \
-		   $(BREEZY_DIR)/printf.c \
-           $(BREEZY_DIR)/drv_mpu6050.c \
-		   $(PROJECT_SRC) \
-		   $(CMSIS_SRC) \
-		   $(STDPERIPH_SRC)
-
-VPATH		:= $(SRC_DIR):$(SRC_DIR)/startups
+STDPERIPH_SRC	 = $(notdir $(wildcard $(STDPERIPH_DIR)/src/*.c))
 
 # Search path and source files for the CMSIS sources
-VPATH		:= $(VPATH):$(CMSIS_DIR)/CM3/CoreSupport:$(CMSIS_DIR)/CM3/DeviceSupport/ST/STM32F10x
+VPATH		:= $(CMSIS_DIR)/CM3/CoreSupport:$(CMSIS_DIR)/CM3/DeviceSupport/ST/STM32F10x
 CMSIS_SRC	 = $(notdir $(wildcard $(CMSIS_DIR)/CM3/CoreSupport/*.c \
 			               $(CMSIS_DIR)/CM3/DeviceSupport/ST/STM32F10x/*.c))
 
 # Search path and source files for the ST stdperiph library
 VPATH		:= $(VPATH):$(STDPERIPH_DIR)/src
-STDPERIPH_SRC	 = $(notdir $(wildcard $(STDPERIPH_DIR)/src/*.c))
 
 ###############################################################################
 # Things that might need changing to use different tools
@@ -59,41 +60,50 @@ OBJCOPY	 = arm-none-eabi-objcopy
 #
 # Tool options.
 #
-INCLUDE_DIRS	 = $(SRC_DIR) \
+
+INCLUDE_DIRS	 = $(ROOT) \
 		   $(BREEZY_DIR) \
 		   $(STDPERIPH_DIR)/inc \
 		   $(CMSIS_DIR)/CM3/CoreSupport \
 		   $(CMSIS_DIR)/CM3/DeviceSupport/ST/STM32F10x \
 
 ARCH_FLAGS	 = -mthumb -mcpu=cortex-m3
+DEVICE_FLAGS = -DSTM32F10X_MD
 
 ifeq ($(DEBUG),GDB)
-OPTIMIZE	 = -Og
-
+OPTIMIZE	 = -O0
+LTO_FLAGS	 = $(OPTIMIZE)
 else
 OPTIMIZE	 = -Os
-LTO_FLAGS	 = -flto -fuse-linker-plugin $(OPTIMIZE)
+LTO_FLAGS	 =  -flto -fuse-linker-plugin $(OPTIMIZE)
 endif
 
-DEBUG_FLAGS	 = -ggdb3
+DEBUG_FLAGS	 = -ggdb3 -DDEBUG
 
-CFLAGS		 = $(ARCH_FLAGS) \
+CFLAGS	 = $(ARCH_FLAGS) \
 		   $(LTO_FLAGS) \
 		   $(addprefix -D,$(OPTIONS)) \
 		   $(addprefix -I,$(INCLUDE_DIRS)) \
 		   $(DEBUG_FLAGS) \
-		   -Wall -pedantic -Wextra -Wshadow -Wunsafe-loop-optimizations \
+		   -std=gnu99 \
+		   -Wall -Wpedantic -Wextra -Wunsafe-loop-optimizations -Wdouble-promotion -Wundef \
 		   -ffunction-sections \
 		   -fdata-sections \
-		   -DSTM32F10X_MD \
+		   $(DEVICE_FLAGS) \
 		   -DUSE_STDPERIPH_DRIVER \
-		   -D$(TARGET)
+		   -fverbose-asm -ffat-lto-objects \
+		   -save-temps=obj \
+		   -MMD -MP
+
 
 ASFLAGS		 = $(ARCH_FLAGS) \
 		   -x assembler-with-cpp \
-		   $(addprefix -I,$(INCLUDE_DIRS))
+		   $(addprefix -I,$(INCLUDE_DIRS)) \
+		  -MMD -MP
+
 
 LD_SCRIPT	 = $(BREEZY_DIR)/stm32_flash.ld
+
 LDFLAGS		 = -lm \
 		   -nostartfiles \
 		   --specs=nano.specs \
@@ -104,19 +114,13 @@ LDFLAGS		 = -lm \
 		   $(DEBUG_FLAGS) \
 		   -static \
 		   -Wl,-gc-sections,-Map,$(TARGET_MAP) \
+		   -Wl,--cref \
 		   -T$(LD_SCRIPT)
-
-#
-# Things we will build
-#
 
 TARGET_HEX	 = $(BIN_DIR)/$(TARGET).hex
 TARGET_ELF	 = $(BIN_DIR)/$(TARGET).elf
 TARGET_OBJS	 = $(addsuffix .o,$(addprefix $(OBJECT_DIR)/$(TARGET)/,$(basename $($(TARGET)_SRC))))
 TARGET_MAP   = $(OBJECT_DIR)/$(TARGET).map
-
-# List of buildable ELF files and their object dependencies.
-# It would be nice to compute these lists, but that seems to be just beyond make.
 
 $(TARGET_HEX): $(TARGET_ELF)
 	$(OBJCOPY) -O ihex --set-start 0x8000000 $< $@
@@ -138,20 +142,16 @@ $(OBJECT_DIR)/$(TARGET)/%.o: %.S
 	@echo %% $(notdir $<)
 	@$(CC) -c -o $@ $(ASFLAGS) $< 
 
+# rebuild everything when makefile changes
+$(TARGET_OBJS) : Makefile
+
+## clean       : clean up all temporary / machine-generated files
 clean:
-	rm -rf $(TARGET_HEX) $(TARGET_ELF) $(TARGET_OBJS) $(TARGET_MAP) obj
+	rm -rf *.o ../*.o *.i *.d *.s obj f3
 
-flash_$(TARGET): $(TARGET_HEX)
-	stty -F $(SERIAL_DEVICE) raw speed 921600 -crtscts cs8 -parenb -cstopb -ixon
-	stm32flash -w $(TARGET_HEX) -v -g 0x0 -b 921600 $(SERIAL_DEVICE)
-
-flash: flash_$(TARGET)
-
-unbrick: $(TARGET_HEX)
+flash: $(TARGET_HEX)
 	stty -F $(SERIAL_DEVICE) raw speed 115200 -crtscts cs8 -parenb -cstopb -ixon
 	stm32flash -w $(TARGET_HEX) -v -g 0x0 -b 115200 $(SERIAL_DEVICE)
 
 listen:
 	miniterm.py $(SERIAL_DEVICE) 115200
-
-
