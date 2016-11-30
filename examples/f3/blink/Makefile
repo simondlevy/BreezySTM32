@@ -152,13 +152,6 @@ flash: $(TARGET_HEX)
 
 
 
-ifneq ($(FLASH_SIZE),)
-DEVICE_FLAGS := $(DEVICE_FLAGS) -DFLASH_SIZE=$(FLASH_SIZE)
-endif
-
-TARGET_DIR = $(ROOT)/src/target/$(TARGET)
-TARGET_SRC = $(notdir $(wildcard $(TARGET_DIR)/*.c))
-
 INCLUDE_DIRS := \
 		    $(INCLUDE_DIRS) \
 		    $(TARGET_DIR)
