@@ -1,7 +1,11 @@
 # Change this to wherever you put BreezySTM32
 BREEZY_DIR = ../../..
 
-PROJECT_SRC = blink.c \
+PROJECT_SRC  = blink.c
+PROJECT_NAME = blink
+
+
+$(PROJECT_NAME)_SRC = $(PROJECT_SRC) \
            $(BREEZY_DIR)/main.c \
 		   $(BREEZY_DIR)/startup_stm32f10x_md_gcc.S \
 		   $(BREEZY_DIR)/drv_system_stm32f10x.c \
@@ -13,8 +17,7 @@ PROJECT_SRC = blink.c \
 		   $(CMSIS_SRC) \
 		   $(STDPERIPH_SRC)
 
-
-TARGET		?= PROJECT
+TARGET		?= $(PROJECT_NAME)
 
 # Compile-time options
 OPTIONS		?=
