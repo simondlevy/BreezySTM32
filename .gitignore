@@ -6,6 +6,8 @@
 *.d
 *.i
 *.hex
+examples/obj
+examples/*/obj
 examples/*/*.s
 examples/*/*/obj
 examples/*/*/*.o

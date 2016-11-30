@@ -1,10 +1,32 @@
+# Makefile for BreezySTM32 examples
+#
+# Copyright (C) 2016 Simon D. Levy
+#
+# This file is part of BreezySTM32.
+#
+# BreezySTM32 is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as 
+# published by the Free Software Foundation, either version 3 of the 
+# License, or (at your option) any later version.
+# 
+# This code is distributed in the hope that it will be useful,     
+# but WITHOUT ANY WARRANTY without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU Lesser General Public License 
+# along with this code.  If not, see <http://www.gnu.org/licenses/>.
+
+# Change this to where you installed BreezySTM32
 BREEZY_DIR  = $(HOME)/Desktop/BreezySTM32
 
+# Each example program has one of these
 include makefile.project
 
 CMSIS_DIR	 = $(BREEZY_DIR)/lib/CMSIS
 
-include ../makefile.f3
+# Support F1, F3
+include ../makefile.arch
 
 $(PROJECT_NAME)_SRC = $(PROJECT_SRC_FILE) \
 	       $(PROJECT_BREEZY_FILES) \
@@ -53,18 +75,12 @@ INCLUDE_DIRS	 = $(ROOT) \
 		   $(STDPERIPH_DIR)/inc \
 		   $(DEVICE_INCLUDES)
 
-
-
 ifeq ($(DEBUG),GDB)
 OPTIMIZE	 = -O0
 LTO_FLAGS	 = $(OPTIMIZE)
 else
 OPTIMIZE	 = -Os
 LTO_FLAGS	 =  -flto -fuse-linker-plugin $(OPTIMIZE)
-endif
-
-ifneq ($(filter $(OPTIONS),FAIL_ON_WARNINGS),)
-WARN_FLAGS      += -Werror
 endif
 
 DEBUG_FLAGS	 = -ggdb3 -DDEBUG
@@ -74,7 +90,6 @@ CFLAGS	 = $(ARCH_FLAGS) \
 		   $(addprefix -D,$(OPTIONS)) \
 		   $(addprefix -I,$(INCLUDE_DIRS)) \
 		   $(DEBUG_FLAGS) \
-		   -std=gnu99 \
 		   -Wall -Wpedantic -Wextra -Wunsafe-loop-optimizations -Wdouble-promotion -Wundef \
 		   -ffunction-sections \
 		   -fdata-sections \
@@ -104,7 +119,6 @@ LDFLAGS		 = -lm \
 		   -Wl,--cref \
 		   -T$(LD_SCRIPT)
 
-
 TARGET_HEX	 = $(BIN_DIR)/$(TARGET).hex
 TARGET_ELF	 = $(BIN_DIR)/$(TARGET).elf
 TARGET_OBJS	 = $(addsuffix .o,$(addprefix $(OBJECT_DIR)/$(TARGET)/,$(basename $($(TARGET)_SRC))))
@@ -125,13 +139,16 @@ $(OBJECT_DIR)/$(TARGET)/%.o: %.c
 	@echo %% $(notdir $<)
 	@$(CC) -c -o $@ $(CFLAGS) $<
 
+$(OBJECT_DIR)/$(TARGET)/%.o: %.cpp
+	$(MKDIR_OBJDIR)
+	@echo %% $(notdir $<)
+	@$(CC) -c -o $@ $(CFLAGS) $<
+
 # Assemble
 $(OBJECT_DIR)/$(TARGET)/%.o: %.S
 	$(MKDIR_OBJDIR)
-	@mkdir -p $(dir $@)
 	@echo %% $(notdir $<)
 	@$(CC) -c -o $@ $(ASFLAGS) $<
-
 
 # rebuild everything when makefile changes
 $(TARGET_OBJS) : Makefile
