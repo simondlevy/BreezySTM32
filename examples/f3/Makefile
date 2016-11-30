@@ -9,6 +9,8 @@ DEVICE_SRC = $(BREEZY_DIR)/startup_stm32f30x_md_gcc.S \
 		   $(BREEZY_DIR)/dma.c \
 		   $(BREEZY_DIR)/serial_uart_stm32f30x.c \
 		   $(BREEZY_DIR)/gpio_stm32f30x.c \
+
+STDPERIPH_DIR	= $(BREEZY_DIR)/lib/STM32F30x_StdPeriph_Driver
 #################################################################
 
 $(PROJECT_NAME)_SRC = $(PROJECT_SRC_FILE) \
@@ -35,7 +37,6 @@ ROOT		 = $(dir $(lastword $(MAKEFILE_LIST)))
 CMSIS_DIR	 = $(BREEZY_DIR)/lib/CMSIS
 OBJECT_DIR	 = $(ROOT)/obj
 BIN_DIR		 = $(ROOT)/obj
-STDPERIPH_DIR	= $(BREEZY_DIR)/lib/STM32F30x_StdPeriph_Driver
 
 STDPERIPH_SRC = $(notdir $(wildcard $(STDPERIPH_DIR)/src/*.c))
 
