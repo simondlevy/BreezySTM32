@@ -2,6 +2,8 @@ BREEZY_DIR  = $(HOME)/Desktop/BreezySTM32
 
 include makefile.project
 
+CMSIS_DIR	 = $(BREEZY_DIR)/lib/CMSIS
+
 #################################################################
 DEVICE_SRC = $(BREEZY_DIR)/startup_stm32f30x_md_gcc.S \
 		   $(BREEZY_DIR)/drv_system_stm32f30x.c \
@@ -17,6 +19,10 @@ DEVICE_INCLUDES = $(CMSIS_DIR)/CM1/CoreSupport \
 
 ARCH_FLAGS	 = -mthumb -mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16 -fsingle-precision-constant -Wdouble-promotion
 DEVICE_FLAGS = -DSTM32F303xC -DSTM32F303
+
+VPATH		:= $(CMSIS_DIR)/CM1/CoreSupport:$(CMSIS_DIR)/CM1/DeviceSupport/ST/STM32F30x
+CMSIS_SRC	 = $(notdir $(wildcard $(CMSIS_DIR)/CM1/CoreSupport/*.c \
+			               $(CMSIS_DIR)/CM1/DeviceSupport/ST/STM32F30x/*.c))
 #################################################################
 
 $(PROJECT_NAME)_SRC = $(PROJECT_SRC_FILE) \
@@ -40,16 +46,10 @@ SERIAL_DEVICE	?= /dev/ttyUSB0
 
 # Working directories
 ROOT		 = $(dir $(lastword $(MAKEFILE_LIST)))
-CMSIS_DIR	 = $(BREEZY_DIR)/lib/CMSIS
 OBJECT_DIR	 = $(ROOT)/obj
 BIN_DIR		 = $(ROOT)/obj
 
 STDPERIPH_SRC = $(notdir $(wildcard $(STDPERIPH_DIR)/src/*.c))
-
-# Search path and source files for the CMSIS sources
-VPATH		:= $(CMSIS_DIR)/CM1/CoreSupport:$(CMSIS_DIR)/CM1/DeviceSupport/ST/STM32F30x
-CMSIS_SRC	 = $(notdir $(wildcard $(CMSIS_DIR)/CM1/CoreSupport/*.c \
-			               $(CMSIS_DIR)/CM1/DeviceSupport/ST/STM32F30x/*.c))
 
 # Search path and source files for the ST stdperiph library
 VPATH		:= $(VPATH):$(STDPERIPH_DIR)/src
