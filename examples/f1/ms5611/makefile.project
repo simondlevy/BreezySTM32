@@ -1,0 +1,8 @@
+PROJECT_NAME = ms5611read
+
+# Contains your setup() and loop()
+PROJECT_SRC_FILE  = ms5611read.c
+
+# Drivers, etc.
+PROJECT_BREEZY_FILES = $(BREEZY_DIR)/drv_i2c.c $(BREEZY_DIR)/drv_ms5611.c
+	
