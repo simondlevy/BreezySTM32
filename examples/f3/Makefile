@@ -11,6 +11,9 @@ DEVICE_SRC = $(BREEZY_DIR)/startup_stm32f30x_md_gcc.S \
 		   $(BREEZY_DIR)/gpio_stm32f30x.c \
 
 STDPERIPH_DIR	= $(BREEZY_DIR)/lib/STM32F30x_StdPeriph_Driver
+
+DEVICE_INCLUDES = $(CMSIS_DIR)/CM1/CoreSupport \
+		   $(CMSIS_DIR)/CM1/DeviceSupport/ST/STM32F30x \
 #################################################################
 
 $(PROJECT_NAME)_SRC = $(PROJECT_SRC_FILE) \
@@ -63,8 +66,7 @@ OBJCOPY     := arm-none-eabi-objcopy
 INCLUDE_DIRS	 = $(ROOT) \
 		   $(BREEZY_DIR) \
 		   $(STDPERIPH_DIR)/inc \
-		   $(CMSIS_DIR)/CM1/CoreSupport \
-		   $(CMSIS_DIR)/CM1/DeviceSupport/ST/STM32F30x \
+		   $(DEVICE_INCLUDES)
 
 
 ARCH_FLAGS	 = -mthumb -mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16 -fsingle-precision-constant -Wdouble-promotion
