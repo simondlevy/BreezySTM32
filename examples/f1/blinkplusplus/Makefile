@@ -9,9 +9,9 @@
 # Change this to wherever you put BreezySTM32
 BREEZY_DIR = ../../../
 
-TARGET		?= ledblink
+TARGET		?= blink
 
-CPP_OBJS = ledblink.o
+CPP_OBJS = blink.o
 
 ###############################################################################
 
