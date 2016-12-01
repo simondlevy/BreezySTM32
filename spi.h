@@ -1,5 +1,5 @@
 /*
-   drv_spi.h : SPI support for STM32F103CB
+   spi.h : SPI support for STM32F103CB
 
    Adapted from https://github.com/cleanflight/cleanflight/blob/master/src/main/drivers/bus_spi.h
 

@@ -1,7 +1,7 @@
 /*
-   drv_i2c.h :  I^2C support for STM32F103CB
+   i2c.h :  I^2C support for STM32F103CB
 
-   Adapted from https://github.com/multiwii/baseflight/blob/master/src/drv_i2c.h
+   Adapted from https://github.com/multiwii/baseflight/blob/master/src/i2c.h
 
    This file is part of BreezySTM32.
 

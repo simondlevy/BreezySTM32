@@ -1,7 +1,7 @@
 /*
-   drv_serial.c : serial support for STM32F103CB
+   serial.c : serial support for STM32F103CB
 
-   Adapted from https://github.com/multiwii/baseflight/blob/master/src/drv_serial.c
+   Adapted from https://github.com/multiwii/baseflight/blob/master/src/serial.c
 
    This file is part of BreezySTM32.
 
@@ -22,7 +22,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-#include "drv_serial.h"
+#include "serial.h"
 
 uint32_t serialGetBaudRate(serialPort_t *instance)
 {

@@ -1,7 +1,7 @@
 /*
-   drv_timer.c : timer support for STM32F103CB
+   timer.c : timer support for STM32F103CB
 
-   Adapted from https://github.com/multiwii/baseflight/blob/master/src/drv_timer.c
+   Adapted from https://github.com/multiwii/baseflight/blob/master/src/timer.c
 
    This file is part of BreezySTM32.
 
@@ -23,8 +23,8 @@
 
 #include "stm32f10x_conf.h"
 #include "core_cm3.h"
-#include "drv_timer.h"
-#include "drv_gpio.h"
+#include "timer.h"
+#include "gpio.h"
 
 /* FreeFlight/Naze32 timer layout
     TIM2_CH1    RC1             PWM1

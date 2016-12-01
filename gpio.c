@@ -1,7 +1,7 @@
 /*
-   drv_gpio.c :  GPIO support for STM32F103CB
+   gpio.c :  GPIO support for STM32F103CB
 
-   Adapted from https://github.com/multiwii/baseflight/blob/master/src/drv_gpio.c
+   Adapted from https://github.com/multiwii/baseflight/blob/master/src/gpio.c
 
    This file is part of BreezySTM32.
 
@@ -31,8 +31,8 @@
 #include "stm32f10x_conf.h"
 #include "core_cm3.h"
 #include "printf.h"
-#include "drv_system.h"         // timers, delays, etc
-#include "drv_gpio.h"
+#include "system.h"         // timers, delays, etc
+#include "gpio.h"
 
 #define I2C_DEVICE (I2CDEV_2)
 
@@ -45,13 +45,13 @@
 
 #define I2C_DEVICE (I2CDEV_2)
 
-#include "drv_adc.h"
-#include "drv_i2c.h"
-#include "drv_pwm.h"
-#include "drv_spi.h"
-#include "drv_timer.h"
-#include "drv_serial.h"
-#include "drv_uart.h"
+#include "adc.h"
+#include "i2c.h"
+#include "pwm.h"
+#include "spi.h"
+#include "timer.h"
+#include "serial.h"
+#include "uart.h"
 
 void gpioInit(GPIO_TypeDef *gpio, gpio_config_t *config)
 {

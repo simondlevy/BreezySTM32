@@ -1,7 +1,7 @@
 /*
-   drv_i2c.c :  I^2C support for STM32F103
+   i2c.c :  I^2C support for STM32F103
 
-   Adapted from https://github.com/multiwii/baseflight/blob/master/src/drv_i2c.c
+   Adapted from https://github.com/multiwii/baseflight/blob/master/src/i2c.c
 
    This file is part of BreezySTM32.
 
@@ -26,10 +26,10 @@
 #include <string.h> // memset
 
 #include "stm32f10x_conf.h"
-#include "drv_system.h"         // timers, delays, etc
-#include "drv_gpio.h"
+#include "system.h"         // timers, delays, etc
+#include "gpio.h"
 
-#include "drv_i2c.h"
+#include "i2c.h"
 
 #ifndef SOFT_I2C
 

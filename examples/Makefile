@@ -32,8 +32,8 @@ include ../makefile.arch
 $(PROJECT_NAME)_SRC = $(PROJECT_SRC_FILE) \
 	       $(PROJECT_BREEZY_FILES) \
 		   $(BREEZY_DIR)/main.c \
-		   $(BREEZY_DIR)/drv_serial.c \
-		   $(BREEZY_DIR)/drv_system.c \
+		   $(BREEZY_DIR)/serial.c \
+		   $(BREEZY_DIR)/system.c \
 		   $(BREEZY_DIR)/printf.c \
 		   $(DEVICE_SRC) \
 		   $(CMSIS_SRC) \

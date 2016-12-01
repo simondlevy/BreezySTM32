@@ -1,7 +1,7 @@
 /*
-   drv_adc.h :  Driver for STM32F103CB onboard ADC
+   adc.h :  Driver for STM32F103CB onboard ADC
 
-   Adapted from https://github.com/multiwii/baseflight/blob/master/src/drv_adc.h
+   Adapted from https://github.com/multiwii/baseflight/blob/master/src/adc.h
 
    This file is part of BreezySTM32.
 

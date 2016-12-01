@@ -1,5 +1,5 @@
 /*
-   drv_gpio.h :  GPIO support for STM32
+   gpio.h :  GPIO support for STM32
 
    Adapted from https://github.com/cleanflight/cleanflight/blob/master/src/main/drivers/gpio.h
 

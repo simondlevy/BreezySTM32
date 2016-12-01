@@ -4,7 +4,7 @@
 #include "stm32f30x_conf.h"
 #include "stm32f30x_rcc.h"
 #include "stm32f30x_gpio.h"
-#include "drv_gpio.h"
+#include "gpio.h"
 
 #define MODE_OFFSET 0
 #define PUPD_OFFSET 2

@@ -1,7 +1,7 @@
 /*
-   drv_pwm.c : PWM support for STM32F103
+   pwm.c : PWM support for STM32F103
 
-   Adapted from https://github.com/multiwii/baseflight/blob/master/src/drv_pwm.c
+   Adapted from https://github.com/multiwii/baseflight/blob/master/src/pwm.c
 
    This file is part of BreezySTM32.
 
@@ -41,9 +41,9 @@
 
 #include "stm32f10x_conf.h"
 
-#include "drv_gpio.h"
-#include "drv_timer.h"
-#include "drv_pwm.h"
+#include "gpio.h"
+#include "timer.h"
+#include "pwm.h"
 
 #include "printf.h"
 

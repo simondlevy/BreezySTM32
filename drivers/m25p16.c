@@ -45,8 +45,8 @@
 
 #include "m25p16.h"
 
-#include <drv_spi.h>
-#include <drv_system.h>
+#include <spi.h>
+#include <system.h>
 
 #define M25P16_INSTRUCTION_RDID             0x9F
 #define M25P16_INSTRUCTION_READ_BYTES       0x03

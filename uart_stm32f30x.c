@@ -43,10 +43,10 @@
 #include "stm32f30x_rcc.h"
 #include "stm32f30x_gpio.h"
 #include "core_cm4.h"
-#include "drv_gpio.h"
+#include "gpio.h"
 #include "dma.h"
-#include "drv_serial.h"
-#include "drv_uart.h"
+#include "serial.h"
+#include "uart.h"
 
 #include "serial_uart_stm32f30x.h"
 

@@ -1,7 +1,7 @@
 /*
-   drv_pwm.h : PWM support for STM32F103
+   pwm.h : PWM support for STM32F103
 
-   Adapted from https://github.com/multiwii/baseflight/blob/master/src/drv_pwm.h
+   Adapted from https://github.com/multiwii/baseflight/blob/master/src/pwm.h
 
    This file is part of BreezySTM32.
 
@@ -26,7 +26,7 @@
 #define PULSE_MIN   (750)       // minimum PWM pulse width which is considered valid
 #define PULSE_MAX   (2250)      // maximum PWM pulse width which is considered valid
 
-// This indexes into the read-only hardware definition structure in drv_pwm.c, as well as into pwmPorts[] structure with dynamic data.
+// This indexes into the read-only hardware definition structure in pwm.c, as well as into pwmPorts[] structure with dynamic data.
 enum {
     PWM1 = 0,
     PWM2,

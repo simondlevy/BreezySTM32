@@ -1,7 +1,7 @@
 /*
    sytem_stm32f10x.c : general system utilities (init, reset, delay, etc.) 
 
-   Adapted from https://github.com/multiwii/baseflight/blob/master/src/drv_system.c
+   Adapted from https://github.com/multiwii/baseflight/blob/master/src/system.c
 
    This file is part of BreezySTM32.
 

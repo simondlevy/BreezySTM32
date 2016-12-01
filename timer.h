@@ -1,7 +1,7 @@
 /*
-   drv_timer.h : timer support for STM32F103CB
+   timer.h : timer support for STM32F103CB
 
-   Adapted from https://github.com/multiwii/baseflight/blob/master/src/drv_timer.h
+   Adapted from https://github.com/multiwii/baseflight/blob/master/src/timer.h
 
    This file is part of BreezySTM32.
 

@@ -1,5 +1,5 @@
 /*
-   drv_spi.c : SPI support for STM32F103CB
+   spi.c : SPI support for STM32F103CB
 
    Adapted from https://github.com/cleanflight/cleanflight/blob/master/src/main/drivers/bus_spi.c
 
@@ -25,9 +25,9 @@
 
 #include <stm32f10x.h>
 
-#include "drv_gpio.h"
+#include "gpio.h"
 
-#include "drv_spi.h"
+#include "spi.h"
 
 #define UNUSED(x) (void)(x)
 

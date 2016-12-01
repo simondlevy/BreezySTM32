@@ -24,7 +24,7 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-#include "drv_i2c.h"
+#include "i2c.h"
 
 #define MB1242_DEFAULT_ADDRESS 0x70
 static uint8_t start_measurement_command = 0x51;

@@ -1,7 +1,7 @@
 /*
-   drv_adc.c :  Driver for STM32F103CB onboard ADC
+   adc.c :  Driver for STM32F103CB onboard ADC
 
-   Adapted from https://github.com/multiwii/baseflight/blob/master/src/drv_adc.c
+   Adapted from https://github.com/multiwii/baseflight/blob/master/src/adc.c
 
    This file is part of BreezySTM32.
 
@@ -23,8 +23,8 @@
 
 #include "stm32f10x_conf.h"
 
-#include "drv_system.h"
-#include "drv_adc.h"
+#include "system.h"
+#include "adc.h"
 
 
 typedef struct adc_config_t {

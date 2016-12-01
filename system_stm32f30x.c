@@ -1,7 +1,7 @@
 /*
-   drv_sytem_stm32f30x.c : system utilities (init, reset, delay, etc.)  for STM32F3
+   sytem_stm32f30x.c : system utilities (init, reset, delay, etc.)  for STM32F3
 
-   Adapted from https://github.com/multiwii/baseflight/blob/master/src/drv_system.c
+   Adapted from https://github.com/multiwii/baseflight/blob/master/src/system.c
 
    This file is part of BreezySTM32.
 

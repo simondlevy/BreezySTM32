@@ -151,8 +151,8 @@ along with BreezySTM32.  If not, see <http://www.gnu.org/licenses/>.
 #define TARGET_IO_PORTC (BIT(13)|BIT(14)|BIT(15))
 #define TARGET_IO_PORTF (BIT(0)|BIT(1))
 
-#include "drv_system.h"
-#include "drv_i2c.h"
+#include "system.h"
+#include "i2c.h"
 
 #ifdef STM32F303xC
 
@@ -163,9 +163,9 @@ along with BreezySTM32.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stm32f10x_conf.h"
 
-#include "drv_system.h"
-#include "drv_pwm.h"
-#include "drv_spi.h"
+#include "system.h"
+#include "pwm.h"
+#include "spi.h"
 
 #include "drivers/hmc5883l.h"
 #include "drivers/m25p16.h"
@@ -177,9 +177,9 @@ along with BreezySTM32.  If not, see <http://www.gnu.org/licenses/>.
 #include "drivers/spektrum.h"
 #endif
 
-#include "drv_gpio.h"
-#include "drv_serial.h"
-#include "drv_uart.h"
+#include "gpio.h"
+#include "serial.h"
+#include "uart.h"
 
 #include "printf.h"
 

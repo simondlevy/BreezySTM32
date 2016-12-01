@@ -19,7 +19,7 @@
    along with BreezySTM32.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "drv_i2c.h"
+#include "i2c.h"
 
 #pragma once
 

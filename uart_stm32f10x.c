@@ -1,7 +1,7 @@
 /*
-   drv_uart.c : UART support for STM32F103CB
+   uart.c : UART support for STM32F103CB
 
-   Adapted from https://github.com/multiwii/baseflight/blob/master/src/drv_uart.c
+   Adapted from https://github.com/multiwii/baseflight/blob/master/src/uart.c
 
    This file is part of BreezySTM32.
 
