@@ -167,7 +167,6 @@ along with BreezySTM32.  If not, see <http://www.gnu.org/licenses/>.
 #include "drv_pwm.h"
 #include "drv_mpu6050.h"
 #include "drv_ms5611.h"
-#include "drv_mb1242.h"
 #include "drv_spi.h"
 #include "drv_flashfs.h"
 #include "drv_ms4525.h"
@@ -175,6 +174,7 @@ along with BreezySTM32.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "drivers/hmc5883l.h"
 #include "drivers/m25p16.h"
+#include "drivers/mb1242.h"
 #endif
 
 #include "drv_gpio.h"
