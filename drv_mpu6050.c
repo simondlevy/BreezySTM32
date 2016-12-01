@@ -120,6 +120,8 @@ static bool mpuWriteRegisterI2C(uint8_t reg, uint8_t data)
     return i2cWrite(MPU_ADDRESS, reg, data);
 }
 
+// XXX we should figure out how to make interrupts with with F3 as well
+#ifdef STM32F10X_MD
 void mpu6050_exti_init(int boardVersion)
 {
     // enable AFIO for EXTI support
@@ -162,6 +164,7 @@ void mpu6050_exti_init(int boardVersion)
     // Update NVIC registers
     NVIC_Init(&NVIC_InitStructure);
 }
+#endif
 
 void EXTI15_10_IRQHandler(void)
 {
@@ -229,7 +232,7 @@ void mpu6050_init(bool enableInterrupt, uint16_t * acc1G, float * gyroScale, int
         } else {
             gpioInit(GPIOB, &gpio);
         }
-        mpu6050_exti_init(boardVersion);
+        //mpu6050_exti_init(boardVersion);
     }
 
     // Device reset
@@ -303,6 +306,7 @@ void accel_read_CB(void)
     accel_data[2] = (int16_t)((accel_buffer[4] << 8) | accel_buffer[5]);
 }
 
+#ifdef STM32F10X_MD
 void mpu6050_request_async_accel_read(int16_t *accData, volatile uint8_t *status)
 {
     accel_data = accData;
@@ -318,7 +322,7 @@ void mpu6050_request_async_accel_read(int16_t *accData, volatile uint8_t *status
                   status,
                   &accel_read_CB);
 }
-
+#endif
 
 static uint8_t gyro_buffer[6];
 static volatile int16_t* gyro_data;

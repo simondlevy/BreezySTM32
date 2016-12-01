@@ -128,18 +128,6 @@ void delay(uint32_t ms)
         delayMicroseconds(1000);
 }
 
-void failureMode(uint8_t mode)
-{
-    LED1_OFF;
-    LED0_ON;
-    while (1) {
-        LED1_TOGGLE;
-        LED0_TOGGLE;
-        delay(475 * mode - 2);
-        delay(25);
-    }
-}
-
 uint32_t rccReadBkpDr(void)
 {
     return *((uint16_t *)BKP_BASE + 0x04) | *((uint16_t *)BKP_BASE + 0x08) << 16;

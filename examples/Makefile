@@ -24,6 +24,7 @@ BREEZY_DIR  = $(HOME)/Desktop/BreezySTM32
 include makefile.project
 
 CMSIS_DIR	 = $(BREEZY_DIR)/lib/CMSIS
+ARCH_FLAGS   = -mthumb
 
 # Support F1, F3
 include ../makefile.arch
@@ -32,6 +33,7 @@ $(PROJECT_NAME)_SRC = $(PROJECT_SRC_FILE) \
 	       $(PROJECT_BREEZY_FILES) \
 		   $(BREEZY_DIR)/main.c \
 		   $(BREEZY_DIR)/drv_serial.c \
+		   $(BREEZY_DIR)/drv_system.c \
 		   $(BREEZY_DIR)/printf.c \
 		   $(DEVICE_SRC) \
 		   $(CMSIS_SRC) \
