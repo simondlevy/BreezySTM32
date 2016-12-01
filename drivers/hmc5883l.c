@@ -1,5 +1,5 @@
 /*
-   drv_hmc5883l.c :  Support for HMC5883L Magnetometer
+   hmc5883l.c :  Support for HMC5883L Magnetometer
 
    Adapted from https://github.com/multiwii/baseflight/blob/master/src/drv_hmc5883l.c
 
