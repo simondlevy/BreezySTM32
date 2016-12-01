@@ -22,7 +22,7 @@
 #pragma once
 
 #include <stdint.h>
-#include "drv_flash.h"
+#include "drivers/flash.h"
 
 #define M25P16_PAGESIZE 256
 
