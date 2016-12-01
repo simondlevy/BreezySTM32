@@ -1,7 +1,7 @@
 /*
    accelgyro.c : report accelerometer and gyroscope values
 
-   Copyright (C) 2016 James Jackson
+   Copyright (C) 2016 Simon D. Levy
 
    This file is part of BreezySTM32.
 
@@ -36,6 +36,12 @@ void setup(void)
 void loop(void)
 {
     int16_t accADC[3];
+    int16_t gyroADC[3];
+
     mpu6050_read_accel(accADC);
-    printf("%d %d %d\n", accADC[0], accADC[1], accADC[2]);
+    mpu6050_read_gyro(gyroADC);
+
+    printf("ax: %d ay: %d az: %d  gx: %d gy: %d gz: %d\n", 
+            accADC[0], accADC[1], accADC[2], 
+            gyroADC[0], gyroADC[1], gyroADC[2]);
 }
