@@ -21,6 +21,8 @@
 
 #include <breezystm32.h>
 
+static uint8_t chanmap[5] = {1, 2, 3, 0, 4};
+
 void setup(void)
 {
     spektrumInit(USART2, SERIALRX_SPEKTRUM2048);
@@ -28,11 +30,12 @@ void setup(void)
 
 void loop(void)
 {
-    static int count;
-
     if (spektrumFrameComplete()) {
-        printf("%d\n", ++count);
+        for (int k=0; k<5; ++k)
+            printf("%4d ", spektrumReadRawRC(chanmap[k]));
+        printf("\n");
     }
 
-    delay(100);
+    // Allow some time between readings
+    delay(10);
 }
