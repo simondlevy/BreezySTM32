@@ -167,14 +167,6 @@ along with BreezySTM32.  If not, see <http://www.gnu.org/licenses/>.
 #include "pwm.h"
 #include "spi.h"
 
-#include "drivers/hmc5883l.h"
-#include "drivers/m25p16.h"
-#include "drivers/mb1242.h"
-#include "drivers/ms4525.h"
-#include "drivers/flashfs.h"
-#include "drivers/mpu6050.h"
-#include "drivers/ms5611.h"
-#include "drivers/spektrum.h"
 #endif
 
 #include "gpio.h"

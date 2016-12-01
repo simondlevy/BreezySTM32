@@ -20,6 +20,11 @@
  */
 
 #include <breezystm32.h>
+#include <drivers/mpu6050.h>
+#include <drivers/ms4525.h>
+#include <drivers/hmc5883l.h>
+#include <drivers/ms5611.h>
+#include <drivers/mb1242.h>
 
 #define BOARD_REV 2
 

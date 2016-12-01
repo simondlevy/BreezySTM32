@@ -20,6 +20,7 @@
  */
 
 #include <breezystm32.h>
+#include <drivers/mpu6050.h>
 
 #define BOARD_REV 2
 

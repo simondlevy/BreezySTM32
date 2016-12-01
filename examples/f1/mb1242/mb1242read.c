@@ -22,6 +22,7 @@
  */
 
 #include <breezystm32.h>
+#include <drivers/mb1242.h>
 
 static bool sonar_present;
 

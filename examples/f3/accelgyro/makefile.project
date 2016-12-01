@@ -4,4 +4,4 @@ PROJECT_NAME = accelgyro
 PROJECT_SRC_FILE  = accelgyro.c
 
 # Drivers, etc.
-PROJECT_BREEZY_FILES = $(BREEZY_DIR)/drv_i2c_stm32f30x.c $(BREEZY_DIR)/drv_mpu6050.c
+PROJECT_BREEZY_FILES = $(BREEZY_DIR)/i2c_stm32f30x.c $(BREEZY_DIR)/drivers/mpu6050.c

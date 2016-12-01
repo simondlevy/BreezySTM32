@@ -20,6 +20,9 @@
  */
 
 #include <breezystm32.h>
+#include <drivers/flashfs.h>
+#include <drivers/m25p16.h>
+
 #include <string.h>
 
 const char * MESSAGE = "Hello, world!";

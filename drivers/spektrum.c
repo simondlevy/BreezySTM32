@@ -20,6 +20,7 @@
  */
 
 #include <breezystm32.h>
+#include <drivers/spektrum.h>
 
 // driver for spektrum satellite receiver / sbus using UART2 (freeing up more motor outputs for stuff)
 

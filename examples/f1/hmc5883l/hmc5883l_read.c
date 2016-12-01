@@ -20,9 +20,9 @@
  */
 
 #include <breezystm32.h>
+#include <drivers/hmc5883l.h>
 
 #define BOARD_REV 2
-
 
 volatile uint8_t mag_status = 0;
 int16_t mag_data[3] = {0.0, 0.0, 0.0};

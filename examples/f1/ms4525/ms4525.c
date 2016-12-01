@@ -20,6 +20,7 @@
  */
 
 #include <breezystm32.h>
+#include <drivers/ms4525.h>
 
 bool airspeed_present = false;
 volatile int16_t velocity;

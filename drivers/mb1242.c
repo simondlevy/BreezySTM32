@@ -20,6 +20,7 @@
  */
 
 #include <breezystm32.h>
+#include <drivers/mb1242.h>
 
 #include <stdbool.h>
 #include <stdint.h>
