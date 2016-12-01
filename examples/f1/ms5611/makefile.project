@@ -4,5 +4,5 @@ PROJECT_NAME = ms5611read
 PROJECT_SRC_FILE  = ms5611read.c
 
 # Drivers, etc.
-PROJECT_BREEZY_FILES = $(BREEZY_DIR)/drv_i2c_stm32f10x.c $(BREEZY_DIR)/drv_ms5611.c
+PROJECT_BREEZY_FILES = $(BREEZY_DIR)/drv_i2c_stm32f10x.c $(BREEZY_DIR)/drivers/ms5611.c
 	
