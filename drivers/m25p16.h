@@ -1,5 +1,5 @@
 /*
-   drv_m25p16.h : function prototypes for Micron Technology MP25P16 flash memory
+   m25p16.h : function prototypes for Micron Technology MP25P16 flash memory
 
    Adapted from https://github.com/cleanflight/cleanflight/blob/master/src/main/drivers/flash_m25p16.h
 

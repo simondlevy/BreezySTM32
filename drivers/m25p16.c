@@ -1,5 +1,5 @@
 /*
-   drv_m25p16.c : driver for Micron Technology MP25P16 flash memory
+   m25p16.c : driver for Micron Technology MP25P16 flash memory
 
    Adapted from https://github.com/cleanflight/cleanflight/blob/master/src/main/drivers/flash_m25p16.c
 
@@ -43,7 +43,7 @@
 #define M25P16_SPI_INSTANCE   NAZE_SPI_INSTANCE
 
 
-#include "drv_m25p16.h"
+#include "m25p16.h"
 
 #include <drv_spi.h>
 #include <drv_system.h>
