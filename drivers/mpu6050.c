@@ -220,7 +220,7 @@ void mpu6050_init(bool enableInterrupt, uint16_t * acc1G, float * gyroScale, int
         *acc1G = 256 * 8;
 
     // 16.4 dps/lsb scalefactor for all Invensense devices
-    *gyroScale = (1.0f / 16.4f) * (M_PI / 180.0f);
+    *gyroScale = (1.0f / 16.4f) * ((float)M_PI / 180.0f);
 
     // MPU_INT output on rev5+ hardware (PC13)
     if (enableInterrupt) {
