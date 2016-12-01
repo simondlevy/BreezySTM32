@@ -1,7 +1,7 @@
-PROJECT_NAME = dsm_read
+PROJECT_NAME = lemonrx
 
 # Contains your setup() and loop()
-PROJECT_SRC_FILE  = dsm_read.c
+PROJECT_SRC_FILE  = lemonrx.c
 
 # Drivers, etc.
 PROJECT_BREEZY_FILES = $(BREEZY_DIR)/drivers/spektrum.c

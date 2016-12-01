@@ -1,5 +1,5 @@
 /*
-   dsm_read.c : report PWM values from Spektrum DSM receiver
+   lemonrx.c : report PWM values from LemonRX DSM receiver
 
    Copyright (C) 2016 Simon D. Levy
 
@@ -21,12 +21,18 @@
 
 #include <breezystm32.h>
 
-uint32_t start_time = 0;
-
 void setup(void)
 {
+    spektrumInit(USART2, SERIALRX_SPEKTRUM2048);
 }
 
 void loop(void)
 {
+    static int count;
+
+    if (spektrumFrameComplete()) {
+        printf("%d\n", ++count);
+    }
+
+    delay(100);
 }
