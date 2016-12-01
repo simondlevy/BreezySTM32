@@ -1,5 +1,7 @@
 /*
-   drv_spektrum.h : function prototypes for Spektrum DSM receivers
+   ms5611.h : driver for Measurement Specialties MS5611 barometer
+
+   Adapted from https://github.com/multiwii/baseflight/blob/master/src/drv_ms5611.h
 
    This file is part of BreezySTM32.
 
@@ -19,17 +21,14 @@
 
 #pragma once
 
-#include <stdint.h>
+bool ms5611_init(void);
 
-typedef enum {
-    SERIALRX_SPEKTRUM1024,
-    SERIALRX_SPEKTRUM2048
-} serialrx_t;
+// blocking I2C update function
+void ms5611_update(void);
 
-void spektrumInit(USART_TypeDef * uart, serialrx_t serialrx_type);
+// asynchronous I2C update function
+void ms5611_request_async_update(void);
 
-bool spektrumFrameComplete(void);
-
-uint16_t spektrumReadRawRC(uint8_t chan);
-
-
+// Data access methods
+uint32_t ms5611_read_pressure(void);
+uint32_t ms5611_read_temperature(void);

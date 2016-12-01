@@ -166,7 +166,6 @@ along with BreezySTM32.  If not, see <http://www.gnu.org/licenses/>.
 #include "drv_system.h"
 #include "drv_pwm.h"
 #include "drv_spi.h"
-#include "drv_spektrum.h"
 
 #include "drivers/hmc5883l.h"
 #include "drivers/m25p16.h"
@@ -175,6 +174,7 @@ along with BreezySTM32.  If not, see <http://www.gnu.org/licenses/>.
 #include "drivers/flashfs.h"
 #include "drivers/mpu6050.h"
 #include "drivers/ms5611.h"
+#include "drivers/spektrum.h"
 #endif
 
 #include "drv_gpio.h"

@@ -1,0 +1,7 @@
+PROJECT_NAME = dsm_read
+
+# Contains your setup() and loop()
+PROJECT_SRC_FILE  = dsm_read.c
+
+# Drivers, etc.
+PROJECT_BREEZY_FILES = $(BREEZY_DIR)/drivers/spektrum.c

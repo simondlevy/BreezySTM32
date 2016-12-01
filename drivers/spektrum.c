@@ -1,5 +1,5 @@
 /*
-   drv_spektrum.c : code for Spektrum DSM receivers
+   spektrum.c : code for Spektrum DSM receivers
 
    Adapted from https://github.com/multiwii/baseflight/blob/master/src/spektrum.c
 
