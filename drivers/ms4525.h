@@ -1,5 +1,5 @@
 /*
-   drv_ms4525.h : driver for MS4525 Differential Pressure Sensor
+   ms4525.h : driver for MS4525 Differential Pressure Sensor
 
    This file is part of BreezySTM32.
 
