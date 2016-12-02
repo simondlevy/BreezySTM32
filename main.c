@@ -39,10 +39,8 @@ static void _putc(void *p, char c)
 
 int main(void)
 {
-    // F3: start fpu
-    //SCB->CPACR = (0x3 << (10*2)) | (0x3 << (11*2));
-
 #ifdef STM32F303xC
+    SCB->CPACR = (0x3 << (10*2)) | (0x3 << (11*2)); // start FPU
     SetSysClock();
 #else
     SetSysClock(false);
