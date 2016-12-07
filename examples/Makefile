@@ -24,8 +24,8 @@ CMSIS_DIR	 = $(BREEZY_DIR)/lib/CMSIS
 ARCH_FLAGS   = -mthumb
 
 # Support F1, F3
-include ../makefile.f1
-#include ../makefile.f3
+#include ../makefile.f1
+include ../makefile.f3
 
 # Each example program has one of these
 include makefile.project
