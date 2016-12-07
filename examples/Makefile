@@ -20,14 +20,15 @@
 # Change this to where you installed BreezySTM32
 BREEZY_DIR  = $(HOME)/Desktop/BreezySTM32
 
-# Each example program has one of these
-include makefile.project
-
 CMSIS_DIR	 = $(BREEZY_DIR)/lib/CMSIS
 ARCH_FLAGS   = -mthumb
 
 # Support F1, F3
-include ../makefile.arch
+include ../makefile.f1
+#include ../makefile.f3
+
+# Each example program has one of these
+include makefile.project
 
 $(PROJECT_NAME)_SRC = $(PROJECT_SRC_FILE) \
 	       $(PROJECT_BREEZY_FILES) \

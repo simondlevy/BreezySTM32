@@ -1,7 +1,0 @@
-PROJECT_NAME = mb1242read
-
-# Contains your setup() and loop()
-PROJECT_SRC_FILE  = mb1242read.c
-
-# Drivers, etc.
-PROJECT_BREEZY_FILES = $(BREEZY_DIR)/i2c_stm32f10x.c $(BREEZY_DIR)/drivers/mb1242.c
