@@ -54,8 +54,6 @@ VPATH		:= $(SRC_DIR)
 
 # Search path and source files for the CMSIS sources
 VPATH		:= $(VPATH):$(SUPPORT)
-CMSIS_SRC	 = $(notdir $(wildcard $(CMSIS_DIR)/CM3/CoreSupport/*.c \
-			               $(CMSIS_DIR)/CM3/DeviceSupport/ST/STM32F10x/*.c))
 
 # Search path and source files for the ST stdperiph library
 VPATH		:= $(VPATH):$(STDPERIPH_DIR):$(STDPERIPH_DIR)/src
