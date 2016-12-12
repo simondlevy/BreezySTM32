@@ -72,8 +72,7 @@ OBJCOPY	 = arm-none-eabi-objcopy
 INCLUDE_DIRS = . \
 			   $(BREEZY_DIR) \
 			   $(STDPERIPH_DIR)/inc \
-			   $(CMSIS_DIR)/CM3/CoreSupport \
-			   $(CMSIS_DIR)/CM3/DeviceSupport/ST/STM32F10x
+			   $(DEVICE_INCLUDES)
 
 ARCH_FLAGS	 = -mthumb -mcpu=cortex-m3
 
