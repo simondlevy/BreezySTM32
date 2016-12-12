@@ -10,24 +10,7 @@ extern "C" {
 #endif
 
 
-extern void dump(char c);
-
-static void debug(const char * fmt, ...)
-{
-    va_list ap;       
-
-    va_start(ap, fmt);     
-
-    char buf[1000];
-
-    vsprintf(buf, fmt, ap);
-
-    for (char * c = buf; *c; c++)
-        //Board::debug(*c);
-        dump(*c);
-
-    va_end(ap);  
-}
+extern  void debug(const char * fmt, ...);
 
 void setup(void)
 {

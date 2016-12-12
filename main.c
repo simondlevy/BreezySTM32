@@ -21,6 +21,9 @@
 
 #include "breezystm32.h"
 
+#include <stdio.h>
+#include <stdarg.h>
+
 serialPort_t * Serial1;
 
 #ifdef STM32F303xC
@@ -29,10 +32,21 @@ extern void SetSysClock(void);
 extern void SetSysClock(bool overclock);
 #endif
 
-void dump(char c)
+void debug(const char * fmt, ...)
 {
-    serialWrite(Serial1, c);
+    va_list ap;       
 
+    va_start(ap, fmt);     
+
+    char buf[1000];
+
+    vsprintf(buf, fmt, ap);
+
+    for (char * p = buf; *p; p++)
+        serialWrite(Serial1, *p);
+
+    va_end(ap);  
+    
     while (!isSerialTransmitBufferEmpty(Serial1));
 }
 
@@ -49,8 +63,6 @@ int main(void)
     Serial1 = uartOpen(USART1, NULL, 115200, MODE_RXTX, SERIAL_NOT_INVERTED);
 
     setup();
-
-    //init_printf( NULL, _putc);
 
     while (true) 
         loop();
