@@ -127,7 +127,7 @@ void loop(void)
     if(count > 1)
     {
       count = 0;
-      printf("%d\t %d\t %d\t %d\t %d\t %d\n",
+      debug("%d\t %d\t %d\t %d\t %d\t %d\n",
              (int32_t)(accel_data[2]*accel_scale*1000.0f),
              (int32_t)(gyro_data[2]*gyro_scale*1000.0f),
              (int32_t)mag_data[2],

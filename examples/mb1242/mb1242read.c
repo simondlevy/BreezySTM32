@@ -39,7 +39,7 @@ void setup(void)
 void loop(void)
 {
     if(sonar_present)
-        printf("%d\n", mb1242_poll(&sonar));
+        debug("%d\n", mb1242_poll(&sonar));
     else
         printf("no sonar\n");
     delay(100);

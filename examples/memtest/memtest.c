@@ -49,5 +49,5 @@ void loop(void)
 
     char s[100]; // long enough for any message?
 
-    printf("%s\n", flashfsReadAbs(0, (uint8_t *)s, msglen) < msglen ? "error reading bytes" : s);
+    debug("%s\n", flashfsReadAbs(0, (uint8_t *)s, msglen) < msglen ? "error reading bytes" : s);
 }

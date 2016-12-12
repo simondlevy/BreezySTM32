@@ -45,8 +45,6 @@
 #include "timer.h"
 #include "pwm.h"
 
-#include "printf.h"
-
 typedef struct {
     volatile uint16_t *ccr;
     volatile uint16_t *cr1;

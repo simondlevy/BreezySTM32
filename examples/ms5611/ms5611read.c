@@ -43,9 +43,9 @@ void loop(void)
     baro = ms5611_read_pressure();
     temp = ms5611_read_temperature();
     ms5611_request_async_update();
-    printf("Pressure: %d Pa    \t Temperature: %d.%d deg C\n", baro, temp/100, temp%100);
+    debug("Pressure: %d Pa    \t Temperature: %d.%d deg C\n", baro, temp/100, temp%100);
   }
   else
-    printf("MS5611 unavailable\n");
+    debug("MS5611 unavailable\n");
 
 } 

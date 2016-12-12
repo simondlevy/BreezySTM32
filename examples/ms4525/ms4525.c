@@ -44,12 +44,12 @@ void loop(void)
     if (airspeed_present)
     {
         ms4525_request_async_update();
-        printf("Velocity: %d ", ms4525_read_velocity());
-        printf("\tTemperature: %d\n", ms4525_read_temperature());
+        debug("Velocity: %d ", ms4525_read_velocity());
+        debug("\tTemperature: %d\n", ms4525_read_temperature());
     }
     else
     {
-        printf("no airspeed\n");
+        debug("no airspeed\n");
     }
 }
 

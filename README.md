@@ -6,7 +6,8 @@ firmware on the ARM STM32F controller boards popular on toady's flight controlle
 we are adding F3 support as time permits.
 
 As with the Arduino, you write a setup() function and a loop() function, and BreezySTM32 takes care of
-the rest, providing you with a C-like printf() statement, a SerialPort1 that you can read/write, and
+the rest, providing you with a debug() function with the API of the printf() from C, 
+a SerialPort1 that you can read/write, and
 libraries for standard signals like analog voltage, PWM, UART, and I^2C.  (If you want
 to use the Arduino IDE with your STM32 board, there are other
 [tools](https://github.com/rogerclarkmelbourne/Arduino_STM32)
@@ -15,7 +16,7 @@ to do this; my goal with BreezySTM32 was to provide a bare-bones C API for my fa
 To use BreezySTM32, you'll at minimum need to install the [GNU ARM toolchain](https://launchpad.net/gcc-arm-embedded).
 After that you can use whatever development tools you like to build your firmware.  I have found it easiest to avoid
 IDE / debugging tools like Eclipse, sticking with simple
-makefiles for building / flashing, vim for editing, and printf() for debugging.  
+makefiles for building / flashing, vim for editing, and printout for debugging.  
 
 To load new firmware, you should first disconnect the board from your computer, short the BOOT pins together,
 and reconnect to your computer.  The Flip32 features through-hole soldering pads for the BOOT

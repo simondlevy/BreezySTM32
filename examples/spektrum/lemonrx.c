@@ -33,8 +33,8 @@ void loop(void)
 {
     if (spektrumFrameComplete()) {
         for (int k=0; k<5; ++k)
-            printf("%4d ", spektrumReadRawRC(chanmap[k]));
-        printf("\n");
+            debug("%4d ", spektrumReadRawRC(chanmap[k]));
+        debug("\n");
     }
 
     // Allow some time between readings

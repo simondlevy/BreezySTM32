@@ -1,18 +1,9 @@
-###############################################################################
-# "THE BEER-WARE LICENSE" (Revision 42):
-# <msmith@FreeBSD.ORG> wrote this file. As long as you retain this notice you
-# can do whatever you want with this stuff. If we meet some day, and you think
-# this stuff is worth it, you can buy me a beer in return
-###############################################################################
-
 # Change this to wherever you put BreezySTM32
 BREEZY_DIR = $(HOME)/Desktop/BreezySTM32
 
-###############################################################################
-# Things that the user might override on the commandline
-#
+include makefile.project
 
-TARGET		?= NAZE
+TARGET		?= $(PROJECT_NAME)
 
 CPP_OBJS = floatprint.o
 
@@ -39,7 +30,7 @@ CMSIS_DIR	 = $(BREEZY_DIR)/lib/CMSIS
 STDPERIPH_DIR = $(BREEZY_DIR)/lib/STM32F10x_StdPeriph_Driver
 
 # Source files common to all targets
-NAZE_SRC = $(BREEZY_DIR)/main.c \
+$(PROJECT_NAME)_SRC = $(BREEZY_DIR)/main.c \
            $(BREEZY_DIR)/system.c \
            $(BREEZY_DIR)/system_stm32f10x.c \
            $(BREEZY_DIR)/i2c_stm32f10x.c \

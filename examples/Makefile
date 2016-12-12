@@ -35,7 +35,6 @@ $(PROJECT_NAME)_SRC = $(PROJECT_SRC_FILE) \
 		   $(BREEZY_DIR)/main.c \
 		   $(BREEZY_DIR)/serial.c \
 		   $(BREEZY_DIR)/system.c \
-		   $(BREEZY_DIR)/printf.c \
 		   $(DEVICE_SRC) \
 		   $(CMSIS_SRC) \
 		   $(STDPERIPH_SRC) 
