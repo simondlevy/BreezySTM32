@@ -32,6 +32,7 @@ extern void SetSysClock(void);
 extern void SetSysClock(bool overclock);
 #endif
 
+#ifndef EXTERNAL_DEBUG
 void debug(const char * fmt, ...)
 {
     va_list ap;       
@@ -49,6 +50,7 @@ void debug(const char * fmt, ...)
     
     while (!isSerialTransmitBufferEmpty(Serial1));
 }
+#endif
 
 int main(void)
 {
