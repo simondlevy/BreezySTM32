@@ -37,12 +37,10 @@ include ../makefile.f1
 $(PROJECT_NAME)_SRC = $(PROJECT_SRC_FILE) \
            $(BREEZY_DIR)/main.c \
            $(BREEZY_DIR)/system.c \
-           $(BREEZY_DIR)/system_stm32f10x.c \
            $(BREEZY_DIR)/serial.c \
            $(BREEZY_DIR)/gpio.c \
-           $(BREEZY_DIR)/uart_stm32f10x.c \
            $(BREEZY_DIR)/timer.c \
-           $(BREEZY_DIR)/startup_stm32f10x_md_gcc.S \
+		   $(DEVICE_SRC) \
            $(CMSIS_SRC) \
            $(STDPERIPH_SRC)
 
