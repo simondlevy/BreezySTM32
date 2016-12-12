@@ -3,15 +3,12 @@
 #include <stdarg.h>
 #include <math.h>
 #include <stdio.h>
-
+#include <string.h>
 
 #ifdef __arm__
 extern "C" {
-#else
-#include <stdio.h>
 #endif
 
-#include <string.h>
 
 extern void dump(char c);
 
