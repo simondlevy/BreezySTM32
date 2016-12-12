@@ -1,3 +1,5 @@
+ARCH_FLAGS	 = -mthumb 
+
 # Support F1, F3
 include ../makefile.f1
 #include ../makefile.f3
@@ -74,7 +76,6 @@ INCLUDE_DIRS = . \
 			   $(STDPERIPH_DIR)/inc \
 			   $(DEVICE_INCLUDES)
 
-ARCH_FLAGS	 = -mthumb -mcpu=cortex-m3
 
 ifeq ($(DEBUG),GDB)
 OPTIMIZE	 = -Og
