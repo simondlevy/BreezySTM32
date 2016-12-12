@@ -46,7 +46,7 @@ $(PROJECT_NAME)_SRC = $(PROJECT_SRC_FILE) \
 # This will prevent accidental deletion of startup code.
 .PRECIOUS: %.s
 
-VPATH		:= $(SRC_DIR):#$(SRC_DIR)/floatprint_startups
+VPATH		:= $(SRC_DIR)
 
 # Search path and source files for the CMSIS sources
 VPATH		:= $(VPATH):$(CMSIS_DIR)/CM3/CoreSupport:$(CMSIS_DIR)/CM3/DeviceSupport/ST/STM32F10x
@@ -123,10 +123,10 @@ LDFLAGS	 = -lm \
 # Things we will build
 #
 
-TARGET_HEX	 = $(BIN_DIR)/floatprint_$(TARGET).hex
-TARGET_ELF	 = $(BIN_DIR)/floatprint_$(TARGET).elf
+TARGET_HEX	 = $(BIN_DIR)/$(TARGET).hex
+TARGET_ELF	 = $(BIN_DIR)/$(TARGET).elf
 TARGET_OBJS	 = $(addsuffix .o,$(addprefix $(OBJECT_DIR)/$(TARGET)/,$(basename $($(TARGET)_SRC))))
-TARGET_MAP   = $(OBJECT_DIR)/floatprint_$(TARGET).map
+TARGET_MAP   = $(OBJECT_DIR)/$(TARGET).map
 
 # List of buildable ELF files and their object dependencies.
 # It would be nice to compute these lists, but that seems to be just beyond make.
@@ -150,10 +150,6 @@ $(OBJECT_DIR)/$(TARGET)/%.o: %.S
 	$(MKDIR_OBJDIR)
 	@echo %% $(notdir $<)
 	@$(CC) -c -o $@ $(ASFLAGS) $< 
-
-floatprint.o: floatprint.c
-	@echo %% $(notdir $<)
-	@$(CC) $(CFLAGS) -c -o floatprint.o floatprint.c
 
 clean:
 	rm -rf *.o obj $(TARGET_HEX) $(TARGET_ELF) $(TARGET_OBJS) $(TARGET_MAP)
