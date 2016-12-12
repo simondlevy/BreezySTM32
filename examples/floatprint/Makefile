@@ -32,9 +32,7 @@ $(PROJECT_NAME)_SRC = $(PROJECT_SRC_FILE) \
            $(BREEZY_DIR)/main.c \
            $(BREEZY_DIR)/system.c \
            $(BREEZY_DIR)/system_stm32f10x.c \
-           $(BREEZY_DIR)/i2c_stm32f10x.c \
            $(BREEZY_DIR)/serial.c \
-           $(BREEZY_DIR)/pwm.c \
            $(BREEZY_DIR)/gpio.c \
            $(BREEZY_DIR)/uart_stm32f10x.c \
            $(BREEZY_DIR)/timer.c \
