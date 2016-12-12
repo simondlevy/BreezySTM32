@@ -5,8 +5,6 @@ include makefile.project
 
 TARGET		?= $(PROJECT_NAME)
 
-CPP_OBJS = floatprint.o
-
 # Compile-time options
 OPTIONS		?=
 
@@ -30,7 +28,8 @@ CMSIS_DIR	 = $(BREEZY_DIR)/lib/CMSIS
 STDPERIPH_DIR = $(BREEZY_DIR)/lib/STM32F10x_StdPeriph_Driver
 
 # Source files common to all targets
-$(PROJECT_NAME)_SRC = $(BREEZY_DIR)/main.c \
+$(PROJECT_NAME)_SRC = $(PROJECT_SRC_FILE) \
+           $(BREEZY_DIR)/main.c \
            $(BREEZY_DIR)/system.c \
            $(BREEZY_DIR)/system_stm32f10x.c \
            $(BREEZY_DIR)/i2c_stm32f10x.c \
@@ -47,7 +46,6 @@ $(PROJECT_NAME)_SRC = $(BREEZY_DIR)/main.c \
 # This will prevent accidental deletion of startup code.
 .PRECIOUS: %.s
 
-# Search path for floatprint sources
 VPATH		:= $(SRC_DIR):#$(SRC_DIR)/floatprint_startups
 
 # Search path and source files for the CMSIS sources
@@ -127,7 +125,7 @@ LDFLAGS	 = -lm \
 
 TARGET_HEX	 = $(BIN_DIR)/floatprint_$(TARGET).hex
 TARGET_ELF	 = $(BIN_DIR)/floatprint_$(TARGET).elf
-TARGET_OBJS	 = $(addsuffix .o,$(addprefix $(OBJECT_DIR)/$(TARGET)/,$(basename $($(TARGET)_SRC)))) $(CPP_OBJS)
+TARGET_OBJS	 = $(addsuffix .o,$(addprefix $(OBJECT_DIR)/$(TARGET)/,$(basename $($(TARGET)_SRC))))
 TARGET_MAP   = $(OBJECT_DIR)/floatprint_$(TARGET).map
 
 # List of buildable ELF files and their object dependencies.
@@ -138,7 +136,6 @@ $(TARGET_HEX): $(TARGET_ELF)
 
 $(TARGET_ELF):  $(TARGET_OBJS)
 	$(CC) -o $@ $^ $(LDFLAGS)
-	mv *.o obj
 
 MKDIR_OBJDIR = @mkdir -p $(dir $@)
 
@@ -153,8 +150,6 @@ $(OBJECT_DIR)/$(TARGET)/%.o: %.S
 	$(MKDIR_OBJDIR)
 	@echo %% $(notdir $<)
 	@$(CC) -c -o $@ $(ASFLAGS) $< 
-
-# C++ support
 
 floatprint.o: floatprint.c
 	@echo %% $(notdir $<)
