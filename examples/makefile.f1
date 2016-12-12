@@ -17,6 +17,8 @@
 # You should have received a copy of the GNU Lesser General Public License 
 # along with this code.  If not, see <http://www.gnu.org/licenses/>.
 
+ARCH = 1
+
 STDPERIPH_DIR = $(BREEZY_DIR)/lib/STM32F10x_StdPeriph_Driver
 
 DEVICE_INCLUDES = $(CMSIS_DIR)/CM3/CoreSupport \
