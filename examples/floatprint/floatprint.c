@@ -5,8 +5,10 @@
 #include <stdio.h>
 #include <string.h>
 
+#include <breezystm32.h>
+
 #ifdef __arm__
-extern "C" {
+//extern "C" {
 #endif
 
 
@@ -25,5 +27,5 @@ void loop(void)
 } 
 
 #ifdef __arm__
-} // extern "C"
+//} // extern "C"
 #endif

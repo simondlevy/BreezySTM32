@@ -168,9 +168,9 @@ $(OBJECT_DIR)/$(TARGET)/%.o: %.S
 
 # C++ support
 
-floatprint.o: floatprint.cpp
+floatprint.o: floatprint.c
 	@echo %% $(notdir $<)
-	@$(CC) $(CFLAGS) -c -o floatprint.o floatprint.cpp
+	@$(CC) $(CFLAGS) -c -o floatprint.o floatprint.c
 
 clean:
 	rm -rf *.o obj $(TARGET_HEX) $(TARGET_ELF) $(TARGET_OBJS) $(TARGET_MAP)
