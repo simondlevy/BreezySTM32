@@ -17,6 +17,8 @@
 # You should have received a copy of the GNU Lesser General Public License 
 # along with this code.  If not, see <http://www.gnu.org/licenses/>.
 
+ARCH = 3
+
 STDPERIPH_DIR	= $(BREEZY_DIR)/lib/STM32F30x_StdPeriph_Driver
 
 DEVICE_INCLUDES = $(CMSIS_DIR)/CM1/CoreSupport \
@@ -26,7 +28,7 @@ ARCH_FLAGS	 += -mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16 -fsingle-preci
 
 DEVICE_FLAGS = -DSTM32F303xC -DSTM32F303 -DI2CDEV=I2CDEV_1 -DUSART=USART3
 
-VPATH		:= $(CMSIS_DIR)/CM1/CoreSupport:$(CMSIS_DIR)/CM1/DeviceSupport/ST/STM32F30x
+SUPPORT		:= $(CMSIS_DIR)/CM1/CoreSupport:$(CMSIS_DIR)/CM1/DeviceSupport/ST/STM32F30x
 
 CMSIS_SRC	 = $(notdir $(wildcard $(CMSIS_DIR)/CM1/CoreSupport/*.c \
 			               $(CMSIS_DIR)/CM1/DeviceSupport/ST/STM32F30x/*.c))

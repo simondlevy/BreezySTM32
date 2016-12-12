@@ -48,8 +48,8 @@ BIN_DIR		 = $(HERE)/obj
 CMSIS_DIR	 = $(BREEZY_DIR)/lib/CMSIS
 
 # Support F1, F3
-include ../makefile.f1
-#include ../makefile.f3
+#include ../makefile.f1
+include ../makefile.f3
 
 
 # Source files common to all targets
@@ -58,8 +58,6 @@ $(PROJECT_NAME)_SRC = $(PROJECT_SRC_FILE) \
            $(BREEZY_DIR)/main.c \
            $(BREEZY_DIR)/system.c \
            $(BREEZY_DIR)/serial.c \
-           $(BREEZY_DIR)/gpio.c \
-           $(BREEZY_DIR)/timer.c \
 		   $(DEVICE_SRC) \
            $(CMSIS_SRC) \
            $(STDPERIPH_SRC)
