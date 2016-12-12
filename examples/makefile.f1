@@ -26,7 +26,9 @@ ARCH_FLAGS	 += -mcpu=cortex-m3
 
 DEVICE_FLAGS = -DSTM32F10X_MD -DI2CDEV=I2CDEV_2 -DUSART=USART2
 
-VPATH		:= $(CMSIS_DIR)/CM3/CoreSupport:$(CMSIS_DIR)/CM3/DeviceSupport/ST/STM32F10x
+#VPATH		:= $(CMSIS_DIR)/CM3/CoreSupport:$(CMSIS_DIR)/CM3/DeviceSupport/ST/STM32F10x
+
+SUPPORT		:= $(CMSIS_DIR)/CM3/CoreSupport:$(CMSIS_DIR)/CM3/DeviceSupport/ST/STM32F10x
 
 CMSIS_SRC	 = $(notdir $(wildcard $(CMSIS_DIR)/CM3/CoreSupport/*.c \
 			               $(CMSIS_DIR)/CM3/DeviceSupport/ST/STM32F10x/*.c))

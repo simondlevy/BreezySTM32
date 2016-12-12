@@ -53,7 +53,7 @@ $(PROJECT_NAME)_SRC = $(PROJECT_SRC_FILE) \
 VPATH		:= $(SRC_DIR)
 
 # Search path and source files for the CMSIS sources
-VPATH		:= $(VPATH):$(CMSIS_DIR)/CM3/CoreSupport:$(CMSIS_DIR)/CM3/DeviceSupport/ST/STM32F10x
+VPATH		:= $(VPATH):$(SUPPORT)
 CMSIS_SRC	 = $(notdir $(wildcard $(CMSIS_DIR)/CM3/CoreSupport/*.c \
 			               $(CMSIS_DIR)/CM3/DeviceSupport/ST/STM32F10x/*.c))
 
