@@ -29,9 +29,8 @@ extern void SetSysClock(void);
 extern void SetSysClock(bool overclock);
 #endif
 
-static void _putc(void *p, char c)
+void dump(char c)
 {
-    (void)p; // avoid compiler warning about unused variable
     serialWrite(Serial1, c);
 
     while (!isSerialTransmitBufferEmpty(Serial1));
@@ -51,8 +50,8 @@ int main(void)
 
     setup();
 
-    init_printf( NULL, _putc);
-   
+    //init_printf( NULL, _putc);
+
     while (true) 
         loop();
 }

@@ -173,7 +173,7 @@ along with BreezySTM32.  If not, see <http://www.gnu.org/licenses/>.
 #include "serial.h"
 #include "uart.h"
 
-#include "printf.h"
+//#include "printf.h"
 
 extern serialPort_t * Serial1;
 void setup(void);
