@@ -1,9 +1,5 @@
 ARCH_FLAGS	 = -mthumb 
 
-# Support F1, F3
-include ../makefile.f1
-#include ../makefile.f3
-
 # Change this to wherever you put BreezySTM32
 BREEZY_DIR = $(HOME)/Desktop/BreezySTM32
 
@@ -31,6 +27,11 @@ SRC_DIR		 = $(ROOT)
 OBJECT_DIR	 = $(HERE)/obj
 BIN_DIR		 = $(HERE)/obj
 CMSIS_DIR	 = $(BREEZY_DIR)/lib/CMSIS
+
+# Support F1, F3
+include ../makefile.f1
+#include ../makefile.f3
+
 
 # Source files common to all targets
 $(PROJECT_NAME)_SRC = $(PROJECT_SRC_FILE) \
