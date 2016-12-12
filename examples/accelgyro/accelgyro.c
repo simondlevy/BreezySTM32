@@ -70,7 +70,7 @@ void loop(void)
         if(count > 10000)
         {
             count = 0;
-            printf("%d\t %d\t %d\t %d\t %d\t %d\t %d\t \n",
+            debug("%d\t %d\t %d\t %d\t %d\t %d\t %d\t \n",
                    (int32_t)(accel_data[0]*accel_scale*1000.0f),
                     (int32_t)(accel_data[1]*accel_scale*1000.0f),
                     (int32_t)(accel_data[2]*accel_scale*1000.0f),

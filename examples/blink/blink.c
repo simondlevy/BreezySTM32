@@ -1,5 +1,5 @@
 /*
-   ledblink.c : blink the LED
+   blink.c : blink the LED
 
    Copyright (C) 2016 Simon D. Levy 
 
@@ -21,34 +21,12 @@
 
 #include <breezystm32.h>
 
-#include <stdarg.h>
-
-static void debug(const char * fmt, ...)
-{
-    va_list ap;       
-
-    va_start(ap, fmt);     
-
-    char buf[1000];
-
-    vsprintf(buf, fmt, ap);
-
-    for (char * p = buf; *p; p++)
-        serialWrite(Serial1, *p);
-
-    va_end(ap);  
-}
-
-
 void setup(void)
 {
 } 
 
 void loop(void)
 {
-    static double x;
-    debug("%f\n", x);
-    x += .01;
     LED0_TOGGLE;
     delay(500);
 }

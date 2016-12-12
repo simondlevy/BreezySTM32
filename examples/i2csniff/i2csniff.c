@@ -36,9 +36,9 @@ void loop(void)
 
     for (addr=0; addr<128; ++addr)
         if (i2cWrite(addr, 0x00, 0x00))
-            printf("Found device at address 0X%02X\n", addr);
+            debug("Found device at address 0X%02X\n", addr);
 
-    printf("--------------------------\n");
+    debug("--------------------------\n");
 
     delay(1000);
 }

@@ -42,9 +42,6 @@ STDPERIPH_DIR = $(BREEZY_DIR)/lib/STM32F10x_StdPeriph_Driver
 NAZE_SRC = $(BREEZY_DIR)/main.c \
            $(BREEZY_DIR)/system.c \
            $(BREEZY_DIR)/system_stm32f10x.c \
-           $(BREEZY_DIR)/drivers/mpu6050.c \
-           $(BREEZY_DIR)/drivers/ms5611.c \
-           $(BREEZY_DIR)/drivers/mb1242.c \
            $(BREEZY_DIR)/i2c_stm32f10x.c \
            $(BREEZY_DIR)/serial.c \
            $(BREEZY_DIR)/pwm.c \
@@ -180,13 +177,6 @@ flash: flash_$(TARGET)
 flash_$(TARGET): $(TARGET_HEX)
 	stty -F $(SERIAL_DEVICE) raw speed 115200 -crtscts cs8 -parenb -cstopb -ixon
 	stm32flash -w $(TARGET_HEX) -v -g 0x0 -b 115200 $(SERIAL_DEVICE)
-
-commit:
-	git commit -a --allow-empty-message -m ''
-	git push
-
-debug:
-	miniterm.py $(SERIAL_DEVICE) 115200
 
 listen:
 	miniterm.py $(SERIAL_DEVICE) 115200
