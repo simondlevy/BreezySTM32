@@ -28,7 +28,7 @@ void setup(void)
 void loop(void)
 {
     static float x;
-    debug("%f\n", x);
+    debug("%f\n", (double)x); // cast to double to avoid compiler warning
     x += .001;
 
 } 
