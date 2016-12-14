@@ -48,8 +48,8 @@ BIN_DIR		 = $(HERE)/obj
 CMSIS_DIR	 = $(BREEZY_DIR)/lib/CMSIS
 
 # Support F1, F3
-#include ../makefile.f1
-include ../makefile.f3
+include ../makefile.f1
+#include ../makefile.f3
 
 
 # Source files common to all targets
@@ -179,6 +179,14 @@ clean:
 flash: flash_$(TARGET)
 
 flash_$(TARGET): $(TARGET_HEX)
+	stty -F $(SERIAL_DEVICE) raw speed 115200 -crtscts cs8 -parenb -cstopb -ixon
+	echo -n 'R' >$(SERIAL_DEVICE)
+	sleep 2
+	stm32flash -w $(TARGET_HEX) -v -g 0x0 -b 115200 $(SERIAL_DEVICE)
+
+unbrick: unbrick_$(TARGET)
+
+unbrick_$(TARGET): $(TARGET_HEX)
 	stty -F $(SERIAL_DEVICE) raw speed 115200 -crtscts cs8 -parenb -cstopb -ixon
 	stm32flash -w $(TARGET_HEX) -v -g 0x0 -b 115200 $(SERIAL_DEVICE)
 

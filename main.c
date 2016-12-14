@@ -66,6 +66,17 @@ int main(void)
 
     setup();
 
-    while (true) 
+    while (true) {
+
+#ifndef EXTERNAL_DEBUG
+        // support reboot from host computer
+        while (serialTotalRxBytesWaiting(Serial1)) {
+            uint8_t c = serialRead(Serial1);
+            if (c == 'R') 
+                systemResetToBootloader();
+         }
+#endif
+
         loop();
+    }
 }

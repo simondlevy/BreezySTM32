@@ -19,17 +19,16 @@ After that you can use whatever development tools you like to build your firmwar
 IDE / debugging tools like Eclipse, sticking with simple
 makefiles for building / flashing, vim for editing, and printout for debugging.  
 
-To load new firmware, you should first disconnect the board from your computer, short the BOOT pins together,
-and reconnect to your computer.  The Flip32 features through-hole soldering pads for the BOOT
-pins, so that is the board I've been using for development.  By pushing a two-pin jumper onto the pins,
-I avoid having to place a paper clip or tweezers across the pins while flashing. (The Baseflight firmware
-that I adapted to write BeezySTM32 uses the clever trick of
-[listening] (https://github.com/multiwii/baseflight/blob/master/src/serial.c#L878-L879)
-for a special reboot message, which you
-[send](https://github.com/multiwii/baseflight/blob/master/Makefile#L230)
-from your compute right before flashing. So if you've got a long-term project to work on, you might consider
-implementing something like that to avoid having to short the pins every time.)
-
+For flashing new firmware, BreezySTM32 uses the same trick as the Baseflight firmware and descendants
+(Cleanflight, Betaflight, Raceflight) that I adapted to write BeezySTM32: it listens for
+for a special reboot character (<tt>'R'</tt>), which you
+from your compute right before flashing.  So if your board came with one of those firmwares pre-flashed,
+you can just do <tt>make flash</tt> to put your new firmware on it.  If that doesn't work, you'l have
+to go through the &ldquo;un-brick&rdquo; procedure: disconnect the board from your computer, 
+short the BOOT pins together, reconnect to your computer, and do <tt>make unbrick</tt>.  The Flip32
+features through-hole soldering pads for the BOOT pins, so that is the board
+I've been using for development.  By pushing a two-pin jumper onto the pins,
+I avoid having to place a paper clip or tweezers across the pins while flashing. 
 The BreezySTM32 examples directory includes the following use cases:
 <ul>
 <li> a simple LED blinker
