@@ -184,7 +184,7 @@ DO_FLASH  = stm32flash -w $(TARGET_HEX) -v -g 0x0 -b 115200 $(SERIAL_DEVICE)
 flash_$(TARGET): $(TARGET_HEX)
 	$(PRE_FLASH)	
 	echo -n 'R' >$(SERIAL_DEVICE)
-	sleep 2
+	sleep 1
 	$(DO_FLASH)
 
 unbrick: unbrick_$(TARGET)
