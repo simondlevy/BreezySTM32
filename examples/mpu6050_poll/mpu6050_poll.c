@@ -29,8 +29,7 @@ void setup(void)
     i2cInit(I2CDEV);
 
     uint16_t acc1G;
-    float gyro_scale; // converts to units of rad/s
-    mpu6050_init(false, &acc1G, &gyro_scale, BOARD_REV);
+    mpu6050_init(false, &acc1G, BOARD_REV);
 }
 
 void loop(void)

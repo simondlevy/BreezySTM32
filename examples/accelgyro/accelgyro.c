@@ -25,7 +25,6 @@
 #define BOARD_REV 2
 
 float accel_scale; // converts to units of m/s^2
-float gyro_scale; // converts to units of rad/s
 
 int16_t accel_data[3];
 int16_t gyro_data[3];
@@ -54,7 +53,7 @@ void setup(void)
     mpu6050_register_interrupt_cb(&interruptCallback);
 
     uint16_t acc1G;
-    mpu6050_init(true, &acc1G, &gyro_scale, BOARD_REV);
+    mpu6050_init(true, &acc1G, BOARD_REV);
     accel_scale = 9.80665f / acc1G;
 }
 
@@ -74,9 +73,9 @@ void loop(void)
                    (int32_t)(accel_data[0]*accel_scale*1000.0f),
                     (int32_t)(accel_data[1]*accel_scale*1000.0f),
                     (int32_t)(accel_data[2]*accel_scale*1000.0f),
-                    (int32_t)(gyro_data[0]*gyro_scale*1000.0f),
-                    (int32_t)(gyro_data[1]*gyro_scale*1000.0f),
-                    (int32_t)(gyro_data[2]*gyro_scale*1000.0f),
+                    (int32_t)(gyro_data[0]*GYRO_SCALE*1000.0f),
+                    (int32_t)(gyro_data[1]*GYRO_SCALE*1000.0f),
+                    (int32_t)(gyro_data[2]*GYRO_SCALE*1000.0f),
                     temp_data);
         }
         count++;

@@ -22,9 +22,12 @@
 #include "i2c.h"
 
 #pragma once
+#include <math.h>
 
+// 16.4 dps/lsb scalefactor for all Invensense devices
+#define GYRO_SCALE ((1.0f / 16.4f) * ((float)M_PI / 180.0f))
 
-void mpu6050_init(bool enableInterrupt, uint16_t * acc1G, float * gyroScale, int boardVersion);
+void mpu6050_init(bool enableInterrupt, uint16_t * acc1G, int boardVersion);
 void mpu6050_register_interrupt_cb(void (*functionPtr)(void));
 
 // Blocking Read Functions

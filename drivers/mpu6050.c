@@ -180,7 +180,7 @@ void EXTI15_10_IRQHandler(void)
 
 
 // ======================================================================
-void mpu6050_init(bool enableInterrupt, uint16_t * acc1G, float * gyroScale, int boardVersion)
+void mpu6050_init(bool enableInterrupt, uint16_t * acc1G, int boardVersion)
 {
     // Set acc1G. Modified once by mpu6050CheckRevision for old (hopefully nonexistent outside of clones) parts
     *acc1G = 512 * 8;
@@ -216,9 +216,6 @@ void mpu6050_init(bool enableInterrupt, uint16_t * acc1G, float * gyroScale, int
     // All this just to set the value
     if (half)
         *acc1G = 256 * 8;
-
-    // 16.4 dps/lsb scalefactor for all Invensense devices
-    *gyroScale = (1.0f / 16.4f) * ((float)M_PI / 180.0f);
 
     // MPU_INT output on rev5+ hardware (PC13)
     if (enableInterrupt) {
