@@ -23,5 +23,5 @@ void loop()
   if (vl53l0x_timeoutOccurred()) 
       debug("TIMEOUT");
   else
-      debug("%d mm", vl53l0x_readRangeContinuousMillimeters());
+      debug("%d mm\n", vl53l0x_readRangeContinuousMillimeters());
 }
