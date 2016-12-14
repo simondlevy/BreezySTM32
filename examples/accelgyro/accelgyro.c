@@ -50,10 +50,10 @@ void setup(void)
 {
     delay(500);
     i2cInit(I2CDEV_2);
-    mpu6050_register_interrupt_cb(&interruptCallback);
+    mpu6050_register_interrupt_cb(&interruptCallback, BOARD_REV);
 
     uint16_t acc1G;
-    mpu6050_init(INV_FSR_8G, INV_FSR_2000DPS, true, &acc1G, BOARD_REV);
+    mpu6050_init(INV_FSR_8G, INV_FSR_2000DPS, &acc1G);
     accel_scale = 9.80665f / acc1G;
 }
 

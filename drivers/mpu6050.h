@@ -43,8 +43,8 @@ typedef enum accel_fsr_e {
     NUM_ACCEL_FSR
 } accel_fsr_e;
 
-void mpu6050_init(accel_fsr_e accelFSR, gyro_fsr_e gyroFSR, bool enableInterrupt, uint16_t * acc1G, int boardVersion);
-void mpu6050_register_interrupt_cb(void (*functionPtr)(void));
+void mpu6050_init(accel_fsr_e accelFSR, gyro_fsr_e gyroFSR, uint16_t * acc1G);
+void mpu6050_register_interrupt_cb(void (*functionPtr)(void), int boardVersion);
 
 // Blocking Read Functions
 void mpu6050_read_accel(int16_t *accData);

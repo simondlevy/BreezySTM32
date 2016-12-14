@@ -107,7 +107,7 @@ static bool mpuWriteRegisterI2C(uint8_t reg, uint8_t data)
 
 // XXX we should figure out how to make interrupts with with F3 as well
 #ifdef STM32F10X_MD
-void mpu6050_exti_init(int boardVersion)
+static void mpu6050_exti_init(int boardVersion)
 {
     // enable AFIO for EXTI support
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO, ENABLE);
@@ -165,7 +165,7 @@ void EXTI15_10_IRQHandler(void)
 
 
 // ======================================================================
-void mpu6050_init(accel_fsr_e accelFSR, gyro_fsr_e gyroFSR, bool enableInterrupt, uint16_t * acc1G, int boardVersion)
+void mpu6050_init(accel_fsr_e accelFSR, gyro_fsr_e gyroFSR, uint16_t * acc1G)
 {
     // Set acc1G. Modified once by mpu6050CheckRevision for old (hopefully nonexistent outside of clones) parts
     *acc1G = 512 * 8;
@@ -201,20 +201,6 @@ void mpu6050_init(accel_fsr_e accelFSR, gyro_fsr_e gyroFSR, bool enableInterrupt
     // All this just to set the value
     if (half)
         *acc1G = 256 * 8;
-
-    // MPU_INT output on rev5+ hardware (PC13)
-    if (enableInterrupt) {
-        gpio_config_t gpio;
-        gpio.pin = Pin_13;
-        gpio.speed = Speed_2MHz;
-        gpio.mode = Mode_IN_FLOATING;
-        if (boardVersion > 4){
-            gpioInit(GPIOC, &gpio);
-        } else {
-            gpioInit(GPIOB, &gpio);
-        }
-        mpu6050_exti_init(boardVersion);
-    }
 
     // Device reset
     mpuWriteRegisterI2C(MPU_RA_PWR_MGMT_1, 0x80); // Device reset
@@ -353,7 +339,18 @@ void mpu6050_request_async_temp_read(volatile int16_t *tempData, volatile uint8_
  * This method registers a custom interrpt to be
  * run upon the interrupt pin on the MPU6050 going high
  */
-void mpu6050_register_interrupt_cb(void (*functionPtr)(void))
+void mpu6050_register_interrupt_cb(void (*functionPtr)(void), int boardVersion)
 {
+    gpio_config_t gpio;
+    gpio.pin = Pin_13;
+    gpio.speed = Speed_2MHz;
+    gpio.mode = Mode_IN_FLOATING;
+    if (boardVersion > 4){
+        gpioInit(GPIOC, &gpio);
+    } else {
+        gpioInit(GPIOB, &gpio);
+    }
+    mpu6050_exti_init(boardVersion);
+
     mpuInterruptCallbackPtr = functionPtr;
 }
