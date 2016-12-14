@@ -69,7 +69,8 @@ static const i2cDevice_t i2cHardwareMap[] = {
 };
 
 // Copy of peripheral address for IRQ routines
-static I2C_TypeDef *I2Cx = NULL;
+static I2C_TypeDef *I2Cx;
+
 // Copy of device index for reinit, etc purposes
 static I2CDevice I2Cx_index;
 
@@ -166,6 +167,9 @@ bool i2cWrite(uint8_t addr_, uint8_t reg_, uint8_t data)
 
 bool i2cRead(uint8_t addr_, uint8_t reg_, uint8_t len, uint8_t *buf)
 {
+    if (!I2Cx)
+        return false;
+
     uint32_t timeout = I2C_DEFAULT_TIMEOUT;
 
     addr = addr_ << 1;
@@ -177,9 +181,6 @@ bool i2cRead(uint8_t addr_, uint8_t reg_, uint8_t len, uint8_t *buf)
     bytes = len;
     busy = 1;
     error = false;
-
-    if (!I2Cx)
-        return false;
 
     if (!(I2Cx->CR2 & I2C_IT_EVT)) {                                    // if we are restarting the driver
         if (!(I2Cx->CR1 & 0x0100)) {                                    // ensure sending a start

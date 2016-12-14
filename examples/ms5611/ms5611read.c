@@ -26,7 +26,7 @@ static bool available;
 void setup(void)
 {
   // Get particulars for board
-  i2cInit(I2CDEV_2);
+  i2cInit(I2CDEV);
 
   // Not sure why the ms5611 needs this, but without this line it doesn't work
   i2cWrite(0,0,0);
