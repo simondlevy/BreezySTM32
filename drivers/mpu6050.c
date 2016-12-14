@@ -21,6 +21,7 @@
 
 
 #include <breezystm32.h>
+#include <drivers/mpu6050.h>
 
 #include <math.h>
 
@@ -60,26 +61,10 @@ enum lpf_e {
     NUM_FILTER
 };
 
-enum gyro_fsr_e {
-    INV_FSR_250DPS = 0,
-    INV_FSR_500DPS,
-    INV_FSR_1000DPS,
-    INV_FSR_2000DPS,
-    NUM_GYRO_FSR
-};
-
 enum clock_sel_e {
     INV_CLK_INTERNAL = 0,
     INV_CLK_PLL,
     NUM_CLK
-};
-
-enum accel_fsr_e {
-    INV_FSR_2G = 0,
-    INV_FSR_4G,
-    INV_FSR_8G,
-    INV_FSR_16G,
-    NUM_ACCEL_FSR
 };
 
 
@@ -242,7 +227,7 @@ void mpu6050_init(bool enableInterrupt, uint16_t * acc1G, int boardVersion)
     mpuWriteRegisterI2C(MPU_RA_CONFIG, mpuLowPassFilter); // set DLPF
     mpuWriteRegisterI2C(MPU_RA_GYRO_CONFIG, INV_FSR_2000DPS << 3); // full-scale 2kdps gyro range
 
-    // Accel scale 8g (4096 LSB/g)
+    // Accel config
     mpuWriteRegisterI2C(MPU_RA_ACCEL_CONFIG, INV_FSR_8G << 3);
 
     // Data ready interrupt configuration:  INT_RD_CLEAR_DIS, I2C_BYPASS_EN

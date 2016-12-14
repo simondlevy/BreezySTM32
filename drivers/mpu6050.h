@@ -19,13 +19,29 @@
    along with BreezySTM32.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "i2c.h"
-
 #pragma once
 #include <math.h>
 
 // 16.4 dps/lsb scalefactor for all Invensense devices
 #define GYRO_SCALE ((1.0f / 16.4f) * ((float)M_PI / 180.0f))
+
+// Gyro scale constants
+enum gyro_fsr_e {
+    INV_FSR_250DPS = 0,
+    INV_FSR_500DPS,
+    INV_FSR_1000DPS,
+    INV_FSR_2000DPS,
+    NUM_GYRO_FSR
+};
+
+// Accelerometer constants
+enum accel_fsr_e {
+    INV_FSR_2G = 0,
+    INV_FSR_4G,
+    INV_FSR_8G,
+    INV_FSR_16G,
+    NUM_ACCEL_FSR
+};
 
 void mpu6050_init(bool enableInterrupt, uint16_t * acc1G, int boardVersion);
 void mpu6050_register_interrupt_cb(void (*functionPtr)(void));
