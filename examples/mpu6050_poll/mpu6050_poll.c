@@ -38,9 +38,9 @@ void loop(void)
 {
     int16_t accel[3];
     mpu6050_read_accel(accel);
-    debug("ax: %d  ay: %d  az: %d    ", accel[0], accel[1], accel[2]);
+    debug("ax: %+04d  ay: %+04d  az: %+04d    ", accel[0], accel[1], accel[2]);
 
     int16_t gyro[3];
     mpu6050_read_gyro(gyro);
-    debug("gx: %d  gy: %d  gz: %d\n", gyro[0], gyro[1], gyro[2]);
+    debug("gx: %+04d  gy: %+04d  gz: %+04d\n", gyro[0], gyro[1], gyro[2]);
 }
