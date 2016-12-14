@@ -37,8 +37,10 @@ void setup(void)
 void loop(void)
 {
     int16_t accel[3];
-
     mpu6050_read_accel(accel);
+    debug("ax: %d  ay: %d  az: %d    ", accel[0], accel[1], accel[2]);
 
-    debug("ax: %d  ay: %d  az: %d\n", accel[0], accel[1], accel[2]);
+    int16_t gyro[3];
+    mpu6050_read_gyro(gyro);
+    debug("gx: %d  gy: %d  gz: %d\n", gyro[0], gyro[1], gyro[2]);
 }
