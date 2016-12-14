@@ -30,7 +30,6 @@ void setup(void)
 
     uint16_t acc1G;
     float gyro_scale; // converts to units of rad/s
-
     mpu6050_init(true, &acc1G, &gyro_scale, BOARD_REV);
 }
 

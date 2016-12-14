@@ -182,8 +182,6 @@ void EXTI15_10_IRQHandler(void)
 // ======================================================================
 void mpu6050_init(bool enableInterrupt, uint16_t * acc1G, float * gyroScale, int boardVersion)
 {
-    gpio_config_t gpio;
-
     // Set acc1G. Modified once by mpu6050CheckRevision for old (hopefully nonexistent outside of clones) parts
     *acc1G = 512 * 8;
 
@@ -224,6 +222,7 @@ void mpu6050_init(bool enableInterrupt, uint16_t * acc1G, float * gyroScale, int
 
     // MPU_INT output on rev5+ hardware (PC13)
     if (enableInterrupt) {
+        gpio_config_t gpio;
         gpio.pin = Pin_13;
         gpio.speed = Speed_2MHz;
         gpio.mode = Mode_IN_FLOATING;
