@@ -178,17 +178,20 @@ clean:
 
 flash: flash_$(TARGET)
 
+PRE_FLASH = stty -F $(SERIAL_DEVICE) raw speed 115200 -crtscts cs8 -parenb -cstopb -ixon
+DO_FLASH  = stm32flash -w $(TARGET_HEX) -v -g 0x0 -b 115200 $(SERIAL_DEVICE)
+
 flash_$(TARGET): $(TARGET_HEX)
-	stty -F $(SERIAL_DEVICE) raw speed 115200 -crtscts cs8 -parenb -cstopb -ixon
+	$(PRE_FLASH)	
 	echo -n 'R' >$(SERIAL_DEVICE)
 	sleep 2
-	stm32flash -w $(TARGET_HEX) -v -g 0x0 -b 115200 $(SERIAL_DEVICE)
+	$(DO_FLASH)
 
 unbrick: unbrick_$(TARGET)
 
 unbrick_$(TARGET): $(TARGET_HEX)
-	stty -F $(SERIAL_DEVICE) raw speed 115200 -crtscts cs8 -parenb -cstopb -ixon
-	stm32flash -w $(TARGET_HEX) -v -g 0x0 -b 115200 $(SERIAL_DEVICE)
+	$(PRE_FLASH)
+	$(DO_FLASH)
 
 listen:
 	miniterm.py $(SERIAL_DEVICE) 115200
