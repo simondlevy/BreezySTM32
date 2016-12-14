@@ -1,5 +1,5 @@
 /*
-   accelgyro.c : interrupt-based report of accelerometer and gyroscope values
+   mpu6050_interrupt.c : interrupt-based report of accelerometer and gyroscope values
 
    Copyright (C) 2016 James Jackson
 
