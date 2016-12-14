@@ -1,7 +1,7 @@
-PROJECT_NAME = accelgyro
+PROJECT_NAME = mpu6050_interrupt
 
 # Contains your setup() and loop()
-PROJECT_SRC_FILE  = accelgyro.c
+PROJECT_SRC_FILE  = mpu6050_interrupt.c
 
 # Drivers, etc.
 PROJECT_BREEZY_FILES = $(BREEZY_DIR)/i2c_stm32f$(ARCH)0x.c $(BREEZY_DIR)/drivers/mpu6050.c

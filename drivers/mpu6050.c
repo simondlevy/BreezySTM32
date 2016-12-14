@@ -165,24 +165,21 @@ void EXTI15_10_IRQHandler(void)
 
 
 // ======================================================================
-void mpu6050_init(accel_fsr_e accelFSR, gyro_fsr_e gyroFSR, uint16_t * acc1G)
-{
-    // Set acc1G. Modified once by mpu6050CheckRevision for old (hopefully nonexistent outside of clones) parts
-    *acc1G = 512 * 8;
 
-    uint8_t rev;
-    uint8_t tmp[6];
-    int half = 0;
+uint16_t mpu6050_init(accel_fsr_e accelFSR, gyro_fsr_e gyroFSR)
+{
+    // Default acc1G. Modified once by for old (hopefully nonexistent outside of clones) parts
+    uint16_t acc1G = 4096;
 
     // determine product ID and accel revision
+    uint8_t tmp[6];
     mpuReadRegisterI2C(MPU_RA_XA_OFFS_H, tmp, 6);
-    rev = ((tmp[5] & 0x01) << 2) | ((tmp[3] & 0x01) << 1) | (tmp[1] & 0x01);
+    uint8_t rev = ((tmp[5] & 0x01) << 2) | ((tmp[3] & 0x01) << 1) | (tmp[1] & 0x01);
     if (rev) {
         // Congrats, these parts are better
         if (rev == 1) {
-            half = 1;
+            acc1G >>= 1;
         } else if (rev == 2) {
-            half = 0;
         } else {
             failureMode(5);
         }
@@ -192,15 +189,9 @@ void mpu6050_init(accel_fsr_e accelFSR, gyro_fsr_e gyroFSR, uint16_t * acc1G)
         if (!rev) {
             failureMode(5);
         } else if (rev == 4) {
-            half = 1;
-        } else {
-            half = 0;
+            acc1G >>= 1;
         }
     }
-
-    // All this just to set the value
-    if (half)
-        *acc1G = 256 * 8;
 
     // Device reset
     mpuWriteRegisterI2C(MPU_RA_PWR_MGMT_1, 0x80); // Device reset
@@ -219,6 +210,9 @@ void mpu6050_init(accel_fsr_e accelFSR, gyro_fsr_e gyroFSR, uint16_t * acc1G)
     // Data ready interrupt configuration:  INT_RD_CLEAR_DIS, I2C_BYPASS_EN
     mpuWriteRegisterI2C(MPU_RA_INT_PIN_CFG, 0 << 7 | 0 << 6 | 0 << 5 | 1 << 4 | 0 << 3 | 0 << 2 | 1 << 1 | 0 << 0);
     mpuWriteRegisterI2C(MPU_RA_INT_ENABLE, 0x01); // DATA_RDY_EN interrupt enable
+
+    // Return acceleration constant
+    return acc1G;
 }
 
 
