@@ -213,7 +213,7 @@ void mpu6050_init(accel_fsr_e accelFSR, gyro_fsr_e gyroFSR, bool enableInterrupt
         } else {
             gpioInit(GPIOB, &gpio);
         }
-        //mpu6050_exti_init(boardVersion);
+        mpu6050_exti_init(boardVersion);
     }
 
     // Device reset
