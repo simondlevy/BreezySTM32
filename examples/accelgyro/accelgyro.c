@@ -1,5 +1,5 @@
 /*
-   accelgyro.c : report accelerometer and gyroscope values
+   accelgyro.c : interrupt-based report of accelerometer and gyroscope values
 
    Copyright (C) 2016 James Jackson
 
