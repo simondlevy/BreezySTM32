@@ -1,0 +1,7 @@
+PROJECT_NAME = vl53l0x_read
+
+# Contains your setup() and loop()
+PROJECT_SRC_FILE  = vl53l0x_read.c
+
+# Drivers, etc.
+PROJECT_BREEZY_FILES = $(BREEZY_DIR)/i2c_stm32f$(ARCH)0x.c $(BREEZY_DIR)/drivers/vl53l0x.c
