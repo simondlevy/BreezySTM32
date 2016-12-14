@@ -72,9 +72,9 @@ void loop(void)
                    (int32_t)(accel_data[0]*accel_scale*1000.0f),
                     (int32_t)(accel_data[1]*accel_scale*1000.0f),
                     (int32_t)(accel_data[2]*accel_scale*1000.0f),
-                    (int32_t)(gyro_data[0]*GYRO_SCALE*1000.0f),
-                    (int32_t)(gyro_data[1]*GYRO_SCALE*1000.0f),
-                    (int32_t)(gyro_data[2]*GYRO_SCALE*1000.0f),
+                    (int32_t)(gyro_data[0]*MPU_GYRO_SCALE*1000.0f),
+                    (int32_t)(gyro_data[1]*MPU_GYRO_SCALE*1000.0f),
+                    (int32_t)(gyro_data[2]*MPU_GYRO_SCALE*1000.0f),
                     temp_data);
         }
         count++;

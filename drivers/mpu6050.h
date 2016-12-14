@@ -23,7 +23,7 @@
 #include <math.h>
 
 // 16.4 dps/lsb scalefactor for all Invensense devices
-#define GYRO_SCALE ((1.0f / 16.4f) * ((float)M_PI / 180.0f))
+#define MPU_GYRO_SCALE ((1.0f / 16.4f) * ((float)M_PI / 180.0f))
 
 // Gyro scale constants
 typedef enum gyro_fsr_e {
