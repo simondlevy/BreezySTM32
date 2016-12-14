@@ -165,7 +165,7 @@ void EXTI15_10_IRQHandler(void)
 
 
 // ======================================================================
-void mpu6050_init(bool enableInterrupt, uint16_t * acc1G, int boardVersion)
+void mpu6050_init(accel_fsr_e accelFSR, gyro_fsr_e gyroFSR, bool enableInterrupt, uint16_t * acc1G, int boardVersion)
 {
     // Set acc1G. Modified once by mpu6050CheckRevision for old (hopefully nonexistent outside of clones) parts
     *acc1G = 512 * 8;
@@ -225,10 +225,10 @@ void mpu6050_init(bool enableInterrupt, uint16_t * acc1G, int boardVersion)
     mpuWriteRegisterI2C(MPU_RA_PWR_MGMT_1, MPU6050_INV_CLK_GYROZ); // Clock source = 3 (PLL with Z Gyro reference)
     delay(10);
     mpuWriteRegisterI2C(MPU_RA_CONFIG, mpuLowPassFilter); // set DLPF
-    mpuWriteRegisterI2C(MPU_RA_GYRO_CONFIG, INV_FSR_2000DPS << 3); // full-scale 2kdps gyro range
+    mpuWriteRegisterI2C(MPU_RA_GYRO_CONFIG, gyroFSR /*INV_FSR_2000DPS*/ << 3); 
 
     // Accel config
-    mpuWriteRegisterI2C(MPU_RA_ACCEL_CONFIG, INV_FSR_8G << 3);
+    mpuWriteRegisterI2C(MPU_RA_ACCEL_CONFIG, accelFSR << 3);
 
     // Data ready interrupt configuration:  INT_RD_CLEAR_DIS, I2C_BYPASS_EN
     mpuWriteRegisterI2C(MPU_RA_INT_PIN_CFG, 0 << 7 | 0 << 6 | 0 << 5 | 1 << 4 | 0 << 3 | 0 << 2 | 1 << 1 | 0 << 0);

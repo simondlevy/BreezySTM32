@@ -29,7 +29,7 @@ void setup(void)
     i2cInit(I2CDEV);
 
     uint16_t acc1G;
-    mpu6050_init(false, &acc1G, BOARD_REV);
+    mpu6050_init(INV_FSR_8G, INV_FSR_2000DPS, false, &acc1G, BOARD_REV);
 }
 
 void loop(void)
