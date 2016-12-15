@@ -394,8 +394,6 @@ bool vl53l0x_init(bool io_2v8)
     // set final range signal rate limit to 0.25 MCPS (million counts per second)
     vl53l0x_setSignalRateLimit(0.25);
 
-    // +++++++++++++++++++++++++++++
-
     writeReg(SYSTEM_SEQUENCE_CONFIG, 0xFF);
 
     // VL53L0X_DataInit() end
@@ -404,7 +402,9 @@ bool vl53l0x_init(bool io_2v8)
 
     uint8_t spad_count;
     bool spad_type_is_aperture;
-    return false;
+    
+    // +++++++++++++++++++++++++++++
+
     if (!vl53l0x_getSpadInfo(&spad_count, &spad_type_is_aperture)) { return false; }
 
     // The SPAD map (RefGoodSpadMap) is read by VL53L0X_get_info_from_device() in
@@ -666,6 +666,7 @@ bool vl53l0x_getSpadInfo(uint8_t * count, bool * type_is_aperture)
 
     writeReg(0x94, 0x6b);
     writeReg(0x83, 0x00);
+    return false;
     startTimeout();
     while (readReg(0x83) == 0x00)
     {
