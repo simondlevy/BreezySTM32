@@ -370,14 +370,14 @@ static uint16_t encodeTimeout(uint16_t timeout_mclks)
 
 bool vl53l0x_init(bool io_2v8)
 {
-    return false;
-
     // sensor uses 1V8 mode for I/O by default; switch to 2V8 mode if necessary
     if (io_2v8)
     {
         writeReg(VHV_CONFIG_PAD_SCL_SDA__EXTSUP_HV,
                 readReg(VHV_CONFIG_PAD_SCL_SDA__EXTSUP_HV) | 0x01); // set bit 0
     }
+
+    return false;
 
     // "Set I2C standard mode"
     writeReg(0x88, 0x00);
