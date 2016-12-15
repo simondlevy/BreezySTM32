@@ -165,7 +165,7 @@ bool i2cWrite(uint8_t addr_, uint8_t reg_, uint8_t data)
     return i2cWriteBuffer(addr_, reg_, 1, &data);
 }
 
-bool i2cRead(uint8_t addr_, uint8_t reg_, uint8_t len, uint8_t *buf)
+bool i2cReadBuffer(uint8_t addr_, uint8_t reg_, uint8_t len, uint8_t *buf)
 {
     if (!I2Cx)
         return false;
@@ -204,7 +204,7 @@ bool i2cRead(uint8_t addr_, uint8_t reg_, uint8_t len, uint8_t *buf)
     return !error;
 }
 
-bool i2cReadAsync(uint8_t addr_, uint8_t reg_, uint8_t len, uint8_t *buf, volatile uint8_t* status_, void (*CB)(void))
+bool i2cReadBufferAsync(uint8_t addr_, uint8_t reg_, uint8_t len, uint8_t *buf, volatile uint8_t* status_, void (*CB)(void))
 {
     uint32_t timeout = I2C_DEFAULT_TIMEOUT;
 
@@ -547,7 +547,7 @@ void i2c_job_handler()
     // perform the appropriate job
     if(job->type == READ)
     {
-        i2cReadAsync(job->addr,
+        i2cReadBufferAsync(job->addr,
                      job->reg,
                      job->length,
                      job->data,

@@ -27,39 +27,20 @@ typedef enum vcselPeriodType {
     VcselPeriodFinalRange 
 } vcselPeriodType;
 
-void     vl53l0x_init(void);
-
+bool     vl53l0x_init(bool io_2v8);
 uint8_t  vl53l0x_readRangeContinuousMillimeters(void);
-
 uint32_t vl530lx_getMeasurementTimingBudget(void);
-
 uint16_t vl530lx_getTimeout(void);
-
 uint8_t  vl530lx_getVcselPulsePeriod(vcselPeriodType type);
-
 float    vl530lx_getSignalRateLimit(void);
-
 uint16_t vl530lx_readRangeContinuousMillimeters(void);
-
 uint16_t vl530lx_readRangeSingleMillimeters(void);
-
 void     vl53l0x_setAddress(uint8_t new_addr);
-
 bool     vl530lx_setMeasurementTimingBudget(uint32_t budget_us);
-
 bool     vl530lx_setSignalRateLimit(float limit_Mcps);
-
 void     vl53l0x_setTimeout(uint32_t msec);
-
 bool     vl530lx_setVcselPulsePeriod(vcselPeriodType type, uint8_t period_pclks);
-
 void     vl53l0x_startContinuous(void);
-
 void     vl530lx_stopContinuous(void);
-
 bool     vl53l0x_timeoutOccurred(void);
 
-
-
-
- 

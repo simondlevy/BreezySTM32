@@ -8,7 +8,7 @@ The range readings are in units of mm. */
 
 void setup()
 {
-  vl53l0x_init();
+  vl53l0x_init(true);
   vl53l0x_setTimeout(500);
 
   // Start continuous back-to-back mode (take readings as

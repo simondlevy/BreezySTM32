@@ -32,7 +32,7 @@ bool ms4525_detect(void)
   bool airspeed_present = false;
   for(uint8_t i = 0; i < 10; i++)
   {
-    airspeed_present |= i2cRead(MS4525_ADDR, 0xFF, 1, buf);
+    airspeed_present |= i2cReadBuffer(MS4525_ADDR, 0xFF, 1, buf);
     delay(10);
   }
   return airspeed_present;
@@ -49,7 +49,7 @@ void ms4525_read(volatile int16_t* velocity, volatile int16_t* temp)
   int16_t data[2];
   uint8_t buf[4];
 
-  i2cRead(MS4525_ADDR, 0xFF, 4, buf);
+  i2cReadBuffer(MS4525_ADDR, 0xFF, 4, buf);
 
   uint8_t status = (buf[0] >> 5); // first two bits are status bits
   if(status == 0x00) // good data packet

@@ -53,7 +53,7 @@ static void ms5611_reset(void)
 static uint16_t ms5611_prom(int8_t coef_num)
 {
     uint8_t rxbuf[2] = { 0, 0 };
-    i2cRead(MS5611_ADDR, CMD_PROM_RD + coef_num * 2, 2, rxbuf); // send PROM READ command
+    i2cReadBuffer(MS5611_ADDR, CMD_PROM_RD + coef_num * 2, 2, rxbuf); // send PROM READ command
     return rxbuf[0] << 8 | rxbuf[1];
 }
 
@@ -90,7 +90,7 @@ int8_t ms5611_crc(uint16_t *prom)
 static uint32_t ms5611_read_adc(void)
 {
     uint8_t rxbuf[3];
-    i2cRead(MS5611_ADDR, CMD_ADC_READ, 3, rxbuf); // read ADC
+    i2cReadBuffer(MS5611_ADDR, CMD_ADC_READ, 3, rxbuf); // read ADC
     return (rxbuf[0] << 16) | (rxbuf[1] << 8) | rxbuf[2];
 }
 
@@ -181,7 +181,7 @@ bool ms5611_init(void)
 
     delay(10); // No idea how long the chip takes to power-up, but let's make it 10ms
 
-    ack = i2cRead(MS5611_ADDR, CMD_PROM_RD, 1, &sig);
+    ack = i2cReadBuffer(MS5611_ADDR, CMD_PROM_RD, 1, &sig);
     if (!ack)
         return false;
 

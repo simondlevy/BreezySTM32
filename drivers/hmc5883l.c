@@ -114,7 +114,7 @@ static float magGain[3] = { 1.0f, 1.0f, 1.0f };
     hmc5883lInit();
     delay(100);
 
-    ack = i2cRead(MAG_ADDRESS, 0x0A, 1, &sig);
+    ack = i2cReadBuffer(MAG_ADDRESS, 0x0A, 1, &sig);
     if (!ack || sig != 'H')
         return false;
 
@@ -204,7 +204,7 @@ bool hmc5883lInit(int boardVersion)
     bool ack = false;
     uint8_t sig = 0;
 
-    ack = i2cRead(MAG_ADDRESS, 0x0A, 1, &sig);
+    ack = i2cReadBuffer(MAG_ADDRESS, 0x0A, 1, &sig);
     if (!ack || sig != 'H')
         return false;
 
@@ -215,7 +215,7 @@ void hmc5883lRead(int16_t *magData)
 {
     uint8_t buf[6];
     
-    i2cRead(MAG_ADDRESS, MAG_DATA_REGISTER, 6, buf);
+    i2cReadBuffer(MAG_ADDRESS, MAG_DATA_REGISTER, 6, buf);
     // During calibration, magGain is 1.0, so the read returns normal non-calibrated values.
     // After calibration is done, magGain is set to calculated gain values.
     magData[X] = (int16_t)(buf[0] << 8 | buf[1]) * magGain[X];

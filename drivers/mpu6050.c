@@ -97,7 +97,7 @@ void (*mpuInterruptCallbackPtr)(void) = NULL;
 
 static bool mpuReadRegisterI2C(uint8_t reg, uint8_t *data, int length)
 {
-    return i2cRead(MPU_ADDRESS, reg, length, data);
+    return i2cReadBuffer(MPU_ADDRESS, reg, length, data);
 }
 
 static bool mpuWriteRegisterI2C(uint8_t reg, uint8_t data)

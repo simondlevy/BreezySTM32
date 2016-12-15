@@ -273,7 +273,7 @@ bool i2cWrite(uint8_t addr_, uint8_t reg, uint8_t data)
     return true;
 }
 
-bool i2cRead(uint8_t addr_, uint8_t reg, uint8_t len, uint8_t* buf)
+bool i2cReadBuffer(uint8_t addr_, uint8_t reg, uint8_t len, uint8_t* buf)
 {
     addr_ <<= 1;
 
