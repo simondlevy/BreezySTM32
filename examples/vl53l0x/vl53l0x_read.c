@@ -7,28 +7,40 @@
 #include <breezystm32.h>
 #include <drivers/vl53l0x.h>
 
+static bool success;
+
 void setup()
 {
     i2cInit(I2CDEV);
 
-    if (!vl53l0x_init(true)) {
-        while (1)
-            debug("Unable to init VL53L0x\n");
+    if (vl53l0x_init(true)) {
+
+        success = true;
+
+        //vl53l0x_setTimeout(500);
+
+        // Start continuous back-to-back mode (take readings as
+        // fast as possible).  To use continuous timed mode
+        // instead, provide a desired inter-measurement period in
+        // ms (e.g. vl53l0x_startContinuous(100)).
+        //vl53l0x_startContinuous();
     }
-
-    //vl53l0x_setTimeout(500);
-
-    // Start continuous back-to-back mode (take readings as
-    // fast as possible).  To use continuous timed mode
-    // instead, provide a desired inter-measurement period in
-    // ms (e.g. vl53l0x_startContinuous(100)).
-    //vl53l0x_startContinuous();
 }
 
 void loop()
 {
-    if (vl53l0x_timeoutOccurred()) 
-        debug("TIMEOUT\n");
-    else
-        debug("%d mm\n", vl53l0x_readRangeContinuousMillimeters());
+    if (success) {
+        debug("SUCCESS\n");
+        /*
+        if (vl53l0x_timeoutOccurred()) 
+            debug("TIMEOUT\n");
+        else
+            debug("%d mm\n", vl53l0x_readRangeContinuousMillimeters());
+            */
+    }
+    else {
+        debug("Failed to init VL53L0X\n");
+    }
+
+    delay(100);
 }

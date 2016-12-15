@@ -377,8 +377,6 @@ bool vl53l0x_init(bool io_2v8)
                 readReg(VHV_CONFIG_PAD_SCL_SDA__EXTSUP_HV) | 0x01); // set bit 0
     }
 
-    return false;
-
     // "Set I2C standard mode"
     writeReg(0x88, 0x00);
 
@@ -389,6 +387,8 @@ bool vl53l0x_init(bool io_2v8)
     writeReg(0x00, 0x01);
     writeReg(0xFF, 0x00);
     writeReg(0x80, 0x00);
+
+    return false;
 
     // disable SIGNAL_RATE_MSRC (bit 1) and SIGNAL_RATE_PRE_RANGE (bit 4) limit checks
     writeReg(MSRC_CONFIG_CONTROL, readReg(MSRC_CONFIG_CONTROL) | 0x12);
