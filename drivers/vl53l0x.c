@@ -174,28 +174,28 @@ bool vl53l0x_init(bool io_2v8)
   // sensor uses 1V8 mode for I/O by default; switch to 2V8 mode if necessary
   if (io_2v8)
   {
-    i2cWrite(address, VHV_CONFIG_PAD_SCL_SDA__EXTSUP_HV,
+    i2cWriteRegister(address, VHV_CONFIG_PAD_SCL_SDA__EXTSUP_HV,
       i2cglue.readReg(VHV_CONFIG_PAD_SCL_SDA__EXTSUP_HV) | 0x01); // set bit 0
   }
 
   // "Set I2C standard mode"
-  i2cWrite(address, 0x88, 0x00);
+  i2cWriteRegister(address, 0x88, 0x00);
 
-  i2cWrite(address, 0x80, 0x01);
-  i2cWrite(address, 0xFF, 0x01);
-  i2cWrite(address, 0x00, 0x00);
+  i2cWriteRegister(address, 0x80, 0x01);
+  i2cWriteRegister(address, 0xFF, 0x01);
+  i2cWriteRegister(address, 0x00, 0x00);
   stop_variable = i2cglue.readReg(0x91);
-  i2cWrite(address, 0x00, 0x01);
-  i2cWrite(address, 0xFF, 0x00);
-  i2cWrite(address, 0x80, 0x00);
+  i2cWriteRegister(address, 0x00, 0x01);
+  i2cWriteRegister(address, 0xFF, 0x00);
+  i2cWriteRegister(address, 0x80, 0x00);
 
   // disable SIGNAL_RATE_MSRC (bit 1) and SIGNAL_RATE_PRE_RANGE (bit 4) limit checks
-  i2cWrite(address, MSRC_CONFIG_CONTROL, i2cglue.readReg(MSRC_CONFIG_CONTROL) | 0x12);
+  i2cWriteRegister(address, MSRC_CONFIG_CONTROL, i2cglue.readReg(MSRC_CONFIG_CONTROL) | 0x12);
 
   // set final range signal rate limit to 0.25 MCPS (million counts per second)
   setSignalRateLimit(0.25);
 
-  i2cWrite(address, SYSTEM_SEQUENCE_CONFIG, 0xFF);
+  i2cWriteRegister(address, SYSTEM_SEQUENCE_CONFIG, 0xFF);
 
   // VL53L0X_DataInit() end
 
@@ -213,11 +213,11 @@ bool vl53l0x_init(bool io_2v8)
 
   // -- VL53L0X_set_reference_spads() begin (assume NVM values are valid)
 
-  i2cWrite(address, 0xFF, 0x01);
-  i2cWrite(address, DYNAMIC_SPAD_REF_EN_START_OFFSET, 0x00);
-  i2cWrite(address, DYNAMIC_SPAD_NUM_REQUESTED_REF_SPAD, 0x2C);
-  i2cWrite(address, 0xFF, 0x00);
-  i2cWrite(address, GLOBAL_CONFIG_REF_EN_START_SELECT, 0xB4);
+  i2cWriteRegister(address, 0xFF, 0x01);
+  i2cWriteRegister(address, DYNAMIC_SPAD_REF_EN_START_OFFSET, 0x00);
+  i2cWriteRegister(address, DYNAMIC_SPAD_NUM_REQUESTED_REF_SPAD, 0x2C);
+  i2cWriteRegister(address, 0xFF, 0x00);
+  i2cWriteRegister(address, GLOBAL_CONFIG_REF_EN_START_SELECT, 0xB4);
 
   uint8_t first_spad_to_enable = spad_type_is_aperture ? 12 : 0; // 12 is the first aperture spad
   uint8_t spads_enabled = 0;
@@ -243,108 +243,108 @@ bool vl53l0x_init(bool io_2v8)
   // -- VL53L0X_load_tuning_settings() begin
   // DefaultTuningSettings from vl53l0x_tuning.h
 
-  i2cWrite(address, 0xFF, 0x01);
-  i2cWrite(address, 0x00, 0x00);
+  i2cWriteRegister(address, 0xFF, 0x01);
+  i2cWriteRegister(address, 0x00, 0x00);
 
-  i2cWrite(address, 0xFF, 0x00);
-  i2cWrite(address, 0x09, 0x00);
-  i2cWrite(address, 0x10, 0x00);
-  i2cWrite(address, 0x11, 0x00);
+  i2cWriteRegister(address, 0xFF, 0x00);
+  i2cWriteRegister(address, 0x09, 0x00);
+  i2cWriteRegister(address, 0x10, 0x00);
+  i2cWriteRegister(address, 0x11, 0x00);
 
-  i2cWrite(address, 0x24, 0x01);
-  i2cWrite(address, 0x25, 0xFF);
-  i2cWrite(address, 0x75, 0x00);
+  i2cWriteRegister(address, 0x24, 0x01);
+  i2cWriteRegister(address, 0x25, 0xFF);
+  i2cWriteRegister(address, 0x75, 0x00);
 
-  i2cWrite(address, 0xFF, 0x01);
-  i2cWrite(address, 0x4E, 0x2C);
-  i2cWrite(address, 0x48, 0x00);
-  i2cWrite(address, 0x30, 0x20);
+  i2cWriteRegister(address, 0xFF, 0x01);
+  i2cWriteRegister(address, 0x4E, 0x2C);
+  i2cWriteRegister(address, 0x48, 0x00);
+  i2cWriteRegister(address, 0x30, 0x20);
 
-  i2cWrite(address, 0xFF, 0x00);
-  i2cWrite(address, 0x30, 0x09);
-  i2cWrite(address, 0x54, 0x00);
-  i2cWrite(address, 0x31, 0x04);
-  i2cWrite(address, 0x32, 0x03);
-  i2cWrite(address, 0x40, 0x83);
-  i2cWrite(address, 0x46, 0x25);
-  i2cWrite(address, 0x60, 0x00);
-  i2cWrite(address, 0x27, 0x00);
-  i2cWrite(address, 0x50, 0x06);
-  i2cWrite(address, 0x51, 0x00);
-  i2cWrite(address, 0x52, 0x96);
-  i2cWrite(address, 0x56, 0x08);
-  i2cWrite(address, 0x57, 0x30);
-  i2cWrite(address, 0x61, 0x00);
-  i2cWrite(address, 0x62, 0x00);
-  i2cWrite(address, 0x64, 0x00);
-  i2cWrite(address, 0x65, 0x00);
-  i2cWrite(address, 0x66, 0xA0);
+  i2cWriteRegister(address, 0xFF, 0x00);
+  i2cWriteRegister(address, 0x30, 0x09);
+  i2cWriteRegister(address, 0x54, 0x00);
+  i2cWriteRegister(address, 0x31, 0x04);
+  i2cWriteRegister(address, 0x32, 0x03);
+  i2cWriteRegister(address, 0x40, 0x83);
+  i2cWriteRegister(address, 0x46, 0x25);
+  i2cWriteRegister(address, 0x60, 0x00);
+  i2cWriteRegister(address, 0x27, 0x00);
+  i2cWriteRegister(address, 0x50, 0x06);
+  i2cWriteRegister(address, 0x51, 0x00);
+  i2cWriteRegister(address, 0x52, 0x96);
+  i2cWriteRegister(address, 0x56, 0x08);
+  i2cWriteRegister(address, 0x57, 0x30);
+  i2cWriteRegister(address, 0x61, 0x00);
+  i2cWriteRegister(address, 0x62, 0x00);
+  i2cWriteRegister(address, 0x64, 0x00);
+  i2cWriteRegister(address, 0x65, 0x00);
+  i2cWriteRegister(address, 0x66, 0xA0);
 
-  i2cWrite(address, 0xFF, 0x01);
-  i2cWrite(address, 0x22, 0x32);
-  i2cWrite(address, 0x47, 0x14);
-  i2cWrite(address, 0x49, 0xFF);
-  i2cWrite(address, 0x4A, 0x00);
+  i2cWriteRegister(address, 0xFF, 0x01);
+  i2cWriteRegister(address, 0x22, 0x32);
+  i2cWriteRegister(address, 0x47, 0x14);
+  i2cWriteRegister(address, 0x49, 0xFF);
+  i2cWriteRegister(address, 0x4A, 0x00);
 
-  i2cWrite(address, 0xFF, 0x00);
-  i2cWrite(address, 0x7A, 0x0A);
-  i2cWrite(address, 0x7B, 0x00);
-  i2cWrite(address, 0x78, 0x21);
+  i2cWriteRegister(address, 0xFF, 0x00);
+  i2cWriteRegister(address, 0x7A, 0x0A);
+  i2cWriteRegister(address, 0x7B, 0x00);
+  i2cWriteRegister(address, 0x78, 0x21);
 
-  i2cWrite(address, 0xFF, 0x01);
-  i2cWrite(address, 0x23, 0x34);
-  i2cWrite(address, 0x42, 0x00);
-  i2cWrite(address, 0x44, 0xFF);
-  i2cWrite(address, 0x45, 0x26);
-  i2cWrite(address, 0x46, 0x05);
-  i2cWrite(address, 0x40, 0x40);
-  i2cWrite(address, 0x0E, 0x06);
-  i2cWrite(address, 0x20, 0x1A);
-  i2cWrite(address, 0x43, 0x40);
+  i2cWriteRegister(address, 0xFF, 0x01);
+  i2cWriteRegister(address, 0x23, 0x34);
+  i2cWriteRegister(address, 0x42, 0x00);
+  i2cWriteRegister(address, 0x44, 0xFF);
+  i2cWriteRegister(address, 0x45, 0x26);
+  i2cWriteRegister(address, 0x46, 0x05);
+  i2cWriteRegister(address, 0x40, 0x40);
+  i2cWriteRegister(address, 0x0E, 0x06);
+  i2cWriteRegister(address, 0x20, 0x1A);
+  i2cWriteRegister(address, 0x43, 0x40);
 
-  i2cWrite(address, 0xFF, 0x00);
-  i2cWrite(address, 0x34, 0x03);
-  i2cWrite(address, 0x35, 0x44);
+  i2cWriteRegister(address, 0xFF, 0x00);
+  i2cWriteRegister(address, 0x34, 0x03);
+  i2cWriteRegister(address, 0x35, 0x44);
 
-  i2cWrite(address, 0xFF, 0x01);
-  i2cWrite(address, 0x31, 0x04);
-  i2cWrite(address, 0x4B, 0x09);
-  i2cWrite(address, 0x4C, 0x05);
-  i2cWrite(address, 0x4D, 0x04);
+  i2cWriteRegister(address, 0xFF, 0x01);
+  i2cWriteRegister(address, 0x31, 0x04);
+  i2cWriteRegister(address, 0x4B, 0x09);
+  i2cWriteRegister(address, 0x4C, 0x05);
+  i2cWriteRegister(address, 0x4D, 0x04);
 
-  i2cWrite(address, 0xFF, 0x00);
-  i2cWrite(address, 0x44, 0x00);
-  i2cWrite(address, 0x45, 0x20);
-  i2cWrite(address, 0x47, 0x08);
-  i2cWrite(address, 0x48, 0x28);
-  i2cWrite(address, 0x67, 0x00);
-  i2cWrite(address, 0x70, 0x04);
-  i2cWrite(address, 0x71, 0x01);
-  i2cWrite(address, 0x72, 0xFE);
-  i2cWrite(address, 0x76, 0x00);
-  i2cWrite(address, 0x77, 0x00);
+  i2cWriteRegister(address, 0xFF, 0x00);
+  i2cWriteRegister(address, 0x44, 0x00);
+  i2cWriteRegister(address, 0x45, 0x20);
+  i2cWriteRegister(address, 0x47, 0x08);
+  i2cWriteRegister(address, 0x48, 0x28);
+  i2cWriteRegister(address, 0x67, 0x00);
+  i2cWriteRegister(address, 0x70, 0x04);
+  i2cWriteRegister(address, 0x71, 0x01);
+  i2cWriteRegister(address, 0x72, 0xFE);
+  i2cWriteRegister(address, 0x76, 0x00);
+  i2cWriteRegister(address, 0x77, 0x00);
 
-  i2cWrite(address, 0xFF, 0x01);
-  i2cWrite(address, 0x0D, 0x01);
+  i2cWriteRegister(address, 0xFF, 0x01);
+  i2cWriteRegister(address, 0x0D, 0x01);
 
-  i2cWrite(address, 0xFF, 0x00);
-  i2cWrite(address, 0x80, 0x01);
-  i2cWrite(address, 0x01, 0xF8);
+  i2cWriteRegister(address, 0xFF, 0x00);
+  i2cWriteRegister(address, 0x80, 0x01);
+  i2cWriteRegister(address, 0x01, 0xF8);
 
-  i2cWrite(address, 0xFF, 0x01);
-  i2cWrite(address, 0x8E, 0x01);
-  i2cWrite(address, 0x00, 0x01);
-  i2cWrite(address, 0xFF, 0x00);
-  i2cWrite(address, 0x80, 0x00);
+  i2cWriteRegister(address, 0xFF, 0x01);
+  i2cWriteRegister(address, 0x8E, 0x01);
+  i2cWriteRegister(address, 0x00, 0x01);
+  i2cWriteRegister(address, 0xFF, 0x00);
+  i2cWriteRegister(address, 0x80, 0x00);
 
   // -- VL53L0X_load_tuning_settings() end
 
   // "Set interrupt config to new sample ready"
   // -- VL53L0X_SetGpioConfig() begin
 
-  i2cWrite(address, SYSTEM_INTERRUPT_CONFIG_GPIO, 0x04);
-  i2cWrite(address, GPIO_HV_MUX_ACTIVE_HIGH, i2cglue.readReg(GPIO_HV_MUX_ACTIVE_HIGH) & ~0x10); // active low
-  i2cWrite(address, SYSTEM_INTERRUPT_CLEAR, 0x01);
+  i2cWriteRegister(address, SYSTEM_INTERRUPT_CONFIG_GPIO, 0x04);
+  i2cWriteRegister(address, GPIO_HV_MUX_ACTIVE_HIGH, i2cglue.readReg(GPIO_HV_MUX_ACTIVE_HIGH) & ~0x10); // active low
+  i2cWriteRegister(address, SYSTEM_INTERRUPT_CLEAR, 0x01);
 
   // -- VL53L0X_SetGpioConfig() end
 
@@ -355,7 +355,7 @@ bool vl53l0x_init(bool io_2v8)
   // TCC = Target CentreCheck
   // -- VL53L0X_SetSequenceStepEnable() begin
 
-  i2cWrite(address, SYSTEM_SEQUENCE_CONFIG, 0xE8);
+  i2cWriteRegister(address, SYSTEM_SEQUENCE_CONFIG, 0xE8);
 
   // -- VL53L0X_SetSequenceStepEnable() end
 
@@ -368,20 +368,20 @@ bool vl53l0x_init(bool io_2v8)
 
   // -- VL53L0X_perform_vhv_calibration() begin
 
-  i2cWrite(address, SYSTEM_SEQUENCE_CONFIG, 0x01);
+  i2cWriteRegister(address, SYSTEM_SEQUENCE_CONFIG, 0x01);
   if (!performSingleRefCalibration(0x40)) { return false; }
 
   // -- VL53L0X_perform_vhv_calibration() end
 
   // -- VL53L0X_perform_phase_calibration() begin
 
-  i2cWrite(address, SYSTEM_SEQUENCE_CONFIG, 0x02);
+  i2cWriteRegister(address, SYSTEM_SEQUENCE_CONFIG, 0x02);
   if (!performSingleRefCalibration(0x00)) { return false; }
 
   // -- VL53L0X_perform_phase_calibration() end
 
   // "restore the previous Sequence Config"
-  i2cWrite(address, SYSTEM_SEQUENCE_CONFIG, 0xE8);
+  i2cWriteRegister(address, SYSTEM_SEQUENCE_CONFIG, 0xE8);
 
   // VL53L0X_PerformRefCalibration() end
 
@@ -427,7 +427,7 @@ uint16_t vl530lx_readRangeSingleMillimeters(void)
 
 void vl53l0x_setAddress(uint8_t new_addr)
 {
-    //i2cWrite(address, I2C_SLAVE_DEVICE_ADDRESS, new_addr & 0x7F)
+    //i2cWriteRegister(address, I2C_SLAVE_DEVICE_ADDRESS, new_addr & 0x7F)
     address = new_addr;
 }
 
@@ -601,28 +601,28 @@ bool VL53L0X::init(bool io_2v8)
     // sensor uses 1V8 mode for I/O by default; switch to 2V8 mode if necessary
     if (io_2v8)
     {
-        i2cWrite(address, VHV_CONFIG_PAD_SCL_SDA__EXTSUP_HV,
+        i2cWriteRegister(address, VHV_CONFIG_PAD_SCL_SDA__EXTSUP_HV,
                 i2cglue.readReg(VHV_CONFIG_PAD_SCL_SDA__EXTSUP_HV) | 0x01); // set bit 0
     }
 
     // "Set I2C standard mode"
-    i2cWrite(address, 0x88, 0x00);
+    i2cWriteRegister(address, 0x88, 0x00);
 
-    i2cWrite(address, 0x80, 0x01);
-    i2cWrite(address, 0xFF, 0x01);
-    i2cWrite(address, 0x00, 0x00);
+    i2cWriteRegister(address, 0x80, 0x01);
+    i2cWriteRegister(address, 0xFF, 0x01);
+    i2cWriteRegister(address, 0x00, 0x00);
     stop_variable = i2cglue.readReg(0x91);
-    i2cWrite(address, 0x00, 0x01);
-    i2cWrite(address, 0xFF, 0x00);
-    i2cWrite(address, 0x80, 0x00);
+    i2cWriteRegister(address, 0x00, 0x01);
+    i2cWriteRegister(address, 0xFF, 0x00);
+    i2cWriteRegister(address, 0x80, 0x00);
 
     // disable SIGNAL_RATE_MSRC (bit 1) and SIGNAL_RATE_PRE_RANGE (bit 4) limit checks
-    i2cWrite(address, MSRC_CONFIG_CONTROL, i2cglue.readReg(MSRC_CONFIG_CONTROL) | 0x12);
+    i2cWriteRegister(address, MSRC_CONFIG_CONTROL, i2cglue.readReg(MSRC_CONFIG_CONTROL) | 0x12);
 
     // set final range signal rate limit to 0.25 MCPS (million counts per second)
     setSignalRateLimit(0.25);
 
-    i2cWrite(address, SYSTEM_SEQUENCE_CONFIG, 0xFF);
+    i2cWriteRegister(address, SYSTEM_SEQUENCE_CONFIG, 0xFF);
 
     // VL53L0X_DataInit() end
 
@@ -640,11 +640,11 @@ bool VL53L0X::init(bool io_2v8)
 
     // -- VL53L0X_set_reference_spads() begin (assume NVM values are valid)
 
-    i2cWrite(address, 0xFF, 0x01);
-    i2cWrite(address, DYNAMIC_SPAD_REF_EN_START_OFFSET, 0x00);
-    i2cWrite(address, DYNAMIC_SPAD_NUM_REQUESTED_REF_SPAD, 0x2C);
-    i2cWrite(address, 0xFF, 0x00);
-    i2cWrite(address, GLOBAL_CONFIG_REF_EN_START_SELECT, 0xB4);
+    i2cWriteRegister(address, 0xFF, 0x01);
+    i2cWriteRegister(address, DYNAMIC_SPAD_REF_EN_START_OFFSET, 0x00);
+    i2cWriteRegister(address, DYNAMIC_SPAD_NUM_REQUESTED_REF_SPAD, 0x2C);
+    i2cWriteRegister(address, 0xFF, 0x00);
+    i2cWriteRegister(address, GLOBAL_CONFIG_REF_EN_START_SELECT, 0xB4);
 
     uint8_t first_spad_to_enable = spad_type_is_aperture ? 12 : 0; // 12 is the first aperture spad
     uint8_t spads_enabled = 0;
@@ -670,108 +670,108 @@ bool VL53L0X::init(bool io_2v8)
     // -- VL53L0X_load_tuning_settings() begin
     // DefaultTuningSettings from vl53l0x_tuning.h
 
-    i2cWrite(address, 0xFF, 0x01);
-    i2cWrite(address, 0x00, 0x00);
+    i2cWriteRegister(address, 0xFF, 0x01);
+    i2cWriteRegister(address, 0x00, 0x00);
 
-    i2cWrite(address, 0xFF, 0x00);
-    i2cWrite(address, 0x09, 0x00);
-    i2cWrite(address, 0x10, 0x00);
-    i2cWrite(address, 0x11, 0x00);
+    i2cWriteRegister(address, 0xFF, 0x00);
+    i2cWriteRegister(address, 0x09, 0x00);
+    i2cWriteRegister(address, 0x10, 0x00);
+    i2cWriteRegister(address, 0x11, 0x00);
 
-    i2cWrite(address, 0x24, 0x01);
-    i2cWrite(address, 0x25, 0xFF);
-    i2cWrite(address, 0x75, 0x00);
+    i2cWriteRegister(address, 0x24, 0x01);
+    i2cWriteRegister(address, 0x25, 0xFF);
+    i2cWriteRegister(address, 0x75, 0x00);
 
-    i2cWrite(address, 0xFF, 0x01);
-    i2cWrite(address, 0x4E, 0x2C);
-    i2cWrite(address, 0x48, 0x00);
-    i2cWrite(address, 0x30, 0x20);
+    i2cWriteRegister(address, 0xFF, 0x01);
+    i2cWriteRegister(address, 0x4E, 0x2C);
+    i2cWriteRegister(address, 0x48, 0x00);
+    i2cWriteRegister(address, 0x30, 0x20);
 
-    i2cWrite(address, 0xFF, 0x00);
-    i2cWrite(address, 0x30, 0x09);
-    i2cWrite(address, 0x54, 0x00);
-    i2cWrite(address, 0x31, 0x04);
-    i2cWrite(address, 0x32, 0x03);
-    i2cWrite(address, 0x40, 0x83);
-    i2cWrite(address, 0x46, 0x25);
-    i2cWrite(address, 0x60, 0x00);
-    i2cWrite(address, 0x27, 0x00);
-    i2cWrite(address, 0x50, 0x06);
-    i2cWrite(address, 0x51, 0x00);
-    i2cWrite(address, 0x52, 0x96);
-    i2cWrite(address, 0x56, 0x08);
-    i2cWrite(address, 0x57, 0x30);
-    i2cWrite(address, 0x61, 0x00);
-    i2cWrite(address, 0x62, 0x00);
-    i2cWrite(address, 0x64, 0x00);
-    i2cWrite(address, 0x65, 0x00);
-    i2cWrite(address, 0x66, 0xA0);
+    i2cWriteRegister(address, 0xFF, 0x00);
+    i2cWriteRegister(address, 0x30, 0x09);
+    i2cWriteRegister(address, 0x54, 0x00);
+    i2cWriteRegister(address, 0x31, 0x04);
+    i2cWriteRegister(address, 0x32, 0x03);
+    i2cWriteRegister(address, 0x40, 0x83);
+    i2cWriteRegister(address, 0x46, 0x25);
+    i2cWriteRegister(address, 0x60, 0x00);
+    i2cWriteRegister(address, 0x27, 0x00);
+    i2cWriteRegister(address, 0x50, 0x06);
+    i2cWriteRegister(address, 0x51, 0x00);
+    i2cWriteRegister(address, 0x52, 0x96);
+    i2cWriteRegister(address, 0x56, 0x08);
+    i2cWriteRegister(address, 0x57, 0x30);
+    i2cWriteRegister(address, 0x61, 0x00);
+    i2cWriteRegister(address, 0x62, 0x00);
+    i2cWriteRegister(address, 0x64, 0x00);
+    i2cWriteRegister(address, 0x65, 0x00);
+    i2cWriteRegister(address, 0x66, 0xA0);
 
-    i2cWrite(address, 0xFF, 0x01);
-    i2cWrite(address, 0x22, 0x32);
-    i2cWrite(address, 0x47, 0x14);
-    i2cWrite(address, 0x49, 0xFF);
-    i2cWrite(address, 0x4A, 0x00);
+    i2cWriteRegister(address, 0xFF, 0x01);
+    i2cWriteRegister(address, 0x22, 0x32);
+    i2cWriteRegister(address, 0x47, 0x14);
+    i2cWriteRegister(address, 0x49, 0xFF);
+    i2cWriteRegister(address, 0x4A, 0x00);
 
-    i2cWrite(address, 0xFF, 0x00);
-    i2cWrite(address, 0x7A, 0x0A);
-    i2cWrite(address, 0x7B, 0x00);
-    i2cWrite(address, 0x78, 0x21);
+    i2cWriteRegister(address, 0xFF, 0x00);
+    i2cWriteRegister(address, 0x7A, 0x0A);
+    i2cWriteRegister(address, 0x7B, 0x00);
+    i2cWriteRegister(address, 0x78, 0x21);
 
-    i2cWrite(address, 0xFF, 0x01);
-    i2cWrite(address, 0x23, 0x34);
-    i2cWrite(address, 0x42, 0x00);
-    i2cWrite(address, 0x44, 0xFF);
-    i2cWrite(address, 0x45, 0x26);
-    i2cWrite(address, 0x46, 0x05);
-    i2cWrite(address, 0x40, 0x40);
-    i2cWrite(address, 0x0E, 0x06);
-    i2cWrite(address, 0x20, 0x1A);
-    i2cWrite(address, 0x43, 0x40);
+    i2cWriteRegister(address, 0xFF, 0x01);
+    i2cWriteRegister(address, 0x23, 0x34);
+    i2cWriteRegister(address, 0x42, 0x00);
+    i2cWriteRegister(address, 0x44, 0xFF);
+    i2cWriteRegister(address, 0x45, 0x26);
+    i2cWriteRegister(address, 0x46, 0x05);
+    i2cWriteRegister(address, 0x40, 0x40);
+    i2cWriteRegister(address, 0x0E, 0x06);
+    i2cWriteRegister(address, 0x20, 0x1A);
+    i2cWriteRegister(address, 0x43, 0x40);
 
-    i2cWrite(address, 0xFF, 0x00);
-    i2cWrite(address, 0x34, 0x03);
-    i2cWrite(address, 0x35, 0x44);
+    i2cWriteRegister(address, 0xFF, 0x00);
+    i2cWriteRegister(address, 0x34, 0x03);
+    i2cWriteRegister(address, 0x35, 0x44);
 
-    i2cWrite(address, 0xFF, 0x01);
-    i2cWrite(address, 0x31, 0x04);
-    i2cWrite(address, 0x4B, 0x09);
-    i2cWrite(address, 0x4C, 0x05);
-    i2cWrite(address, 0x4D, 0x04);
+    i2cWriteRegister(address, 0xFF, 0x01);
+    i2cWriteRegister(address, 0x31, 0x04);
+    i2cWriteRegister(address, 0x4B, 0x09);
+    i2cWriteRegister(address, 0x4C, 0x05);
+    i2cWriteRegister(address, 0x4D, 0x04);
 
-    i2cWrite(address, 0xFF, 0x00);
-    i2cWrite(address, 0x44, 0x00);
-    i2cWrite(address, 0x45, 0x20);
-    i2cWrite(address, 0x47, 0x08);
-    i2cWrite(address, 0x48, 0x28);
-    i2cWrite(address, 0x67, 0x00);
-    i2cWrite(address, 0x70, 0x04);
-    i2cWrite(address, 0x71, 0x01);
-    i2cWrite(address, 0x72, 0xFE);
-    i2cWrite(address, 0x76, 0x00);
-    i2cWrite(address, 0x77, 0x00);
+    i2cWriteRegister(address, 0xFF, 0x00);
+    i2cWriteRegister(address, 0x44, 0x00);
+    i2cWriteRegister(address, 0x45, 0x20);
+    i2cWriteRegister(address, 0x47, 0x08);
+    i2cWriteRegister(address, 0x48, 0x28);
+    i2cWriteRegister(address, 0x67, 0x00);
+    i2cWriteRegister(address, 0x70, 0x04);
+    i2cWriteRegister(address, 0x71, 0x01);
+    i2cWriteRegister(address, 0x72, 0xFE);
+    i2cWriteRegister(address, 0x76, 0x00);
+    i2cWriteRegister(address, 0x77, 0x00);
 
-    i2cWrite(address, 0xFF, 0x01);
-    i2cWrite(address, 0x0D, 0x01);
+    i2cWriteRegister(address, 0xFF, 0x01);
+    i2cWriteRegister(address, 0x0D, 0x01);
 
-    i2cWrite(address, 0xFF, 0x00);
-    i2cWrite(address, 0x80, 0x01);
-    i2cWrite(address, 0x01, 0xF8);
+    i2cWriteRegister(address, 0xFF, 0x00);
+    i2cWriteRegister(address, 0x80, 0x01);
+    i2cWriteRegister(address, 0x01, 0xF8);
 
-    i2cWrite(address, 0xFF, 0x01);
-    i2cWrite(address, 0x8E, 0x01);
-    i2cWrite(address, 0x00, 0x01);
-    i2cWrite(address, 0xFF, 0x00);
-    i2cWrite(address, 0x80, 0x00);
+    i2cWriteRegister(address, 0xFF, 0x01);
+    i2cWriteRegister(address, 0x8E, 0x01);
+    i2cWriteRegister(address, 0x00, 0x01);
+    i2cWriteRegister(address, 0xFF, 0x00);
+    i2cWriteRegister(address, 0x80, 0x00);
 
     // -- VL53L0X_load_tuning_settings() end
 
     // "Set interrupt config to new sample ready"
     // -- VL53L0X_SetGpioConfig() begin
 
-    i2cWrite(address, SYSTEM_INTERRUPT_CONFIG_GPIO, 0x04);
-    i2cWrite(address, GPIO_HV_MUX_ACTIVE_HIGH, i2cglue.readReg(GPIO_HV_MUX_ACTIVE_HIGH) & ~0x10); // active low
-    i2cWrite(address, SYSTEM_INTERRUPT_CLEAR, 0x01);
+    i2cWriteRegister(address, SYSTEM_INTERRUPT_CONFIG_GPIO, 0x04);
+    i2cWriteRegister(address, GPIO_HV_MUX_ACTIVE_HIGH, i2cglue.readReg(GPIO_HV_MUX_ACTIVE_HIGH) & ~0x10); // active low
+    i2cWriteRegister(address, SYSTEM_INTERRUPT_CLEAR, 0x01);
 
     // -- VL53L0X_SetGpioConfig() end
 
@@ -782,7 +782,7 @@ bool VL53L0X::init(bool io_2v8)
     // TCC = Target CentreCheck
     // -- VL53L0X_SetSequenceStepEnable() begin
 
-    i2cWrite(address, SYSTEM_SEQUENCE_CONFIG, 0xE8);
+    i2cWriteRegister(address, SYSTEM_SEQUENCE_CONFIG, 0xE8);
 
     // -- VL53L0X_SetSequenceStepEnable() end
 
@@ -795,20 +795,20 @@ bool VL53L0X::init(bool io_2v8)
 
     // -- VL53L0X_perform_vhv_calibration() begin
 
-    i2cWrite(address, SYSTEM_SEQUENCE_CONFIG, 0x01);
+    i2cWriteRegister(address, SYSTEM_SEQUENCE_CONFIG, 0x01);
     if (!performSingleRefCalibration(0x40)) { return false; }
 
     // -- VL53L0X_perform_vhv_calibration() end
 
     // -- VL53L0X_perform_phase_calibration() begin
 
-    i2cWrite(address, SYSTEM_SEQUENCE_CONFIG, 0x02);
+    i2cWriteRegister(address, SYSTEM_SEQUENCE_CONFIG, 0x02);
     if (!performSingleRefCalibration(0x00)) { return false; }
 
     // -- VL53L0X_perform_phase_calibration() end
 
     // "restore the previous Sequence Config"
-    i2cWrite(address, SYSTEM_SEQUENCE_CONFIG, 0xE8);
+    i2cWriteRegister(address, SYSTEM_SEQUENCE_CONFIG, 0xE8);
 
     // VL53L0X_PerformRefCalibration() end
 
@@ -1017,29 +1017,29 @@ bool VL53L0X::setVcselPulsePeriod(vcselPeriodType type, uint8_t period_pclks)
         switch (period_pclks)
         {
             case 12:
-                i2cWrite(address, PRE_RANGE_CONFIG_VALID_PHASE_HIGH, 0x18);
+                i2cWriteRegister(address, PRE_RANGE_CONFIG_VALID_PHASE_HIGH, 0x18);
                 break;
 
             case 14:
-                i2cWrite(address, PRE_RANGE_CONFIG_VALID_PHASE_HIGH, 0x30);
+                i2cWriteRegister(address, PRE_RANGE_CONFIG_VALID_PHASE_HIGH, 0x30);
                 break;
 
             case 16:
-                i2cWrite(address, PRE_RANGE_CONFIG_VALID_PHASE_HIGH, 0x40);
+                i2cWriteRegister(address, PRE_RANGE_CONFIG_VALID_PHASE_HIGH, 0x40);
                 break;
 
             case 18:
-                i2cWrite(address, PRE_RANGE_CONFIG_VALID_PHASE_HIGH, 0x50);
+                i2cWriteRegister(address, PRE_RANGE_CONFIG_VALID_PHASE_HIGH, 0x50);
                 break;
 
             default:
                 // invalid period
                 return false;
         }
-        i2cWrite(address, PRE_RANGE_CONFIG_VALID_PHASE_LOW, 0x08);
+        i2cWriteRegister(address, PRE_RANGE_CONFIG_VALID_PHASE_LOW, 0x08);
 
         // apply new VCSEL period
-        i2cWrite(address, PRE_RANGE_CONFIG_VCSEL_PERIOD, vcsel_period_reg);
+        i2cWriteRegister(address, PRE_RANGE_CONFIG_VCSEL_PERIOD, vcsel_period_reg);
 
         // update timeouts
 
@@ -1060,7 +1060,7 @@ bool VL53L0X::setVcselPulsePeriod(vcselPeriodType type, uint8_t period_pclks)
         uint16_t new_msrc_timeout_mclks =
             timeoutMicrosecondsToMclks(timeouts.msrc_dss_tcc_us, period_pclks);
 
-        i2cWrite(address, MSRC_CONFIG_TIMEOUT_MACROP,
+        i2cWriteRegister(address, MSRC_CONFIG_TIMEOUT_MACROP,
                 (new_msrc_timeout_mclks > 256) ? 255 : (new_msrc_timeout_mclks - 1));
 
         // set_sequence_step_timeout() end
@@ -1070,43 +1070,43 @@ bool VL53L0X::setVcselPulsePeriod(vcselPeriodType type, uint8_t period_pclks)
         switch (period_pclks)
         {
             case 8:
-                i2cWrite(address, FINAL_RANGE_CONFIG_VALID_PHASE_HIGH, 0x10);
-                i2cWrite(address, FINAL_RANGE_CONFIG_VALID_PHASE_LOW,  0x08);
-                i2cWrite(address, GLOBAL_CONFIG_VCSEL_WIDTH, 0x02);
-                i2cWrite(address, ALGO_PHASECAL_CONFIG_TIMEOUT, 0x0C);
-                i2cWrite(address, 0xFF, 0x01);
-                i2cWrite(address, ALGO_PHASECAL_LIM, 0x30);
-                i2cWrite(address, 0xFF, 0x00);
+                i2cWriteRegister(address, FINAL_RANGE_CONFIG_VALID_PHASE_HIGH, 0x10);
+                i2cWriteRegister(address, FINAL_RANGE_CONFIG_VALID_PHASE_LOW,  0x08);
+                i2cWriteRegister(address, GLOBAL_CONFIG_VCSEL_WIDTH, 0x02);
+                i2cWriteRegister(address, ALGO_PHASECAL_CONFIG_TIMEOUT, 0x0C);
+                i2cWriteRegister(address, 0xFF, 0x01);
+                i2cWriteRegister(address, ALGO_PHASECAL_LIM, 0x30);
+                i2cWriteRegister(address, 0xFF, 0x00);
                 break;
 
             case 10:
-                i2cWrite(address, FINAL_RANGE_CONFIG_VALID_PHASE_HIGH, 0x28);
-                i2cWrite(address, FINAL_RANGE_CONFIG_VALID_PHASE_LOW,  0x08);
-                i2cWrite(address, GLOBAL_CONFIG_VCSEL_WIDTH, 0x03);
-                i2cWrite(address, ALGO_PHASECAL_CONFIG_TIMEOUT, 0x09);
-                i2cWrite(address, 0xFF, 0x01);
-                i2cWrite(address, ALGO_PHASECAL_LIM, 0x20);
-                i2cWrite(address, 0xFF, 0x00);
+                i2cWriteRegister(address, FINAL_RANGE_CONFIG_VALID_PHASE_HIGH, 0x28);
+                i2cWriteRegister(address, FINAL_RANGE_CONFIG_VALID_PHASE_LOW,  0x08);
+                i2cWriteRegister(address, GLOBAL_CONFIG_VCSEL_WIDTH, 0x03);
+                i2cWriteRegister(address, ALGO_PHASECAL_CONFIG_TIMEOUT, 0x09);
+                i2cWriteRegister(address, 0xFF, 0x01);
+                i2cWriteRegister(address, ALGO_PHASECAL_LIM, 0x20);
+                i2cWriteRegister(address, 0xFF, 0x00);
                 break;
 
             case 12:
-                i2cWrite(address, FINAL_RANGE_CONFIG_VALID_PHASE_HIGH, 0x38);
-                i2cWrite(address, FINAL_RANGE_CONFIG_VALID_PHASE_LOW,  0x08);
-                i2cWrite(address, GLOBAL_CONFIG_VCSEL_WIDTH, 0x03);
-                i2cWrite(address, ALGO_PHASECAL_CONFIG_TIMEOUT, 0x08);
-                i2cWrite(address, 0xFF, 0x01);
-                i2cWrite(address, ALGO_PHASECAL_LIM, 0x20);
-                i2cWrite(address, 0xFF, 0x00);
+                i2cWriteRegister(address, FINAL_RANGE_CONFIG_VALID_PHASE_HIGH, 0x38);
+                i2cWriteRegister(address, FINAL_RANGE_CONFIG_VALID_PHASE_LOW,  0x08);
+                i2cWriteRegister(address, GLOBAL_CONFIG_VCSEL_WIDTH, 0x03);
+                i2cWriteRegister(address, ALGO_PHASECAL_CONFIG_TIMEOUT, 0x08);
+                i2cWriteRegister(address, 0xFF, 0x01);
+                i2cWriteRegister(address, ALGO_PHASECAL_LIM, 0x20);
+                i2cWriteRegister(address, 0xFF, 0x00);
                 break;
 
             case 14:
-                i2cWrite(address, FINAL_RANGE_CONFIG_VALID_PHASE_HIGH, 0x48);
-                i2cWrite(address, FINAL_RANGE_CONFIG_VALID_PHASE_LOW,  0x08);
-                i2cWrite(address, GLOBAL_CONFIG_VCSEL_WIDTH, 0x03);
-                i2cWrite(address, ALGO_PHASECAL_CONFIG_TIMEOUT, 0x07);
-                i2cWrite(address, 0xFF, 0x01);
-                i2cWrite(address, ALGO_PHASECAL_LIM, 0x20);
-                i2cWrite(address, 0xFF, 0x00);
+                i2cWriteRegister(address, FINAL_RANGE_CONFIG_VALID_PHASE_HIGH, 0x48);
+                i2cWriteRegister(address, FINAL_RANGE_CONFIG_VALID_PHASE_LOW,  0x08);
+                i2cWriteRegister(address, GLOBAL_CONFIG_VCSEL_WIDTH, 0x03);
+                i2cWriteRegister(address, ALGO_PHASECAL_CONFIG_TIMEOUT, 0x07);
+                i2cWriteRegister(address, 0xFF, 0x01);
+                i2cWriteRegister(address, ALGO_PHASECAL_LIM, 0x20);
+                i2cWriteRegister(address, 0xFF, 0x00);
                 break;
 
             default:
@@ -1115,7 +1115,7 @@ bool VL53L0X::setVcselPulsePeriod(vcselPeriodType type, uint8_t period_pclks)
         }
 
         // apply new VCSEL period
-        i2cWrite(address, FINAL_RANGE_CONFIG_VCSEL_PERIOD, vcsel_period_reg);
+        i2cWriteRegister(address, FINAL_RANGE_CONFIG_VCSEL_PERIOD, vcsel_period_reg);
 
         // update timeouts
 
@@ -1154,9 +1154,9 @@ bool VL53L0X::setVcselPulsePeriod(vcselPeriodType type, uint8_t period_pclks)
     // VL53L0X_perform_phase_calibration() begin
 
     uint8_t sequence_config = i2cglue.readReg(SYSTEM_SEQUENCE_CONFIG);
-    i2cWrite(address, SYSTEM_SEQUENCE_CONFIG, 0x02);
+    i2cWriteRegister(address, SYSTEM_SEQUENCE_CONFIG, 0x02);
     performSingleRefCalibration(0x0);
-    i2cWrite(address, SYSTEM_SEQUENCE_CONFIG, sequence_config);
+    i2cWriteRegister(address, SYSTEM_SEQUENCE_CONFIG, sequence_config);
 
     // VL53L0X_perform_phase_calibration() end
 
@@ -1186,13 +1186,13 @@ uint8_t VL53L0X::getVcselPulsePeriod(vcselPeriodType type)
 // based on VL53L0X_StartMeasurement()
 void VL53L0X::startContinuous(uint32_t period_ms)
 {
-    i2cWrite(address, 0x80, 0x01);
-    i2cWrite(address, 0xFF, 0x01);
-    i2cWrite(address, 0x00, 0x00);
-    i2cWrite(address, 0x91, stop_variable);
-    i2cWrite(address, 0x00, 0x01);
-    i2cWrite(address, 0xFF, 0x00);
-    i2cWrite(address, 0x80, 0x00);
+    i2cWriteRegister(address, 0x80, 0x01);
+    i2cWriteRegister(address, 0xFF, 0x01);
+    i2cWriteRegister(address, 0x00, 0x00);
+    i2cWriteRegister(address, 0x91, stop_variable);
+    i2cWriteRegister(address, 0x00, 0x01);
+    i2cWriteRegister(address, 0xFF, 0x00);
+    i2cWriteRegister(address, 0x80, 0x00);
 
     if (period_ms != 0)
     {
@@ -1211,12 +1211,12 @@ void VL53L0X::startContinuous(uint32_t period_ms)
 
         // VL53L0X_SetInterMeasurementPeriodMilliSeconds() end
 
-        i2cWrite(address, SYSRANGE_START, 0x04); // VL53L0X_REG_SYSRANGE_MODE_TIMED
+        i2cWriteRegister(address, SYSRANGE_START, 0x04); // VL53L0X_REG_SYSRANGE_MODE_TIMED
     }
     else
     {
         // continuous back-to-back mode
-        i2cWrite(address, SYSRANGE_START, 0x02); // VL53L0X_REG_SYSRANGE_MODE_BACKTOBACK
+        i2cWriteRegister(address, SYSRANGE_START, 0x02); // VL53L0X_REG_SYSRANGE_MODE_BACKTOBACK
     }
 }
 
@@ -1224,13 +1224,13 @@ void VL53L0X::startContinuous(uint32_t period_ms)
 // based on VL53L0X_StopMeasurement()
 void VL53L0X::stopContinuous(void)
 {
-    i2cWrite(address, SYSRANGE_START, 0x01); // VL53L0X_REG_SYSRANGE_MODE_SINGLESHOT
+    i2cWriteRegister(address, SYSRANGE_START, 0x01); // VL53L0X_REG_SYSRANGE_MODE_SINGLESHOT
 
-    i2cWrite(address, 0xFF, 0x01);
-    i2cWrite(address, 0x00, 0x00);
-    i2cWrite(address, 0x91, 0x00);
-    i2cWrite(address, 0x00, 0x01);
-    i2cWrite(address, 0xFF, 0x00);
+    i2cWriteRegister(address, 0xFF, 0x01);
+    i2cWriteRegister(address, 0x00, 0x00);
+    i2cWriteRegister(address, 0x91, 0x00);
+    i2cWriteRegister(address, 0x00, 0x01);
+    i2cWriteRegister(address, 0xFF, 0x00);
 }
 
 // Returns a range reading in millimeters when continuous mode is active
@@ -1252,7 +1252,7 @@ uint16_t VL53L0X::readRangeContinuousMillimeters(void)
     // fractional ranging is not enabled
     uint16_t range = i2cglue.readReg16Bit(RESULT_RANGE_STATUS + 10);
 
-    i2cWrite(address, SYSTEM_INTERRUPT_CLEAR, 0x01);
+    i2cWriteRegister(address, SYSTEM_INTERRUPT_CLEAR, 0x01);
 
     return range;
 }
@@ -1262,15 +1262,15 @@ uint16_t VL53L0X::readRangeContinuousMillimeters(void)
 // based on VL53L0X_PerformSingleRangingMeasurement()
 uint16_t VL53L0X::readRangeSingleMillimeters(void)
 {
-    i2cWrite(address, 0x80, 0x01);
-    i2cWrite(address, 0xFF, 0x01);
-    i2cWrite(address, 0x00, 0x00);
-    i2cWrite(address, 0x91, stop_variable);
-    i2cWrite(address, 0x00, 0x01);
-    i2cWrite(address, 0xFF, 0x00);
-    i2cWrite(address, 0x80, 0x00);
+    i2cWriteRegister(address, 0x80, 0x01);
+    i2cWriteRegister(address, 0xFF, 0x01);
+    i2cWriteRegister(address, 0x00, 0x00);
+    i2cWriteRegister(address, 0x91, stop_variable);
+    i2cWriteRegister(address, 0x00, 0x01);
+    i2cWriteRegister(address, 0xFF, 0x00);
+    i2cWriteRegister(address, 0x80, 0x00);
 
-    i2cWrite(address, SYSRANGE_START, 0x01);
+    i2cWriteRegister(address, SYSRANGE_START, 0x01);
 
     // "Wait until start bit has been cleared"
     startTimeout();
@@ -1304,38 +1304,38 @@ bool VL53L0X::getSpadInfo(uint8_t * count, bool * type_is_aperture)
 {
     uint8_t tmp;
 
-    i2cWrite(address, 0x80, 0x01);
-    i2cWrite(address, 0xFF, 0x01);
-    i2cWrite(address, 0x00, 0x00);
+    i2cWriteRegister(address, 0x80, 0x01);
+    i2cWriteRegister(address, 0xFF, 0x01);
+    i2cWriteRegister(address, 0x00, 0x00);
 
-    i2cWrite(address, 0xFF, 0x06);
-    i2cWrite(address, 0x83, i2cglue.readReg(0x83) | 0x04);
-    i2cWrite(address, 0xFF, 0x07);
-    i2cWrite(address, 0x81, 0x01);
+    i2cWriteRegister(address, 0xFF, 0x06);
+    i2cWriteRegister(address, 0x83, i2cglue.readReg(0x83) | 0x04);
+    i2cWriteRegister(address, 0xFF, 0x07);
+    i2cWriteRegister(address, 0x81, 0x01);
 
-    i2cWrite(address, 0x80, 0x01);
+    i2cWriteRegister(address, 0x80, 0x01);
 
-    i2cWrite(address, 0x94, 0x6b);
-    i2cWrite(address, 0x83, 0x00);
+    i2cWriteRegister(address, 0x94, 0x6b);
+    i2cWriteRegister(address, 0x83, 0x00);
     startTimeout();
     while (i2cglue.readReg(0x83) == 0x00)
     {
         if (checkTimeoutExpired()) { return false; }
     }
-    i2cWrite(address, 0x83, 0x01);
+    i2cWriteRegister(address, 0x83, 0x01);
     tmp = i2cglue.readReg(0x92);
 
     *count = tmp & 0x7f;
     *type_is_aperture = (tmp >> 7) & 0x01;
 
-    i2cWrite(address, 0x81, 0x00);
-    i2cWrite(address, 0xFF, 0x06);
-    i2cWrite(address, 0x83, i2cglue.readReg( 0x83  & ~0x04));
-    i2cWrite(address, 0xFF, 0x01);
-    i2cWrite(address, 0x00, 0x01);
+    i2cWriteRegister(address, 0x81, 0x00);
+    i2cWriteRegister(address, 0xFF, 0x06);
+    i2cWriteRegister(address, 0x83, i2cglue.readReg( 0x83  & ~0x04));
+    i2cWriteRegister(address, 0xFF, 0x01);
+    i2cWriteRegister(address, 0x00, 0x01);
 
-    i2cWrite(address, 0xFF, 0x00);
-    i2cWrite(address, 0x80, 0x00);
+    i2cWriteRegister(address, 0xFF, 0x00);
+    i2cWriteRegister(address, 0x80, 0x00);
 
     return true;
 }
@@ -1446,7 +1446,7 @@ uint32_t VL53L0X::timeoutMicrosecondsToMclks(uint32_t timeout_period_us, uint8_t
 // based on VL53L0X_perform_single_ref_calibration()
 bool VL53L0X::performSingleRefCalibration(uint8_t vhv_init_byte)
 {
-  i2cWrite(address, SYSRANGE_START, 0x01 | vhv_init_byte); // VL53L0X_REG_SYSRANGE_MODE_START_STOP
+  i2cWriteRegister(address, SYSRANGE_START, 0x01 | vhv_init_byte); // VL53L0X_REG_SYSRANGE_MODE_START_STOP
 
   startTimeout();
   while ((i2cglue.readReg(RESULT_INTERRUPT_STATUS) & 0x07) == 0)
@@ -1454,9 +1454,9 @@ bool VL53L0X::performSingleRefCalibration(uint8_t vhv_init_byte)
     if (checkTimeoutExpired()) { return false; }
   }
 
-  i2cWrite(address, SYSTEM_INTERRUPT_CLEAR, 0x01);
+  i2cWriteRegister(address, SYSTEM_INTERRUPT_CLEAR, 0x01);
 
-  i2cWrite(address, SYSRANGE_START, 0x00);
+  i2cWriteRegister(address, SYSRANGE_START, 0x00);
 
   return true;
 }

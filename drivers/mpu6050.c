@@ -102,7 +102,7 @@ static bool mpuReadRegisterI2C(uint8_t reg, uint8_t *data, int length)
 
 static bool mpuWriteRegisterI2C(uint8_t reg, uint8_t data)
 {
-    return i2cWrite(MPU_ADDRESS, reg, data);
+    return i2cWriteRegister(MPU_ADDRESS, reg, data);
 }
 
 // XXX we should figure out how to make interrupts with with F3 as well

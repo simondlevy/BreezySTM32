@@ -160,7 +160,7 @@ bool i2cWriteBuffer(uint8_t addr_, uint8_t reg_, uint8_t len_, uint8_t *data)
     return !error;
 }
 
-bool i2cWrite(uint8_t addr_, uint8_t reg_, uint8_t data)
+bool i2cWriteRegister(uint8_t addr_, uint8_t reg_, uint8_t data)
 {
     return i2cWriteBuffer(addr_, reg_, 1, &data);
 }

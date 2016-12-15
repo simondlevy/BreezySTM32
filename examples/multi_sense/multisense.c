@@ -65,7 +65,7 @@ void setup(void)
   i2cInit(I2CDEV_2);
 
   // Init Baro
-  i2cWrite(0, 0, 0);
+  i2cWriteRegister(0, 0, 0);
   baro_present = ms5611_init();
 
   // Init Mag

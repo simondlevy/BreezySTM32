@@ -29,7 +29,7 @@ void setup(void)
   i2cInit(I2CDEV);
 
   // Not sure why the ms5611 needs this, but without this line it doesn't work
-  i2cWrite(0,0,0);
+  i2cWriteRegister(0,0,0);
 
   // attempt to initialize barometer
   available = ms5611_init();

@@ -46,7 +46,7 @@ static uint8_t  ms5611_osr = CMD_ADC_4096;
 
 static void ms5611_reset(void)
 {
-    i2cWrite(MS5611_ADDR, CMD_RESET, 1);
+    i2cWriteRegister(MS5611_ADDR, CMD_RESET, 1);
     delayMicroseconds(2800);
 }
 
@@ -96,7 +96,7 @@ static uint32_t ms5611_read_adc(void)
 
 static void ms5611_start_ut(void)
 {
-    i2cWrite(MS5611_ADDR, CMD_ADC_CONV + CMD_ADC_D2 + ms5611_osr, 1); // D2 (temperature) conversion start!
+    i2cWriteRegister(MS5611_ADDR, CMD_ADC_CONV + CMD_ADC_D2 + ms5611_osr, 1); // D2 (temperature) conversion start!
 }
 
 static void ms5611_get_ut(void)
@@ -106,7 +106,7 @@ static void ms5611_get_ut(void)
 
 static void ms5611_start_up(void)
 {
-    i2cWrite(MS5611_ADDR, CMD_ADC_CONV + CMD_ADC_D1 + ms5611_osr, 1); // D1 (pressure) conversion start!
+    i2cWriteRegister(MS5611_ADDR, CMD_ADC_CONV + CMD_ADC_D1 + ms5611_osr, 1); // D1 (pressure) conversion start!
 }
 
 static void ms5611_get_up(void)

@@ -210,7 +210,7 @@ uint16_t i2cGetErrorCounter(void)
 
 }
 
-bool i2cWrite(uint8_t addr_, uint8_t reg, uint8_t data)
+bool i2cWriteRegister(uint8_t addr_, uint8_t reg, uint8_t data)
 {
     addr_ <<= 1;
 
