@@ -1,5 +1,5 @@
 /*
-   vl530lx.h : header for VL530LX time-of-flight sensor driver
+   vl53l0x.h : header for VL530LX time-of-flight sensor driver
 
    This file is part of BreezySTM32.
 
@@ -28,19 +28,20 @@ typedef enum vcselPeriodType {
 } vcselPeriodType;
 
 bool     vl53l0x_init(bool io_2v8);
-uint8_t  vl53l0x_readRangeContinuousMillimeters(void);
-uint32_t vl530lx_getMeasurementTimingBudget(void);
-uint16_t vl530lx_getTimeout(void);
-uint8_t  vl530lx_getVcselPulsePeriod(vcselPeriodType type);
-float    vl530lx_getSignalRateLimit(void);
-uint16_t vl530lx_readRangeContinuousMillimeters(void);
-uint16_t vl530lx_readRangeSingleMillimeters(void);
+uint32_t vl53l0x_getMeasurementTimingBudget(void);
+float    vl53l0x_getSignalRateLimit(void);
+bool     vl53l0x_getSpadInfo(uint8_t * count, bool * type_is_aperture);
+uint16_t vl53l0x_getTimeout(void);
+uint8_t  vl53l0x_getVcselPulsePeriod(vcselPeriodType type);
+bool     vl53l0x_performSingleRefCalibration(uint8_t vhv_init_byte);
+uint16_t vl53l0x_readRangeContinuousMillimeters(void);
+uint16_t vl53l0x_readRangeSingleMillimeters(void);
 void     vl53l0x_setAddress(uint8_t new_addr);
-bool     vl530lx_setMeasurementTimingBudget(uint32_t budget_us);
-bool     vl530lx_setSignalRateLimit(float limit_Mcps);
+bool     vl53l0x_setMeasurementTimingBudget(uint32_t budget_us);
+bool     vl53l0x_setSignalRateLimit(float limit_Mcps);
 void     vl53l0x_setTimeout(uint32_t msec);
-bool     vl530lx_setVcselPulsePeriod(vcselPeriodType type, uint8_t period_pclks);
+bool     vl53l0x_setVcselPulsePeriod(vcselPeriodType type, uint8_t period_pclks);
 void     vl53l0x_startContinuous(void);
-void     vl530lx_stopContinuous(void);
+void     vl53l0x_stopContinuous(void);
 bool     vl53l0x_timeoutOccurred(void);
 

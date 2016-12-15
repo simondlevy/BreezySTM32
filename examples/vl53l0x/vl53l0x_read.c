@@ -4,6 +4,7 @@ vl53l0x_ContinuousRanging_Example.c from the VL53L0X API.
 
 The range readings are in units of mm. */
 
+#include <breezystm32.h>
 #include <drivers/vl53l0x.h>
 
 void setup()

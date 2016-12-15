@@ -204,6 +204,13 @@ bool i2cReadBuffer(uint8_t addr_, uint8_t reg_, uint8_t len, uint8_t *buf)
     return !error;
 }
 
+uint8_t i2cReadRegister(uint8_t addr_, uint8_t reg_)
+{
+    uint8_t data;
+    i2cReadBuffer(addr_, reg_, 1, &data); // XXX not checking success
+    return data;
+}
+
 bool i2cReadBufferAsync(uint8_t addr_, uint8_t reg_, uint8_t len, uint8_t *buf, volatile uint8_t* status_, void (*CB)(void))
 {
     uint32_t timeout = I2C_DEFAULT_TIMEOUT;
