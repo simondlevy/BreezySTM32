@@ -9,20 +9,20 @@ The range readings are in units of mm. */
 
 void setup()
 {
-  vl53l0x_init(true);
-  vl53l0x_setTimeout(500);
+  //vl53l0x_init(true);
+  //vl53l0x_setTimeout(500);
 
   // Start continuous back-to-back mode (take readings as
   // fast as possible).  To use continuous timed mode
   // instead, provide a desired inter-measurement period in
   // ms (e.g. vl53l0x_startContinuous(100)).
-  vl53l0x_startContinuous();
+  //vl53l0x_startContinuous();
 }
 
 void loop()
 {
   if (vl53l0x_timeoutOccurred()) 
-      debug("TIMEOUT");
+      debug("TIMEOUT\n");
   else
       debug("%d mm\n", vl53l0x_readRangeContinuousMillimeters());
 }
