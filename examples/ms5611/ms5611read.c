@@ -20,6 +20,7 @@
  */
 
 #include <breezystm32.h>
+#include <drivers/ms5611.h>
 
 static bool available;
 
