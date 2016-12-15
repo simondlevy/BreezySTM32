@@ -370,6 +370,8 @@ static uint16_t encodeTimeout(uint16_t timeout_mclks)
 
 bool vl53l0x_init(bool io_2v8)
 {
+    return false;
+
     // sensor uses 1V8 mode for I/O by default; switch to 2V8 mode if necessary
     if (io_2v8)
     {

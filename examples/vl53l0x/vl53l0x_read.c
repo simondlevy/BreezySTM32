@@ -9,7 +9,11 @@ The range readings are in units of mm. */
 
 void setup()
 {
-  //vl53l0x_init(true);
+  if (!vl53l0x_init(true)) {
+      while (1)
+          debug("Unable to init VL53L0x\n");
+  }
+
   //vl53l0x_setTimeout(500);
 
   // Start continuous back-to-back mode (take readings as
