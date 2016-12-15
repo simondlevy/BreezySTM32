@@ -22,13 +22,13 @@ makefiles for building / flashing, vim for editing, and printout for debugging.
 For flashing new firmware, BreezySTM32 uses the same trick as the Baseflight firmware and descendants
 (Cleanflight, Betaflight, Raceflight) that I adapted to write BeezySTM32: it listens for
 for a special reboot character (<tt>'R'</tt>), which you send
-from your compute right before flashing.  So if your board came with one of those firmwares pre-flashed,
+from your computer right before flashing.  So if your board came with one of those firmwares pre-flashed,
 you can just do <tt>make flash</tt> to put your new firmware on it.  If that doesn't work, you'l have
 to go through the &ldquo;un-brick&rdquo; procedure: disconnect the board from your computer, 
 short the BOOT pins together, reconnect to your computer, and do <tt>make unbrick</tt>.  The Flip32
 features through-hole soldering pads for the BOOT pins, so that is the board
 I've been using for development.  By pushing a two-pin jumper onto the pins,
-I avoid having to place a paper clip or tweezers across the pins while flashing. 
+I avoid having to place a paper clip or tweezers across the pins while unbricking. 
 The BreezySTM32 examples directory includes the following use cases:
 <ul>
 <li> a simple LED blinker

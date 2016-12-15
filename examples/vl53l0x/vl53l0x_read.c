@@ -8,10 +8,21 @@
 #include <drivers/vl53l0x.h>
 
 static bool success;
+uint8_t oldval;
+uint8_t newval;
 
 void setup()
 {
     i2cInit(I2CDEV);
+
+    oldval = i2cReadRegister(0x29, VHV_CONFIG_PAD_SCL_SDA__EXTSUP_HV);
+
+    success = i2cWriteRegister(0x29, VHV_CONFIG_PAD_SCL_SDA__EXTSUP_HV, 0x05);
+
+    newval = i2cReadRegister(0x29, VHV_CONFIG_PAD_SCL_SDA__EXTSUP_HV);
+
+
+    /*
 
     if (vl53l0x_init(true)) {
 
@@ -25,12 +36,13 @@ void setup()
         // ms (e.g. vl53l0x_startContinuous(100)).
         //vl53l0x_startContinuous();
     }
+    */
 }
 
 void loop()
 {
     if (success) {
-        debug("SUCCESS\n");
+        debug("SUCCESS %d %d\n", oldval, newval);
         /*
         if (vl53l0x_timeoutOccurred()) 
             debug("TIMEOUT\n");
