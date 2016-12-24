@@ -1,4 +1,4 @@
-# Makefile for BreezySTM32 F3 examples using Virtual Com Port (VC)
+# Makefile for BreezySTM32 F3 examples using Virtual Com Port (VCP)
 #
 # Copyright (C) 2016 Simon D. Levy
 #
@@ -19,7 +19,7 @@
 
 ARCH = 3
 
-SERIAL_DEVICE	?= /dev/ttyUSB0
+SERIAL_DEVICE	?= /dev/ttyACM0
 
 STDPERIPH_DIR	= $(BREEZY_DIR)/lib/STM32F30x_StdPeriph_Driver
 
@@ -43,7 +43,5 @@ DEVICE_SRC = $(BREEZY_DIR)/startup_stm32f30x_md_gcc.S \
 		   $(BREEZY_DIR)/gpio_stm32f30x.c \
 
 TARGET_IMG = $(TARGET_BIN)
-
-PRE_FLASH = stty -F $(SERIAL_DEVICE) raw speed 115200 -crtscts cs8 -parenb -cstopb -ixon
 
 DO_FLASH  = dfu-util -a 0 -s 0x08000000:leave -D $(TARGET_BIN)
