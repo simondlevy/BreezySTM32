@@ -179,7 +179,7 @@ clean:
 
 flash: flash_$(TARGET)
 
-flash_$(TARGET): $(TARGET_HEX)
+flash_$(TARGET): $(TARGET_IMG)
 	$(PRE_FLASH)	
 	echo -n 'R' >$(SERIAL_DEVICE)
 	sleep 1
@@ -187,7 +187,7 @@ flash_$(TARGET): $(TARGET_HEX)
 
 unbrick: unbrick_$(TARGET)
 
-unbrick_$(TARGET): $(TARGET_HEX)
+unbrick_$(TARGET): $(TARGET_IMG)
 	$(PRE_FLASH)
 	$(DO_FLASH)
 
