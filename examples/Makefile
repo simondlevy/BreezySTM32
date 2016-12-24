@@ -48,8 +48,8 @@ BIN_DIR		 = $(HERE)/obj
 CMSIS_DIR	 = $(BREEZY_DIR)/lib/CMSIS
 
 # Support F1, F3
-include ../makefile.f1
-#include ../makefile.f3
+#include ../makefile.f1
+include ../makefile.f3
 
 
 # Source files common to all targets

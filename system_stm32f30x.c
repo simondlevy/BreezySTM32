@@ -134,3 +134,22 @@ void delay(uint32_t ms)
     while (ms--)
         delayMicroseconds(1000);
 }
+
+#define AIRCR_VECTKEY_MASK    ((uint32_t)0x05FA0000)
+
+void systemReset(void)
+{
+    // Generate system reset
+    SCB->AIRCR = AIRCR_VECTKEY_MASK | (uint32_t)0x04;
+}
+
+void systemResetToBootloader(void) {
+    // 1FFFF000 -> 20000200 -> SP
+    // 1FFFF004 -> 1FFFF021 -> PC
+
+    *((uint32_t *)0x20009FFC) = 0xDEADBEEF; // 40KB SRAM STM32F30X
+
+    systemReset();
+}
+
+
