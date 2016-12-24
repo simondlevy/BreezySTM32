@@ -45,8 +45,8 @@ BIN_DIR		 = $(HERE)/obj
 CMSIS_DIR	 = $(BREEZY_DIR)/lib/CMSIS
 
 # Support F1, F3
-#include ../makefile.f1
-include ../makefile.f3
+include ../makefile.f1
+#include ../makefile.f3
 #include ../makefile.f3-vcp
 
 
@@ -181,16 +181,12 @@ clean:
 flash: flash_$(TARGET)
 
 flash_$(TARGET): $(TARGET_IMG)
-	$(PRE_FLASH)	
+	stty -F $(SERIAL_DEVICE) raw speed 115200 -crtscts cs8 -parenb -cstopb -ixon
 	echo -n 'R' >$(SERIAL_DEVICE)
 	sleep 1
 	$(DO_FLASH)
 
 unbrick: unbrick_$(TARGET)
-
-#unbrick_$(TARGET): $(TARGET_IMG)
-#	$(PRE_FLASH)
-#	$(DO_FLASH)
 
 unbrick_$(TARGET): $(TARGET_IMG)
 	$(DO_FLASH)

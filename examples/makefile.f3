@@ -44,6 +44,4 @@ DEVICE_SRC = $(BREEZY_DIR)/startup_stm32f30x_md_gcc.S \
 
 TARGET_IMG = $(TARGET_HEX)
 
-PRE_FLASH = stty -F $(SERIAL_DEVICE) raw speed 115200 -crtscts cs8 -parenb -cstopb -ixon
-
 DO_FLASH  = stm32flash -w $(TARGET_HEX) -v -g 0x0 -b 115200 $(SERIAL_DEVICE)
