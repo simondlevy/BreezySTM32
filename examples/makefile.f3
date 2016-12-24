@@ -19,6 +19,8 @@
 
 ARCH = 3
 
+SERIAL_DEVICE	?= /dev/ttyUSB0
+
 STDPERIPH_DIR	= $(BREEZY_DIR)/lib/STM32F30x_StdPeriph_Driver
 
 DEVICE_INCLUDES = $(CMSIS_DIR)/CM1/CoreSupport \

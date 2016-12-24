@@ -32,9 +32,6 @@ OPTIONS		?=
 # Debugger optons, must be empty or GDB
 DEBUG ?=
 
-# Serial port/Device for flashing
-SERIAL_DEVICE	?= /dev/ttyUSB0
-
 ###############################################################################
 # Things that need to be maintained as the source changes
 #
@@ -48,8 +45,8 @@ BIN_DIR		 = $(HERE)/obj
 CMSIS_DIR	 = $(BREEZY_DIR)/lib/CMSIS
 
 # Support F1, F3
-#include ../makefile.f1
-include ../makefile.f3
+include ../makefile.f1
+#include ../makefile.f3
 
 
 # Source files common to all targets
