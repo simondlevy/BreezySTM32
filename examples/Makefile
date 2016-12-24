@@ -47,6 +47,7 @@ CMSIS_DIR	 = $(BREEZY_DIR)/lib/CMSIS
 # Support F1, F3
 #include ../makefile.f1
 include ../makefile.f3
+#include ../makefile.f3-vcp
 
 
 # Source files common to all targets
@@ -187,8 +188,11 @@ flash_$(TARGET): $(TARGET_IMG)
 
 unbrick: unbrick_$(TARGET)
 
+#unbrick_$(TARGET): $(TARGET_IMG)
+#	$(PRE_FLASH)
+#	$(DO_FLASH)
+
 unbrick_$(TARGET): $(TARGET_IMG)
-	$(PRE_FLASH)
 	$(DO_FLASH)
 
 listen:
