@@ -41,4 +41,6 @@ DEVICE_SRC = $(BREEZY_DIR)/startup_stm32f10x_md_gcc.S \
 		   $(BREEZY_DIR)/timer.c \
 		   $(BREEZY_DIR)/gpio.c 
 
+PRE_FLASH = stty -F $(SERIAL_DEVICE) raw speed 115200 -crtscts cs8 -parenb -cstopb -ixon
+
 DO_FLASH  = stm32flash -w $(TARGET_HEX) -v -g 0x0 -b 115200 $(SERIAL_DEVICE)
