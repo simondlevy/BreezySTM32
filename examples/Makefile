@@ -179,7 +179,6 @@ clean:
 flash: flash_$(TARGET)
 
 PRE_FLASH = stty -F $(SERIAL_DEVICE) raw speed 115200 -crtscts cs8 -parenb -cstopb -ixon
-DO_FLASH  = stm32flash -w $(TARGET_HEX) -v -g 0x0 -b 115200 $(SERIAL_DEVICE)
 
 flash_$(TARGET): $(TARGET_HEX)
 	$(PRE_FLASH)	
