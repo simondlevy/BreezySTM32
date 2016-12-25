@@ -143,12 +143,12 @@ VCP_SRC = \
             hw_config.c \
             serial_usb_vcp.c \
             stm32_it.c \
-            usb_desc.c \
-            usb_endp.c \
-            usb_io.c \
-            usb_istr.c \
-            usb_prop.c \
-            usb_pwr.c
+            $(BREEZY_DIR)/usb_desc.c \
+            $(BREEZY_DIR)/usb_endp.c \
+            $(BREEZY_DIR)/usb_io.c \
+            $(BREEZY_DIR)/usb_istr.c \
+            $(BREEZY_DIR)/usb_prop.c \
+            $(BREEZY_DIR)/usb_pwr.c
 
 STM32F30x_COMMON_SRC = \
             adc_stm32f30x.c \
