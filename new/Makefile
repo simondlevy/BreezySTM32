@@ -50,7 +50,7 @@ SRC_DIR         = $(ROOT)
 OBJECT_DIR      = $(ROOT)/obj
 BIN_DIR         = $(ROOT)/obj
 CMSIS_DIR       = $(BREEZY_DIR)/lib/CMSIS
-INCLUDE_DIRS    = $(SRC_DIR)
+INCLUDE_DIRS    = $(SRC_DIR) $(BREEZY_DIR)
 
 export RM := rm
 
@@ -126,7 +126,7 @@ COMMON_SRC = \
             buf_writer.c \
             bus_spi.c \
             exti.c \
-            io.c \
+            $(BREEZY_DIR)/io.c \
             light_led.c \
             main.c \
             rcc.c \
