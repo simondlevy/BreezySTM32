@@ -156,7 +156,7 @@ STM32F30x_COMMON_SRC = \
             dma.c \
             gpio_stm32f30x.c \
             serial_uart_stm32f30x.c \
-            startup_stm32f30x_md_gcc.S \
+            $(BREEZY_DIR)/startup_stm32f30x_md_gcc.S \
             system_stm32f30x.c \
             target_system_stm32f30x.c \
             timer_stm32f30x.c
