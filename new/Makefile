@@ -93,10 +93,11 @@ VPATH           := $(VPATH):$(CMSIS_DIR)/CM1/CoreSupport:$(CMSIS_DIR)/CM1/Device
 CMSIS_SRC       = $(notdir $(wildcard $(CMSIS_DIR)/CM1/CoreSupport/*.c \
                   $(CMSIS_DIR)/CM1/DeviceSupport/ST/STM32F30x/*.c))
 
-INCLUDE_DIRS    := $(INCLUDE_DIRS) \
-                   $(STDPERIPH_DIR)/inc \
-                   $(CMSIS_DIR)/CM1/CoreSupport \
-                   $(CMSIS_DIR)/CM1/DeviceSupport/ST/STM32F30x
+INCLUDE_DIRS    := $(SRC_DIR) \
+                  $(BREEZY_DIR) \
+                  $(STDPERIPH_DIR)/inc \
+                  $(CMSIS_DIR)/CM1/CoreSupport \
+                  $(CMSIS_DIR)/CM1/DeviceSupport/ST/STM32F30x
 
 ifneq ($(filter VCP, $(FEATURES)),)
 INCLUDE_DIRS    := $(INCLUDE_DIRS) \
