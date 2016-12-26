@@ -3,8 +3,7 @@
 BreezySTM32 aims to provide a simple ("breezy") Application Programming Interface (API) for writing
 firmware on the ARM STM32F controller boards popular on toady's flight controllers
 (Naze32, Flip32, CC3D).  There is extensive support for the F1 generation of controllers, and
-we are adding F3 support as time permits.  For F3, edit <tt>examples/Makefile</tt> to use
-<tt>makefile.f3</tt> instead of <tt>makefile.f1</tt>.
+we are adding F3 support as time permits.  
 
 As with the Arduino, you write a setup() function and a loop() function, and BreezySTM32 takes care of
 the rest, providing you with a debug() function with the API of the printf() from C, 
