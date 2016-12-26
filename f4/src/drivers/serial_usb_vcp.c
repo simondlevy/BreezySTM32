@@ -39,7 +39,8 @@
 #include "serial_usb_vcp.h"
 
 
-#define USB_TIMEOUT  50
+//#define USB_TIMEOUT  50
+#define USB_TIMEOUT  1
 
 static vcpPort_t vcpPort;
 

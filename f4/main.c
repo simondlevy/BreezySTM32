@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdlib.h>
@@ -43,7 +44,7 @@ void mydebug(const char * fmt, ...)
 
     va_end(ap);  
     
-    while (!isSerialTransmitBufferEmpty(Serial1));
+    //while (!isSerialTransmitBufferEmpty(Serial1));
 }
 #endif
 
@@ -89,7 +90,8 @@ int main(void) {
          }
 #endif
 
-        mydebug("%ld\n", millis());
+        static int count;
+        mydebug("%ld\n", count++);
        
         delay(5);
 
