@@ -353,11 +353,9 @@ COMMON_SRC = build_config.c \
 		   config/config.c \
 		   config/runtime_config.c \
 		   common/maths.c \
-		   common/printf.c \
 		   common/typeconversion.c \
 		   common/encoding.c \
 		   common/filter.c \
-		   scheduler.c \
 		   main.c \
 		   drivers/bus_i2c_soft.c \
 		   drivers/exti.c \
@@ -373,7 +371,6 @@ COMMON_SRC = build_config.c \
 
 STM32F4xx_COMMON_SRC = \
 		   startup_stm32f40xx.s \
-		   drivers/accgyro_mpu.c \
 		   drivers/adc.c \
 		   drivers/adc_stm32f4xx.c \
 		   drivers/adc.c \
@@ -383,18 +380,11 @@ STM32F4xx_COMMON_SRC = \
 		   drivers/gpio_stm32f4xx.c \
 		   drivers/inverter.c \
 		   drivers/light_led.c \
-		   drivers/pwm_mapping.c \
-		   drivers/pwm_output.c \
-		   drivers/pwm_rx.c \
-		   drivers/serial_softserial.c \
 		   drivers/serial_uart.c \
 		   drivers/serial_uart_stm32f4xx.c \
-		   drivers/sound_beeper.c \
 		   drivers/system_stm32f4xx.c \
 		   drivers/timer.c \
 		   drivers/timer_stm32f4xx.c \
-		   drivers/flash_m25p16.c \
-		   io/flashfs.c 
 
 VCPF4_SRC	 = \
 		   vcpf4/stm32f4xx_it.c \
