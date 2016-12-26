@@ -27,7 +27,7 @@
 
 void setup(void)
 {
-    i2cInit(I2CDEV); // I2CDEV defined in makefile.f*
+    i2cInit(I2CDEV); 
 } 
 
 void loop(void)
