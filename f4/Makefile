@@ -365,7 +365,6 @@ COMMON_SRC = build_config.c \
 		   flight/pid.c \
 		   flight/mypid.c \
 		   flight/imu.c \
-		   flight/mixer.c \
 		   flight/lowpass.c \
 		   drivers/bus_i2c_soft.c \
 		   drivers/exti.c \

@@ -63,10 +63,6 @@
 #define BARO
 #define USE_BARO_MS5611
 
-//#define PITOT
-//#define USE_PITOT_MS4525
-//#define MS4525_BUS I2C_DEVICE_EXT
-
 #define M25P16_CS_PIN         PB3
 #define M25P16_SPI_INSTANCE   SPI3
 
@@ -126,14 +122,6 @@
 
 #define LED_STRIP
 #define LED_STRIP_TIMER TIM5
-
-#define GPS
-#define BLACKBOX
-#define TELEMETRY
-#define SERIAL_RX
-#define GTUNE
-#define USE_SERVOS
-#define USE_CLI
 
 #define USE_QUATERNION
 
