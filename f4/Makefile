@@ -1,0 +1,1064 @@
+###############################################################################
+# "THE BEER-WARE LICENSE" (Revision 42):
+# <msmith@FreeBSD.ORG> wrote this file. As long as you retain this notice you
+# can do whatever you want with this stuff. If we meet some day, and you think
+# this stuff is worth it, you can buy me a beer in return
+###############################################################################
+#
+# Makefile for building the cleanflight firmware.
+#
+# Invoke this with 'make help' to see the list of supported targets.
+#
+
+###############################################################################
+# Things that the user might override on the commandline
+#
+
+# The target to build, see VALID_TARGETS below
+TARGET		?= REVO
+
+# Compile-time options
+OPTIONS		?=
+
+# compile for OpenPilot BootLoader support
+OPBL ?=no
+
+# Debugger optons, must be empty or GDB
+DEBUG ?= 
+
+# Serial port/Device for flashing
+SERIAL_DEVICE	?= /dev/ttyACM0
+
+# Flash size (KB).  Some low-end chips actually have more flash than advertised, use this to override.
+FLASH_SIZE ?=
+
+###############################################################################
+# Things that need to be maintained as the source changes
+#
+
+FORKNAME			 = raceflight
+
+CC3D_TARGETS = CC3D CC3D_OPBL
+F1_TARGETS = NAZE OLIMEXINO CJMCU EUSTM32F103RC PORT103R ALIENWIIF1 AFROMINI
+F3_TARGETS = STM32F3DISCOVERY CHEBUZZF3 NAZE32PRO SPRACINGF3 IRCFUSIONF3 SPARKY ALIENWIIF3 COLIBRI_RACE MOTOLAB RMDO LUX_RACE
+F4_TARGETS = REVO REVO_OPBL SPARKY2 SPARKY2_OPBL REVONANO REVONANO_OPBL ALIENFLIGHTF4 BLUEJAYF4 VRCORE QUANTON KKNGF4
+
+F405_TARGETS = REVO REVO_OPBL SPARKY2 SPARKY2_OPBL ALIENFLIGHTF4 BLUEJAYF4 VRCORE QUANTON KKNGF4
+F405_TARGETS_16 = QUANTON
+F411_TARGETS = REVONANO REVONANO_OPBL
+
+VALID_TARGETS	 = $(F1_TARGETS) $(CC3D_TARGETS) $(F3_TARGETS) $(F4_TARGETS)
+
+# Valid targets for OP BootLoader support
+OPBL_VALID_TARGETS = CC3D_OPBL REVO_OPBL REVONANO_OPBL SPARKY2_OPBL
+
+64K_TARGETS  = CJMCU
+128K_TARGETS = ALIENWIIF1 $(CC3D_TARGETS) NAZE OLIMEXINO RMDO AFROMINI
+256K_TARGETS = EUSTM32F103RC PORT103R STM32F3DISCOVERY CHEBUZZF3 NAZE32PRO SPRACINGF3 IRCFUSIONF3 SPARKY ALIENWIIF3 COLIBRI_RACE MOTOLAB LUX_RACE $(F4_TARGETS)
+
+
+# Configure default flash sizes for the targets
+ifeq ($(FLASH_SIZE),)
+ifeq ($(TARGET),$(filter $(TARGET),$(64K_TARGETS)))
+FLASH_SIZE = 64
+else ifeq ($(TARGET),$(filter $(TARGET),$(128K_TARGETS)))
+FLASH_SIZE = 128
+else ifeq ($(TARGET),$(filter $(TARGET),$(256K_TARGETS)))
+FLASH_SIZE = 256
+else
+$(error FLASH_SIZE not configured for target $(TARGET))
+endif
+endif
+
+# Working directories
+ROOT		 := $(patsubst %/,%,$(dir $(lastword $(MAKEFILE_LIST))))
+SRC_DIR		 = $(ROOT)/src
+OBJECT_DIR	 = $(ROOT)/obj
+BIN_DIR		 = $(ROOT)/obj
+CMSIS_DIR	 = $(ROOT)/lib/CMSIS
+INCLUDE_DIRS	 = $(SRC_DIR)
+LINKER_DIR	 = $(ROOT)/src/target
+
+# Search path for sources
+VPATH		:= $(SRC_DIR):$(SRC_DIR)/startup
+USBFS_DIR	= $(ROOT)/lib/STM32_USB-FS-Device_Driver
+USBPERIPH_SRC = $(notdir $(wildcard $(USBFS_DIR)/src/*.c))
+
+CSOURCES        := $(shell find $(SRC_DIR) -name '*.c')
+
+ifeq ($(TARGET),$(filter $(TARGET),$(F3_TARGETS)))
+
+STDPERIPH_DIR	= $(ROOT)/lib/STM32F30x_StdPeriph_Driver
+
+STDPERIPH_SRC = $(notdir $(wildcard $(STDPERIPH_DIR)/src/*.c))
+
+EXCLUDES	= stm32f30x_crc.c \
+		stm32f30x_can.c
+
+STDPERIPH_SRC := $(filter-out ${EXCLUDES}, $(STDPERIPH_SRC))
+
+DEVICE_STDPERIPH_SRC = \
+		$(STDPERIPH_SRC)
+
+
+VPATH		:= $(VPATH):$(CMSIS_DIR)/CM1/CoreSupport:$(CMSIS_DIR)/CM1/DeviceSupport/ST/STM32F30x
+CMSIS_SRC	 = $(notdir $(wildcard $(CMSIS_DIR)/CM1/CoreSupport/*.c \
+			   $(CMSIS_DIR)/CM1/DeviceSupport/ST/STM32F30x/*.c))
+
+INCLUDE_DIRS := $(INCLUDE_DIRS) \
+		   $(STDPERIPH_DIR)/inc \
+		   $(CMSIS_DIR)/CM1/CoreSupport \
+		   $(CMSIS_DIR)/CM1/DeviceSupport/ST/STM32F30x
+
+ifneq ($(TARGET),$(filter $(TARGET),SPRACINGF3 IRCFUSIONF3))
+INCLUDE_DIRS := $(INCLUDE_DIRS) \
+		   $(USBFS_DIR)/inc \
+		   $(ROOT)/src/vcp
+
+VPATH := $(VPATH):$(USBFS_DIR)/src
+
+DEVICE_STDPERIPH_SRC := $(DEVICE_STDPERIPH_SRC)\
+		   $(USBPERIPH_SRC) 
+
+endif
+
+LD_SCRIPT	 = $(LINKER_DIR)/stm32_flash_f303_$(FLASH_SIZE)k.ld
+
+ARCH_FLAGS	 = -mthumb -mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16 -fsingle-precision-constant -Wdouble-promotion
+DEVICE_FLAGS = -DSTM32F303xC -DSTM32F303
+TARGET_FLAGS = -D$(TARGET)
+ifeq ($(TARGET),CHEBUZZF3)
+# CHEBUZZ is a VARIANT of STM32F3DISCOVERY
+TARGET_FLAGS := $(TARGET_FLAGS) -DSTM32F3DISCOVERY 
+endif
+
+ifeq ($(TARGET),$(filter $(TARGET),RMDO IRCFUSIONF3))
+# RMDO and IRCFUSIONF3 are a VARIANT of SPRACINGF3
+TARGET_FLAGS := $(TARGET_FLAGS) -DSPRACINGF3
+endif
+
+else ifeq ($(TARGET),$(filter $(TARGET), $(F4_TARGETS)))
+
+#STDPERIPH
+STDPERIPH_DIR	= $(ROOT)/lib/STM32F4xx_StdPeriph_Driver
+STDPERIPH_SRC = $(notdir $(wildcard $(STDPERIPH_DIR)/src/*.c))
+EXCLUDES = stm32f4xx_crc.c \
+		stm32f4xx_can.c \
+		stm32f4xx_fmc.c \
+		stm32f4xx_sai.c \
+		stm32f4xx_cec.c \
+		stm32f4xx_dsi.c \
+		stm32f4xx_flash_ramfunc.c \
+		stm32f4xx_fmpi2c.c \
+		stm32f4xx_lptim.c \
+		stm32f4xx_qspi.c \
+		stm32f4xx_spdifrx.c
+		
+
+ifeq ($(TARGET),$(filter $(TARGET), $(F411_TARGETS)))
+EXCLUDES += stm32f4xx_fsmc.c
+endif
+
+STDPERIPH_SRC := $(filter-out ${EXCLUDES}, $(STDPERIPH_SRC))
+
+#USB
+USBCORE_DIR	= $(ROOT)/lib/STM32_USB_Device_Library/Core
+USBCORE_SRC = $(notdir $(wildcard $(USBCORE_DIR)/src/*.c))
+USBOTG_DIR	= $(ROOT)/lib/STM32_USB_OTG_Driver
+USBOTG_SRC = $(notdir $(wildcard $(USBOTG_DIR)/src/*.c))
+EXCLUDES	= usb_bsp_template.c \
+		usb_conf_template.c \
+		usb_hcd_int.c \
+		usb_hcd.c \
+		usb_otg.c
+
+USBOTG_SRC := $(filter-out ${EXCLUDES}, $(USBOTG_SRC))
+USBCDC_DIR	= $(ROOT)/lib/STM32_USB_Device_Library/Class/cdc
+USBCDC_SRC = $(notdir $(wildcard $(USBCDC_DIR)/src/*.c))
+EXCLUDES	= usbd_cdc_if_template.c
+USBCDC_SRC := $(filter-out ${EXCLUDES}, $(USBCDC_SRC))
+VPATH := $(VPATH):$(USBOTG_DIR)/src:$(USBCORE_DIR)/src:$(USBCDC_DIR)/src
+
+DEVICE_STDPERIPH_SRC := $(STDPERIPH_SRC) \
+		   $(USBOTG_SRC) \
+		   $(USBCORE_SRC) \
+		   $(USBCDC_SRC)
+
+#CMSIS
+VPATH		:= $(VPATH):$(CMSIS_DIR)/CM4/CoreSupport:$(CMSIS_DIR)/CM4/DeviceSupport/ST/STM32F4xx
+CMSIS_SRC	 = $(notdir $(wildcard $(CMSIS_DIR)/CM4/CoreSupport/*.c \
+			   $(CMSIS_DIR)/CM4/DeviceSupport/ST/STM32F4xx/*.c))
+INCLUDE_DIRS := $(INCLUDE_DIRS) \
+		   $(STDPERIPH_DIR)/inc \
+		   $(USBOTG_DIR)/inc \
+		   $(USBCORE_DIR)/inc \
+		   $(USBCDC_DIR)/inc \
+		   $(CMSIS_DIR)/CM4/CoreSupport \
+		   $(CMSIS_DIR)/CM4/DeviceSupport/ST/STM32F4xx \
+		   $(ROOT)/src/vcpf4
+
+#Flags
+ARCH_FLAGS	 = -mthumb -mcpu=cortex-m4 -march=armv7e-m -mfloat-abi=hard -mfpu=fpv4-sp-d16 -fsingle-precision-constant -Wdouble-promotion
+
+ifeq ($(TARGET),$(filter $(TARGET),$(F411_TARGETS)))
+DEVICE_FLAGS = -DSTM32F411xE
+DEVICE_FLAGS += -DHSE_VALUE=8000000
+LD_SCRIPT	 = $(LINKER_DIR)/stm32_flash_f411.ld
+else ifeq ($(TARGET),$(filter $(TARGET),$(F405_TARGETS_16)))
+DEVICE_FLAGS = -DSTM32F40_41xxx
+DEVICE_FLAGS += -DHSE_VALUE=16000000
+LD_SCRIPT	 = $(LINKER_DIR)/stm32_flash_f405.ld
+else ifeq ($(TARGET),$(filter $(TARGET),$(F405_TARGETS)))
+DEVICE_FLAGS = -DSTM32F40_41xxx
+DEVICE_FLAGS += -DHSE_VALUE=8000000
+LD_SCRIPT	 = $(LINKER_DIR)/stm32_flash_f405.ld
+else
+$(error Unknown MCU for F4 target)
+endif
+
+
+TARGET_FLAGS = -D$(TARGET)
+
+else ifeq ($(TARGET),$(filter $(TARGET),EUSTM32F103RC PORT103R))
+
+
+STDPERIPH_DIR	 = $(ROOT)/lib/STM32F10x_StdPeriph_Driver
+
+STDPERIPH_SRC = $(notdir $(wildcard $(STDPERIPH_DIR)/src/*.c))
+
+EXCLUDES	= stm32f10x_crc.c \
+		stm32f10x_cec.c \
+		stm32f10x_can.c
+
+STDPERIPH_SRC := $(filter-out ${EXCLUDES}, $(STDPERIPH_SRC))
+
+# Search path and source files for the CMSIS sources
+VPATH		:= $(VPATH):$(CMSIS_DIR)/CM3/CoreSupport:$(CMSIS_DIR)/CM3/DeviceSupport/ST/STM32F10x
+CMSIS_SRC	 = $(notdir $(wildcard $(CMSIS_DIR)/CM3/CoreSupport/*.c \
+			   $(CMSIS_DIR)/CM3/DeviceSupport/ST/STM32F10x/*.c))
+
+INCLUDE_DIRS := $(INCLUDE_DIRS) \
+		   $(STDPERIPH_DIR)/inc \
+		   $(CMSIS_DIR)/CM3/CoreSupport \
+		   $(CMSIS_DIR)/CM3/DeviceSupport/ST/STM32F10x \
+
+LD_SCRIPT	 = $(LINKER_DIR)/stm32_flash_f103_$(FLASH_SIZE)k.ld
+
+ARCH_FLAGS	 = -mthumb -mcpu=cortex-m3
+TARGET_FLAGS = -D$(TARGET) -pedantic
+DEVICE_FLAGS = -DSTM32F10X_HD -DSTM32F10X
+
+DEVICE_STDPERIPH_SRC = $(STDPERIPH_SRC)
+
+else
+
+STDPERIPH_DIR	 = $(ROOT)/lib/STM32F10x_StdPeriph_Driver
+
+STDPERIPH_SRC = $(notdir $(wildcard $(STDPERIPH_DIR)/src/*.c))
+
+EXCLUDES	= stm32f10x_crc.c \
+		stm32f10x_cec.c \
+		stm32f10x_can.c
+
+STDPERIPH_SRC := $(filter-out ${EXCLUDES}, $(STDPERIPH_SRC))
+
+# Search path and source files for the CMSIS sources
+VPATH		:= $(VPATH):$(CMSIS_DIR)/CM3/CoreSupport:$(CMSIS_DIR)/CM3/DeviceSupport/ST/STM32F10x
+CMSIS_SRC	 = $(notdir $(wildcard $(CMSIS_DIR)/CM3/CoreSupport/*.c \
+			   $(CMSIS_DIR)/CM3/DeviceSupport/ST/STM32F10x/*.c))
+
+INCLUDE_DIRS := $(INCLUDE_DIRS) \
+		   $(STDPERIPH_DIR)/inc \
+		   $(CMSIS_DIR)/CM3/CoreSupport \
+		   $(CMSIS_DIR)/CM3/DeviceSupport/ST/STM32F10x \
+
+DEVICE_STDPERIPH_SRC = $(STDPERIPH_SRC)
+
+#118,784 max flash
+ifeq ($(TARGET),$(filter $(TARGET),CC3D CC3D_OPBL))
+INCLUDE_DIRS := $(INCLUDE_DIRS) \
+		   $(USBFS_DIR)/inc \
+		   $(ROOT)/src/vcp
+
+VPATH := $(VPATH):$(USBFS_DIR)/src
+
+DEVICE_STDPERIPH_SRC := $(DEVICE_STDPERIPH_SRC) \
+		   $(USBPERIPH_SRC) 
+
+endif
+
+LD_SCRIPT	 = $(LINKER_DIR)/stm32_flash_f103_$(FLASH_SIZE)k.ld
+
+ARCH_FLAGS	 = -mthumb -mcpu=cortex-m3
+TARGET_FLAGS = -D$(TARGET) -pedantic
+DEVICE_FLAGS = -DSTM32F10X_MD -DSTM32F10X
+
+endif
+
+ifneq ($(FLASH_SIZE),)
+DEVICE_FLAGS := $(DEVICE_FLAGS) -DFLASH_SIZE=$(FLASH_SIZE)
+endif
+
+TARGET_DIR = $(ROOT)/src/target/$(TARGET)
+TARGET_SRC = $(notdir $(wildcard $(TARGET_DIR)/*.c))
+
+ifeq ($(TARGET),ALIENWIIF1)
+# ALIENWIIF1 is a VARIANT of NAZE
+TARGET_FLAGS := $(TARGET_FLAGS) -DNAZE -DALIENWII32
+TARGET_DIR = $(ROOT)/src/target/NAZE
+endif
+
+ifeq ($(TARGET),$(filter $(TARGET), $(CC3D_TARGETS)))
+TARGET_FLAGS := $(TARGET_FLAGS) -DCC3D 
+TARGET_DIR = $(ROOT)/src/target/CC3D
+endif
+
+ifeq ($(TARGET),$(filter $(TARGET), REVO_OPBL))
+TARGET_FLAGS := $(TARGET_FLAGS) -DREVO
+TARGET_DIR = $(ROOT)/src/target/REVO
+TARGET_SRC = $(notdir $(wildcard $(TARGET_DIR)/*.c))
+endif
+
+ifeq ($(TARGET),$(filter $(TARGET), REVONANO_OPBL))
+TARGET_FLAGS := $(TARGET_FLAGS) -DREVONANO
+TARGET_DIR = $(ROOT)/src/target/REVONANO
+TARGET_SRC = $(notdir $(wildcard $(TARGET_DIR)/*.c))
+endif
+
+ifeq ($(TARGET),$(filter $(TARGET), SPARKY2_OPBL))
+TARGET_FLAGS := $(TARGET_FLAGS) -DSPARKY2
+TARGET_DIR = $(ROOT)/src/target/SPARKY2
+TARGET_SRC = $(notdir $(wildcard $(TARGET_DIR)/*.c))
+endif
+
+ifneq ($(filter $(TARGET),$(OPBL_VALID_TARGETS)),)
+OPBL=yes
+endif
+
+ifeq ($(OPBL),yes)
+ifeq ($(TARGET),$(filter $(TARGET),$(OPBL_VALID_TARGETS)))
+TARGET_FLAGS := -DOPBL $(TARGET_FLAGS)
+ifeq ($(TARGET),$(filter $(TARGET),$(F411_TARGETS)))
+LD_SCRIPT	 = $(LINKER_DIR)/stm32_flash_f411_bl.ld
+else ifeq ($(TARGET),$(filter $(TARGET),$(F405_TARGETS)))
+LD_SCRIPT	 = $(LINKER_DIR)/stm32_flash_f405_bl.ld
+else
+LD_SCRIPT	 = $(LINKER_DIR)/stm32_flash_f103_$(FLASH_SIZE)k_opbl.ld
+endif
+.DEFAULT_GOAL := binary
+else
+$(error OPBL specified with a unsupported target)
+endif
+endif
+
+ifeq ($(TARGET),AFROMINI)
+# AFROMINI is a VARIANT of NAZE being recognized as rev4, but needs to use rev5 config
+TARGET_FLAGS := $(TARGET_FLAGS) -DNAZE -DAFROMINI
+TARGET_DIR = $(ROOT)/src/target/NAZE
+endif
+
+INCLUDE_DIRS := $(INCLUDE_DIRS) \
+		    $(TARGET_DIR)
+
+VPATH		:= $(VPATH):$(TARGET_DIR)
+
+COMMON_SRC = build_config.c \
+		   debug.c \
+		   version.c \
+		   $(TARGET_SRC) \
+		   config/config.c \
+		   config/runtime_config.c \
+		   common/maths.c \
+		   common/printf.c \
+		   common/typeconversion.c \
+		   common/encoding.c \
+		   common/filter.c \
+		   scheduler.c \
+		   main.c \
+		   mw.c \
+		   flight/altitudehold.c \
+		   flight/failsafe.c \
+		   flight/pid.c \
+		   flight/mypid.c \
+		   flight/imu.c \
+		   flight/mixer.c \
+		   flight/lowpass.c \
+		   drivers/bus_i2c_soft.c \
+		   drivers/exti.c \
+		   drivers/io.c \
+		   drivers/rcc.c \
+		   drivers/serial.c \
+		   drivers/sound_beeper.c \
+		   drivers/system.c \
+		   drivers/gyro_sync.c \
+		   io/beeper.c \
+		   io/rc_controls.c \
+		   io/rc_curves.c \
+		   io/serial.c \
+		   io/serial_1wire.c \
+		   io/serial_cli.c \
+		   io/serial_msp.c \
+		   io/statusindicator.c \
+		   rx/rx.c \
+		   rx/pwm.c \
+		   rx/msp.c \
+		   rx/sbus.c \
+		   rx/sumd.c \
+		   rx/sumh.c \
+		   rx/spektrum.c \
+		   rx/xbus.c \
+		   rx/ibus.c \
+		   sensors/acceleration.c \
+		   sensors/battery.c \
+		   sensors/boardalignment.c \
+		   sensors/compass.c \
+		   sensors/gyro.c \
+		   sensors/initialisation.c \
+		   $(CMSIS_SRC) \
+		   $(DEVICE_STDPERIPH_SRC)
+
+HIGHEND_SRC = \
+		   flight/gtune.c \
+		   flight/navigation.c \
+		   flight/gps_conversion.c \
+		   common/colorconversion.c \
+		   io/gps.c \
+		   io/ledstrip.c \
+		   io/display.c \
+		   telemetry/telemetry.c \
+		   telemetry/frsky.c \
+		   telemetry/hott.c \
+		   telemetry/msp.c \
+		   telemetry/smartport.c \
+		   sensors/sonar.c \
+		   sensors/barometer.c 
+
+STM32F4xx_COMMON_SRC = \
+		   startup_stm32f40xx.s \
+		   drivers/accgyro_mpu.c \
+		   drivers/adc.c \
+		   drivers/adc_stm32f4xx.c \
+		   drivers/adc.c \
+		   drivers/adc_stm32f4xx.c \
+		   drivers/bus_i2c.c \
+		   drivers/bus_spi.c \
+		   drivers/gpio_stm32f4xx.c \
+		   drivers/inverter.c \
+		   drivers/light_led.c \
+		   drivers/pwm_mapping.c \
+		   drivers/pwm_output.c \
+		   drivers/pwm_rx.c \
+		   drivers/serial_softserial.c \
+		   drivers/serial_uart.c \
+		   drivers/serial_uart_stm32f4xx.c \
+		   drivers/sound_beeper.c \
+		   drivers/system_stm32f4xx.c \
+		   drivers/timer.c \
+		   drivers/timer_stm32f4xx.c \
+		   drivers/flash_m25p16.c \
+		   io/flashfs.c 
+
+VCP_SRC = \
+		   vcp/hw_config.c \
+		   vcp/stm32_it.c \
+		   vcp/usb_desc.c \
+		   vcp/usb_endp.c \
+		   vcp/usb_istr.c \
+		   vcp/usb_prop.c \
+		   vcp/usb_pwr.c \
+		   drivers/serial_usb_vcp.c
+
+VCPF4_SRC	 = \
+		   vcpf4/stm32f4xx_it.c \
+		   vcpf4/usb_bsp.c \
+		   vcpf4/usbd_desc.c \
+		   vcpf4/usbd_usr.c \
+		   vcpf4/usbd_cdc_vcp.c \
+		   drivers/serial_usb_vcp.c
+
+NAZE_SRC = startup_stm32f10x_md_gcc.S \
+		   drivers/accgyro_adxl345.c \
+		   drivers/accgyro_bma280.c \
+		   drivers/accgyro_l3g4200d.c \
+		   drivers/accgyro_mma845x.c \
+		   drivers/accgyro_mpu.c \
+		   drivers/accgyro_mpu3050.c \
+		   drivers/accgyro_mpu6050.c \
+		   drivers/accgyro_mpu6500.c \
+		   drivers/accgyro_spi_mpu6500.c \
+		   drivers/adc.c \
+		   drivers/adc_stm32f10x.c \
+		   drivers/barometer_bmp085.c \
+		   drivers/barometer_bmp280.c \
+		   drivers/barometer_ms5611.c \
+		   drivers/barometer_bmp280.c \
+		   drivers/bus_spi.c \
+		   drivers/bus_i2c.c \
+		   drivers/compass_hmc5883l.c \
+		   drivers/display_ug2864hsweg01.h \
+		   drivers/flash_m25p16.c \
+		   drivers/gpio_stm32f10x.c \
+		   drivers/inverter.c \
+		   drivers/light_led.c \
+		   drivers/light_ws2811strip.c \
+		   drivers/light_ws2811strip_stm32f10x.c \
+		   drivers/sonar_hcsr04.c \
+		   drivers/pwm_mapping.c \
+		   drivers/pwm_output.c \
+		   drivers/pwm_rx.c \
+		   drivers/serial_softserial.c \
+		   drivers/serial_uart.c \
+		   drivers/serial_uart_stm32f10x.c \
+		   drivers/sound_beeper.c \
+		   drivers/system_stm32f10x.c \
+		   drivers/timer.c \
+		   drivers/timer_stm32f10x.c \
+		   io/flashfs.c \
+		   hardware_revision.c \
+		   $(HIGHEND_SRC) \
+		   $(COMMON_SRC)
+
+ALIENWIIF1_SRC = $(NAZE_SRC)
+
+AFROMINI_SRC = $(NAZE_SRC)
+
+EUSTM32F103RC_SRC = startup_stm32f10x_hd_gcc.S \
+		   drivers/accgyro_adxl345.c \
+		   drivers/accgyro_bma280.c \
+		   drivers/accgyro_l3g4200d.c \
+		   drivers/accgyro_mma845x.c \
+		   drivers/accgyro_mpu.c \
+		   drivers/accgyro_mpu3050.c \
+		   drivers/accgyro_mpu6050.c \
+		   drivers/accgyro_spi_mpu6000.c \
+		   drivers/accgyro_spi_mpu6500.c \
+		   drivers/adc.c \
+		   drivers/adc_stm32f10x.c \
+		   drivers/barometer_bmp085.c \
+		   drivers/barometer_bmp280.c \
+		   drivers/barometer_ms5611.c \
+		   drivers/bus_i2c.c \
+		   drivers/bus_spi.c \
+		   drivers/compass_ak8975.c \
+		   drivers/compass_hmc5883l.c \
+		   drivers/display_ug2864hsweg01.c \
+		   drivers/flash_m25p16.c \
+		   drivers/gpio_stm32f10x.c \
+		   drivers/inverter.c \
+		   drivers/light_led.c \
+		   drivers/light_ws2811strip.c \
+		   drivers/light_ws2811strip_stm32f10x.c \
+		   drivers/pwm_mapping.c \
+		   drivers/pwm_output.c \
+		   drivers/pwm_rx.c \
+		   drivers/serial_softserial.c \
+		   drivers/serial_uart.c \
+		   drivers/serial_uart_stm32f10x.c \
+		   drivers/sonar_hcsr04.c \
+		   drivers/sound_beeper.c \
+		   drivers/system_stm32f10x.c \
+		   drivers/timer.c \
+		   drivers/timer_stm32f10x.c \
+		   io/flashfs.c \
+		   $(HIGHEND_SRC) \
+		   $(COMMON_SRC)
+
+PORT103R_SRC = $(EUSTM32F103RC_SRC)
+
+OLIMEXINO_SRC = startup_stm32f10x_md_gcc.S \
+		   drivers/accgyro_mpu.c \
+		   drivers/accgyro_mpu6050.c \
+		   drivers/adc.c \
+		   drivers/adc_stm32f10x.c \
+		   drivers/barometer_bmp085.c \
+		   drivers/barometer_bmp280.c \
+		   drivers/bus_i2c.c \
+		   drivers/bus_spi.c \
+		   drivers/compass_hmc5883l.c \
+		   drivers/gpio_stm32f10x.c \
+		   drivers/light_led.c \
+		   drivers/light_ws2811strip.c \
+		   drivers/light_ws2811strip_stm32f10x.c \
+		   drivers/pwm_mapping.c \
+		   drivers/pwm_output.c \
+		   drivers/pwm_rx.c \
+		   drivers/serial_softserial.c \
+		   drivers/serial_uart.c \
+		   drivers/serial_uart_stm32f10x.c \
+		   drivers/sonar_hcsr04.c \
+		   drivers/sound_beeper.c \
+		   drivers/system_stm32f10x.c \
+		   drivers/timer.c \
+		   drivers/timer_stm32f10x.c \
+		   $(HIGHEND_SRC) \
+		   $(COMMON_SRC)
+
+CJMCU_SRC = \
+		   startup_stm32f10x_md_gcc.S \
+		   drivers/adc.c \
+		   drivers/adc_stm32f10x.c \
+		   drivers/accgyro_mpu.c \
+		   drivers/accgyro_mpu6050.c \
+		   drivers/bus_i2c.c \
+		   drivers/compass_hmc5883l.c \
+		   drivers/gpio_stm32f10x.c \
+		   drivers/light_led.c \
+		   drivers/pwm_mapping.c \
+		   drivers/pwm_output.c \
+		   drivers/pwm_rx.c \
+		   drivers/serial_uart.c \
+		   drivers/serial_uart_stm32f10x.c \
+		   drivers/sound_beeper.c \
+		   drivers/system_stm32f10x.c \
+		   drivers/timer.c \
+		   drivers/timer_stm32f10x.c \
+		   hardware_revision.c \
+		   flight/gtune.c \
+		   $(COMMON_SRC)
+
+CC3D_SRC = \
+		   startup_stm32f10x_md_gcc.S \
+		   drivers/accgyro_mpu.c \
+		   drivers/accgyro_spi_mpu6000.c \
+		   drivers/adc.c \
+		   drivers/adc_stm32f10x.c \
+		   drivers/barometer_bmp085.c \
+		   drivers/barometer_bmp280.c \
+		   drivers/barometer_ms5611.c \
+		   drivers/bus_spi.c \
+		   drivers/bus_i2c.c \
+		   drivers/compass_hmc5883l.c \
+		   drivers/display_ug2864hsweg01.c \
+		   drivers/flash_m25p16.c \
+		   drivers/gpio_stm32f10x.c \
+		   drivers/inverter.c \
+		   drivers/light_led.c \
+		   drivers/light_ws2811strip.c \
+		   drivers/light_ws2811strip_stm32f10x.c \
+		   drivers/pwm_mapping.c \
+		   drivers/pwm_output.c \
+		   drivers/pwm_rx.c \
+		   drivers/serial_softserial.c \
+		   drivers/serial_uart.c \
+		   drivers/serial_uart_stm32f10x.c \
+		   drivers/sonar_hcsr04.c \
+		   drivers/sound_beeper.c \
+		   drivers/system_stm32f10x.c \
+		   drivers/timer.c \
+		   drivers/timer_stm32f10x.c \
+		   io/flashfs.c \
+		   $(HIGHEND_SRC) \
+		   $(COMMON_SRC) \
+		   $(VCP_SRC)
+		
+REVO_SRC = $(STM32F4xx_COMMON_SRC) \
+		   drivers/accgyro_spi_mpu6000.c \
+		   drivers/barometer_ms5611.c \
+		   drivers/compass_hmc5883l.c \
+		   drivers/light_ws2811strip.c \
+		   drivers/light_ws2811strip_stm32f4xx.c \
+		   $(HIGHEND_SRC) \
+		   $(COMMON_SRC) \
+		   $(VCPF4_SRC)
+
+KKNGF4_SRC = $(STM32F4xx_COMMON_SRC) \
+		   drivers/accgyro_spi_mpu6000.c \
+		   drivers/barometer_ms5611.c \
+		   drivers/light_ws2811strip.c \
+		   drivers/light_ws2811strip_stm32f4xx.c \
+		   $(HIGHEND_SRC) \
+		   $(COMMON_SRC) \
+		   $(VCPF4_SRC)
+
+REVONANO_SRC = $(STM32F4xx_COMMON_SRC) \
+		   drivers/accgyro_spi_mpu9250.c \
+		   drivers/barometer_ms5611.c \
+		   drivers/compass_hmc5883l.c \
+		   $(HIGHEND_SRC) \
+		   $(COMMON_SRC) \
+		   $(VCPF4_SRC)
+
+SPARKY2_SRC = $(STM32F4xx_COMMON_SRC) \
+		   drivers/accgyro_spi_mpu9250.c \
+		   drivers/barometer_ms5611.c \
+		   drivers/compass_hmc5883l.c \
+		   drivers/light_ws2811strip.c \
+		   drivers/light_ws2811strip_stm32f4xx.c \
+		   $(HIGHEND_SRC) \
+		   $(COMMON_SRC) \
+		   $(VCPF4_SRC)
+
+ALIENFLIGHTF4_SRC = $(STM32F4xx_COMMON_SRC) \
+		   drivers/accgyro_spi_mpu9250.c \
+		   drivers/barometer_bmp280.c \
+		   drivers/barometer_ms5611.c \
+		   drivers/compass_ak8963.c \
+		   drivers/compass_hmc5883l.c \
+		   drivers/light_ws2811strip.c \
+		   drivers/light_ws2811strip_stm32f4xx.c \
+		   $(HIGHEND_SRC) \
+		   $(COMMON_SRC) \
+		   $(VCPF4_SRC)
+		   
+BLUEJAYF4_SRC = $(STM32F4xx_COMMON_SRC) \
+		   drivers/accgyro_spi_mpu9250.c \
+		   drivers/barometer_ms5611.c \
+		   $(HIGHEND_SRC) \
+		   $(COMMON_SRC) \
+		   $(VCPF4_SRC)
+
+QUANTON_SRC = $(STM32F4xx_COMMON_SRC) \
+		   drivers/accgyro_spi_mpu6000.c \
+		   drivers/barometer_ms5611.c \
+		   $(HIGHEND_SRC) \
+		   $(COMMON_SRC) \
+		   $(VCPF4_SRC)
+
+VRCORE_SRC = $(STM32F4xx_COMMON_SRC) \
+		   drivers/accgyro_spi_mpu9250.c \
+		   drivers/barometer_ms5611.c \
+		   drivers/compass_hmc5883l.c \
+		   drivers/light_ws2811strip.c \
+		   drivers/light_ws2811strip_stm32f4xx.c \
+		   $(HIGHEND_SRC) \
+		   $(COMMON_SRC) \
+		   $(VCPF4_SRC)
+		   
+STM32F30x_COMMON_SRC = \
+		   startup_stm32f30x_md_gcc.S \
+		   drivers/adc.c \
+		   drivers/adc_stm32f30x.c \
+		   drivers/bus_i2c_stm32f30x.c \
+		   drivers/bus_spi.c \
+		   drivers/gpio_stm32f30x.c \
+		   drivers/light_led.c \
+		   drivers/light_ws2811strip.c \
+		   drivers/light_ws2811strip_stm32f30x.c \
+		   drivers/pwm_mapping.c \
+		   drivers/pwm_output.c \
+		   drivers/pwm_rx.c \
+		   drivers/serial_uart.c \
+		   drivers/serial_uart_stm32f30x.c \
+		   drivers/sound_beeper.c \
+		   drivers/system_stm32f30x.c \
+		   drivers/timer.c \
+		   drivers/timer_stm32f30x.c
+
+NAZE32PRO_SRC = \
+		   $(STM32F30x_COMMON_SRC) \
+		   $(HIGHEND_SRC) \
+		   $(COMMON_SRC) \
+		   $(VCP_SRC)
+
+STM32F3DISCOVERY_COMMON_SRC = \
+		   $(STM32F30x_COMMON_SRC) \
+		   drivers/accgyro_l3gd20.c \
+		   drivers/accgyro_l3gd20.c \
+		   drivers/accgyro_lsm303dlhc.c \
+		   drivers/compass_hmc5883l.c \
+		   $(VCP_SRC)
+
+STM32F3DISCOVERY_SRC = \
+		   $(STM32F3DISCOVERY_COMMON_SRC) \
+		   drivers/accgyro_adxl345.c \
+		   drivers/accgyro_bma280.c \
+		   drivers/accgyro_mma845x.c \
+		   drivers/accgyro_mpu.c \
+		   drivers/accgyro_mpu3050.c \
+		   drivers/accgyro_mpu6050.c \
+		   drivers/accgyro_l3g4200d.c \
+		   drivers/barometer_ms5611.c \
+		   drivers/barometer_bmp280.c \
+		   drivers/compass_ak8975.c \
+		   $(HIGHEND_SRC) \
+		   $(COMMON_SRC)
+
+CHEBUZZF3_SRC = \
+		   $(STM32F3DISCOVERY_SRC) \
+		   $(HIGHEND_SRC) \
+		   $(COMMON_SRC)
+
+COLIBRI_RACE_SRC = \
+		   $(STM32F30x_COMMON_SRC) \
+		   io/i2c_bst.c \
+		   drivers/bus_bst_stm32f30x.c \
+		   drivers/display_ug2864hsweg01.c \
+		   drivers/accgyro_mpu.c \
+		   drivers/accgyro_mpu6500.c \
+		   drivers/accgyro_spi_mpu6500.c \
+		   drivers/accgyro_mpu6500.c \
+		   drivers/barometer_ms5611.c \
+		   drivers/compass_ak8975.c \
+		   drivers/compass_hmc5883l.c \
+		   drivers/serial_usb_vcp.c \
+		   $(HIGHEND_SRC) \
+		   $(COMMON_SRC) \
+		   $(VCP_SRC)
+
+LUX_RACE_SRC = \
+		   $(STM32F30x_COMMON_SRC) \
+		   drivers/display_ug2864hsweg01.c \
+		   drivers/accgyro_mpu.c \
+		   drivers/accgyro_spi_mpu9250.c \
+		   drivers/barometer_ms5611.c \
+		   drivers/compass_ak8975.c \
+		   drivers/compass_hmc5883l.c \
+		   drivers/display_ug2864hsweg01.c \
+		   drivers/light_ws2811strip.c \
+		   drivers/light_ws2811strip_stm32f30x.c \
+		   drivers/serial_usb_vcp.c \
+		   $(HIGHEND_SRC) \
+		   $(COMMON_SRC) \
+		   $(VCP_SRC)
+		   
+SPARKY_SRC = \
+		   $(STM32F30x_COMMON_SRC) \
+		   drivers/display_ug2864hsweg01.c \
+		   drivers/accgyro_mpu.c \
+		   drivers/accgyro_mpu6050.c \
+		   drivers/barometer_ms5611.c \
+		   drivers/barometer_bmp280.c \
+		   drivers/compass_ak8975.c \
+		   drivers/serial_usb_vcp.c \
+		   $(HIGHEND_SRC) \
+		   $(COMMON_SRC) \
+		   $(VCP_SRC)
+
+ALIENWIIF3_SRC = \
+		   $(SPARKY_SRC)
+
+RMDO_SRC = \
+		   $(STM32F30x_COMMON_SRC) \
+		   drivers/accgyro_mpu.c \
+		   drivers/accgyro_mpu6050.c \
+		   drivers/barometer_bmp280.c \
+		   drivers/display_ug2864hsweg01.h \
+		   drivers/flash_m25p16.c \
+		   drivers/serial_softserial.c \
+		   drivers/sonar_hcsr04.c \
+		   io/flashfs.c \
+		   $(HIGHEND_SRC) \
+		   $(COMMON_SRC)
+
+SPRACINGF3_SRC = \
+		   $(STM32F30x_COMMON_SRC) \
+		   drivers/accgyro_mpu.c \
+		   drivers/accgyro_mpu6050.c \
+		   drivers/barometer_ms5611.c \
+		   drivers/compass_ak8975.c \
+		   drivers/barometer_bmp085.c \
+		   drivers/barometer_bmp280.c \
+		   drivers/compass_hmc5883l.c \
+		   drivers/display_ug2864hsweg01.h \
+		   drivers/flash_m25p16.c \
+		   drivers/serial_softserial.c \
+		   drivers/sonar_hcsr04.c \
+		   io/flashfs.c \
+		   $(HIGHEND_SRC) \
+		   $(COMMON_SRC)
+
+IRCFUSIONF3_SRC = \
+		   $(STM32F30x_COMMON_SRC) \
+		   drivers/accgyro_mpu.c \
+		   drivers/accgyro_mpu6050.c \
+		   drivers/barometer_ms5611.c \
+		   drivers/compass_ak8975.c \
+		   drivers/barometer_bmp085.c \
+		   drivers/compass_hmc5883l.c \
+		   drivers/display_ug2864hsweg01.h \
+		   drivers/flash_m25p16.c \
+		   drivers/serial_softserial.c \
+		   drivers/sonar_hcsr04.c \
+		   io/flashfs.c \
+		   $(HIGHEND_SRC) \
+		   $(COMMON_SRC)
+
+MOTOLAB_SRC = \
+		   $(STM32F30x_COMMON_SRC) \
+		   drivers/accgyro_mpu.c \
+		   drivers/display_ug2864hsweg01.c \
+		   drivers/accgyro_mpu6050.c \
+		   drivers/accgyro_spi_mpu6000.c \
+		   drivers/barometer_ms5611.c \
+		   drivers/compass_hmc5883l.c \
+		   drivers/serial_usb_vcp.c \
+		   drivers/flash_m25p16.c \
+		   io/flashfs.c \
+		   $(HIGHEND_SRC) \
+		   $(COMMON_SRC) \
+		   $(VCP_SRC)
+
+# Search path and source files for the ST stdperiph library
+VPATH		:= $(VPATH):$(STDPERIPH_DIR)/src
+
+###############################################################################
+# Things that might need changing to use different tools
+#
+
+# Tool names
+CC		 = arm-none-eabi-gcc
+OBJCOPY		 = arm-none-eabi-objcopy
+SIZE		 = arm-none-eabi-size
+
+#
+# Tool options.
+#
+
+ifeq ($(DEBUG),GDB)
+OPTIMIZE	 = -O0
+LTO_FLAGS	 = $(OPTIMIZE)
+else
+ifeq ($(TARGET),$(filter $(TARGET),SPARKY2 SPARKY2_OPBL))
+OPTIMIZE	 = -O2
+else ifeq ($(TARGET),$(filter $(TARGET),REVO REVO_OPBL REVONANO REVONANO_OPBL ALIENFLIGHTF4 BLUEJAYF4 VRCORE KKNGF4))
+OPTIMIZE	 = -O2
+else
+OPTIMIZE	 = -Os
+endif
+LTO_FLAGS	 = -flto -fuse-linker-plugin $(OPTIMIZE)
+endif
+
+DEBUG_FLAGS	 = -ggdb3 -DDEBUG
+
+CFLAGS		 = $(ARCH_FLAGS) \
+		   $(LTO_FLAGS) \
+		   $(addprefix -D,$(OPTIONS)) \
+		   $(addprefix -I,$(INCLUDE_DIRS)) \
+		   $(DEBUG_FLAGS) \
+		   -std=gnu99 \
+		   -Wall -Wextra -Wunsafe-loop-optimizations -Wdouble-promotion \
+		   -ffunction-sections \
+		   -fdata-sections \
+		   $(DEVICE_FLAGS) \
+		   -DUSE_STDPERIPH_DRIVER \
+		   $(TARGET_FLAGS) \
+		   -D'__FORKNAME__="$(FORKNAME)"' \
+		   -D'__TARGET__="$(TARGET)"' \
+		   -D'__REVISION__="$(REVISION)"' \
+		   -save-temps=obj \
+		   -MMD -MP
+
+ASFLAGS		 = $(ARCH_FLAGS) \
+		   -x assembler-with-cpp \
+		   $(addprefix -I,$(INCLUDE_DIRS)) \
+		  -MMD -MP
+
+LDFLAGS		 = -lm \
+		   -nostartfiles \
+		   --specs=nano.specs \
+		   -lc \
+		   -lnosys \
+		   $(ARCH_FLAGS) \
+		   $(LTO_FLAGS) \
+		   $(DEBUG_FLAGS) \
+		   -static \
+		   -Wl,-gc-sections,-Map,$(TARGET_MAP) \
+		   -Wl,-L$(LINKER_DIR) \
+           -Wl,--cref \
+		   -T$(LD_SCRIPT)
+
+###############################################################################
+# No user-serviceable parts below
+###############################################################################
+
+CPPCHECK         = cppcheck $(CSOURCES) --enable=all --platform=unix64 \
+		   --std=c99 --inline-suppr --quiet --force \
+		   $(addprefix -I,$(INCLUDE_DIRS)) \
+		   -I/usr/include -I/usr/include/linux
+
+#
+# Things we will build
+#
+ifeq ($(filter $(TARGET),$(VALID_TARGETS)),)
+$(error Target '$(TARGET)' is not valid, must be one of $(VALID_TARGETS))
+endif
+
+CC3D_OPBL_SRC     = $(CC3D_SRC)
+REVO_OPBL_SRC     = $(REVO_SRC)
+REVONANO_OPBL_SRC = $(REVONANO_SRC)
+SPARKY2_OPBL_SRC  = $(SPARKY2_SRC)
+
+TARGET_BIN	 = $(BIN_DIR)/$(FORKNAME)_$(TARGET).bin
+TARGET_HEX	 = $(BIN_DIR)/$(FORKNAME)_$(TARGET).hex
+TARGET_ELF	 = $(OBJECT_DIR)/$(FORKNAME)_$(TARGET).elf
+TARGET_OBJS	 = $(addsuffix .o,$(addprefix $(OBJECT_DIR)/$(TARGET)/,$(basename $($(TARGET)_SRC))))
+TARGET_DEPS	 = $(addsuffix .d,$(addprefix $(OBJECT_DIR)/$(TARGET)/,$(basename $($(TARGET)_SRC))))
+TARGET_MAP	 = $(OBJECT_DIR)/$(FORKNAME)_$(TARGET).map
+
+
+#$(error TARGET BIN: $(DEVICE_FLAGS)  :::::::::::::::::::::::::::::::::: INCLUDE_DIRS_SRC: $(INCLUDE_DIRS))
+
+ifeq ($(OPBL),yes)
+CLEAN_ARTIFACTS := $(TARGET_BIN)
+else
+CLEAN_ARTIFACTS := $(TARGET_HEX)
+endif
+CLEAN_ARTIFACTS += $(TARGET_ELF) $(TARGET_OBJS) $(TARGET_MAP) 
+
+# List of buildable ELF files and their object dependencies.
+# It would be nice to compute these lists, but that seems to be just beyond make.
+
+$(TARGET_HEX): $(TARGET_ELF)
+	$(OBJCOPY) -O ihex --set-start 0x8000000 $< $@
+
+$(TARGET_BIN): $(TARGET_ELF)
+	$(OBJCOPY) -O binary $< $@
+
+$(TARGET_ELF):  $(TARGET_OBJS)
+	$(CC) -o $@ $^ $(LDFLAGS)
+	$(SIZE) $(TARGET_ELF) 
+
+# Compile
+$(OBJECT_DIR)/$(TARGET)/%.o: %.c
+	@mkdir -p $(dir $@)
+	@echo %% $(notdir $<)
+	@$(CC) -c -o $@ $(CFLAGS) $<
+
+# Assemble
+$(OBJECT_DIR)/$(TARGET)/%.o: %.s
+	@mkdir -p $(dir $@)
+	@echo %% $(notdir $<)
+	@$(CC) -c -o $@ $(ASFLAGS) $<
+
+$(OBJECT_DIR)/$(TARGET)/%.o: %.S
+	@mkdir -p $(dir $@)
+	@echo %% $(notdir $<)
+	@$(CC) -c -o $@ $(ASFLAGS) $<
+
+
+## all         : default task; compile C code, build firmware
+all: binary
+
+## clean       : clean up all temporary / machine-generated files
+clean:
+	rm -f $(CLEAN_ARTIFACTS)
+	rm -rf $(OBJECT_DIR)
+	cd src/test && $(MAKE) clean || true
+
+flash_$(TARGET): $(TARGET_BIN)
+	$(V0) stty -F $(SERIAL_DEVICE) raw speed 115200 -crtscts cs8 -parenb -cstopb -ixon
+	$(V0) echo -n 'R' >$(SERIAL_DEVICE)
+	sleep 2
+	dfu-util -a 0 -s 0x08000000:leave -D $(TARGET_BIN)
+
+
+## flash       : flash firmware (.hex) onto flight controller
+flash: flash_$(TARGET)
+
+binary: $(TARGET_BIN)
+hex:    $(TARGET_HEX)
+
+unbrick_$(TARGET): $(TARGET_BIN)
+	dfu-util -a 0 -s 0x08000000:leave -D $(TARGET_BIN)
+
+## unbrick     : unbrick flight controller
+unbrick: unbrick_$(TARGET)
+
+# rebuild everything when makefile changes
+$(TARGET_OBJS) : Makefile
+
+# include auto-generated dependencies
+-include $(TARGET_DEPS)
+
+listen:
+	miniterm.py $(SERIAL_DEVICE) 115200
