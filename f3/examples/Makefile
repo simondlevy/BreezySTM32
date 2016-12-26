@@ -28,9 +28,6 @@ F3_DIR = $(BREEZY_DIR)/f3
 # Compile-time options
 OPTIONS   ?=
 
-# compile for OpenPilot BootLoader support
-OPBL      ?= no
-
 # Debugger optons, must be empty or GDB
 DEBUG     ?=
 
@@ -72,15 +69,6 @@ OBJECT_DIR      = $(ROOT)/obj
 BIN_DIR         = $(ROOT)/obj
 CMSIS_DIR       = $(BREEZY_DIR)/lib/CMSIS
 
-export RM := rm
-
-BASE_TARGET    := $(TARGET)
-
-ifeq ($(filter $(TARGET),$(OPBL_TARGETS)), $(TARGET))
-OPBL            = yes
-endif
-
-F3_TARGETS  += $(TARGET)
 FEATURES    = VCP
 
 ifeq ($(DEBUG_HARDFAULTS),F7)
@@ -97,9 +85,6 @@ FATFS_DIR       = $(ROOT)/lib/FatFS
 FATFS_SRC       = $(notdir $(wildcard $(FATFS_DIR)/*.c))
 
 CSOURCES        := $(shell find $(SRC_DIR) -name '*.c')
-
-ifeq ($(TARGET),$(filter $(TARGET),$(F3_TARGETS)))
-# F3 TARGETS
 
 STDPERIPH_DIR   = $(BREEZY_DIR)/lib/STM32F30x_StdPeriph_Driver
 STDPERIPH_SRC   = $(notdir $(wildcard $(STDPERIPH_DIR)/src/*.c))
@@ -134,8 +119,6 @@ LD_SCRIPT       = $(F3_DIR)/stm32_flash_f303_256k.ld
 
 ARCH_FLAGS      = -mthumb -mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16 -fsingle-precision-constant -Wdouble-promotion
 DEVICE_FLAGS    = -DSTM32F303xC -DSTM32F303
-# End F3 targets
-endif
 
 .DEFAULT_GOAL := hex
 
