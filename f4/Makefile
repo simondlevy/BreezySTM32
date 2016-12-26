@@ -65,14 +65,14 @@ LINKER_DIR	 = $(ROOT)/src/target
 
 # Search path for sources
 VPATH		:= $(SRC_DIR):$(SRC_DIR)/startup
-USBFS_DIR	= $(ROOT)/lib/STM32_USB-FS-Device_Driver
+USBFS_DIR	= $(BREEZY_DIR)/lib/STM32_USB-FS-Device_Driver
 USBPERIPH_SRC = $(notdir $(wildcard $(USBFS_DIR)/src/*.c))
 
 CSOURCES        := $(shell find $(SRC_DIR) -name '*.c')
 
 ifeq ($(TARGET),$(filter $(TARGET),$(F3_TARGETS)))
 
-STDPERIPH_DIR	= $(ROOT)/lib/STM32F30x_StdPeriph_Driver
+STDPERIPH_DIR	= $(BREEZY_DIR)/lib/STM32F30x_StdPeriph_Driver
 
 STDPERIPH_SRC = $(notdir $(wildcard $(STDPERIPH_DIR)/src/*.c))
 
@@ -124,7 +124,7 @@ endif
 else ifeq ($(TARGET),$(filter $(TARGET), $(F4_TARGETS)))
 
 #STDPERIPH
-STDPERIPH_DIR	= $(ROOT)/lib/STM32F4xx_StdPeriph_Driver
+STDPERIPH_DIR	= $(BREEZY_DIR)/lib/STM32F4xx_StdPeriph_Driver
 STDPERIPH_SRC = $(notdir $(wildcard $(STDPERIPH_DIR)/src/*.c))
 EXCLUDES = stm32f4xx_crc.c \
 		stm32f4xx_can.c \
@@ -145,9 +145,9 @@ endif
 STDPERIPH_SRC := $(filter-out ${EXCLUDES}, $(STDPERIPH_SRC))
 
 #USB
-USBCORE_DIR	= $(ROOT)/lib/STM32_USB_Device_Library/Core
+USBCORE_DIR	= $(BREEZY_DIR)/lib/STM32_USB_Device_Library/Core
 USBCORE_SRC = $(notdir $(wildcard $(USBCORE_DIR)/src/*.c))
-USBOTG_DIR	= $(ROOT)/lib/STM32_USB_OTG_Driver
+USBOTG_DIR	= $(BREEZY_DIR)/lib/STM32_USB_OTG_Driver
 USBOTG_SRC = $(notdir $(wildcard $(USBOTG_DIR)/src/*.c))
 EXCLUDES	= usb_bsp_template.c \
 		usb_conf_template.c \
@@ -156,7 +156,7 @@ EXCLUDES	= usb_bsp_template.c \
 		usb_otg.c
 
 USBOTG_SRC := $(filter-out ${EXCLUDES}, $(USBOTG_SRC))
-USBCDC_DIR	= $(ROOT)/lib/STM32_USB_Device_Library/Class/cdc
+USBCDC_DIR	= $(BREEZY_DIR)/lib/STM32_USB_Device_Library/Class/cdc
 USBCDC_SRC = $(notdir $(wildcard $(USBCDC_DIR)/src/*.c))
 EXCLUDES	= usbd_cdc_if_template.c
 USBCDC_SRC := $(filter-out ${EXCLUDES}, $(USBCDC_SRC))
@@ -205,7 +205,7 @@ TARGET_FLAGS = -D$(TARGET)
 else ifeq ($(TARGET),$(filter $(TARGET),EUSTM32F103RC PORT103R))
 
 
-STDPERIPH_DIR	 = $(ROOT)/lib/STM32F10x_StdPeriph_Driver
+STDPERIPH_DIR	 = $(BREEZY_DIR)/lib/STM32F10x_StdPeriph_Driver
 
 STDPERIPH_SRC = $(notdir $(wildcard $(STDPERIPH_DIR)/src/*.c))
 
@@ -235,7 +235,7 @@ DEVICE_STDPERIPH_SRC = $(STDPERIPH_SRC)
 
 else
 
-STDPERIPH_DIR	 = $(ROOT)/lib/STM32F10x_StdPeriph_Driver
+STDPERIPH_DIR	 = $(BREEZY_DIR)/lib/STM32F10x_StdPeriph_Driver
 
 STDPERIPH_SRC = $(notdir $(wildcard $(STDPERIPH_DIR)/src/*.c))
 
