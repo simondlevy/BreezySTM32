@@ -129,7 +129,7 @@ VPATH           := $(VPATH):$(TARGET_DIR)
 COMMON_SRC = \
             $(F3_DIR)/adc.c \
             $(F3_DIR)/buf_writer.c \
-            $(F3_DIR)/bus_spi.c \
+            $(F3_DIR)/spi.c \
             $(F3_DIR)/exti.c \
             $(F3_DIR)/io.c \
             $(F3_DIR)/light_led.c \
@@ -156,7 +156,7 @@ VCP_SRC = \
 
 STM32F30x_COMMON_SRC = \
             $(F3_DIR)/adc_stm32f30x.c \
-            $(F3_DIR)/bus_i2c_stm32f30x.c \
+            $(F3_DIR)/i2c_stm32f30x.c \
             $(F3_DIR)/dma.c \
             $(F3_DIR)/gpio_stm32f30x.c \
             $(F3_DIR)/serial_uart_stm32f30x.c \

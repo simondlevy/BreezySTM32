@@ -20,7 +20,7 @@
 
 #include <platform.h>
 
-#include "bus_spi.h"
+#include "spi.h"
 #include "exti.h"
 #include "io.h"
 #include "io_impl.h"

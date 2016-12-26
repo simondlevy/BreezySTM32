@@ -38,7 +38,7 @@ along with BreezySTM32.  If not, see <http://www.gnu.org/licenses/>.
 #include "ioserial.h"
 #include "system.h"
 #include "light_led.h"
-#include "bus_i2c.h"
+#include "i2c.h"
 #include "serial_uart.h"
 
 extern serialPort_t * Serial1;

@@ -1,7 +1,7 @@
 /*
-   accelgyro.c : interrupt-based report of accelerometer and gyroscope values
+   mpu6050_poll.c : polling-based report of MPU6050 accelerometer and gyroscope values
 
-   Copyright (C) 2016 James Jackson
+   Copyright (C) 2016 Simon D. Levy
 
    This file is part of BreezySTM32.
 

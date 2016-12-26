@@ -25,7 +25,7 @@
 #include "io_impl.h"
 #include "rcc.h"
 
-#include "bus_i2c.h"
+#include "i2c.h"
 
 #define I2C1_OVERCLOCK true
 #define I2C2_OVERCLOCK true
