@@ -22,7 +22,7 @@
 #include <breezystm32.h>
 #include <drivers/spektrum.h>
 
-static uint8_t chanmap[5] = {1, 2, 3, 0, 4};
+static uint8_t chanmap[5] = {1, 2, 3, 0, 5};
 
 void setup(void)
 {
