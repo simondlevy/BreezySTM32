@@ -13,6 +13,7 @@
 #include "serial_usb_vcp.h"
 #include "exti.h"
 #include "ioserial.h"
+#include "light_led.h"
 
 extern void setup(void), loop(void);
 
@@ -52,6 +53,8 @@ int main(void)
     IOInitGlobal();
 
     Serial1 = usbVcpOpen();
+
+    ledInit(false);
 
     setup();
 

@@ -1,4 +1,25 @@
-TARGET    ?= ALIENFLIGHTF3
+# Makefile for BreezySTM32F3 examples
+#
+# Copyright (C) 2016 Simon D. Levy
+#
+# This file is part of BreezySTM32.
+#
+# BreezySTM32 is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as 
+# published by the Free Software Foundation, either version 3 of the 
+# License, or (at your option) any later version.
+# 
+# This code is distributed in the hope that it will be useful,     
+# but WITHOUT ANY WARRANTY without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU Lesser General Public License 
+# along with this code.  If not, see <http://www.gnu.org/licenses/>.
+
+include makefile.project
+
+TARGET    ?= $(PROJECT_NAME)
 
 BREEZY_DIR ?= $(HOME)/Desktop/BreezySTM32
 
@@ -120,8 +141,6 @@ INCLUDE_DIRS    := $(INCLUDE_DIRS) $(TARGET_DIR)
 
 VPATH           := $(VPATH):$(TARGET_DIR)
 
-PROJECT_SRC = example.c
-
 COMMON_SRC = \
             adc.c \
             buf_writer.c \
@@ -161,7 +180,7 @@ STM32F30x_COMMON_SRC = \
             target_system_stm32f30x.c \
             timer_stm32f30x.c
 
-TARGET_SRC := $(STM32F30x_COMMON_SRC) $(COMMON_SRC) $(VCP_SRC) $(PROJECT_SRC)
+TARGET_SRC := $(STM32F30x_COMMON_SRC) $(COMMON_SRC) $(VCP_SRC) $(PROJECT_SRC_FILE)
 
 # Search path and source files for the ST stdperiph library
 VPATH        := $(VPATH):$(STDPERIPH_DIR)/src
@@ -327,7 +346,7 @@ all_clean:$(TARGETS_CLEAN)
 flash_$(TARGET): $(TARGET_BIN)
 	$(V0) stty -F $(SERIAL_DEVICE) raw speed 115200 -crtscts cs8 -parenb -cstopb -ixon
 	$(V0) echo -n 'R' >$(SERIAL_DEVICE)
-	sleep 2
+	sleep 1
 	dfu-util -a 0 -s 0x08000000:leave -D $(TARGET_BIN)
 
 ## flash             : flash firmware (.hex) onto flight controller
