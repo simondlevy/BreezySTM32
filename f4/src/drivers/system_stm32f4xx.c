@@ -39,16 +39,12 @@
 void systemReset(void)
 {
 
-	resetGyro();
-
 	__disable_irq();
 	NVIC_SystemReset();
 }
 
 void systemResetToBootloader(void) {
 
-
-	resetGyro();
 
 	*((uint32_t *)0x2001FFFC) = 0xDEADBEEF; // 128KB SRAM STM32F4XX
 

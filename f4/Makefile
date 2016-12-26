@@ -359,13 +359,6 @@ COMMON_SRC = build_config.c \
 		   common/filter.c \
 		   scheduler.c \
 		   main.c \
-		   mw.c \
-		   flight/altitudehold.c \
-		   flight/failsafe.c \
-		   flight/pid.c \
-		   flight/mypid.c \
-		   flight/imu.c \
-		   flight/lowpass.c \
 		   drivers/bus_i2c_soft.c \
 		   drivers/exti.c \
 		   drivers/io.c \
@@ -374,29 +367,7 @@ COMMON_SRC = build_config.c \
 		   drivers/sound_beeper.c \
 		   drivers/system.c \
 		   drivers/gyro_sync.c \
-		   io/beeper.c \
-		   io/rc_controls.c \
-		   io/rc_curves.c \
 		   io/serial.c \
-		   io/serial_1wire.c \
-		   io/serial_cli.c \
-		   io/serial_msp.c \
-		   io/statusindicator.c \
-		   rx/rx.c \
-		   rx/pwm.c \
-		   rx/msp.c \
-		   rx/sbus.c \
-		   rx/sumd.c \
-		   rx/sumh.c \
-		   rx/spektrum.c \
-		   rx/xbus.c \
-		   rx/ibus.c \
-		   sensors/acceleration.c \
-		   sensors/battery.c \
-		   sensors/boardalignment.c \
-		   sensors/compass.c \
-		   sensors/gyro.c \
-		   sensors/initialisation.c \
 		   $(CMSIS_SRC) \
 		   $(DEVICE_STDPERIPH_SRC)
 
@@ -434,11 +405,6 @@ VCPF4_SRC	 = \
 		   drivers/serial_usb_vcp.c
 
 REVO_SRC = $(STM32F4xx_COMMON_SRC) \
-		   drivers/accgyro_spi_mpu6000.c \
-		   drivers/barometer_ms5611.c \
-		   drivers/compass_hmc5883l.c \
-		   drivers/light_ws2811strip.c \
-		   drivers/light_ws2811strip_stm32f4xx.c \
 		   $(COMMON_SRC) \
 		   $(VCPF4_SRC)
 

@@ -55,7 +55,6 @@
 #include "flight/navigation.h"
 #include "flight/failsafe.h"
 
-#include "blackbox/blackbox.h"
 
 #include "mw.h"
 
@@ -69,12 +68,6 @@ int16_t rcCommand[4];           // interval [1000;2000] for THROTTLE and [-500;+
 
 uint32_t rcModeActivationMask; // one bit per mode defined in boxId_e
 
-
-void blackboxLogInflightAdjustmentEvent(adjustmentFunction_e adjustmentFunction, int32_t newValue) {
-}
-
-void blackboxLogInflightAdjustmentEventFloat(adjustmentFunction_e adjustmentFunction, float newFloatValue) {
-}
 
 bool isUsingSticksForArming(void)
 {
