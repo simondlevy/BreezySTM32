@@ -22,8 +22,6 @@
 #include <breezystm32.h>
 #include <drivers/mpu.h>
 
-#define BOARD_REV 2
-
 void setup(void)
 {
     i2cInit(I2CDEV);
