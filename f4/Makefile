@@ -134,8 +134,7 @@ EXCLUDES = stm32f4xx_crc.c \
 		stm32f4xx_fmpi2c.c \
 		stm32f4xx_lptim.c \
 		stm32f4xx_qspi.c \
-		stm32f4xx_spdifrx.c
-		
+	
 
 ifeq ($(TARGET),$(filter $(TARGET), $(F411_TARGETS)))
 EXCLUDES += stm32f4xx_fsmc.c
@@ -345,7 +344,6 @@ INCLUDE_DIRS := $(INCLUDE_DIRS) \
 VPATH		:= $(VPATH):$(TARGET_DIR)
 
 COMMON_SRC = debug.c \
-		   version.c \
 		   $(TARGET_SRC) \
 		   main.c \
 		   drivers/bus_i2c_soft.c \
