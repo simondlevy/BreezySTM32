@@ -41,6 +41,6 @@ void loop(void)
     if(sonar_present)
         debug("%d\n", mb1242_poll(&sonar));
     else
-        printf("no sonar\n");
+        debug("no sonar\n");
     delay(100);
 }

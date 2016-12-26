@@ -79,10 +79,9 @@ void setup(void)
   airspeed_present = ms4525_detect();
 
   //Init IMU (has to come last because of the ISR)
-  mpu6050_register_interrupt_cb(&interruptCallback);
-  uint16_t acc1G;
-  mpu6050_init(true, &acc1G, &gyro_scale, BOARD_REV);
-  accel_scale = 9.80665f / acc1G;
+  mpu6050_register_interrupt_cb(&interruptCallback, BOARD_REV);
+  mpu6050_init(INV_FSR_8G, INV_FSR_2000DPS);
+  accel_scale = 9.80665f / 4096;
 }
 
 void loop(void)

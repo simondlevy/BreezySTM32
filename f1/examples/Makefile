@@ -109,6 +109,7 @@ OBJCOPY	 = arm-none-eabi-objcopy
 # Tool options.
 #
 INCLUDE_DIRS = . \
+			   $(BREEZY_DIR) \
 			   $(F1_DIR) \
 			   $(STDPERIPH_DIR)/inc \
 			   $(DEVICE_INCLUDES)
