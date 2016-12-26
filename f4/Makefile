@@ -1,3 +1,5 @@
+BREEZY_DIR = $(HOME)/Desktop/BreezySTM32
+
 # The target to build, see VALID_TARGETS below
 TARGET		?= REVO
 
@@ -57,8 +59,8 @@ ROOT		 := $(patsubst %/,%,$(dir $(lastword $(MAKEFILE_LIST))))
 SRC_DIR		 = $(ROOT)/src
 OBJECT_DIR	 = $(ROOT)/obj
 BIN_DIR		 = $(ROOT)/obj
-CMSIS_DIR	 = $(ROOT)/lib/CMSIS
-INCLUDE_DIRS	 = $(SRC_DIR)
+CMSIS_DIR	 = $(BREEZY_DIR)/lib/CMSIS
+INCLUDE_DIRS = $(SRC_DIR)
 LINKER_DIR	 = $(ROOT)/src/target
 
 # Search path for sources
