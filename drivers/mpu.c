@@ -21,7 +21,7 @@
 
 
 #include <breezystm32.h>
-#include <drivers/mpu6050.h>
+#include <drivers/mpu.h>
 
 #include <math.h>
 
@@ -216,7 +216,7 @@ uint16_t mpu6050_init(accel_fsr_e accelFSR, gyro_fsr_e gyroFSR)
 }
 
 
-void mpu6050_read_accel(int16_t *accData)
+void mpu_read_accel(int16_t *accData)
 {
     uint8_t buf[6];
 
@@ -228,7 +228,7 @@ void mpu6050_read_accel(int16_t *accData)
 }
 
 
-void mpu6050_read_gyro(int16_t *gyroData)
+void mpu_read_gyro(int16_t *gyroData)
 {
     uint8_t buf[6];
 
@@ -239,7 +239,7 @@ void mpu6050_read_gyro(int16_t *gyroData)
     gyroData[2] = (int16_t)((buf[4] << 8) | buf[5]);
 }
 
-void mpu6050_read_temperature(int16_t *tempData)
+void mpu_read_temperature(int16_t *tempData)
 {
     uint8_t buf[2];
 
