@@ -401,22 +401,6 @@ COMMON_SRC = build_config.c \
 		   $(CMSIS_SRC) \
 		   $(DEVICE_STDPERIPH_SRC)
 
-HIGHEND_SRC = \
-		   flight/gtune.c \
-		   flight/navigation.c \
-		   flight/gps_conversion.c \
-		   common/colorconversion.c \
-		   io/gps.c \
-		   io/ledstrip.c \
-		   io/display.c \
-		   telemetry/telemetry.c \
-		   telemetry/frsky.c \
-		   telemetry/hott.c \
-		   telemetry/msp.c \
-		   telemetry/smartport.c \
-		   sensors/sonar.c \
-		   sensors/barometer.c 
-
 STM32F4xx_COMMON_SRC = \
 		   startup_stm32f40xx.s \
 		   drivers/accgyro_mpu.c \
