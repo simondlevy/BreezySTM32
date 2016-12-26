@@ -215,6 +215,15 @@ uint16_t mpu6050_init(accel_fsr_e accelFSR, gyro_fsr_e gyroFSR)
     return acc1G;
 }
 
+uint16_t mpu6500_init(accel_fsr_e accelFSR, gyro_fsr_e gyroFSR)
+{
+    // XXX
+
+    (void)accelFSR;
+    (void)gyroFSR;
+
+    return 0; 
+}
 
 void mpu_read_accel(int16_t *accData)
 {

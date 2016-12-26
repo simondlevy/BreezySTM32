@@ -5,5 +5,5 @@ PROJECT_SRC_FILE  = hmc5883l_read.c
 
 # Drivers, etc.
 PROJECT_BREEZY_FILES = $(F1_DIR)/i2c_stm32f10x.c \
-					   $(BREEZY_DIR)/drivers/mpu6050.c \
+					   $(BREEZY_DIR)/drivers/mpu.c \
 					   $(BREEZY_DIR)/drivers/hmc5883l.c

@@ -20,7 +20,7 @@
  */
 
 #include <breezystm32.h>
-#include <drivers/mpu6050.h>
+#include <drivers/mpu.h>
 #include <drivers/ms4525.h>
 #include <drivers/hmc5883l.h>
 #include <drivers/ms5611.h>

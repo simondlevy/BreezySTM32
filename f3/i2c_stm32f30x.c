@@ -122,7 +122,7 @@ uint16_t i2cGetErrorCounter(void)
     return i2cErrorCount;
 }
 
-bool i2cWrite(I2CDevice device, uint8_t addr_, uint8_t reg, uint8_t data)
+bool i2cWriteRegister(I2CDevice device, uint8_t addr_, uint8_t reg, uint8_t data)
 {
     addr_ <<= 1;
 
@@ -188,7 +188,7 @@ bool i2cWrite(I2CDevice device, uint8_t addr_, uint8_t reg, uint8_t data)
     return true;
 }
 
-bool i2cRead(I2CDevice device, uint8_t addr_, uint8_t reg, uint8_t len, uint8_t* buf)
+bool i2cReadBuffer(I2CDevice device, uint8_t addr_, uint8_t reg, uint8_t len, uint8_t* buf)
 {
     addr_ <<= 1;
 
