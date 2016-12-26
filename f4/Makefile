@@ -1061,4 +1061,4 @@ $(TARGET_OBJS) : Makefile
 -include $(TARGET_DEPS)
 
 listen:
-	miniterm.py $(SERIAL_DEVICE) 115200
+	miniterm.py $(SERIAL_DEVICE)
