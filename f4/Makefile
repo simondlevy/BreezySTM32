@@ -372,11 +372,11 @@ STM32F4xx_COMMON_SRC = \
 		   drivers/timer_stm32f4xx.c \
 
 VCPF4_SRC	 = \
-		   vcpf4/stm32f4xx_it.c \
-		   vcpf4/usb_bsp.c \
-		   vcpf4/usbd_desc.c \
-		   vcpf4/usbd_usr.c \
-		   vcpf4/usbd_cdc_vcp.c \
+		   stm32f4xx_it.c \
+		   usb_bsp.c \
+		   usbd_desc.c \
+		   usbd_usr.c \
+		   usbd_cdc_vcp.c \
 		   drivers/serial_usb_vcp.c
 
 REVO_SRC = $(STM32F4xx_COMMON_SRC) \
