@@ -344,16 +344,9 @@ INCLUDE_DIRS := $(INCLUDE_DIRS) \
 
 VPATH		:= $(VPATH):$(TARGET_DIR)
 
-COMMON_SRC = build_config.c \
-		   debug.c \
+COMMON_SRC = debug.c \
 		   version.c \
 		   $(TARGET_SRC) \
-		   config/config.c \
-		   config/runtime_config.c \
-		   common/maths.c \
-		   common/typeconversion.c \
-		   common/encoding.c \
-		   common/filter.c \
 		   main.c \
 		   drivers/bus_i2c_soft.c \
 		   drivers/exti.c \
