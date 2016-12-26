@@ -14,6 +14,8 @@
 #include "exti.h"
 #include "ioserial.h"
 
+extern void setup(void), loop(void);
+
 serialPort_t * Serial1;
 
 #ifdef STM32F303xC
@@ -42,25 +44,13 @@ void debug(const char * fmt, ...)
 }
 #endif
 
-
-static void setup(void)
-{
-}
-
-static void loop(void)
-{
-    debug("%ld\n", millis());
-}
-
 int main(void)
 {
 
-#ifdef STM32F303xC
+
     SCB->CPACR = (0x3 << (10*2)) | (0x3 << (11*2)); // start FPU
     SetSysClock();
-#else
-    SetSysClock(false);
-#endif
+
     systemInit();
 
     IOInitGlobal();

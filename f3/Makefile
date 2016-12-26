@@ -122,6 +122,8 @@ INCLUDE_DIRS    := $(INCLUDE_DIRS) $(TARGET_DIR)
 
 VPATH           := $(VPATH):$(TARGET_DIR)
 
+PROJECT_SRC = example.c
+
 COMMON_SRC = \
             adc.c \
             buf_writer.c \
@@ -161,7 +163,7 @@ STM32F30x_COMMON_SRC = \
             target_system_stm32f30x.c \
             timer_stm32f30x.c
 
-TARGET_SRC := $(STM32F30x_COMMON_SRC) $(COMMON_SRC) $(VCP_SRC)
+TARGET_SRC := $(STM32F30x_COMMON_SRC) $(COMMON_SRC) $(VCP_SRC) $(PROJECT_SRC)
 
 # Search path and source files for the ST stdperiph library
 VPATH        := $(VPATH):$(STDPERIPH_DIR)/src
