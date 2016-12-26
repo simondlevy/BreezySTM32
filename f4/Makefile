@@ -345,7 +345,6 @@ VPATH		:= $(VPATH):$(TARGET_DIR)
 
 COMMON_SRC = $(TARGET_SRC) \
 		   main.c \
-		   drivers/bus_i2c_soft.c \
 		   drivers/exti.c \
 		   drivers/io.c \
 		   drivers/rcc.c \
