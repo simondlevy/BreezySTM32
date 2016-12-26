@@ -44,7 +44,6 @@
 #include "serial_cli.h"
 #include "serial_msp.h"
 
-#include "config/config.h"
 
 #ifdef TELEMETRY
 #include "telemetry/telemetry.h"
