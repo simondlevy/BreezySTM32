@@ -42,8 +42,6 @@ endif
 # Things that need to be maintained as the source changes
 #
 
-FORKNAME      = betaflight
-
 # Working directories
 ROOT            := $(patsubst %/,%,$(dir $(lastword $(MAKEFILE_LIST))))
 SRC_DIR         = $(ROOT)
@@ -219,7 +217,6 @@ CFLAGS      += $(ARCH_FLAGS) \
               -DUSE_STDPERIPH_DRIVER \
               -D$(TARGET) \
               $(TARGET_FLAGS) \
-              -D'__FORKNAME__="$(FORKNAME)"' \
               -D'__TARGET__="$(TARGET)"' \
               -D'__REVISION__="$(REVISION)"' \
               -save-temps=obj \
@@ -256,12 +253,12 @@ CPPCHECK        = cppcheck $(CSOURCES) --enable=all --platform=unix64 \
 #
 # Things we will build
 #
-TARGET_BIN      = $(BIN_DIR)/$(FORKNAME)_$(TARGET).bin
-TARGET_HEX      = $(BIN_DIR)/$(FORKNAME)_$(TARGET).hex
-TARGET_ELF      = $(OBJECT_DIR)/$(FORKNAME)_$(TARGET).elf
+TARGET_BIN      = $(BIN_DIR)/$(TARGET).bin
+TARGET_HEX      = $(BIN_DIR)/$(TARGET).hex
+TARGET_ELF      = $(OBJECT_DIR)/$(TARGET).elf
 TARGET_OBJS     = $(addsuffix .o,$(addprefix $(OBJECT_DIR)/$(TARGET)/,$(basename $(TARGET_SRC))))
 TARGET_DEPS     = $(addsuffix .d,$(addprefix $(OBJECT_DIR)/$(TARGET)/,$(basename $(TARGET_SRC))))
-TARGET_MAP      = $(OBJECT_DIR)/$(FORKNAME)_$(TARGET).map
+TARGET_MAP      = $(OBJECT_DIR)/$(TARGET).map
 
 
 CLEAN_ARTIFACTS := $(TARGET_BIN)
