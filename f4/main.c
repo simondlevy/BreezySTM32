@@ -34,7 +34,7 @@ void mydebug(const char * fmt, ...)
 
     va_start(ap, fmt);     
 
-    char buf[10];
+    char buf[100];
 
     vsprintf(buf, fmt, ap);
 
@@ -90,12 +90,6 @@ int main(void) {
 #endif
 
         mydebug("%ld\n", millis());
-        /*
-        char time[10];
-        sprintf(time, "%ld\n", millis());
-        for (char *p=time; *p; p++)
-            serialWrite(Serial1, *p);
-        */
        
         delay(5);
 
