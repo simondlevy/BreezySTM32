@@ -353,9 +353,7 @@ COMMON_SRC = debug.c \
 		   drivers/io.c \
 		   drivers/rcc.c \
 		   drivers/serial.c \
-		   drivers/sound_beeper.c \
 		   drivers/system.c \
-		   drivers/gyro_sync.c \
 		   io/serial.c \
 		   $(CMSIS_SRC) \
 		   $(DEVICE_STDPERIPH_SRC)

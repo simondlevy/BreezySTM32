@@ -1,7 +1,7 @@
 #pragma once
 
 #include "platform.h"
-#include "common/utils.h"
+#include "utils.h"
 
 enum rcc_reg {
 	RCC_EMPTY = 0,   // make sure that default value (0) does not enable anything
