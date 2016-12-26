@@ -26,11 +26,7 @@
 
 serialPort_t * Serial1;
 
-#ifdef STM32F303xC
-extern void SetSysClock(void);
-#else
 extern void SetSysClock(bool overclock);
-#endif
 
 #ifndef EXTERNAL_DEBUG
 void debug(const char * fmt, ...)
@@ -54,12 +50,8 @@ void debug(const char * fmt, ...)
 
 int main(void)
 {
-#ifdef STM32F303xC
-    SCB->CPACR = (0x3 << (10*2)) | (0x3 << (11*2)); // start FPU
-    SetSysClock();
-#else
     SetSysClock(false);
-#endif
+
     systemInit();
 
     Serial1 = uartOpen(USART1, NULL, 115200, MODE_RXTX, SERIAL_NOT_INVERTED);
