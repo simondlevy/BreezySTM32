@@ -93,6 +93,8 @@ int main(void) {
         sprintf(time, "%ld\n", millis());
         for (char *p=time; *p; p++)
             serialWrite(Serial1, *p);
+
+        delay(10);
         
     }
 }
