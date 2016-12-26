@@ -25,20 +25,6 @@ along with BreezySTM32.  If not, see <http://www.gnu.org/licenses/>.
 #include <stdlib.h>
 #include <stdint.h>
 
-#ifdef STM32F303xC
-#include "stm32f30x_conf.h"
-#include "stm32f30x_rcc.h"
-#include "stm32f30x_gpio.h"
-
-// Chip Unique ID on F303
-#define U_ID_0 (*(uint32_t*)0x1FFFF7AC)
-#define U_ID_1 (*(uint32_t*)0x1FFFF7B0)
-#define U_ID_2 (*(uint32_t*)0x1FFFF7B4)
-
-#endif
-
-#ifdef STM32F10X
-
 #include "stm32f10x_conf.h"
 #include "stm32f10x_gpio.h"
 #include "core_cm3.h"
@@ -47,8 +33,6 @@ along with BreezySTM32.  If not, see <http://www.gnu.org/licenses/>.
 #define U_ID_0 (*(uint32_t*)0x1FFFF7E8)
 #define U_ID_1 (*(uint32_t*)0x1FFFF7EC)
 #define U_ID_2 (*(uint32_t*)0x1FFFF7F0)
-
-#endif // STM32F10X
 
 #define LED0_GPIO   GPIOB
 #define LED0_PIN    Pin_3
@@ -153,21 +137,6 @@ along with BreezySTM32.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "system.h"
 #include "i2c.h"
-
-#ifdef STM32F303xC
-
-#include "dma.h"
-#include "nvic.h"
-
-#else
-
-#include "stm32f10x_conf.h"
-
-#include "system.h"
-#include "pwm.h"
-#include "spi.h"
-
-#endif
 
 #include "gpio.h"
 #include "serial.h"

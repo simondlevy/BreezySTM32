@@ -37,7 +37,7 @@ void loop(void)
     uint8_t addr;
 
     for (addr=0; addr<128; ++addr)
-        if (i2cWrite(I2CDEV, addr, 0x00, 0x00))
+        if (i2cWriteRegister(I2CDEV, addr, 0x00, 0x00))
             debug("Found device at address 0X%02X\n", addr);
 
     debug("--------------------------\n");
