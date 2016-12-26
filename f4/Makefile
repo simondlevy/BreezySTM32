@@ -426,16 +426,6 @@ STM32F4xx_COMMON_SRC = \
 		   drivers/flash_m25p16.c \
 		   io/flashfs.c 
 
-VCP_SRC = \
-		   vcp/hw_config.c \
-		   vcp/stm32_it.c \
-		   vcp/usb_desc.c \
-		   vcp/usb_endp.c \
-		   vcp/usb_istr.c \
-		   vcp/usb_prop.c \
-		   vcp/usb_pwr.c \
-		   drivers/serial_usb_vcp.c
-
 VCPF4_SRC	 = \
 		   vcpf4/stm32f4xx_it.c \
 		   vcpf4/usb_bsp.c \
