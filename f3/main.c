@@ -18,11 +18,7 @@ extern void setup(void), loop(void);
 
 serialPort_t * Serial1;
 
-#ifdef STM32F303xC
 extern void SetSysClock(void);
-#else
-extern void SetSysClock(bool overclock);
-#endif
 
 #ifndef EXTERNAL_DEBUG
 void debug(const char * fmt, ...)
