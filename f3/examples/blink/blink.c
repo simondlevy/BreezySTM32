@@ -37,12 +37,15 @@
 #include "system.h"
 #include "light_led.h"
 
+extern void debug(const char *fmt, ...);
+
 void setup(void)
 {
 } 
 
 void loop(void)
 {
+    debug("%ld\n", millis());
     LED0_TOGGLE;
     delay(500);
 }

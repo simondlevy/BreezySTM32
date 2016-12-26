@@ -23,6 +23,8 @@ TARGET    ?= $(PROJECT_NAME)
 
 BREEZY_DIR ?= $(HOME)/Desktop/BreezySTM32
 
+F3_DIR = $(BREEZY_DIR)/f3
+
 # Compile-time options
 OPTIONS   ?=
 
@@ -69,7 +71,6 @@ SRC_DIR         = $(ROOT)
 OBJECT_DIR      = $(ROOT)/obj
 BIN_DIR         = $(ROOT)/obj
 CMSIS_DIR       = $(BREEZY_DIR)/lib/CMSIS
-INCLUDE_DIRS    = $(SRC_DIR) $(BREEZY_DIR)
 
 export RM := rm
 
@@ -114,6 +115,7 @@ CMSIS_SRC       = $(notdir $(wildcard $(CMSIS_DIR)/CM1/CoreSupport/*.c \
 
 INCLUDE_DIRS    := $(SRC_DIR) \
                   $(BREEZY_DIR) \
+                  $(F3_DIR) \
                   $(STDPERIPH_DIR)/inc \
                   $(CMSIS_DIR)/CM1/CoreSupport \
                   $(CMSIS_DIR)/CM1/DeviceSupport/ST/STM32F30x
@@ -128,7 +130,7 @@ DEVICE_STDPERIPH_SRC := $(DEVICE_STDPERIPH_SRC)\
                         $(USBPERIPH_SRC)
 endif
 
-LD_SCRIPT       = stm32_flash_f303_256k.ld
+LD_SCRIPT       = $(F3_DIR)/stm32_flash_f303_256k.ld
 
 ARCH_FLAGS      = -mthumb -mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16 -fsingle-precision-constant -Wdouble-promotion
 DEVICE_FLAGS    = -DSTM32F303xC -DSTM32F303
@@ -142,43 +144,42 @@ INCLUDE_DIRS    := $(INCLUDE_DIRS) $(TARGET_DIR)
 VPATH           := $(VPATH):$(TARGET_DIR)
 
 COMMON_SRC = \
-            adc.c \
-            buf_writer.c \
-            bus_spi.c \
-            exti.c \
-            io.c \
-            light_led.c \
-            main.c \
-            rcc.c \
-            serial.c \
-            serial_uart.c \
-            system.c \
-			target.c \
-            timer.c \
+            $(F3_DIR)/adc.c \
+            $(F3_DIR)/buf_writer.c \
+            $(F3_DIR)/bus_spi.c \
+            $(F3_DIR)/exti.c \
+            $(F3_DIR)/io.c \
+            $(F3_DIR)/light_led.c \
+            $(F3_DIR)/main.c \
+            $(F3_DIR)/rcc.c \
+            $(F3_DIR)/serial.c \
+            $(F3_DIR)/serial_uart.c \
+            $(F3_DIR)/system.c \
+			$(F3_DIR)/target.c \
+            $(F3_DIR)/timer.c \
             $(CMSIS_SRC) \
             $(DEVICE_STDPERIPH_SRC)
 
 VCP_SRC = \
-            hw_config.c \
-            serial_usb_vcp.c \
-            stm32_it.c \
-            usb_desc.c \
-            usb_endp.c \
-            usb_io.c \
-            usb_istr.c \
-            usb_prop.c \
-            usb_pwr.c
+            $(F3_DIR)/hw_config.c \
+            $(F3_DIR)/serial_usb_vcp.c \
+            $(F3_DIR)/stm32_it.c \
+            $(F3_DIR)/usb_desc.c \
+            $(F3_DIR)/usb_endp.c \
+            $(F3_DIR)/usb_io.c \
+            $(F3_DIR)/usb_istr.c \
+            $(F3_DIR)/usb_prop.c \
+            $(F3_DIR)/usb_pwr.c
 
 STM32F30x_COMMON_SRC = \
-            adc_stm32f30x.c \
-            bus_i2c_stm32f30x.c \
-            dma.c \
-            gpio_stm32f30x.c \
-            serial_uart_stm32f30x.c \
-            startup_stm32f30x_md_gcc.S \
-            system_stm32f30x.c \
-            target_system_stm32f30x.c \
-            timer_stm32f30x.c
+            $(F3_DIR)/adc_stm32f30x.c \
+            $(F3_DIR)/bus_i2c_stm32f30x.c \
+            $(F3_DIR)/dma.c \
+            $(F3_DIR)/gpio_stm32f30x.c \
+            $(F3_DIR)/serial_uart_stm32f30x.c \
+            $(F3_DIR)/startup_stm32f30x_md_gcc.S \
+            $(F3_DIR)/system_stm32f30x.c \
+            $(F3_DIR)/timer_stm32f30x.c
 
 TARGET_SRC := $(STM32F30x_COMMON_SRC) $(COMMON_SRC) $(VCP_SRC) $(PROJECT_SRC_FILE)
 
