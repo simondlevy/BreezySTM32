@@ -20,8 +20,6 @@ FLASH_SIZE ?=
 # Things that need to be maintained as the source changes
 #
 
-FORKNAME			 = raceflight
-
 CC3D_TARGETS = CC3D CC3D_OPBL
 F1_TARGETS = NAZE OLIMEXINO CJMCU EUSTM32F103RC PORT103R ALIENWIIF1 AFROMINI
 F3_TARGETS = STM32F3DISCOVERY CHEBUZZF3 NAZE32PRO SPRACINGF3 IRCFUSIONF3 SPARKY ALIENWIIF3 COLIBRI_RACE MOTOLAB RMDO LUX_RACE
@@ -443,7 +441,6 @@ CFLAGS		 = $(ARCH_FLAGS) \
 		   $(DEVICE_FLAGS) \
 		   -DUSE_STDPERIPH_DRIVER \
 		   $(TARGET_FLAGS) \
-		   -D'__FORKNAME__="$(FORKNAME)"' \
 		   -D'__TARGET__="$(TARGET)"' \
 		   -D'__REVISION__="$(REVISION)"' \
 		   -save-temps=obj \
@@ -489,12 +486,12 @@ REVO_OPBL_SRC     = $(REVO_SRC)
 REVONANO_OPBL_SRC = $(REVONANO_SRC)
 SPARKY2_OPBL_SRC  = $(SPARKY2_SRC)
 
-TARGET_BIN	 = $(BIN_DIR)/$(FORKNAME)_$(TARGET).bin
-TARGET_HEX	 = $(BIN_DIR)/$(FORKNAME)_$(TARGET).hex
-TARGET_ELF	 = $(OBJECT_DIR)/$(FORKNAME)_$(TARGET).elf
+TARGET_BIN	 = $(BIN_DIR)/$(TARGET).bin
+TARGET_HEX	 = $(BIN_DIR)/$(TARGET).hex
+TARGET_ELF	 = $(OBJECT_DIR)/$(TARGET).elf
 TARGET_OBJS	 = $(addsuffix .o,$(addprefix $(OBJECT_DIR)/$(TARGET)/,$(basename $($(TARGET)_SRC))))
 TARGET_DEPS	 = $(addsuffix .d,$(addprefix $(OBJECT_DIR)/$(TARGET)/,$(basename $($(TARGET)_SRC))))
-TARGET_MAP	 = $(OBJECT_DIR)/$(FORKNAME)_$(TARGET).map
+TARGET_MAP	 = $(OBJECT_DIR)/$(TARGET).map
 
 
 #$(error TARGET BIN: $(DEVICE_FLAGS)  :::::::::::::::::::::::::::::::::: INCLUDE_DIRS_SRC: $(INCLUDE_DIRS))
@@ -553,7 +550,6 @@ flash_$(TARGET): $(TARGET_BIN)
 	dfu-util -a 0 -s 0x08000000:leave -D $(TARGET_BIN)
 
 
-## flash       : flash firmware (.hex) onto flight controller
 flash: flash_$(TARGET)
 
 binary: $(TARGET_BIN)
@@ -562,7 +558,6 @@ hex:    $(TARGET_HEX)
 unbrick_$(TARGET): $(TARGET_BIN)
 	dfu-util -a 0 -s 0x08000000:leave -D $(TARGET_BIN)
 
-## unbrick     : unbrick flight controller
 unbrick: unbrick_$(TARGET)
 
 # rebuild everything when makefile changes
