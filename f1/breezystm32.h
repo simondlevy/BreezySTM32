@@ -171,7 +171,7 @@ along with BreezySTM32.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "gpio.h"
 #include "serial.h"
-#include "uart.h"
+#include "serial_uart.h"
 
 extern serialPort_t * Serial1;
 

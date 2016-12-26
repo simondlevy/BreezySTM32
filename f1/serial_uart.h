@@ -1,5 +1,5 @@
 /*
-   uart.h : UART support for STM32F103CB
+   serial_uart.h : UART support for STM32F103CB
 
    Adapted from https://github.com/multiwii/baseflight/blob/master/src/uart.h
 

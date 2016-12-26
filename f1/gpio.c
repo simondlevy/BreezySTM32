@@ -50,7 +50,7 @@
 #include "spi.h"
 #include "timer.h"
 #include "serial.h"
-#include "uart.h"
+#include "serial_uart.h"
 
 void gpioInit(GPIO_TypeDef *gpio, gpio_config_t *config)
 {

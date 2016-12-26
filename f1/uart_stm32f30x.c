@@ -46,7 +46,7 @@
 #include "gpio.h"
 #include "dma.h"
 #include "serial.h"
-#include "uart.h"
+#include "serial_uart.h"
 
 #include "serial_uart_stm32f30x.h"
 
