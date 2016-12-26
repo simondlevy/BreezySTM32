@@ -19,25 +19,7 @@
    along with BreezySTM32.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <stdint.h>
-#include <stdbool.h>
-#include <stdarg.h>
-#include <string.h>
-#include <stdio.h>
-
-#include "platform.h"
-#include "system.h"
-#include "gpio.h"
-#include "io.h"
-#include "serial.h"
-#include "timer.h"
-#include "serial_usb_vcp.h"
-#include "exti.h"
-#include "ioserial.h"
-#include "system.h"
-#include "light_led.h"
-
-extern void debug(const char *fmt, ...);
+#include <breezystm32.h>
 
 void setup(void)
 {

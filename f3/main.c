@@ -1,21 +1,4 @@
-#include <stdint.h>
-#include <stdbool.h>
-#include <stdarg.h>
-#include <string.h>
-#include <stdio.h>
-
-#include "platform.h"
-#include "system.h"
-#include "gpio.h"
-#include "io.h"
-#include "serial.h"
-#include "timer.h"
-#include "serial_usb_vcp.h"
-#include "exti.h"
-#include "ioserial.h"
-#include "light_led.h"
-
-extern void setup(void), loop(void);
+#include <breezystm32.h>
 
 serialPort_t * Serial1;
 
