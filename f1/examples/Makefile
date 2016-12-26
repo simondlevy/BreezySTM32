@@ -1,4 +1,4 @@
-# Makefile for BreezySTM32 examples
+# Makefile for BreezySTM32F1 examples
 #
 # Copyright (C) 2016 Simon D. Levy
 #
@@ -22,6 +22,8 @@ ARCH_FLAGS	 = -mthumb
 # Change this to wherever you put BreezySTM32
 BREEZY_DIR = $(HOME)/Desktop/BreezySTM32
 
+F1_DIR = $(BREEZY_DIR)/f1
+
 include makefile.project
 
 TARGET		?= $(PROJECT_NAME)
@@ -44,18 +46,40 @@ OBJECT_DIR	 = $(HERE)/obj
 BIN_DIR		 = $(HERE)/obj
 CMSIS_DIR	 = $(BREEZY_DIR)/lib/CMSIS
 
-# Support F1, F3
-include ../makefile.f1
-#include ../makefile.f3
-#include ../makefile.f3-vcp
+ARCH = 1
 
+SERIAL_DEVICE	?= /dev/ttyUSB0
+
+STDPERIPH_DIR = $(BREEZY_DIR)/lib/STM32F10x_StdPeriph_Driver
+
+DEVICE_INCLUDES = $(CMSIS_DIR)/CM3/CoreSupport \
+		   $(CMSIS_DIR)/CM3/DeviceSupport/ST/STM32F10x \
+
+ARCH_FLAGS	 += -mcpu=cortex-m3
+
+DEVICE_FLAGS = -DSTM32F10X_MD -DI2CDEV=I2CDEV_2 -DUSART=USART2
+
+SUPPORT		:= $(CMSIS_DIR)/CM3/CoreSupport:$(CMSIS_DIR)/CM3/DeviceSupport/ST/STM32F10x
+
+CMSIS_SRC	 = $(notdir $(wildcard $(CMSIS_DIR)/CM3/CoreSupport/*.c \
+			               $(CMSIS_DIR)/CM3/DeviceSupport/ST/STM32F10x/*.c))
+
+DEVICE_SRC = $(F1_DIR)/startup_stm32f10x_md_gcc.S \
+		   $(F1_DIR)/system_stm32f10x.c \
+		   $(F1_DIR)/uart_stm32f10x.c \
+		   $(F1_DIR)/timer.c \
+		   $(F1_DIR)/gpio.c 
+
+TARGET_IMG = $(TARGET_HEX)
+
+DO_FLASH  = stm32flash -w $(TARGET_HEX) -v -g 0x0 -b 115200 $(SERIAL_DEVICE)
 
 # Source files common to all targets
 $(PROJECT_NAME)_SRC = $(PROJECT_SRC_FILE) \
 	       $(PROJECT_BREEZY_FILES) \
-           $(BREEZY_DIR)/main.c \
-           $(BREEZY_DIR)/system.c \
-           $(BREEZY_DIR)/serial.c \
+           $(F1_DIR)/main.c \
+           $(F1_DIR)/system.c \
+           $(F1_DIR)/serial.c \
 		   $(DEVICE_SRC) \
            $(CMSIS_SRC) \
            $(STDPERIPH_SRC)
@@ -85,7 +109,7 @@ OBJCOPY	 = arm-none-eabi-objcopy
 # Tool options.
 #
 INCLUDE_DIRS = . \
-			   $(BREEZY_DIR) \
+			   $(F1_DIR) \
 			   $(STDPERIPH_DIR)/inc \
 			   $(DEVICE_INCLUDES)
 
@@ -117,7 +141,7 @@ ASFLAGS		 = $(ARCH_FLAGS) \
 		   $(addprefix -I,$(INCLUDE_DIRS))
 
 # XXX Map/crossref output?
-LD_SCRIPT	 = $(BREEZY_DIR)/stm32_flash.ld
+LD_SCRIPT	 = $(F1_DIR)/stm32_flash.ld
 LDFLAGS	 = -lm \
 		   -nostartfiles \
 		   -lc \

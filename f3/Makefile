@@ -127,7 +127,7 @@ COMMON_SRC = \
             buf_writer.c \
             bus_spi.c \
             exti.c \
-            $(BREEZY_DIR)/io.c \
+            io.c \
             light_led.c \
             main.c \
             rcc.c \
@@ -143,12 +143,12 @@ VCP_SRC = \
             hw_config.c \
             serial_usb_vcp.c \
             stm32_it.c \
-            $(BREEZY_DIR)/usb_desc.c \
-            $(BREEZY_DIR)/usb_endp.c \
-            $(BREEZY_DIR)/usb_io.c \
-            $(BREEZY_DIR)/usb_istr.c \
-            $(BREEZY_DIR)/usb_prop.c \
-            $(BREEZY_DIR)/usb_pwr.c
+            usb_desc.c \
+            usb_endp.c \
+            usb_io.c \
+            usb_istr.c \
+            usb_prop.c \
+            usb_pwr.c
 
 STM32F30x_COMMON_SRC = \
             adc_stm32f30x.c \
@@ -156,7 +156,7 @@ STM32F30x_COMMON_SRC = \
             dma.c \
             gpio_stm32f30x.c \
             serial_uart_stm32f30x.c \
-            $(BREEZY_DIR)/startup_stm32f30x_md_gcc.S \
+            startup_stm32f30x_md_gcc.S \
             system_stm32f30x.c \
             target_system_stm32f30x.c \
             timer_stm32f30x.c
