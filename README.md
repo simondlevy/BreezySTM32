@@ -28,7 +28,7 @@ short the BOOT pins together, reconnect to your computer, and do <tt>make unbric
 features through-hole soldering pads for the BOOT pins, so that is the board
 I've been using for development.  By pushing a two-pin jumper onto the pins,
 I avoid having to place a paper clip or tweezers across the pins while unbricking. 
-The BreezySTM32 examples directory includes the following use cases:
+The BreezySTM32 F1 examples directory includes the following use cases:
 <ul>
 <li> a simple LED blinker
 <li> a program that searches the board for I<sup>2</sup>C devices, reporting the addresses of any such devices found
