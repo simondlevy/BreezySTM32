@@ -25,7 +25,6 @@
 
 
 #include "exti.h"
-#include "debug.h"
 #include "sensor.h"
 #include "accgyro.h"
 #include "accgyro_mpu.h"

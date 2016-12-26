@@ -30,7 +30,6 @@
 #include "nvic.h"
 
 #include "system.h"
-#include "debug.h"
 
 
 // cycles per microsecond

@@ -343,8 +343,7 @@ INCLUDE_DIRS := $(INCLUDE_DIRS) \
 
 VPATH		:= $(VPATH):$(TARGET_DIR)
 
-COMMON_SRC = debug.c \
-		   $(TARGET_SRC) \
+COMMON_SRC = $(TARGET_SRC) \
 		   main.c \
 		   drivers/bus_i2c_soft.c \
 		   drivers/exti.c \

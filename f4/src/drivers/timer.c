@@ -28,7 +28,6 @@
 
 #include "gpio.h"
 #include "system.h"
-#include "debug.h"
 
 #include "timer.h"
 #include "timer_impl.h"
