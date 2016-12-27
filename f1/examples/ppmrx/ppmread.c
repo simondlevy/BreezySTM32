@@ -29,7 +29,8 @@ void setup(void)
 
 void loop(void)
 {
-    debug("%d\n", pwmRead(0));
+    debug("%d %d %d %d %d\n", 
+            pwmRead(0), pwmRead(1), pwmRead(2), pwmRead(3), pwmRead(4));
 
     // Allow some time between readings
     delay(10);
