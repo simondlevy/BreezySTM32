@@ -1,5 +1,5 @@
 /*
-   mpu6050.c : driver for Invensense MPU6050
+   mpu.c : driver for Invensense MPU devices (currently just MPU6050)
 
    Adapted from https://github.com/multiwii/baseflight/blob/master/src/drv_mpu.c
 
@@ -215,15 +215,6 @@ uint16_t mpu6050_init(accel_fsr_e accelFSR, gyro_fsr_e gyroFSR)
     return acc1G;
 }
 
-uint16_t mpu6500_init(accel_fsr_e accelFSR, gyro_fsr_e gyroFSR)
-{
-    // XXX
-
-    (void)accelFSR;
-    (void)gyroFSR;
-
-    return 0; 
-}
 
 void mpu_read_accel(int16_t *accData)
 {
@@ -248,7 +239,7 @@ void mpu_read_gyro(int16_t *gyroData)
     gyroData[2] = (int16_t)((buf[4] << 8) | buf[5]);
 }
 
-void mpu_read_temperature(int16_t *tempData)
+void mpu6050_read_temperature(int16_t *tempData)
 {
     uint8_t buf[2];
 
