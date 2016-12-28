@@ -23,7 +23,6 @@ F4_DIR = $(BREEZY_DIR)/f4
 
 include makefile.project
 
-# The target to build, see VALID_TARGETS below
 TARGET		?= REVO
 
 # Compile-time options
@@ -47,7 +46,6 @@ FLASH_SIZE ?=
 
 F4_TARGETS = REVO 
 F405_TARGETS = REVO 
-VALID_TARGETS = $(F4_TARGETS)
 
 256K_TARGETS = $(F4_TARGETS)
 
@@ -155,26 +153,6 @@ DEVICE_FLAGS := $(DEVICE_FLAGS) -DFLASH_SIZE=$(FLASH_SIZE)
 endif
 
 TARGET_DIR = $(ROOT)
-
-ifneq ($(filter $(TARGET),$(OPBL_VALID_TARGETS)),)
-OPBL=yes
-endif
-
-ifeq ($(OPBL),yes)
-ifeq ($(TARGET),$(filter $(TARGET),$(OPBL_VALID_TARGETS)))
-TARGET_FLAGS := -DOPBL $(TARGET_FLAGS)
-ifeq ($(TARGET),$(filter $(TARGET),$(F411_TARGETS)))
-LD_SCRIPT	 = $(LINKER_DIR)/stm32_flash_f411_bl.ld
-else ifeq ($(TARGET),$(filter $(TARGET),$(F405_TARGETS)))
-LD_SCRIPT	 = $(LINKER_DIR)/stm32_flash_f405_bl.ld
-else
-LD_SCRIPT	 = $(LINKER_DIR)/stm32_flash_f103_$(FLASH_SIZE)k_opbl.ld
-endif
-.DEFAULT_GOAL := binary
-else
-$(error OPBL specified with a unsupported target)
-endif
-endif
 
 INCLUDE_DIRS := $(INCLUDE_DIRS) \
 		    $(TARGET_DIR)
