@@ -342,7 +342,7 @@ VCPF4_SRC	 = \
 		   usbd_desc.c \
 		   usbd_usr.c \
 		   usbd_cdc_vcp.c \
-		   drivers/serial_usb_vcp.c
+		   serial_usb_vcp.c
 
 REVO_SRC = $(STM32F4xx_COMMON_SRC) \
 		   $(COMMON_SRC) \
