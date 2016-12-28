@@ -178,8 +178,6 @@ endif
 
 TARGET_FLAGS = -D$(TARGET)
 
-else ifeq ($(TARGET),$(filter $(TARGET),EUSTM32F103RC PORT103R))
-else
 endif
 
 ifneq ($(FLASH_SIZE),)
