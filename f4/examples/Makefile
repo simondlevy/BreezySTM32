@@ -207,7 +207,7 @@ CFLAGS		 = $(ARCH_FLAGS) \
 		   $(DEVICE_FLAGS) \
 		   -DUSE_STDPERIPH_DRIVER \
 		   $(TARGET_FLAGS) \
-		   -D'__TARGET__="$(TARGET)"' \
+		   -D'__TARGET__="REVO"' \
 		   -D'__REVISION__="$(REVISION)"' \
 		   -save-temps=obj \
 		   -MMD -MP
