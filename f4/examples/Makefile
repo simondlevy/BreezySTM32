@@ -44,10 +44,6 @@ FLASH_SIZE ?=
 # Things that need to be maintained as the source changes
 #
 
-F4_TARGETS = REVO 
-F405_TARGETS = REVO 
-256K_TARGETS = REVO
-
 FLASH_SIZE = 256
 
 # Working directories
@@ -130,7 +126,6 @@ LD_SCRIPT	 = $(LINKER_DIR)/stm32_flash_f405.ld
 
 TARGET_FLAGS = -DREVO
 
-
 ifneq ($(FLASH_SIZE),)
 DEVICE_FLAGS := $(DEVICE_FLAGS) -DFLASH_SIZE=$(FLASH_SIZE)
 endif
@@ -197,20 +192,6 @@ SIZE		 = arm-none-eabi-size
 #
 # Tool options.
 #
-
-ifeq ($(DEBUG),GDB)
-OPTIMIZE	 = -O0
-LTO_FLAGS	 = $(OPTIMIZE)
-else
-ifeq ($(TARGET),$(filter $(TARGET),SPARKY2 SPARKY2_OPBL))
-OPTIMIZE	 = -O2
-else ifeq ($(TARGET),$(filter $(TARGET),REVO REVO_OPBL REVONANO REVONANO_OPBL ALIENFLIGHTF4 BLUEJAYF4 VRCORE KKNGF4))
-OPTIMIZE	 = -O2
-else
-OPTIMIZE	 = -Os
-endif
-LTO_FLAGS	 = -flto -fuse-linker-plugin $(OPTIMIZE)
-endif
 
 DEBUG_FLAGS	 = -ggdb3 -DDEBUG
 
