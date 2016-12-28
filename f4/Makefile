@@ -46,8 +46,7 @@ USBPERIPH_SRC = $(notdir $(wildcard $(USBFS_DIR)/src/*.c))
 
 CSOURCES        := $(shell find $(SRC_DIR) -name '*.c')
 
-ifeq ($(TARGET),$(filter $(TARGET),$(F3_TARGETS)))
-else ifeq ($(TARGET),$(filter $(TARGET), $(F4_TARGETS)))
+ifeq ($(TARGET),$(filter $(TARGET), $(F4_TARGETS)))
 
 #STDPERIPH
 STDPERIPH_DIR	= $(BREEZY_DIR)/lib/STM32F4xx_StdPeriph_Driver
