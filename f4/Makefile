@@ -333,7 +333,7 @@ STM32F4xx_COMMON_SRC = \
 		   serial_uart.c \
 		   serial_uart_stm32f4xx.c \
 		   drivers/system_stm32f4xx.c \
-		   drivers/timer.c \
+		   timer.c \
 		   drivers/timer_stm32f4xx.c \
 
 VCPF4_SRC	 = \
