@@ -29,19 +29,7 @@ VALID_TARGETS	 = $(F4_TARGETS)
 
 256K_TARGETS = $(F4_TARGETS)
 
-
-# Configure default flash sizes for the targets
-ifeq ($(FLASH_SIZE),)
-ifeq ($(TARGET),$(filter $(TARGET),$(64K_TARGETS)))
-FLASH_SIZE = 64
-else ifeq ($(TARGET),$(filter $(TARGET),$(128K_TARGETS)))
-FLASH_SIZE = 128
-else ifeq ($(TARGET),$(filter $(TARGET),$(256K_TARGETS)))
 FLASH_SIZE = 256
-else
-$(error FLASH_SIZE not configured for target $(TARGET))
-endif
-endif
 
 # Working directories
 ROOT		 := $(patsubst %/,%,$(dir $(lastword $(MAKEFILE_LIST))))
