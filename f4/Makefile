@@ -203,10 +203,6 @@ INCLUDE_DIRS := $(INCLUDE_DIRS) \
 
 DEVICE_STDPERIPH_SRC = $(STDPERIPH_SRC)
 
-#118,784 max flash
-ifeq ($(TARGET),$(filter $(TARGET),CC3D CC3D_OPBL))
-endif
-
 LD_SCRIPT	 = $(LINKER_DIR)/stm32_flash_f103_$(FLASH_SIZE)k.ld
 
 ARCH_FLAGS	 = -mthumb -mcpu=cortex-m3
