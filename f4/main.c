@@ -9,7 +9,7 @@
 #include "drivers/system.h"
 #include "drivers/gpio.h"
 #include "drivers/io.h"
-#include "drivers/serial.h"
+#include "serial.h"
 #include "drivers/timer.h"
 #include "drivers/serial_usb_vcp.h"
 #include "drivers/exti.h"

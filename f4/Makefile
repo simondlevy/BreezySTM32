@@ -315,7 +315,7 @@ COMMON_SRC = $(TARGET_SRC) \
 		   drivers/exti.c \
 		   drivers/io.c \
 		   drivers/rcc.c \
-		   drivers/serial.c \
+		   serial.c \
 		   drivers/system.c \
 		   serial.c \
 		   $(CMSIS_SRC) \
