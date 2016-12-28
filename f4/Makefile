@@ -331,7 +331,7 @@ STM32F4xx_COMMON_SRC = \
 		   inverter.c \
 		   light_led.c \
 		   serial_uart.c \
-		   drivers/serial_uart_stm32f4xx.c \
+		   serial_uart_stm32f4xx.c \
 		   drivers/system_stm32f4xx.c \
 		   drivers/timer.c \
 		   drivers/timer_stm32f4xx.c \
