@@ -34,12 +34,12 @@ FLASH_SIZE = 256
 
 # Working directories
 ROOT		 := $(patsubst %/,%,$(dir $(lastword $(MAKEFILE_LIST))))
-SRC_DIR		 = $(ROOT)
-OBJECT_DIR	 = $(ROOT)/obj
-BIN_DIR		 = $(ROOT)/obj
+SRC_DIR		 = $(F4_DIR)
+OBJECT_DIR	 = ./obj
+BIN_DIR		 = ./obj
 CMSIS_DIR	 = $(BREEZY_DIR)/lib/CMSIS
 INCLUDE_DIRS = $(SRC_DIR)
-LINKER_DIR	 = $(ROOT)
+LINKER_DIR	 = $(F4_DIR)
 
 # Search path for sources
 VPATH		:= $(SRC_DIR):$(SRC_DIR)/startup
@@ -344,7 +344,6 @@ all: binary
 clean:
 	rm -f $(CLEAN_ARTIFACTS)
 	rm -rf $(OBJECT_DIR)
-	cd src/test && $(MAKE) clean || true
 
 flash_$(TARGET): $(TARGET_BIN)
 	$(V0) stty -F $(SERIAL_DEVICE) raw speed 115200 -crtscts cs8 -parenb -cstopb -ixon
