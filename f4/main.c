@@ -29,7 +29,7 @@ void SetSysClock(void);
 #endif
 
 #ifndef EXTERNAL_DEBUG
-void mydebug(const char * fmt, ...)
+void debug(const char * fmt, ...)
 {
     va_list ap;       
 
@@ -91,7 +91,7 @@ int main(void) {
 #endif
 
         static int count;
-        mydebug("%ld\n", count++);
+        debug("%ld\n", count++);
        
         delay(5);
 
