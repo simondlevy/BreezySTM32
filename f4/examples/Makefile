@@ -46,8 +46,7 @@ FLASH_SIZE ?=
 
 F4_TARGETS = REVO 
 F405_TARGETS = REVO 
-
-256K_TARGETS = $(F4_TARGETS)
+256K_TARGETS = REVO
 
 FLASH_SIZE = 256
 
@@ -67,8 +66,6 @@ USBPERIPH_SRC = $(notdir $(wildcard $(USBFS_DIR)/src/*.c))
 
 CSOURCES        := $(shell find $(SRC_DIR) -name '*.c')
 
-ifeq ($(TARGET),$(filter $(TARGET), $(F4_TARGETS)))
-
 #STDPERIPH
 STDPERIPH_DIR	= $(BREEZY_DIR)/lib/STM32F4xx_StdPeriph_Driver
 STDPERIPH_SRC = $(notdir $(wildcard $(STDPERIPH_DIR)/src/*.c))
@@ -85,7 +82,6 @@ EXCLUDES = stm32f4xx_crc.c \
 	
 
 EXCLUDES += stm32f4xx_fsmc.c
-endif
 
 STDPERIPH_SRC := $(filter-out ${EXCLUDES}, $(STDPERIPH_SRC))
 
@@ -128,24 +124,11 @@ INCLUDE_DIRS := $(INCLUDE_DIRS) \
 #Flags
 ARCH_FLAGS	 = -mthumb -mcpu=cortex-m4 -march=armv7e-m -mfloat-abi=hard -mfpu=fpv4-sp-d16 -fsingle-precision-constant -Wdouble-promotion
 
-ifeq ($(TARGET),$(filter $(TARGET),$(F411_TARGETS)))
-DEVICE_FLAGS = -DSTM32F411xE
-DEVICE_FLAGS += -DHSE_VALUE=8000000
-LD_SCRIPT	 = $(LINKER_DIR)/stm32_flash_f411.ld
-else ifeq ($(TARGET),$(filter $(TARGET),$(F405_TARGETS_16)))
-DEVICE_FLAGS = -DSTM32F40_41xxx
-DEVICE_FLAGS += -DHSE_VALUE=16000000
-LD_SCRIPT	 = $(LINKER_DIR)/stm32_flash_f405.ld
-else ifeq ($(TARGET),$(filter $(TARGET),$(F405_TARGETS)))
 DEVICE_FLAGS = -DSTM32F40_41xxx
 DEVICE_FLAGS += -DHSE_VALUE=8000000
 LD_SCRIPT	 = $(LINKER_DIR)/stm32_flash_f405.ld
-else
-$(error Unknown MCU for F4 target)
-endif
 
-
-TARGET_FLAGS = -D$(TARGET)
+TARGET_FLAGS = -DREVO
 
 
 ifneq ($(FLASH_SIZE),)
