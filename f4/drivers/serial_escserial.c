@@ -37,7 +37,6 @@
 #include "serial.h"
 #include "serial_escserial.h"
 #include "drivers/light_led.h"
-#include "io/serial.h"
 #include "flight/mixer.h"
 
 #define RX_TOTAL_BITS 10
