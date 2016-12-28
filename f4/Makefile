@@ -61,7 +61,7 @@ OBJECT_DIR	 = $(ROOT)/obj
 BIN_DIR		 = $(ROOT)/obj
 CMSIS_DIR	 = $(BREEZY_DIR)/lib/CMSIS
 INCLUDE_DIRS = $(SRC_DIR)
-LINKER_DIR	 = $(ROOT)/src/target
+LINKER_DIR	 = $(ROOT)
 
 # Search path for sources
 VPATH		:= $(SRC_DIR):$(SRC_DIR)/startup
