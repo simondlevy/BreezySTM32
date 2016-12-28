@@ -75,15 +75,6 @@ LD_SCRIPT	 = $(LINKER_DIR)/stm32_flash_f303_$(FLASH_SIZE)k.ld
 ARCH_FLAGS	 = -mthumb -mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16 -fsingle-precision-constant -Wdouble-promotion
 DEVICE_FLAGS = -DSTM32F303xC -DSTM32F303
 TARGET_FLAGS = -D$(TARGET)
-ifeq ($(TARGET),CHEBUZZF3)
-# CHEBUZZ is a VARIANT of STM32F3DISCOVERY
-TARGET_FLAGS := $(TARGET_FLAGS) -DSTM32F3DISCOVERY 
-endif
-
-ifeq ($(TARGET),$(filter $(TARGET),RMDO IRCFUSIONF3))
-# RMDO and IRCFUSIONF3 are a VARIANT of SPRACINGF3
-TARGET_FLAGS := $(TARGET_FLAGS) -DSPRACINGF3
-endif
 
 else ifeq ($(TARGET),$(filter $(TARGET), $(F4_TARGETS)))
 
