@@ -313,8 +313,8 @@ VPATH		:= $(VPATH):$(TARGET_DIR)
 COMMON_SRC = $(TARGET_SRC) \
 		   main.c \
 		   exti.c \
-		   drivers/io.c \
-		   drivers/rcc.c \
+		   io.c \
+		   rcc.c \
 		   serial.c \
 		   drivers/system.c \
 		   serial.c \

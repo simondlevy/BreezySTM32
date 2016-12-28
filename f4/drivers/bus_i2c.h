@@ -17,7 +17,7 @@
 
 #pragma once
 
-#include "drivers/io.h"
+#include "io.h"
 #include "drivers/rcc.h"
 
 #ifndef I2C_DEVICE
