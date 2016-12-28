@@ -282,37 +282,8 @@ ifneq ($(FLASH_SIZE),)
 DEVICE_FLAGS := $(DEVICE_FLAGS) -DFLASH_SIZE=$(FLASH_SIZE)
 endif
 
-TARGET_DIR = $(ROOT)/src/target/$(TARGET)
+TARGET_DIR = $(ROOT)
 TARGET_SRC = $(notdir $(wildcard $(TARGET_DIR)/*.c))
-
-ifeq ($(TARGET),ALIENWIIF1)
-# ALIENWIIF1 is a VARIANT of NAZE
-TARGET_FLAGS := $(TARGET_FLAGS) -DNAZE -DALIENWII32
-TARGET_DIR = $(ROOT)/src/target/NAZE
-endif
-
-ifeq ($(TARGET),$(filter $(TARGET), $(CC3D_TARGETS)))
-TARGET_FLAGS := $(TARGET_FLAGS) -DCC3D 
-TARGET_DIR = $(ROOT)/src/target/CC3D
-endif
-
-ifeq ($(TARGET),$(filter $(TARGET), REVO_OPBL))
-TARGET_FLAGS := $(TARGET_FLAGS) -DREVO
-TARGET_DIR = $(ROOT)/src/target/REVO
-TARGET_SRC = $(notdir $(wildcard $(TARGET_DIR)/*.c))
-endif
-
-ifeq ($(TARGET),$(filter $(TARGET), REVONANO_OPBL))
-TARGET_FLAGS := $(TARGET_FLAGS) -DREVONANO
-TARGET_DIR = $(ROOT)/src/target/REVONANO
-TARGET_SRC = $(notdir $(wildcard $(TARGET_DIR)/*.c))
-endif
-
-ifeq ($(TARGET),$(filter $(TARGET), SPARKY2_OPBL))
-TARGET_FLAGS := $(TARGET_FLAGS) -DSPARKY2
-TARGET_DIR = $(ROOT)/src/target/SPARKY2
-TARGET_SRC = $(notdir $(wildcard $(TARGET_DIR)/*.c))
-endif
 
 ifneq ($(filter $(TARGET),$(OPBL_VALID_TARGETS)),)
 OPBL=yes
@@ -332,12 +303,6 @@ endif
 else
 $(error OPBL specified with a unsupported target)
 endif
-endif
-
-ifeq ($(TARGET),AFROMINI)
-# AFROMINI is a VARIANT of NAZE being recognized as rev4, but needs to use rev5 config
-TARGET_FLAGS := $(TARGET_FLAGS) -DNAZE -DAFROMINI
-TARGET_DIR = $(ROOT)/src/target/NAZE
 endif
 
 INCLUDE_DIRS := $(INCLUDE_DIRS) \
