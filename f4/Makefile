@@ -330,7 +330,7 @@ STM32F4xx_COMMON_SRC = \
 		   gpio_stm32f4xx.c \
 		   inverter.c \
 		   light_led.c \
-		   drivers/serial_uart.c \
+		   serial_uart.c \
 		   drivers/serial_uart_stm32f4xx.c \
 		   drivers/system_stm32f4xx.c \
 		   drivers/timer.c \
