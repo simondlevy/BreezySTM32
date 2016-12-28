@@ -169,4 +169,5 @@ void delay(uint32_t ms)
 
 void failureMode(failureMode_e mode)
 {
+    (void)mode;
 }
