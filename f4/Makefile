@@ -325,7 +325,7 @@ STM32F4xx_COMMON_SRC = \
 		   startup_stm32f40xx.s \
 		   adc.c \
 		   adc_stm32f4xx.c \
-		   drivers/bus_i2c.c \
+		   bus_i2c.c \
 		   drivers/bus_spi.c \
 		   drivers/gpio_stm32f4xx.c \
 		   drivers/inverter.c \
