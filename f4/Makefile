@@ -1,5 +1,7 @@
 BREEZY_DIR = $(HOME)/Desktop/BreezySTM32
 
+F4_DIR = $(BREEZY_DIR)/f4
+
 # The target to build, see VALID_TARGETS below
 TARGET		?= REVO
 
@@ -159,39 +161,39 @@ INCLUDE_DIRS := $(INCLUDE_DIRS) \
 VPATH		:= $(VPATH):$(TARGET_DIR)
 
 COMMON_SRC = \
-		   main.c \
-		   exti.c \
-		   io.c \
-		   rcc.c \
-		   serial.c \
-		   system.c \
-		   serial.c \
+		   $(F4_DIR)/main.c \
+		   $(F4_DIR)/exti.c \
+		   $(F4_DIR)/io.c \
+		   $(F4_DIR)/rcc.c \
+		   $(F4_DIR)/serial.c \
+		   $(F4_DIR)/system.c \
+		   $(F4_DIR)/serial.c \
 		   $(CMSIS_SRC) \
 		   $(DEVICE_STDPERIPH_SRC)
 
 STM32F4xx_COMMON_SRC = \
-		   startup_stm32f40xx.s \
-		   adc.c \
-		   adc_stm32f4xx.c \
-		   bus_i2c.c \
-		   bus_spi.c \
-		   gpio_stm32f4xx.c \
-		   inverter.c \
-		   light_led.c \
-		   serial_uart.c \
-		   serial_uart_stm32f4xx.c \
-		   system_stm32f4xx.c \
-		   target_system_stm32f4xx.c \
-		   timer.c \
-		   timer_stm32f4xx.c
+		   $(F4_DIR)/startup_stm32f40xx.s \
+		   $(F4_DIR)/adc.c \
+		   $(F4_DIR)/adc_stm32f4xx.c \
+		   $(F4_DIR)/bus_i2c.c \
+		   $(F4_DIR)/bus_spi.c \
+		   $(F4_DIR)/gpio_stm32f4xx.c \
+		   $(F4_DIR)/inverter.c \
+		   $(F4_DIR)/light_led.c \
+		   $(F4_DIR)/serial_uart.c \
+		   $(F4_DIR)/serial_uart_stm32f4xx.c \
+		   $(F4_DIR)/system_stm32f4xx.c \
+		   $(F4_DIR)/target_system_stm32f4xx.c \
+		   $(F4_DIR)/timer.c \
+		   $(F4_DIR)/timer_stm32f4xx.c
 
 VCPF4_SRC	 = \
-		   stm32f4xx_it.c \
-		   usb_bsp.c \
-		   usbd_desc.c \
-		   usbd_usr.c \
-		   usbd_cdc_vcp.c \
-		   serial_usb_vcp.c
+		   $(F4_DIR)/stm32f4xx_it.c \
+		   $(F4_DIR)/usb_bsp.c \
+		   $(F4_DIR)/usbd_desc.c \
+		   $(F4_DIR)/usbd_usr.c \
+		   $(F4_DIR)/usbd_cdc_vcp.c \
+		   $(F4_DIR)/serial_usb_vcp.c
 
 REVO_SRC = $(STM32F4xx_COMMON_SRC) \
 		   $(COMMON_SRC) \
