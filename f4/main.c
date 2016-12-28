@@ -1,21 +1,4 @@
-#include <stdio.h>
-#include <stdbool.h>
-#include <stdint.h>
-#include <stdlib.h>
-#include <string.h>
-#include <stdarg.h>
-
-#include "platform.h"
-#include "drivers/system.h"
-#include "drivers/gpio.h"
-#include "drivers/io.h"
-#include "serial.h"
-#include "drivers/timer.h"
-#include "drivers/serial_usb_vcp.h"
-#include "drivers/exti.h"
-#include "drivers/light_led.h"
-#include "drivers/bus_i2c.h"
-#include "drivers/serial_uart.h"
+#include <breezystm32.h>
 
 serialPort_t * Serial1;
 
