@@ -329,7 +329,7 @@ STM32F4xx_COMMON_SRC = \
 		   bus_spi.c \
 		   gpio_stm32f4xx.c \
 		   inverter.c \
-		   drivers/light_led.c \
+		   light_led.c \
 		   drivers/serial_uart.c \
 		   drivers/serial_uart_stm32f4xx.c \
 		   drivers/system_stm32f4xx.c \
