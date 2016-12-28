@@ -14,7 +14,7 @@
 #include "light_led.h"
 #include "bus_i2c.h"
 #include "system.h"
-#include "drivers/timer.h"
+#include "timer.h"
 #include "serial_uart.h"
 
 extern serialPort_t * Serial1;
