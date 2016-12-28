@@ -33,7 +33,7 @@
 #endif
 #include "utils.h"
 
-#include "drivers/system.h"
+#include "system.h"
 
 #include "serial.h"
 #include "serial_usb_vcp.h"

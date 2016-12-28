@@ -18,7 +18,7 @@
 #pragma once
 
 #include "io.h"
-#include "drivers/rcc.h"
+#include "rcc.h"
 
 #ifndef I2C_DEVICE
 #define I2C_DEVICE I2CINVALID
