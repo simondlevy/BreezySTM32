@@ -63,7 +63,6 @@ EXCLUDES = stm32f4xx_crc.c \
 		stm32f4xx_qspi.c \
 	
 
-ifeq ($(TARGET),$(filter $(TARGET), $(F411_TARGETS)))
 EXCLUDES += stm32f4xx_fsmc.c
 endif
 
@@ -127,7 +126,6 @@ endif
 
 TARGET_FLAGS = -D$(TARGET)
 
-endif
 
 ifneq ($(FLASH_SIZE),)
 DEVICE_FLAGS := $(DEVICE_FLAGS) -DFLASH_SIZE=$(FLASH_SIZE)
