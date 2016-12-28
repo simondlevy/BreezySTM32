@@ -332,7 +332,6 @@ STM32F4xx_COMMON_SRC = \
 		   light_led.c \
 		   serial_uart.c \
 		   serial_uart_stm32f4xx.c \
-		   drivers/system_stm32f4xx.c \
 		   timer.c \
 		   timer_stm32f4xx.c
 
