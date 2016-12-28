@@ -205,15 +205,6 @@ DEVICE_STDPERIPH_SRC = $(STDPERIPH_SRC)
 
 #118,784 max flash
 ifeq ($(TARGET),$(filter $(TARGET),CC3D CC3D_OPBL))
-INCLUDE_DIRS := $(INCLUDE_DIRS) \
-		   $(USBFS_DIR)/inc \
-		   $(ROOT)/src/vcp
-
-VPATH := $(VPATH):$(USBFS_DIR)/src
-
-DEVICE_STDPERIPH_SRC := $(DEVICE_STDPERIPH_SRC) \
-		   $(USBPERIPH_SRC) 
-
 endif
 
 LD_SCRIPT	 = $(LINKER_DIR)/stm32_flash_f103_$(FLASH_SIZE)k.ld
