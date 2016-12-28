@@ -20,3 +20,6 @@
 extern serialPort_t * Serial1;
 
 extern void debug(const char * fmt, ...);
+
+void setup(void);
+void loop(void);

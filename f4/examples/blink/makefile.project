@@ -1,0 +1,7 @@
+PROJECT_NAME = blink
+
+# Contains your setup() and loop()
+PROJECT_SRC_FILE  = blink.c
+
+# Drivers, etc.
+PROJECT_BREEZY_FILES = 

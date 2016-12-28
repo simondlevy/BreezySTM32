@@ -2,6 +2,8 @@ BREEZY_DIR = $(HOME)/Desktop/BreezySTM32
 
 F4_DIR = $(BREEZY_DIR)/f4
 
+include makefile.project
+
 # The target to build, see VALID_TARGETS below
 TARGET		?= REVO
 
@@ -160,7 +162,7 @@ INCLUDE_DIRS := $(INCLUDE_DIRS) \
 
 VPATH		:= $(VPATH):$(TARGET_DIR)
 
-COMMON_SRC = \
+COMMON_SRC = $(PROJECT_SRC_FILE) \
 		   $(F4_DIR)/main.c \
 		   $(F4_DIR)/exti.c \
 		   $(F4_DIR)/io.c \

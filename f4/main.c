@@ -62,6 +62,8 @@ int main(void) {
 
     timerStart();
 
+    setup();
+
     while (true) {
 
 #ifndef EXTERNAL_DEBUG
@@ -73,9 +75,8 @@ int main(void) {
          }
 #endif
 
-        static int count;
-        debug("%ld\n", count++);
-       
+        loop();
+
         delay(5);
 
     }
