@@ -8,15 +8,14 @@
 #include "platform.h"
 #include "exti.h"
 #include "io.h"
-
-#include "drivers/system.h"
-#include "drivers/gpio.h"
 #include "serial.h"
+#include "gpio.h"
+#include "serial_usb_vcp.h"
+#include "light_led.h"
+#include "bus_i2c.h"
+#include "system.h"
 #include "drivers/timer.h"
-#include "drivers/serial_usb_vcp.h"
-#include "drivers/light_led.h"
-#include "drivers/bus_i2c.h"
-#include "drivers/serial_uart.h"
+#include "serial_uart.h"
 
 extern serialPort_t * Serial1;
 
