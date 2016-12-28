@@ -283,7 +283,6 @@ DEVICE_FLAGS := $(DEVICE_FLAGS) -DFLASH_SIZE=$(FLASH_SIZE)
 endif
 
 TARGET_DIR = $(ROOT)
-TARGET_SRC = $(notdir $(wildcard $(TARGET_DIR)/*.c))
 
 ifneq ($(filter $(TARGET),$(OPBL_VALID_TARGETS)),)
 OPBL=yes
@@ -310,7 +309,7 @@ INCLUDE_DIRS := $(INCLUDE_DIRS) \
 
 VPATH		:= $(VPATH):$(TARGET_DIR)
 
-COMMON_SRC = $(TARGET_SRC) \
+COMMON_SRC = \
 		   main.c \
 		   exti.c \
 		   io.c \
@@ -332,6 +331,8 @@ STM32F4xx_COMMON_SRC = \
 		   light_led.c \
 		   serial_uart.c \
 		   serial_uart_stm32f4xx.c \
+		   system_stm32f4xx.c \
+		   target_system_stm32f4xx.c \
 		   timer.c \
 		   timer_stm32f4xx.c
 
