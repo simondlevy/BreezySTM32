@@ -41,8 +41,6 @@
 #endif
 
 #include "io/serial.h"
-#include "serial_cli.h"
-#include "serial_msp.h"
 
 
 #ifdef TELEMETRY
@@ -190,43 +188,7 @@ serialPort_t *findNextSharedSerialPort(uint16_t functionMask, serialPortFunction
 bool isSerialConfigValid(serialConfig_t *serialConfigToCheck)
 {
     UNUSED(serialConfigToCheck);
-    /*
-     * rules:
-     * - 1 MSP port minimum, max MSP ports is defined and must be adhered to.
-     * - Only MSP is allowed to be shared with EITHER any telemetry OR blackbox.
-     * - No other sharing combinations are valid.
-     */
-    uint8_t mspPortCount = 0;
 
-    uint8_t index;
-    for (index = 0; index < SERIAL_PORT_COUNT; index++) {
-        serialPortConfig_t *portConfig = &serialConfigToCheck->portConfigs[index];
-
-        if (portConfig->functionMask & FUNCTION_MSP) {
-            mspPortCount++;
-        }
-
-        uint8_t bitCount = BITCOUNT(portConfig->functionMask);
-        if (bitCount > 1) {
-            // shared
-            if (bitCount > 2) {
-                return false;
-            }
-
-            if (!(portConfig->functionMask & FUNCTION_MSP)) {
-                return false;
-            }
-
-            if (!(portConfig->functionMask & ALL_FUNCTIONS_SHARABLE_WITH_MSP)) {
-                // some other bit must have been set.
-                return false;
-            }
-        }
-    }
-
-    if (mspPortCount == 0 || mspPortCount > MAX_MSP_PORT_COUNT) {
-        return false;
-    }
     return true;
 }
 
@@ -403,7 +365,6 @@ void handleSerial(void)
     }
 #endif
 
-    mspProcess();
 }
 
 void waitForSerialPortToFinishTransmitting(serialPort_t *serialPort)
