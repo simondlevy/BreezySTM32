@@ -323,10 +323,8 @@ COMMON_SRC = $(TARGET_SRC) \
 
 STM32F4xx_COMMON_SRC = \
 		   startup_stm32f40xx.s \
-		   drivers/adc.c \
-		   drivers/adc_stm32f4xx.c \
-		   drivers/adc.c \
-		   drivers/adc_stm32f4xx.c \
+		   adc.c \
+		   adc_stm32f4xx.c \
 		   drivers/bus_i2c.c \
 		   drivers/bus_spi.c \
 		   drivers/gpio_stm32f4xx.c \
