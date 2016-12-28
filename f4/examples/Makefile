@@ -298,17 +298,6 @@ CPPCHECK         = cppcheck $(CSOURCES) --enable=all --platform=unix64 \
 		   $(addprefix -I,$(INCLUDE_DIRS)) \
 		   -I/usr/include -I/usr/include/linux
 
-#
-# Things we will build
-#
-ifeq ($(filter $(TARGET),$(VALID_TARGETS)),)
-$(error Target '$(TARGET)' is not valid, must be one of $(VALID_TARGETS))
-endif
-
-CC3D_OPBL_SRC     = $(CC3D_SRC)
-REVO_OPBL_SRC     = $(REVO_SRC)
-REVONANO_OPBL_SRC = $(REVONANO_SRC)
-SPARKY2_OPBL_SRC  = $(SPARKY2_SRC)
 
 TARGET_BIN	 = $(BIN_DIR)/$(TARGET).bin
 TARGET_HEX	 = $(BIN_DIR)/$(TARGET).hex
