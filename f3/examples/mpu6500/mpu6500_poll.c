@@ -31,6 +31,11 @@ void setup(void)
 
 void loop(void)
 {
-    static int count;
-    debug("%d\n", count++);
+    int16_t accel[3];
+    mpu_read_accel(accel);
+    debug("ax: %+04d  ay: %+04d  az: %+04d    ", accel[0], accel[1], accel[2]);
+
+    int16_t gyro[3];
+    mpu_read_gyro(gyro);
+    debug("gx: %+04d  gy: %+04d  gz: %+04d\n", gyro[0], gyro[1], gyro[2]);
 }
