@@ -24,6 +24,7 @@ TARGET    ?= $(PROJECT_NAME)
 BREEZY_DIR ?= $(HOME)/Desktop/BreezySTM32
 
 F3_DIR = $(BREEZY_DIR)/f3
+DRIVERS_DIR = $(F3_DIR)/drivers
 
 # Compile-time options
 OPTIONS   ?=
@@ -44,16 +45,13 @@ SERIAL_DEVICE   ?= /dev/ttyACM0
 export AT := @
 
 ifndef V
-export V0    :=
 export V1    := $(AT)
 export STDOUT   :=
 else ifeq ($(V), 0)
-export V0    := $(AT)
 export V1    := $(AT)
 export STDOUT:= "> /dev/null"
 export MAKE  := $(MAKE) --no-print-directory
 else ifeq ($(V), 1)
-export V0    :=
 export V1    :=
 export STDOUT   :=
 endif
@@ -101,6 +99,7 @@ CMSIS_SRC       = $(notdir $(wildcard $(CMSIS_DIR)/CM1/CoreSupport/*.c \
 INCLUDE_DIRS    := $(SRC_DIR) \
                   $(BREEZY_DIR) \
                   $(F3_DIR) \
+				  $(DRIVERS_DIR) \
                   $(STDPERIPH_DIR)/inc \
                   $(CMSIS_DIR)/CM1/CoreSupport \
                   $(CMSIS_DIR)/CM1/DeviceSupport/ST/STM32F30x
@@ -273,12 +272,12 @@ $(OBJECT_DIR)/$(TARGET)/build/version.o : $(TARGET_SRC)
 # It would be nice to compute these lists, but that seems to be just beyond make.
 
 $(TARGET_BIN): $(TARGET_ELF)
-	$(V0) $(OBJCOPY) -O binary $< $@
+	$(OBJCOPY) -O binary $< $@
 
 $(TARGET_ELF):  $(TARGET_OBJS)
 	$(V1) echo Linking $(TARGET)
 	$(V1) $(CROSS_CC) -o $@ $^ $(LDFLAGS)
-	$(V0) $(SIZE) $(TARGET_ELF)
+	 $(SIZE) $(TARGET_ELF)
 
 # Compile
 $(OBJECT_DIR)/$(TARGET)/%.o: %.c
@@ -302,18 +301,18 @@ sample: $(SAMPLE_TARGETS)
 
 ## clean             : clean up temporary / machine-generated files
 clean:
-	$(V0) echo "Cleaning $(TARGET)"
-	$(V0) rm -f $(CLEAN_ARTIFACTS)
-	$(V0) rm -rf $(OBJECT_DIR)
-	$(V0) echo "Cleaning $(TARGET) succeeded."
+	 echo "Cleaning $(TARGET)"
+	 rm -f $(CLEAN_ARTIFACTS)
+	 rm -rf $(OBJECT_DIR)
+	 echo "Cleaning $(TARGET) succeeded."
 
 ## clean_<TARGET>    : clean up one specific target
 $(CLEAN_TARGETS) :
-	$(V0) $(MAKE) -j TARGET=$(subst clean_,,$@) clean
+	 $(MAKE) -j TARGET=$(subst clean_,,$@) clean
 
 ## <TARGET>_clean    : clean up one specific target (alias for above)
 $(TARGETS_CLEAN) :
-	$(V0) $(MAKE) -j TARGET=$(subst _clean,,$@) clean
+	 $(MAKE) -j TARGET=$(subst _clean,,$@) clean
 
 ## clean_all         : clean all valid targets
 clean_all:$(CLEAN_TARGETS)
@@ -323,16 +322,15 @@ all_clean:$(TARGETS_CLEAN)
 
 
 flash_$(TARGET): $(TARGET_BIN)
-	$(V0) stty -F $(SERIAL_DEVICE) raw speed 115200 -crtscts cs8 -parenb -cstopb -ixon
-	$(V0) echo -n 'R' >$(SERIAL_DEVICE)
-	sleep 1
+	echo -n 'R' >$(SERIAL_DEVICE)
+	sleep 4
 	dfu-util -a 0 -s 0x08000000:leave -D $(TARGET_BIN)
 
 ## flash             : flash firmware (.hex) onto flight controller
 flash: flash_$(TARGET)
 
 bin:
-	$(V0) $(MAKE) -j $(TARGET_BIN)
+	 $(MAKE) -j $(TARGET_BIN)
 
 unbrick_$(TARGET): $(TARGET_BIN)
 	dfu-util -a 0 -s 0x08000000:leave -D $(TARGET_BIN)
@@ -342,10 +340,10 @@ unbrick: unbrick_$(TARGET)
 
 ## cppcheck          : run static analysis on C source code
 cppcheck: $(CSOURCES)
-	$(V0) $(CPPCHECK)
+	 $(CPPCHECK)
 
 cppcheck-result.xml: $(CSOURCES)
-	$(V0) $(CPPCHECK) --xml-version=2 2> cppcheck-result.xml
+	 $(CPPCHECK) --xml-version=2 2> cppcheck-result.xml
 
 # rebuild everything when makefile changes
 $(TARGET_OBJS) : Makefile
