@@ -20,10 +20,13 @@
  */
 
 #include <breezystm32.h>
+#include <drivers/mpu.h>
 
 void setup(void)
 {
     i2cInit(I2CDEV_2); 
+
+    mpu6500_init(INV_FSR_8G, INV_FSR_2000DPS);
 } 
 
 void loop(void)
