@@ -49,7 +49,7 @@ int main(void)
             uint8_t c = serialRead(Serial1);
             if (c == 'R') 
                 systemResetToBootloader();
-         }
+        }
 #endif
 
         loop();

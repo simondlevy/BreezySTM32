@@ -41,6 +41,4 @@ void loop(void)
             debug("Found device at address 0X%02X\n", addr);
 
     debug("--------------------------\n");
-
-    delay(1000);
 }

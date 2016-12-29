@@ -120,7 +120,7 @@ LD_SCRIPT       = $(F3_DIR)/stm32_flash_f303_256k.ld
 ARCH_FLAGS      = -mthumb -mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16 -fsingle-precision-constant -Wdouble-promotion
 DEVICE_FLAGS    = -DSTM32F303xC -DSTM32F303
 
-.DEFAULT_GOAL := hex
+.DEFAULT_GOAL := bin
 
 INCLUDE_DIRS    := $(INCLUDE_DIRS) $(TARGET_DIR)
 
@@ -257,7 +257,6 @@ CPPCHECK        = cppcheck $(CSOURCES) --enable=all --platform=unix64 \
 # Things we will build
 #
 TARGET_BIN      = $(BIN_DIR)/$(TARGET).bin
-TARGET_HEX      = $(BIN_DIR)/$(TARGET).hex
 TARGET_ELF      = $(OBJECT_DIR)/$(TARGET).elf
 TARGET_OBJS     = $(addsuffix .o,$(addprefix $(OBJECT_DIR)/$(TARGET)/,$(basename $(TARGET_SRC))))
 TARGET_DEPS     = $(addsuffix .d,$(addprefix $(OBJECT_DIR)/$(TARGET)/,$(basename $(TARGET_SRC))))
@@ -265,7 +264,6 @@ TARGET_MAP      = $(OBJECT_DIR)/$(TARGET).map
 
 
 CLEAN_ARTIFACTS := $(TARGET_BIN)
-CLEAN_ARTIFACTS += $(TARGET_HEX)
 CLEAN_ARTIFACTS += $(TARGET_ELF) $(TARGET_OBJS) $(TARGET_MAP)
 
 # Make sure build date and revision is updated on every incremental build
@@ -273,9 +271,6 @@ $(OBJECT_DIR)/$(TARGET)/build/version.o : $(TARGET_SRC)
 
 # List of buildable ELF files and their object dependencies.
 # It would be nice to compute these lists, but that seems to be just beyond make.
-
-$(TARGET_HEX): $(TARGET_ELF)
-	$(V0) $(OBJCOPY) -O ihex --set-start 0x8000000 $< $@
 
 $(TARGET_BIN): $(TARGET_ELF)
 	$(V0) $(OBJCOPY) -O binary $< $@
@@ -338,9 +333,6 @@ flash: flash_$(TARGET)
 
 bin:
 	$(V0) $(MAKE) -j $(TARGET_BIN)
-
-hex:
-	$(V0) $(MAKE) -j $(TARGET_HEX)
 
 unbrick_$(TARGET): $(TARGET_BIN)
 	dfu-util -a 0 -s 0x08000000:leave -D $(TARGET_BIN)
