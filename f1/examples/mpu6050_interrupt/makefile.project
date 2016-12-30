@@ -4,4 +4,4 @@ PROJECT_NAME = mpu6050_interrupt
 PROJECT_SRC_FILE  = mpu6050_interrupt.c
 
 # Drivers, etc.
-PROJECT_BREEZY_FILES = $(F1_DIR)/i2c_stm32f10x.c $(BREEZY_DIR)/drivers/mpu.c
+PROJECT_BREEZY_FILES = $(F1_DIR)/i2c_stm32f10x.c $(F1_DIR)/drivers/mpu.c
