@@ -318,11 +318,20 @@ clean_all:$(CLEAN_TARGETS)
 ## all_clean         : clean all valid targets (alias for above)
 all_clean:$(TARGETS_CLEAN)
 
+PRE_FLASH = echo -n 'R' >$(SERIAL_DEVICE)
+
+POST_FLASH = dfu-util -a 0 -s 0x08000000:leave -D $(TARGET_BIN)
+
+preflash:
+	$(PRE_FLASH)
+
+postflash:
+	$(POST_FLASH)
 
 flash_$(TARGET): $(TARGET_BIN)
-	echo -n 'R' >$(SERIAL_DEVICE)
+	$(PRE_FLASH)
 	sleep 4
-	dfu-util -a 0 -s 0x08000000:leave -D $(TARGET_BIN)
+	$(UNBRICK):
 
 ## flash             : flash firmware (.hex) onto flight controller
 flash: flash_$(TARGET)
@@ -331,7 +340,7 @@ bin:
 	 $(MAKE) -j $(TARGET_BIN)
 
 unbrick_$(TARGET): $(TARGET_BIN)
-	dfu-util -a 0 -s 0x08000000:leave -D $(TARGET_BIN)
+	$(POST_FLASH)
 
 ## unbrick           : unbrick flight controller
 unbrick: unbrick_$(TARGET)
