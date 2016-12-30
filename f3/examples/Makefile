@@ -153,13 +153,10 @@ SIZE        := $(ARM_SDK_PREFIX)size
 # Tool options.
 #
 
-#DEBUG_FLAGS = -ggdb3 -DDEBUG
-
 CFLAGS      += $(ARCH_FLAGS) \
               $(LTO_FLAGS) \
               $(addprefix -D,$(OPTIONS)) \
               $(addprefix -I,$(INCLUDE_DIRS)) \
-              $(DEBUG_FLAGS) \
               -std=gnu99 \
               -Wall -Wextra -Wunsafe-loop-optimizations -Wdouble-promotion \
               -ffunction-sections \
@@ -186,7 +183,6 @@ LDFLAGS     = -lm \
               -lnosys \
               $(ARCH_FLAGS) \
               $(LTO_FLAGS) \
-              $(DEBUG_FLAGS) \
               -static \
               -Wl,-gc-sections,-Map,$(TARGET_MAP) \
               -Wl,--cref \
