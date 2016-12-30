@@ -26,8 +26,6 @@ void debug(const char * fmt, ...)
 
 int main(void)
 {
-
-
     SCB->CPACR = (0x3 << (10*2)) | (0x3 << (11*2)); // start FPU
     SetSysClock();
 
@@ -47,15 +45,12 @@ int main(void)
     while (true) {
 
 #ifndef EXTERNAL_DEBUG
-        // support reboot from host computer; check every 100 msec
-        if (millis()-dbg_start_msec > 100) {
-            dbg_start_msec = millis();
-            while (serialRxBytesWaiting(Serial1)) {
-                uint8_t c = serialRead(Serial1);
-                if (c == 'R') 
-                    systemResetToBootloader();
-            }
-        }
+        // support reboot from host computer
+        while (serialRxBytesWaiting(Serial1)) {
+            uint8_t c = serialRead(Serial1);
+            if (c == 'R') 
+                systemResetToBootloader();
+         }
 #endif
 
         loop();

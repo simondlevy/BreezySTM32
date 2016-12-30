@@ -46,23 +46,14 @@ int main(void) {
     
     timerInit();  // timer must be initialized before any channel is allocated
 
-
-    LED1_ON;
-    LED0_OFF;
-    uint8_t i;
-    for (i = 0; i < 10; i++) {
-        LED1_TOGGLE;
-        LED0_TOGGLE;
-        delay(50);
-    }
-    LED0_OFF;
-    LED1_OFF;
-
     Serial1 = usbVcpOpen();
 
     timerStart();
 
     setup();
+
+    /// supports periodic reboot check
+    uint32_t dbg_start_msec = 0;
 
     while (true) {
 
@@ -76,9 +67,6 @@ int main(void) {
 #endif
 
         loop();
-
-        delay(5);
-
     }
 }
 
