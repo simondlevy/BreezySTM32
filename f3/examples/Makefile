@@ -153,19 +153,7 @@ SIZE        := $(ARM_SDK_PREFIX)size
 # Tool options.
 #
 
-#ifeq ($(DEBUG),GDB)
-#OPTIMIZE    = -O0
-#LTO_FLAGS   = $(OPTIMIZE)
-#else
-#ifeq ($(TARGET),$(filter $(TARGET),$(F1_TARGETS)))
-#OPTIMIZE    = -Os
-#else
-#OPTIMIZE    = -Ofast
-#endif
-#LTO_FLAGS   = -flto -fuse-linker-plugin $(OPTIMIZE)
-#endif
-
-DEBUG_FLAGS = -ggdb3 -DDEBUG
+#DEBUG_FLAGS = -ggdb3 -DDEBUG
 
 CFLAGS      += $(ARCH_FLAGS) \
               $(LTO_FLAGS) \
