@@ -64,6 +64,6 @@ int main(void)
 
 void HardFault_Handler(void)
 {
-    while (1) {
+    while (true) {
     }
 }
