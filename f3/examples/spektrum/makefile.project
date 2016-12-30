@@ -4,4 +4,4 @@ PROJECT_NAME = lemonrx
 PROJECT_SRC_FILE  = lemonrx.c
 
 # Drivers, etc.
-PROJECT_BREEZY_FILES = $(F1_DIR)/drivers/spektrum.c
+PROJECT_BREEZY_FILES = $(DRIVERS_DIR)/spektrum.c
