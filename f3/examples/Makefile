@@ -41,8 +41,6 @@ OBJECT_DIR      = $(ROOT)/obj
 BIN_DIR         = $(ROOT)/obj
 CMSIS_DIR       = $(BREEZY_DIR)/lib/CMSIS
 
-REVISION = $(shell git log -1 --format="%h")
-
 # Search path for sources
 VPATH           := $(SRC_DIR)
 USBFS_DIR       = $(BREEZY_DIR)/lib/STM32_USB-FS-Device_Driver
@@ -167,7 +165,6 @@ CFLAGS      += $(ARCH_FLAGS) \
               -D$(TARGET) \
               $(TARGET_FLAGS) \
               -D'__TARGET__="$(TARGET)"' \
-              -D'__REVISION__="$(REVISION)"' \
               -save-temps=obj \
               -MMD -MP
 
