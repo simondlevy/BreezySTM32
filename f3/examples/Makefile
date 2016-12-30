@@ -330,8 +330,8 @@ postflash:
 
 flash_$(TARGET): $(TARGET_BIN)
 	$(PRE_FLASH)
-	sleep 4
-	$(UNBRICK):
+	sleep 2
+	$(POST_FLASH)
 
 ## flash             : flash firmware (.hex) onto flight controller
 flash: flash_$(TARGET)
