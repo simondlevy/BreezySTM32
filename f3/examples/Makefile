@@ -193,11 +193,6 @@ LDFLAGS     = -lm \
 # No user-serviceable parts below
 ###############################################################################
 
-CPPCHECK        = cppcheck $(CSOURCES) --enable=all --platform=unix64 \
-                  --std=c99 --inline-suppr --quiet --force \
-                  $(addprefix -I,$(INCLUDE_DIRS)) \
-                  -I/usr/include -I/usr/include/linux
-
 #
 # Things we will build
 #
@@ -292,13 +287,6 @@ unbrick_$(TARGET): $(TARGET_BIN)
 
 ## unbrick           : unbrick flight controller
 unbrick: unbrick_$(TARGET)
-
-## cppcheck          : run static analysis on C source code
-cppcheck: $(CSOURCES)
-	 $(CPPCHECK)
-
-cppcheck-result.xml: $(CSOURCES)
-	 $(CPPCHECK) --xml-version=2 2> cppcheck-result.xml
 
 # rebuild everything when makefile changes
 $(TARGET_OBJS) : Makefile
