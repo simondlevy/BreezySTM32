@@ -23,15 +23,6 @@
 #define MOTOR_DMA_BUFFER_SIZE 18 /* resolution + frame reset (2us) */
 #define PWM_BRUSHED_TIMER_MHZ 24
 
-typedef struct {
-    ioTag_t ioTag;
-    const timerHardware_t *timerHardware;
-    uint16_t value;
-    uint16_t timerDmaSource;
-    volatile bool requestTelemetry;
-    uint32_t dmaBuffer[MOTOR_DMA_BUFFER_SIZE];
-} motorDmaOutput_t;
-
 typedef void(*pwmCompleteWriteFuncPtr)(uint8_t motorCount);   // function pointer used after motors are written
 
 typedef struct {
