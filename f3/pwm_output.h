@@ -17,6 +17,6 @@
 
 #pragma once
 
-void motorInit(uint16_t idlePulse, uint8_t motorCount);
+void pwmInitMotors(uint16_t idlePulse, uint8_t motorCount);
 
 void pwmWriteMotor(uint8_t index, uint16_t value);

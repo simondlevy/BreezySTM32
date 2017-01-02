@@ -82,7 +82,7 @@ void pwmWriteMotor(uint8_t index, uint16_t value)
     *motors[index].ccr = (value - 1000) * motors[index].period / 1000;
 }
 
-void motorInit(uint16_t idlePulse, uint8_t motorCount)
+void pwmInitMotors(uint16_t idlePulse, uint8_t motorCount)
 {
     motorConfig_t motorConfig;
 
