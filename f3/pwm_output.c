@@ -24,6 +24,7 @@
 #include "io.h"
 #include "timer.h"
 #include "pwm_output.h"
+#include "motors.h"
 
 #define PWM_BRUSHED_TIMER_MHZ 24
 
