@@ -20,10 +20,6 @@
 #include "motors.h"
 #include "timer.h"
 
-#define MOTOR_DMA_BUFFER_SIZE 18 /* resolution + frame reset (2us) */
-#define PWM_BRUSHED_TIMER_MHZ 24
-
-typedef void(*pwmCompleteWriteFuncPtr)(uint8_t motorCount);   // function pointer used after motors are written
 
 typedef struct {
     volatile timCCR_t *ccr;

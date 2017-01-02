@@ -25,8 +25,7 @@
 #include "timer.h"
 #include "pwm_output.h"
 
-#define MULTISHOT_5US_PW    (MULTISHOT_TIMER_MHZ * 5)
-#define MULTISHOT_20US_MULT (MULTISHOT_TIMER_MHZ * 20 / 1000.0f)
+#define PWM_BRUSHED_TIMER_MHZ 24
 
 static pwmOutputPort_t motors[MAX_SUPPORTED_MOTORS];
 
