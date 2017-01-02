@@ -79,7 +79,7 @@ static void pwmOutConfig(pwmOutputPort_t *port, const timerHardware_t *timerHard
 
 void pwmWriteMotor(uint8_t index, uint16_t value)
 {
-    *motors[index].ccr = (value - 1000) * motors[index].period / 1000;
+    *motors[index].ccr = (value<1000) ? 0 : (value - 1000) * motors[index].period / 1000;
 }
 
 void pwmInitMotors(uint16_t idlePulse, uint8_t motorCount)
