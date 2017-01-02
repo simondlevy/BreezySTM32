@@ -73,8 +73,18 @@ void pwmWriteMotor(uint8_t index, uint16_t value)
     *motors[index].ccr = (value - 1000) * motors[index].period / 1000;
 }
 
-void motorInit(const motorConfig_t *motorConfig, uint16_t idlePulse, uint8_t motorCount)
+void motorInit(uint16_t idlePulse, uint8_t motorCount)
 {
+    motorConfig_t motorConfig;
+
+    int motorIndex = 0;
+    for (int i = 0; i < USABLE_TIMER_CHANNEL_COUNT && motorIndex < MAX_SUPPORTED_MOTORS; i++) {
+        if (timerHardware[i].usageFlags & TIM_USE_MOTOR) {
+            motorConfig.ioTags[motorIndex] = timerHardware[i].tag;
+            motorIndex++;
+        }
+    }
+
     uint32_t timerMhzCounter = 0;
 
     timerMhzCounter = PWM_BRUSHED_TIMER_MHZ;
@@ -82,7 +92,7 @@ void motorInit(const motorConfig_t *motorConfig, uint16_t idlePulse, uint8_t mot
 
     for (int motorIndex = 0; motorIndex < MAX_SUPPORTED_MOTORS && motorIndex < motorCount; motorIndex++) {
 
-        const ioTag_t tag = motorConfig->ioTags[motorIndex];
+        const ioTag_t tag = motorConfig.ioTags[motorIndex];
 
         if (!tag) {
             break;
