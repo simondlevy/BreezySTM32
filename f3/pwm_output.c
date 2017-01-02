@@ -31,8 +31,6 @@
 static pwmOutputPort_t motors[MAX_SUPPORTED_MOTORS];
 static pwmCompleteWriteFuncPtr pwmCompleteWritePtr = NULL;
 
-bool pwmMotorsEnabled = false;
-
 static void pwmOCConfig(TIM_TypeDef *tim, uint8_t channel, uint16_t value, uint8_t output)
 {
     TIM_OCInitTypeDef TIM_OCInitStructure;
@@ -86,42 +84,6 @@ void pwmShutdownPulsesForAllMotors(uint8_t motorCount)
     }
 }
 
-void pwmDisableMotors(void)
-{
-    pwmShutdownPulsesForAllMotors(MAX_SUPPORTED_MOTORS);
-    pwmMotorsEnabled = false;
-}
-
-void pwmEnableMotors(void)
-{
-    pwmMotorsEnabled = true;
-}
-
-bool pwmAreMotorsEnabled(void)
-{
-    return pwmMotorsEnabled;
-}
-
-static void pwmCompleteOneshotMotorUpdate(uint8_t motorCount)
-{
-    for (int index = 0; index < motorCount; index++) {
-        bool overflowed = false;
-        // If we have not already overflowed this timer
-        for (int j = 0; j < index; j++) {
-            if (motors[j].tim == motors[index].tim) {
-                overflowed = true;
-                break;
-            }
-        }
-        if (!overflowed) {
-            timerForceOverflow(motors[index].tim);
-        }
-        // Set the compare register to 0, which stops the output pulsing if the timer overflows before the main loop completes again.
-        // This compare register will be set to the output value on the next main loop.
-        *motors[index].ccr = 0;
-    }
-}
-
 void pwmCompleteMotorUpdate(uint8_t motorCount)
 {
     if (pwmCompleteWritePtr) {
@@ -132,18 +94,12 @@ void pwmCompleteMotorUpdate(uint8_t motorCount)
 void motorInit(const motorConfig_t *motorConfig, uint16_t idlePulse, uint8_t motorCount)
 {
     uint32_t timerMhzCounter = 0;
-    bool useUnsyncedPwm = true;
-    bool isDigital = false;
 
     timerMhzCounter = PWM_BRUSHED_TIMER_MHZ;
-    useUnsyncedPwm = true;
     idlePulse = 0;
 
-    if (!useUnsyncedPwm && !isDigital) {
-        pwmCompleteWritePtr = pwmCompleteOneshotMotorUpdate;
-    }
-
     for (int motorIndex = 0; motorIndex < MAX_SUPPORTED_MOTORS && motorIndex < motorCount; motorIndex++) {
+
         const ioTag_t tag = motorConfig->ioTags[motorIndex];
 
         if (!tag) {
@@ -162,13 +118,9 @@ void motorInit(const motorConfig_t *motorConfig, uint16_t idlePulse, uint8_t mot
         IOInit(motors[motorIndex].io, OWNER_MOTOR, RESOURCE_INDEX(motorIndex));
         IOConfigGPIO(motors[motorIndex].io, IOCFG_AF_PP);
 
-        if (useUnsyncedPwm) {
-            const uint32_t hz = timerMhzCounter * 1000000;
-            pwmOutConfig(&motors[motorIndex], timerHardware, timerMhzCounter, hz / BRUSHED_MOTORS_PWM_RATE, idlePulse);
-        } else {
-            pwmOutConfig(&motors[motorIndex], timerHardware, timerMhzCounter, 0xFFFF, 0);
-        }
+        const uint32_t hz = timerMhzCounter * 1000000;
+        pwmOutConfig(&motors[motorIndex], timerHardware, timerMhzCounter, hz / BRUSHED_MOTORS_PWM_RATE, idlePulse);
+
         motors[motorIndex].enabled = true;
     }
-    pwmMotorsEnabled = true;
 }

@@ -33,8 +33,6 @@ typedef struct {
     uint32_t dmaBuffer[MOTOR_DMA_BUFFER_SIZE];
 } motorDmaOutput_t;
 
-extern bool pwmMotorsEnabled;
-
 typedef void(*pwmCompleteWriteFuncPtr)(uint8_t motorCount);   // function pointer used after motors are written
 
 typedef struct {
