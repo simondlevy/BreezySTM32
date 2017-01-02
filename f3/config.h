@@ -16,3 +16,5 @@
  */
 
 #pragma once
+
+void resetMotorConfig(motorConfig_t *motorConfig);

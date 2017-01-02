@@ -40,6 +40,9 @@ along with BreezySTM32.  If not, see <http://www.gnu.org/licenses/>.
 #include "light_led.h"
 #include "i2c.h"
 #include "serial_uart.h"
+#include "motors.h"
+#include "config.h"
+#include "pwm_output.h"
 
 extern serialPort_t * Serial1;
 
