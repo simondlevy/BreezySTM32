@@ -20,9 +20,8 @@
 #include "motors.h"
 #include "timer.h"
 
-#define PWM_TIMER_MHZ         1
-#define PWM_BRUSHED_TIMER_MHZ 24
 #define MOTOR_DMA_BUFFER_SIZE 18 /* resolution + frame reset (2us) */
+#define PWM_BRUSHED_TIMER_MHZ 24
 
 typedef struct {
     ioTag_t ioTag;
@@ -44,10 +43,5 @@ typedef struct {
 } pwmOutputPort_t;
 
 void motorInit(const motorConfig_t *motorConfig, uint16_t idlePulse, uint8_t motorCount);
+
 void pwmWriteMotor(uint8_t index, uint16_t value);
-void pwmShutdownPulsesForAllMotors(uint8_t motorCount);
-void pwmCompleteMotorUpdate(uint8_t motorCount);
-bool pwmIsSynced(void);
-void pwmDisableMotors(void);
-void pwmEnableMotors(void);
-bool pwmAreMotorsEnabled(void);

@@ -29,7 +29,6 @@
 #define MULTISHOT_20US_MULT (MULTISHOT_TIMER_MHZ * 20 / 1000.0f)
 
 static pwmOutputPort_t motors[MAX_SUPPORTED_MOTORS];
-static pwmCompleteWriteFuncPtr pwmCompleteWritePtr = NULL;
 
 static void pwmOCConfig(TIM_TypeDef *tim, uint8_t channel, uint16_t value, uint8_t output)
 {
@@ -72,23 +71,6 @@ static void pwmOutConfig(pwmOutputPort_t *port, const timerHardware_t *timerHard
 void pwmWriteMotor(uint8_t index, uint16_t value)
 {
     *motors[index].ccr = (value - 1000) * motors[index].period / 1000;
-}
-
-void pwmShutdownPulsesForAllMotors(uint8_t motorCount)
-{
-    for (int index = 0; index < motorCount; index++) {
-        // Set the compare register to 0, which stops the output pulsing if the timer overflows
-        if (motors[index].ccr) {
-            *motors[index].ccr = 0;
-        }
-    }
-}
-
-void pwmCompleteMotorUpdate(uint8_t motorCount)
-{
-    if (pwmCompleteWritePtr) {
-        pwmCompleteWritePtr(motorCount);
-    }
 }
 
 void motorInit(const motorConfig_t *motorConfig, uint16_t idlePulse, uint8_t motorCount)
