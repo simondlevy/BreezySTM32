@@ -21,14 +21,6 @@
 #include "timer.h"
 
 
-typedef struct {
-    volatile timCCR_t *ccr;
-    TIM_TypeDef *tim;
-    uint16_t period;
-    bool enabled;
-    IO_t io;
-} pwmOutputPort_t;
-
 void motorInit(uint16_t idlePulse, uint8_t motorCount);
 
 void pwmWriteMotor(uint8_t index, uint16_t value);
