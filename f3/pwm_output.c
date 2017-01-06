@@ -115,16 +115,6 @@ void pwmWriteMotor(uint8_t index, uint16_t value)
         motors[index]->pwmWritePtr(index, value);
 }
 
-void pwmShutdownPulsesForAllMotors(uint8_t motorCount)
-{
-    uint8_t index;
-
-    for(index = 0; index < motorCount; index++){
-        // Set the compare register to 0, which stops the output pulsing if the timer overflows
-        *motors[index]->ccr = 0;
-    }
-}
-
 void pwmBrushedMotorConfig(const timerHardware_t *timerHardware, uint8_t motorIndex, uint16_t motorPwmRate)
 {
     uint32_t hz = PWM_BRUSHED_TIMER_MHZ * 1000000;
@@ -138,13 +128,3 @@ void pwmBrushlessMotorConfig(const timerHardware_t *timerHardware, uint8_t motor
     motors[motorIndex] = pwmOutConfig(timerHardware, PWM_TIMER_MHZ, hz / motorPwmRate, idlePulse);
     motors[motorIndex]->pwmWritePtr = pwmWriteStandard;
 }
-
-
-
-
-
-
-
-
-
-

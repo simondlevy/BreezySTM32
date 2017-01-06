@@ -1,5 +1,5 @@
 /*
-   blink.c : blink the LED
+   motor.c : Spin a brushed DC motor
 
    Copyright (C) 2016 Simon D. Levy 
 
