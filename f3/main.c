@@ -33,6 +33,8 @@ int main(void)
 
     IOInitGlobal();
 
+    timerInit();
+
     Serial1 = usbVcpOpen();
 
     ledInit(false);

@@ -1,127 +1,150 @@
-/*
- * This file is part of Cleanflight.
- *
- * Cleanflight is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * Cleanflight is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with Cleanflight.  If not, see <http://www.gnu.org/licenses/>.
- */
-
 #include <stdbool.h>
 #include <stdint.h>
-#include <math.h>
+
+#include <stdlib.h>
 
 #include "platform.h"
 
-#include "io.h"
+#include "gpio.h"
 #include "timer.h"
-#include "pwm_output.h"
-#include "motors.h"
 
-#define PWM_BRUSHED_TIMER_MHZ 24
+#include "pwm_mapping.h"
+
+#include "pwm_output.h"
+
+typedef void (*pwmWriteFuncPtr)(uint8_t index, uint16_t value);  // function pointer used to write motors
 
 typedef struct {
     volatile timCCR_t *ccr;
     TIM_TypeDef *tim;
     uint16_t period;
-    bool enabled;
-    IO_t io;
+    pwmWriteFuncPtr pwmWritePtr;
 } pwmOutputPort_t;
 
+static pwmOutputPort_t pwmOutputPorts[MAX_PWM_OUTPUT_PORTS];
 
-static pwmOutputPort_t motors[MAX_SUPPORTED_MOTORS];
+static pwmOutputPort_t *motors[MAX_PWM_MOTORS];
 
-static void pwmOCConfig(TIM_TypeDef *tim, uint8_t channel, uint16_t value, uint8_t output)
+static uint8_t allocatedOutputPortCount = 0;
+
+static void pwmOCConfig(TIM_TypeDef *tim, uint8_t channel, uint16_t value)
 {
-    TIM_OCInitTypeDef TIM_OCInitStructure;
+    TIM_OCInitTypeDef  TIM_OCInitStructure;
 
     TIM_OCStructInit(&TIM_OCInitStructure);
-    TIM_OCInitStructure.TIM_OCMode = TIM_OCMode_PWM1;
-
-    if (output & TIMER_OUTPUT_N_CHANNEL) {
-        TIM_OCInitStructure.TIM_OutputNState = TIM_OutputNState_Enable;
-        TIM_OCInitStructure.TIM_OCNIdleState = TIM_OCNIdleState_Reset;
-        TIM_OCInitStructure.TIM_OCNPolarity = (output & TIMER_OUTPUT_INVERTED) ? TIM_OCNPolarity_High : TIM_OCNPolarity_Low;
-    } else {
-        TIM_OCInitStructure.TIM_OutputState = TIM_OutputState_Enable;
-        TIM_OCInitStructure.TIM_OCIdleState = TIM_OCIdleState_Set;
-        TIM_OCInitStructure.TIM_OCPolarity =  (output & TIMER_OUTPUT_INVERTED) ? TIM_OCPolarity_Low : TIM_OCPolarity_High;
-    }
+    TIM_OCInitStructure.TIM_OCMode = TIM_OCMode_PWM2;
+    TIM_OCInitStructure.TIM_OutputState = TIM_OutputState_Enable;
+    TIM_OCInitStructure.TIM_OutputNState = TIM_OutputNState_Disable;
     TIM_OCInitStructure.TIM_Pulse = value;
+    TIM_OCInitStructure.TIM_OCPolarity = TIM_OCPolarity_Low;
+    TIM_OCInitStructure.TIM_OCIdleState = TIM_OCIdleState_Set;
 
-    timerOCInit(tim, channel, &TIM_OCInitStructure);
-    timerOCPreloadConfig(tim, channel, TIM_OCPreload_Enable);
+    switch (channel) {
+        case TIM_Channel_1:
+            TIM_OC1Init(tim, &TIM_OCInitStructure);
+            TIM_OC1PreloadConfig(tim, TIM_OCPreload_Enable);
+            break;
+        case TIM_Channel_2:
+            TIM_OC2Init(tim, &TIM_OCInitStructure);
+            TIM_OC2PreloadConfig(tim, TIM_OCPreload_Enable);
+            break;
+        case TIM_Channel_3:
+            TIM_OC3Init(tim, &TIM_OCInitStructure);
+            TIM_OC3PreloadConfig(tim, TIM_OCPreload_Enable);
+            break;
+        case TIM_Channel_4:
+            TIM_OC4Init(tim, &TIM_OCInitStructure);
+            TIM_OC4PreloadConfig(tim, TIM_OCPreload_Enable);
+            break;
+    }
 }
 
-static void pwmOutConfig(pwmOutputPort_t *port, const timerHardware_t *timerHardware, uint8_t mhz, uint16_t period, uint16_t value)
+static void pwmGPIOConfig(GPIO_TypeDef *gpio, uint32_t pin, GPIO_Mode mode)
 {
+    gpio_config_t cfg;
+
+    cfg.pin = pin;
+    cfg.mode = mode;
+    cfg.speed = Speed_2MHz;
+    gpioInit(gpio, &cfg);
+}
+
+
+static pwmOutputPort_t *pwmOutConfig(const timerHardware_t *timerHardware, uint8_t mhz, uint16_t period, uint16_t value)
+{
+    pwmOutputPort_t *p = &pwmOutputPorts[allocatedOutputPortCount++];
 
     configTimeBase(timerHardware->tim, period, mhz);
-    pwmOCConfig(timerHardware->tim, timerHardware->channel, value, timerHardware->output);
-
-    TIM_CtrlPWMOutputs(timerHardware->tim, ENABLE);
+    pwmGPIOConfig(timerHardware->gpio, timerHardware->pin, Mode_AF_PP);
+    pwmOCConfig(timerHardware->tim, timerHardware->channel, value);
     TIM_Cmd(timerHardware->tim, ENABLE);
 
-    port->ccr = timerChCCR(timerHardware);
-    port->period = period;
-    port->tim = timerHardware->tim;
+    switch (timerHardware->channel) {
+        case TIM_Channel_1:
+            p->ccr = &timerHardware->tim->CCR1;
+            break;
+        case TIM_Channel_2:
+            p->ccr = &timerHardware->tim->CCR2;
+            break;
+        case TIM_Channel_3:
+            p->ccr = &timerHardware->tim->CCR3;
+            break;
+        case TIM_Channel_4:
+            p->ccr = &timerHardware->tim->CCR4;
+            break;
+    }
+    p->period = period;
+    p->tim = timerHardware->tim;
 
-    *port->ccr = 0;
+    return p;
+}
+
+void pwmWriteBrushed(uint8_t index, uint16_t value)
+{
+    *motors[index]->ccr = (uint16_t)((float)((value - 1000) * motors[index]->period / 1000));
+}
+
+static void pwmWriteStandard(uint8_t index, uint16_t value)
+{
+    *motors[index]->ccr = value;
 }
 
 void pwmWriteMotor(uint8_t index, uint16_t value)
 {
-    *motors[index].ccr = (value<1000) ? 0 : (value - 1000) * motors[index].period / 1000;
+    if (motors[index] && index < MAX_MOTORS)
+        motors[index]->pwmWritePtr(index, value);
 }
 
-void pwmInitMotors(uint16_t idlePulse, uint8_t motorCount)
+void pwmShutdownPulsesForAllMotors(uint8_t motorCount)
 {
-    motorConfig_t motorConfig;
+    uint8_t index;
 
-    int motorIndex = 0;
-    for (int i = 0; i < USABLE_TIMER_CHANNEL_COUNT && motorIndex < MAX_SUPPORTED_MOTORS; i++) {
-        if (timerHardware[i].usageFlags & TIM_USE_MOTOR) {
-            motorConfig.ioTags[motorIndex] = timerHardware[i].tag;
-            motorIndex++;
-        }
-    }
-
-    uint32_t timerMhzCounter = 0;
-
-    timerMhzCounter = PWM_BRUSHED_TIMER_MHZ;
-    idlePulse = 0;
-
-    for (int motorIndex = 0; motorIndex < MAX_SUPPORTED_MOTORS && motorIndex < motorCount; motorIndex++) {
-
-        const ioTag_t tag = motorConfig.ioTags[motorIndex];
-
-        if (!tag) {
-            break;
-        }
-
-        const timerHardware_t *timerHardware = timerGetByTag(tag, TIM_USE_ANY);
-
-        if (timerHardware == NULL) {
-            /* flag failure and disable ability to arm */
-            break;
-        }
-
-        motors[motorIndex].io = IOGetByTag(tag);
-
-        IOInit(motors[motorIndex].io, OWNER_MOTOR, RESOURCE_INDEX(motorIndex));
-        IOConfigGPIO(motors[motorIndex].io, IOCFG_AF_PP);
-
-        const uint32_t hz = timerMhzCounter * 1000000;
-        pwmOutConfig(&motors[motorIndex], timerHardware, timerMhzCounter, hz / BRUSHED_MOTORS_PWM_RATE, idlePulse);
-
-        motors[motorIndex].enabled = true;
+    for(index = 0; index < motorCount; index++){
+        // Set the compare register to 0, which stops the output pulsing if the timer overflows
+        *motors[index]->ccr = 0;
     }
 }
+
+void pwmBrushedMotorConfig(const timerHardware_t *timerHardware, uint8_t motorIndex, uint16_t motorPwmRate)
+{
+    uint32_t hz = PWM_BRUSHED_TIMER_MHZ * 1000000;
+    motors[motorIndex] = pwmOutConfig(timerHardware, PWM_BRUSHED_TIMER_MHZ, hz / motorPwmRate, 0);
+    motors[motorIndex]->pwmWritePtr = pwmWriteBrushed;
+}
+
+void pwmBrushlessMotorConfig(const timerHardware_t *timerHardware, uint8_t motorIndex, uint16_t motorPwmRate, uint16_t idlePulse)
+{
+    uint32_t hz = PWM_TIMER_MHZ * 1000000;
+    motors[motorIndex] = pwmOutConfig(timerHardware, PWM_TIMER_MHZ, hz / motorPwmRate, idlePulse);
+    motors[motorIndex]->pwmWritePtr = pwmWriteStandard;
+}
+
+
+
+
+
+
+
+
+
+
