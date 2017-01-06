@@ -21,10 +21,6 @@
 
 #include <breezystm32.h>
 
-void pwmBrushedMotorConfig(const timerHardware_t *timerHardware, uint8_t motorIndex, uint16_t motorPwmRate);
-
-void pwmWriteBrushed(uint8_t index, uint16_t value);
-
 static uint32_t start;
 
 void setup(void)

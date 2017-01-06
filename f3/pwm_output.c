@@ -104,27 +104,9 @@ void pwmWriteBrushed(uint8_t index, uint16_t value)
     *motors[index]->ccr = (uint16_t)((float)((value - 1000) * motors[index]->period / 1000));
 }
 
-static void pwmWriteStandard(uint8_t index, uint16_t value)
-{
-    *motors[index]->ccr = value;
-}
-
-void pwmWriteMotor(uint8_t index, uint16_t value)
-{
-    if (motors[index] && index < MAX_MOTORS)
-        motors[index]->pwmWritePtr(index, value);
-}
-
 void pwmBrushedMotorConfig(const timerHardware_t *timerHardware, uint8_t motorIndex, uint16_t motorPwmRate)
 {
     uint32_t hz = PWM_BRUSHED_TIMER_MHZ * 1000000;
     motors[motorIndex] = pwmOutConfig(timerHardware, PWM_BRUSHED_TIMER_MHZ, hz / motorPwmRate, 0);
     motors[motorIndex]->pwmWritePtr = pwmWriteBrushed;
-}
-
-void pwmBrushlessMotorConfig(const timerHardware_t *timerHardware, uint8_t motorIndex, uint16_t motorPwmRate, uint16_t idlePulse)
-{
-    uint32_t hz = PWM_TIMER_MHZ * 1000000;
-    motors[motorIndex] = pwmOutConfig(timerHardware, PWM_TIMER_MHZ, hz / motorPwmRate, idlePulse);
-    motors[motorIndex]->pwmWritePtr = pwmWriteStandard;
 }

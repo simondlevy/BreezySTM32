@@ -16,3 +16,7 @@
  */
 
 #pragma once
+
+void pwmWriteBrushed(uint8_t index, uint16_t value);
+
+void pwmBrushedMotorConfig(const timerHardware_t *timerHardware, uint8_t motorIndex, uint16_t motorPwmRate);
