@@ -1,7 +1,0 @@
-PROJECT_NAME = ppmread
-
-# Contains your setup() and loop()
-PROJECT_SRC_FILE  = ppmread.c
-
-# Drivers, etc.
-PROJECT_BREEZY_FILES = $(BREEZY_DIR)/f1/pwm.c

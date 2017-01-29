@@ -27,7 +27,7 @@
 
 void setup(void)
 {
-    i2cInit(I2CDEV); 
+    i2cInit(I2CDEV_2);
 } 
 
 void loop(void)
@@ -35,10 +35,10 @@ void loop(void)
     uint8_t addr;
 
     for (addr=0; addr<128; ++addr)
-        if (i2cWriteRegister(addr, 0x00, 0x00))
-            debug("Found device at address 0X%02X\n", addr);
+        if (i2cWrite(addr, 0x00, 0x00))
+            printf("Found device at address 0X%02X\n", addr);
 
-    debug("--------------------------\n");
+    printf("--------------------------\n");
 
     delay(1000);
 }

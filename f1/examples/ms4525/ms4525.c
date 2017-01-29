@@ -20,7 +20,6 @@
  */
 
 #include <breezystm32.h>
-#include <drivers/ms4525.h>
 
 bool airspeed_present = false;
 volatile int16_t velocity;
@@ -44,12 +43,12 @@ void loop(void)
     if (airspeed_present)
     {
         ms4525_request_async_update();
-        debug("Velocity: %d ", ms4525_read_velocity());
-        debug("\tTemperature: %d\n", ms4525_read_temperature());
+        printf("Velocity: %d ", ms4525_read_velocity());
+        printf("\tTemperature: %d\n", ms4525_read_temperature());
     }
     else
     {
-        debug("no airspeed\n");
+        printf("no airspeed\n");
     }
 }
 

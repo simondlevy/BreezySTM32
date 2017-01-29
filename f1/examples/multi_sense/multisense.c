@@ -1,5 +1,5 @@
 /*
-   multisense.c : report baro, mag, sonar, airspeed
+   accelgyro.c : report accelerometer and gyroscope values
 
    Copyright (C) 2016 James Jackson
 
@@ -20,11 +20,6 @@
  */
 
 #include <breezystm32.h>
-#include <drivers/mpu.h>
-#include <drivers/ms4525.h>
-#include <drivers/hmc5883l.h>
-#include <drivers/ms5611.h>
-#include <drivers/mb1242.h>
 
 #define BOARD_REV 2
 
@@ -56,45 +51,44 @@ bool baro_present= false;
 bool mag_present=false;
 bool sonar_present=false;
 bool airspeed_present=false;
-
-mb1242_t sonar;
-
 void setup(void)
 {
   delay(500);
   i2cInit(I2CDEV_2);
 
   // Init Baro
-  i2cWriteRegister(0, 0, 0);
+  i2cWrite(0, 0, 0);
   baro_present = ms5611_init();
 
   // Init Mag
   mag_present = hmc5883lInit(BOARD_REV);
 
   // Init Sonar
-    sonar.address = 0x70;
-    sonar_present = mb1242_init(&sonar); 
+  sonar_present = mb1242_init();
 
   // Init Airspeed
   airspeed_present = ms4525_detect();
 
   //Init IMU (has to come last because of the ISR)
-  mpu6050_register_interrupt_cb(&interruptCallback, BOARD_REV);
-  mpu6050_init(INV_FSR_8G, INV_FSR_2000DPS);
-  accel_scale = 9.80665f / 4096;
+  mpu6050_register_interrupt_cb(&interruptCallback);
+  uint16_t acc1G;
+  mpu6050_init(true, &acc1G, &gyro_scale, BOARD_REV);
+  accel_scale = 9.80665f / acc1G;
 }
 
 void loop(void)
 {
 
   int32_t baro = 0;
-  int32_t sonardist = 0;
+  int32_t temp = 0;
+  int32_t sonar = 0;
   int32_t airspeed = 0;
   // Update Baro
   if(baro_present)
   {
     ms5611_request_async_update();
     baro = ms5611_read_pressure();
+    temp = ms5611_read_temperature();
   }
 
   // Update Mag
@@ -107,7 +101,7 @@ void loop(void)
   // Update Sonar
   if(sonar_present)
   {
-    sonardist = mb1242_poll(&sonar);
+    sonar = mb1242_poll();
   }
 
   // Update Airspeed
@@ -126,11 +120,11 @@ void loop(void)
     if(count > 1)
     {
       count = 0;
-      debug("%d\t %d\t %d\t %d\t %d\t %d\n",
+      printf("%d\t %d\t %d\t %d\t %d\t %d\n",
              (int32_t)(accel_data[2]*accel_scale*1000.0f),
              (int32_t)(gyro_data[2]*gyro_scale*1000.0f),
              (int32_t)mag_data[2],
-             (int32_t)sonardist,
+             (int32_t)sonar,
              (int32_t)airspeed,
              (int32_t)baro);
       //                    0);

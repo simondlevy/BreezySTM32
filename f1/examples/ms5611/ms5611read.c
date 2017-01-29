@@ -20,17 +20,16 @@
  */
 
 #include <breezystm32.h>
-#include <drivers/ms5611.h>
 
 static bool available;
 
 void setup(void)
 {
   // Get particulars for board
-  i2cInit(I2CDEV);
+  i2cInit(I2CDEV_2);
 
   // Not sure why the ms5611 needs this, but without this line it doesn't work
-  i2cWriteRegister(0,0,0);
+  i2cWrite(0,0,0);
 
   // attempt to initialize barometer
   available = ms5611_init();
@@ -44,9 +43,9 @@ void loop(void)
     baro = ms5611_read_pressure();
     temp = ms5611_read_temperature();
     ms5611_request_async_update();
-    debug("Pressure: %d Pa    \t Temperature: %d.%d deg C\n", baro, temp/100, temp%100);
+    printf("Pressure: %d Pa    \t Temperature: %d.%d deg C\n", baro, temp/100, temp%100);
   }
   else
-    debug("MS5611 unavailable\n");
+    printf("MS5611 unavailable\n");
 
 } 

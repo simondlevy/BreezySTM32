@@ -20,9 +20,9 @@
  */
 
 #include <breezystm32.h>
-#include <drivers/hmc5883l.h>
 
 #define BOARD_REV 2
+
 
 volatile uint8_t mag_status = 0;
 int16_t mag_data[3] = {0.0, 0.0, 0.0};
@@ -41,7 +41,7 @@ void loop(void)
 {
     hmc5883l_request_async_update();
     hmc5883l_read_magnetometer(mag_data);
-    debug("%d\t %d\t %d\n",
+    printf("%d\t %d\t %d\n",
            (int32_t)(mag_data[0]),
             (int32_t)(mag_data[1]),
             (int32_t)(mag_data[2]));

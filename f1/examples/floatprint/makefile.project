@@ -1,7 +1,0 @@
-PROJECT_NAME = floatprint
-
-# Contains your setup() and loop()
-PROJECT_SRC_FILE  = floatprint.c
-
-# Drivers, etc.
-PROJECT_BREEZY_FILES = 

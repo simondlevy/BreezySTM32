@@ -20,9 +20,6 @@
  */
 
 #include <breezystm32.h>
-#include <drivers/flashfs.h>
-#include <drivers/m25p16.h>
-
 #include <string.h>
 
 const char * MESSAGE = "Hello, world!";
@@ -49,5 +46,5 @@ void loop(void)
 
     char s[100]; // long enough for any message?
 
-    debug("%s\n", flashfsReadAbs(0, (uint8_t *)s, msglen) < msglen ? "error reading bytes" : s);
+    printf("%s\n", flashfsReadAbs(0, (uint8_t *)s, msglen) < msglen ? "error reading bytes" : s);
 }

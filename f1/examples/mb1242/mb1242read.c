@@ -22,7 +22,6 @@
  */
 
 #include <breezystm32.h>
-#include <drivers/mb1242.h>
 
 static bool sonar_present;
 
@@ -39,8 +38,8 @@ void setup(void)
 void loop(void)
 {
     if(sonar_present)
-        debug("%d\n", mb1242_poll(&sonar));
+        printf("%d\n", mb1242_poll(&sonar));
     else
-        debug("no sonar\n");
+        printf("no sonar\n");
     delay(100);
 }

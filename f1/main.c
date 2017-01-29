@@ -1,5 +1,5 @@
 /*
-   main.c : entry routine for for STM32
+   main.c : entry routine for for STM32F103CB
 
    Adapted from https://github.com/multiwii/baseflight/blob/master/src/main.c
 
@@ -21,54 +21,32 @@
 
 #include "breezystm32.h"
 
-#include <stdio.h>
-#include <stdarg.h>
-
 serialPort_t * Serial1;
 
 extern void SetSysClock(bool overclock);
 
-#ifndef EXTERNAL_DEBUG
-void debug(const char * fmt, ...)
+static void _putc(void *p, char c)
 {
-    va_list ap;       
+    (void)p; // avoid compiler warning about unused variable
+    serialWrite(Serial1, c);
 
-    va_start(ap, fmt);     
-
-    char buf[1000];
-
-    vsprintf(buf, fmt, ap);
-
-    for (char * p = buf; *p; p++)
-        serialWrite(Serial1, *p);
-
-    va_end(ap);  
-    
     while (!isSerialTransmitBufferEmpty(Serial1));
 }
-#endif
 
 int main(void)
 {
-    SetSysClock(false);
+    // Configure clock, this figures out HSE for hardware autodetect
+    SetSysClock(0);
 
     systemInit();
 
-    Serial1 = uartOpen(USART1, NULL, 115200, MODE_RXTX, SERIAL_NOT_INVERTED);
+    // Suport just one baud rate for now
+    Serial1 = uartOpen(USART1, NULL, 115200, MODE_RXTX);
 
     setup();
 
-    while (true) {
-
-#ifndef EXTERNAL_DEBUG
-        // support reboot from host computer
-        while (serialTotalRxBytesWaiting(Serial1)) {
-            uint8_t c = serialRead(Serial1);
-            if (c == 'R') 
-                systemResetToBootloader();
-         }
-#endif
-
+    init_printf( NULL, _putc);
+   
+    while (1) 
         loop();
-    }
 }
