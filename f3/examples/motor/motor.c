@@ -21,20 +21,14 @@
 
 #include <breezystm32.h>
 
-static uint32_t start;
+#include "pwm_output.h"
 
 void setup(void)
 {
-    for (int i = 0; i < 4; i++)
-        pwmBrushedMotorConfig(&timerHardware[i], i, 32000);
-
-    start = millis();
+    pwmInitBrushed();
 } 
 
 void loop(void)
 {
-    uint32_t elapsed = millis() - start;
-    bool foo = elapsed > 2000 && elapsed < 3000;
-    uint16_t pwm = foo ? 1500 : 1000;
-    pwmWriteBrushed(3, pwm);
+    pwmWriteMotor(0, 1200);
 }

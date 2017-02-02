@@ -4,4 +4,4 @@ PROJECT_NAME = motor
 PROJECT_SRC_FILE  = motor.c
 
 # Drivers, etc.
-PROJECT_BREEZY_FILES = $(F3_DIR)/pwm_output.c
+PROJECT_BREEZY_FILES = $(F3_DIR)/pwm_output.c $(F3_DIR)/pwm_mapping.c

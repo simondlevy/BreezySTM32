@@ -26,7 +26,9 @@ void debug(const char * fmt, ...)
 
 int main(void)
 {
-    SCB->CPACR = (0x3 << (10*2)) | (0x3 << (11*2)); // start FPU
+    // start FPU
+    SCB->CPACR = (0x3 << (10*2)) | (0x3 << (11*2)); 
+
     SetSysClock();
 
     systemInit();
