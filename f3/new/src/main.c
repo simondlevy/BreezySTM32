@@ -53,7 +53,21 @@ int main(void) {
     setup();
 
     while (1)  {
-        loop();
+
+#ifndef EXTERNAL_DEBUG
+        static uint32_t dbg_start_msec;
+        // support reboot from host computer
+        if (millis()-dbg_start_msec > 100) {
+            dbg_start_msec = millis();
+            while (serialRxBytesWaiting(Serial1)) {
+                uint8_t c = serialRead(Serial1);
+                if (c == 'R') 
+                    systemResetToBootloader();
+            }
+        }
+#endif
+
+    loop();
     }
 }
 
