@@ -17,7 +17,6 @@ SERIAL_DEVICE	?= /dev/ttyACM1
 FLASH_SIZE ?=
 
 ###############################################################################
-# Things that need to be maintained as the source changes
 #
 
 FORKNAME			 = cleanflight
@@ -47,12 +46,12 @@ REVISION := $(shell git log -1 --format="%h")
 
 # Working directories
 ROOT		 := $(patsubst %/,%,$(dir $(lastword $(MAKEFILE_LIST))))
-SRC_DIR		 = $(ROOT)/src/main
-OBJECT_DIR	 = $(ROOT)/obj/main
+SRC_DIR		 = $(ROOT)/src
+OBJECT_DIR	 = $(ROOT)/obj
 BIN_DIR		 = $(ROOT)/obj
 CMSIS_DIR	 = $(ROOT)/lib/CMSIS
-INCLUDE_DIRS = $(SRC_DIR) $(ROOT)/src/main/target
-LINKER_DIR	 = $(ROOT)/src/main/target
+INCLUDE_DIRS = $(SRC_DIR) $(ROOT)/src/target
+LINKER_DIR	 = $(ROOT)/src/target
 
 # Search path for sources
 VPATH		:= $(SRC_DIR):$(SRC_DIR)/startup
@@ -86,7 +85,7 @@ INCLUDE_DIRS := $(INCLUDE_DIRS) \
 ifeq ($(TARGET),$(filter $(TARGET),$(VCP_TARGETS)))
 INCLUDE_DIRS := $(INCLUDE_DIRS) \
 		   $(USBFS_DIR)/inc \
-		   $(ROOT)/src/main/vcp
+		   $(ROOT)/src/vcp
 
 VPATH := $(VPATH):$(USBFS_DIR)/src
 
@@ -105,14 +104,14 @@ ifneq ($(FLASH_SIZE),)
 DEVICE_FLAGS := $(DEVICE_FLAGS) -DFLASH_SIZE=$(FLASH_SIZE)
 endif
 
-TARGET_DIR = $(ROOT)/src/main/target/$(TARGET)
+TARGET_DIR = $(ROOT)/target/$(TARGET)
 TARGET_SRC = $(notdir $(wildcard $(TARGET_DIR)/*.c))
 
 # VARIANTS
 ifeq ($(TARGET),ALIENFLIGHTF1)
 # ALIENFLIGHTF1 is a VARIANT of NAZE
 TARGET_FLAGS := $(TARGET_FLAGS) -DNAZE -DALIENFLIGHT
-TARGET_DIR = $(ROOT)/src/main/target/NAZE
+TARGET_DIR = $(ROOT)/target/NAZE
 endif
 ifeq ($(TARGET),CHEBUZZF3)
 # CHEBUZZ is a VARIANT of STM32F3DISCOVERY
