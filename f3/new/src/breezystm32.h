@@ -26,3 +26,5 @@
 #include "config/config_system.h"
 #include "config/config_eeprom.h"
 #include "config/profile.h"
+
+void debug(const char * fmt, ...);

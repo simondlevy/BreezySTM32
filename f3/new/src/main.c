@@ -12,7 +12,7 @@ PG_RESET_TEMPLATE(systemConfig_t, systemConfig,
 
 serialPort_t * Serial1;
 
-void dbg(const char * fmt, ...)
+void debug(const char * fmt, ...)
 {
     va_list ap;       
 
