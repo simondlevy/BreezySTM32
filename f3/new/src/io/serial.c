@@ -51,7 +51,7 @@
 #include "io/beeper.h"
 #include "io/serial.h"
 
-#include "fc/config.h"
+//#include "fc/config.h"
 
 
 #ifdef TELEMETRY

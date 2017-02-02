@@ -23,10 +23,7 @@
 
 #include "io/motors.h"
 
-#include "flight/mixer.h"
-
-#include "fc/runtime_config.h"
-#include "fc/config.h"
+//#include "flight/mixer.h"
 
 #include "config/config_system.h"
 #include "config/config_eeprom.h"
