@@ -1,6 +1,6 @@
 BREEZY_DIR = $(HOME)/Desktop/BreezySTM32
 
-PROJECT_SRC = motors.c
+PROJECT_SRC = blinky.c
 
 # The target to build, see VALID_TARGETS below
 TARGET		?= ALIENFLIGHTF3
