@@ -32,6 +32,9 @@ void dbg(const char * fmt, ...)
 
 int main(void) {
 
+    void setup(void);
+    void loop(void);
+
     // start fpu
     SCB->CPACR = (0x3 << (10*2)) | (0x3 << (11*2));
 
@@ -49,16 +52,10 @@ int main(void) {
 
     dmaInit();
 
-    pwmInitBrushed();
-
-    delay(100);
-    pwmWriteMotor(0, 1000);
-    delay(1000);
-    pwmWriteMotor(0, 1200);
-    delay(1000);
-    pwmWriteMotor(0, 1000);
+    setup();
 
     while (1)  {
+        loop();
     }
 }
 

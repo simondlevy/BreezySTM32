@@ -1,5 +1,7 @@
 BREEZY_DIR = $(HOME)/Desktop/BreezySTM32
 
+PROJECT_SRC = motors.c
+
 # The target to build, see VALID_TARGETS below
 TARGET		?= ALIENFLIGHTF3
 
@@ -175,6 +177,7 @@ STM32F30x_COMMON_SRC = \
 		   drivers/system_stm32f30x.c
 
 ALIENFLIGHTF3_SRC = \
+		   $(PROJECT_SRC) \
 		   $(STM32F30x_COMMON_SRC) \
 		   drivers/timer.c \
 		   drivers/timer_stm32f30x.c \
