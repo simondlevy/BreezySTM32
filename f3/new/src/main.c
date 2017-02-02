@@ -44,8 +44,6 @@ int main(void) {
 
     IOInitGlobal();
 
-    delay(100);
-
     timerInit();
 
     Serial1 = usbVcpOpen();
