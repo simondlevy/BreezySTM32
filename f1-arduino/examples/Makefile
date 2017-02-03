@@ -33,7 +33,7 @@ STDPERIPH_DIR	 = $(BREEZY_DIR)/lib/STM32F10x_StdPeriph_Driver
 OBJECT_DIR	 = $(ROOT)/obj
 BIN_DIR		 = $(ROOT)/obj
 
-$(TARGET)_CSRC = $(F1_DIR)/main.c \
+$(TARGET)_CSRC = \
 		   $(F1_DIR)/startup_stm32f10x_md_gcc.S \
 		   $(F1_DIR)/drv_gpio.c \
 		   $(F1_DIR)/drv_i2c.c \

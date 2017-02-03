@@ -35,6 +35,9 @@ void digitalWrite(uint8_t pin, uint8_t level);
 unsigned long millis(void);
 void delay(unsigned long);
 
+void setup(void);
+void loop(void);
+
 class HardwareSerial {
 
     private:

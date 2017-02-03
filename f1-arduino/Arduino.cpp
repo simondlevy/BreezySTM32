@@ -100,4 +100,21 @@ void HardwareSerial::write(uint8_t byte)
 
 HardwareSerial0 Serial;
 
+
+int main(void)
+{
+    void SetSysClock(bool overclock);
+    void systemInit(void);
+
+    // Configure clock, this figures out HSE for hardware autodetect
+    SetSysClock(0);
+
+    systemInit();
+
+    setup();
+
+    while (1) 
+        loop();
 }
+
+} // extern "C"
