@@ -51,11 +51,13 @@ class HardwareSerial {
 
     public:
 
-        void printf(const char *, ...);
-
         void begin(uint32_t baud);
 
+        uint32_t available(void);
+
         void write(uint8_t byte);
+
+        void flush(void);
 };
 
 class HardwareSerial0 : public HardwareSerial {

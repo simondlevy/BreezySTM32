@@ -17,6 +17,7 @@ void loop() {
         Serial.write(*p);
     }
 
+    Serial.flush();
 }
 
 }

@@ -86,15 +86,15 @@ void HardwareSerial::begin(uint32_t baud)
     this->_uart = (void *)uartOpen(usarts[this->_id], NULL, baud, MODE_RXTX);
 }
 
-void HardwareSerial::printf(const char * fmt, ...)
-{
-    (void)fmt;
-}
-
 void HardwareSerial::write(uint8_t byte)
 {
     serialPort_t * port = (serialPort_t *)this->_uart;
     serialWrite(port, byte);
+}
+
+void HardwareSerial::flush(void)
+{
+    serialPort_t * port = (serialPort_t *)this->_uart;
     while (!isSerialTransmitBufferEmpty(port));
 }
 
