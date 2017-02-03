@@ -1,3 +1,5 @@
+f1/arduino/examples/*/obj
+f1/arduino/examples/*/*.o
 */examples/*/obj
 */examples/*/*.o
 *.swp
