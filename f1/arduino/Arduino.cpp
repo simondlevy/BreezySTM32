@@ -69,4 +69,22 @@ void digitalWrite(uint8_t pin, uint8_t level)
     }
 }
 
+void HardwareSerial::begin(uint32_t baud)
+{
+    (void)baud;
+}
+
+void HardwareSerial::printf(const char * fmt, ...)
+{
+    (void)fmt;
+}
+
+uint8_t HardwareSerial::write(uint8_t byte)
+{
+    (void)byte;
+    return 0;
+}
+
+HardwareSerial Serial;
+
 }

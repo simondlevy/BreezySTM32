@@ -5,13 +5,13 @@ extern "C" {
 // the setup routine runs once when you press reset:
 void setup() {                
 
-    //Serial.begin(115200);
+    Serial.begin(115200);
 }
 
 // the loop routine runs over and over again forever:
 void loop() {
 
-    //Serial.printf("%d\n", millis());
+    Serial.printf("%d\n", millis());
 }
 
 }

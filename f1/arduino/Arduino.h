@@ -32,6 +32,20 @@ extern "C" {
 void pinMode(uint8_t pin, uint8_t mode);
 void digitalWrite(uint8_t pin, uint8_t level);
 
+unsigned long millis(void);
 void delay(unsigned long);
+
+class HardwareSerial {
+
+    public:
+
+    void printf(const char *, ...);
+
+    void begin(uint32_t baud);
+
+    uint8_t write(uint8_t byte);
+};
+
+extern HardwareSerial Serial;
 
 }
