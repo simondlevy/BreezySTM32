@@ -40,10 +40,10 @@ void digitalWrite(uint8_t pin, uint8_t level)
 
     switch (level) {
         case HIGH:
-            digitalHi(gpio, gpio_pin);
+            digitalLo(gpio, gpio_pin);
             break;
         case LOW:
-            digitalLo(gpio, gpio_pin);
+            digitalHi(gpio, gpio_pin);
             break;
     }
 }
