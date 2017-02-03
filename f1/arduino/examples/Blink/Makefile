@@ -13,8 +13,6 @@ TARGET		?= Blink
 
 ###############################################################################
 
-CPP_OBJS = $(TARGET).o
-
 # Compile-time options
 OPTIONS		?=
 
@@ -122,8 +120,8 @@ LDFLAGS		 = -lm \
 
 TARGET_HEX	 = $(BIN_DIR)/$(TARGET).hex
 TARGET_ELF	 = $(BIN_DIR)/$(TARGET).elf
-TARGET_OBJS	 = $(addsuffix .o,$(addprefix $(OBJECT_DIR)/$(TARGET)/,$(basename $($(TARGET)_CSRC)))) $(CPP_OBJS) \
-			   $(OBJECT_DIR)/$(TARGET)/Arduino.o
+TARGET_OBJS	 = $(addsuffix .o,$(addprefix $(OBJECT_DIR)/$(TARGET)/,$(basename $($(TARGET)_CSRC)))) \
+			   $(OBJECT_DIR)/$(TARGET)/Arduino.o $(OBJECT_DIR)/$(TARGET).o
 TARGET_MAP   = $(OBJECT_DIR)/$(TARGET).map
 
 # List of buildable ELF files and their object dependencies.
@@ -155,6 +153,9 @@ $(OBJECT_DIR)/$(TARGET)/%.o: %.S
 
 $(OBJECT_DIR)/$(TARGET)/Arduino.o: ../../Arduino.cpp
 	@$(CC) -c -o $(OBJECT_DIR)/$(TARGET)/Arduino.o $(CFLAGS) ../../Arduino.cpp
+
+$(OBJECT_DIR)/$(TARGET).o: ./$(TARGET).cpp
+	@$(CC) -c -o $(OBJECT_DIR)/$(TARGET).o $(CFLAGS) ./$(TARGET).cpp
 
 clean:
 	rm -rf $(TARGET_HEX) $(TARGET_ELF) $(TARGET_OBJS) $(TARGET_MAP) *.o obj 
