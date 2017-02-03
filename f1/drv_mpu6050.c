@@ -345,9 +345,7 @@ static uint8_t temp_buffer[2];
 static volatile int16_t* temp_data;
 void temp_read_CB(void)
 {
-    LED0_ON;
     (*temp_data) = (int16_t)((temp_buffer[0] << 8)| temp_buffer[1])/4;
-    LED0_OFF;
 }
 
 void mpu6050_request_async_temp_read(volatile int16_t *tempData, volatile uint8_t *status)
