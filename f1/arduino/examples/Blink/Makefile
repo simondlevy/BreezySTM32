@@ -9,9 +9,9 @@
 # Change this to wherever you put BreezySTM32
 BREEZY_DIR = $(HOME)/Desktop/BreezySTM32/f1
 
-TARGET		?= ledblink
+TARGET		?= Blink
 
-CPP_OBJS = ledblink.o
+CPP_OBJS = Blink.o
 
 ###############################################################################
 
@@ -71,6 +71,7 @@ OBJCOPY	 = arm-none-eabi-objcopy
 #
 INCLUDE_DIRS	 = $(SRC_DIR) \
 		   $(BREEZY_DIR) \
+		   $(BREEZY_DIR)/arduino \
 		   $(STDPERIPH_DIR)/inc \
 		   $(CMSIS_DIR)/CM3/CoreSupport \
 		   $(CMSIS_DIR)/CM3/DeviceSupport/ST/STM32F10x \
