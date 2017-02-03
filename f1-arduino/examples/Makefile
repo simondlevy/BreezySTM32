@@ -7,18 +7,14 @@
 ###############################################################################
 
 # Change this to wherever you put BreezySTM32
-BREEZY_DIR = ../../..
+BREEZY_DIR = $(HOME)/Desktop/BreezySTM32
 
-# Fill this out with source files for your specific project
-PROJECT_SRC = i2csniff.c
+# Change this to whatever example you want
+TARGET		?= Blink
 
 ###############################################################################
 
-F1_DIR = $(BREEZY_DIR)/f1
-
-# You probably shouldn't modify anything below here!
-
-TARGET		?= myproject
+F1_DIR = $(BREEZY_DIR)/f1-arduino
 
 # Compile-time options
 OPTIONS		?=
@@ -30,23 +26,25 @@ DEBUG ?=
 SERIAL_DEVICE	?= /dev/ttyUSB0
 
 # Working directories
-ROOT		 	= $(dir $(lastword $(MAKEFILE_LIST)))
-SRC_DIR		 	= $(ROOT)
-CMSIS_DIR	 	= $(BREEZY_DIR)/lib/CMSIS
-STDPERIPH_DIR 	= $(BREEZY_DIR)/lib/STM32F10x_StdPeriph_Driver
-OBJECT_DIR	 	= $(ROOT)/obj
-BIN_DIR		 	= $(ROOT)/obj
+ROOT		 = $(dir $(lastword $(MAKEFILE_LIST)))
+SRC_DIR		 = $(ROOT)
+CMSIS_DIR	 = $(BREEZY_DIR)/lib/CMSIS
+STDPERIPH_DIR	 = $(BREEZY_DIR)/lib/STM32F10x_StdPeriph_Driver
+OBJECT_DIR	 = $(ROOT)/obj
+BIN_DIR		 = $(ROOT)/obj
 
-myproject_SRC = $(F1_DIR)/main.c \
+$(TARGET)_CSRC = $(F1_DIR)/main.c \
 		   $(F1_DIR)/startup_stm32f10x_md_gcc.S \
 		   $(F1_DIR)/drv_gpio.c \
 		   $(F1_DIR)/drv_i2c.c \
+		   $(F1_DIR)/drv_adc.c \
+		   $(F1_DIR)/drv_spi.c \
+		   $(F1_DIR)/drv_pwm.c \
 		   $(F1_DIR)/drv_system.c \
 		   $(F1_DIR)/drv_serial.c \
 		   $(F1_DIR)/drv_uart.c \
 		   $(F1_DIR)/drv_timer.c \
 		   $(F1_DIR)/printf.c \
-		   $(PROJECT_SRC) \
 		   $(CMSIS_SRC) \
 		   $(STDPERIPH_SRC)
 
@@ -66,7 +64,7 @@ STDPERIPH_SRC	 = $(notdir $(wildcard $(STDPERIPH_DIR)/src/*.c))
 #
 
 # Tool names
-CC		 = arm-none-eabi-gcc -std=gnu99
+CC		 = arm-none-eabi-gcc 
 OBJCOPY	 = arm-none-eabi-objcopy
 
 #
@@ -74,6 +72,7 @@ OBJCOPY	 = arm-none-eabi-objcopy
 #
 INCLUDE_DIRS	 = $(SRC_DIR) \
 		   $(F1_DIR) \
+		   $(F1_DIR)/arduino \
 		   $(STDPERIPH_DIR)/inc \
 		   $(CMSIS_DIR)/CM3/CoreSupport \
 		   $(CMSIS_DIR)/CM3/DeviceSupport/ST/STM32F10x \
@@ -109,9 +108,8 @@ ASFLAGS		 = $(ARCH_FLAGS) \
 LD_SCRIPT	 = $(F1_DIR)/stm32_flash.ld
 LDFLAGS		 = -lm \
 		   -nostartfiles \
-		   --specs=nano.specs \
 		   -lc \
-		   -lnosys \
+		   --specs=rdimon.specs \
 		   $(ARCH_FLAGS) \
 		   $(LTO_FLAGS) \
 		   $(DEBUG_FLAGS) \
@@ -125,7 +123,8 @@ LDFLAGS		 = -lm \
 
 TARGET_HEX	 = $(BIN_DIR)/$(TARGET).hex
 TARGET_ELF	 = $(BIN_DIR)/$(TARGET).elf
-TARGET_OBJS	 = $(addsuffix .o,$(addprefix $(OBJECT_DIR)/$(TARGET)/,$(basename $($(TARGET)_SRC))))
+TARGET_OBJS	 = $(addsuffix .o,$(addprefix $(OBJECT_DIR)/$(TARGET)/,$(basename $($(TARGET)_CSRC)))) \
+			   $(OBJECT_DIR)/$(TARGET)/Arduino.o $(OBJECT_DIR)/$(TARGET).o
 TARGET_MAP   = $(OBJECT_DIR)/$(TARGET).map
 
 # List of buildable ELF files and their object dependencies.
@@ -151,20 +150,22 @@ $(OBJECT_DIR)/$(TARGET)/%.o: %.S
 	@echo %% $(notdir $<)
 	@$(CC) -c -o $@ $(ASFLAGS) $< 
 
+# C++ support
+%.o: %.cpp
+	$(CC) -c $(CFLAGS) -o $@ $^
+
+$(OBJECT_DIR)/$(TARGET)/Arduino.o: ../Arduino.cpp ../Arduino.h
+	@$(CC) -c -o $(OBJECT_DIR)/$(TARGET)/Arduino.o $(CFLAGS) ../Arduino.cpp
+
+$(OBJECT_DIR)/$(TARGET).o: ./$(TARGET).cpp
+	@$(CC) -c -o $(OBJECT_DIR)/$(TARGET).o $(CFLAGS) ./$(TARGET).cpp
+
 clean:
-	rm -rf $(TARGET_HEX) $(TARGET_ELF) $(TARGET_OBJS) $(TARGET_MAP) obj
+	rm -rf $(TARGET_HEX) $(TARGET_ELF) $(TARGET_OBJS) $(TARGET_MAP) *.o obj 
 
 flash_$(TARGET): $(TARGET_HEX)
-	stty -F $(SERIAL_DEVICE) raw speed 921600 -crtscts cs8 -parenb -cstopb -ixon
-	stm32flash -w $(TARGET_HEX) -v -g 0x0 -b 921600 $(SERIAL_DEVICE)
-
-flash: flash_$(TARGET)
-
-unbrick: $(TARGET_HEX)
 	stty -F $(SERIAL_DEVICE) raw speed 115200 -crtscts cs8 -parenb -cstopb -ixon
 	stm32flash -w $(TARGET_HEX) -v -g 0x0 -b 115200 $(SERIAL_DEVICE)
 
-listen:
-	miniterm.py $(SERIAL_DEVICE) 115200
-
+flash: flash_$(TARGET)
 

@@ -7,12 +7,14 @@
 ###############################################################################
 
 # Change this to wherever you put BreezySTM32
-BREEZY_DIR = ../../
+BREEZY_DIR = ../../..
 
 # Fill this out with source files for your specific project
 PROJECT_SRC = memtest.c
 
 ###############################################################################
+
+F1_DIR = $(BREEZY_DIR)/f1
 
 # You probably shouldn't modify anything below here!
 
@@ -28,23 +30,24 @@ DEBUG ?=
 SERIAL_DEVICE	?= /dev/ttyUSB0
 
 # Working directories
-ROOT		 = $(dir $(lastword $(MAKEFILE_LIST)))
-SRC_DIR		 = $(ROOT)
-CMSIS_DIR	 = $(BREEZY_DIR)/lib/CMSIS
-STDPERIPH_DIR	 = $(BREEZY_DIR)/lib/STM32F10x_StdPeriph_Driver
-OBJECT_DIR	 = $(ROOT)/obj
-BIN_DIR		 = $(ROOT)/obj
+ROOT		 	= $(dir $(lastword $(MAKEFILE_LIST)))
+SRC_DIR		 	= $(ROOT)
+CMSIS_DIR	 	= $(BREEZY_DIR)/lib/CMSIS
+STDPERIPH_DIR 	= $(BREEZY_DIR)/lib/STM32F10x_StdPeriph_Driver
+OBJECT_DIR	 	= $(ROOT)/obj
+BIN_DIR		 	= $(ROOT)/obj
 
-myproject_SRC = $(BREEZY_DIR)/main.c \
-		   $(BREEZY_DIR)/startup_stm32f10x_md_gcc.S \
-		   $(BREEZY_DIR)/drv_spi.c \
-		   $(BREEZY_DIR)/drv_m25p16.c \
-		   $(BREEZY_DIR)/drv_flashfs.c \
-		   $(BREEZY_DIR)/drv_gpio.c \
-		   $(BREEZY_DIR)/drv_system.c \
-		   $(BREEZY_DIR)/drv_serial.c \
-		   $(BREEZY_DIR)/drv_uart.c \
-		   $(BREEZY_DIR)/printf.c \
+myproject_SRC = $(F1_DIR)/main.c \
+		   $(F1_DIR)/startup_stm32f10x_md_gcc.S \
+		   $(F1_DIR)/drv_spi.c \
+		   $(F1_DIR)/drv_m25p16.c \
+		   $(F1_DIR)/drv_flashfs.c \
+		   $(F1_DIR)/drv_gpio.c \
+		   $(F1_DIR)/drv_system.c \
+		   $(F1_DIR)/drv_serial.c \
+		   $(F1_DIR)/drv_uart.c \
+		   $(F1_DIR)/drv_timer.c \
+		   $(F1_DIR)/printf.c \
 		   $(PROJECT_SRC) \
 		   $(CMSIS_SRC) \
 		   $(STDPERIPH_SRC)
@@ -72,7 +75,7 @@ OBJCOPY	 = arm-none-eabi-objcopy
 # Tool options.
 #
 INCLUDE_DIRS	 = $(SRC_DIR) \
-		   $(BREEZY_DIR) \
+		   $(F1_DIR) \
 		   $(STDPERIPH_DIR)/inc \
 		   $(CMSIS_DIR)/CM3/CoreSupport \
 		   $(CMSIS_DIR)/CM3/DeviceSupport/ST/STM32F10x \
@@ -105,7 +108,7 @@ ASFLAGS		 = $(ARCH_FLAGS) \
 		   -x assembler-with-cpp \
 		   $(addprefix -I,$(INCLUDE_DIRS))
 
-LD_SCRIPT	 = $(BREEZY_DIR)/stm32_flash.ld
+LD_SCRIPT	 = $(F1_DIR)/stm32_flash.ld
 LDFLAGS		 = -lm \
 		   -nostartfiles \
 		   --specs=nano.specs \
@@ -151,16 +154,19 @@ $(OBJECT_DIR)/$(TARGET)/%.o: %.S
 	@$(CC) -c -o $@ $(ASFLAGS) $< 
 
 clean:
-	rm -rf *.o obj
+	rm -rf $(TARGET_HEX) $(TARGET_ELF) $(TARGET_OBJS) $(TARGET_MAP) obj
 
-# Call this "upload" instead of "flash" to avoid confusion ;^)
-upload_$(TARGET): $(TARGET_HEX)
+flash_$(TARGET): $(TARGET_HEX)
+	stty -F $(SERIAL_DEVICE) raw speed 921600 -crtscts cs8 -parenb -cstopb -ixon
+	stm32flash -w $(TARGET_HEX) -v -g 0x0 -b 921600 $(SERIAL_DEVICE)
+
+flash: flash_$(TARGET)
+
+unbrick: $(TARGET_HEX)
 	stty -F $(SERIAL_DEVICE) raw speed 115200 -crtscts cs8 -parenb -cstopb -ixon
 	stm32flash -w $(TARGET_HEX) -v -g 0x0 -b 115200 $(SERIAL_DEVICE)
 
-upload: upload_$(TARGET)
-
-flash: upload_$(TARGET)
-
 listen:
-	miniterm.py /dev/ttyUSB0 115200
+	miniterm.py $(SERIAL_DEVICE) 115200
+
+
