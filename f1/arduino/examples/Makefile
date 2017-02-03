@@ -9,7 +9,8 @@
 # Change this to wherever you put BreezySTM32
 BREEZY_DIR = $(HOME)/Desktop/BreezySTM32/f1
 
-TARGET		?= Blink
+# Change this to whatever example you want
+TARGET		?= Hello
 
 ###############################################################################
 
@@ -151,8 +152,8 @@ $(OBJECT_DIR)/$(TARGET)/%.o: %.S
 %.o: %.cpp
 	$(CC) -c $(CFLAGS) -o $@ $^
 
-$(OBJECT_DIR)/$(TARGET)/Arduino.o: ../../Arduino.cpp
-	@$(CC) -c -o $(OBJECT_DIR)/$(TARGET)/Arduino.o $(CFLAGS) ../../Arduino.cpp
+$(OBJECT_DIR)/$(TARGET)/Arduino.o: ../Arduino.cpp
+	@$(CC) -c -o $(OBJECT_DIR)/$(TARGET)/Arduino.o $(CFLAGS) ../Arduino.cpp
 
 $(OBJECT_DIR)/$(TARGET).o: ./$(TARGET).cpp
 	@$(CC) -c -o $(OBJECT_DIR)/$(TARGET).o $(CFLAGS) ./$(TARGET).cpp
