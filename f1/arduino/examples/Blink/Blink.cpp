@@ -11,8 +11,9 @@ extern "C" {
 // Pin 11 has the LED on Teensy 2.0
 // Pin 6  has the LED on Teensy++ 2.0
 // Pin 13 has the LED on Teensy 3.0
+// Pin 8 has LED 0 on Naze
 // give it a name:
-int led = 4;
+int led = 8;
 
 #include <Arduino.h>
 

@@ -64,8 +64,10 @@ uint32_t millis(void)
     return sysTickUptime;
 }
 
+
 void systemInit(void)
 {
+    /*
     struct {
         GPIO_TypeDef *gpio;
         gpio_config_t cfg;
@@ -85,9 +87,9 @@ void systemInit(void)
     gpio_setup[2].cfg.pin = INV_PIN;
     gpio_setup[2].cfg.mode = Mode_Out_PP;
     gpio_setup[2].cfg.speed = Speed_2MHz;
+    */
 
     gpio_config_t gpio;
-    int i, gpio_count = sizeof(gpio_setup) / sizeof(gpio_setup[0]);
 
     // Configure NVIC preempt/priority groups
     NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
@@ -109,12 +111,16 @@ void systemInit(void)
 #define AFIO_MAPR_SWJ_CFG_NO_JTAG_SW            (0x2 << 24)
     AFIO->MAPR |= AFIO_MAPR_SWJ_CFG_NO_JTAG_SW;
 
+    /*
     LED0_OFF;
     LED1_OFF;
+
+    int i, gpio_count = sizeof(gpio_setup) / sizeof(gpio_setup[0]);
 
     for (i = 0; i < gpio_count; i++) {
         gpioInit(gpio_setup[i].gpio, &gpio_setup[i].cfg);
     }
+    */
 
     // Init cycle counter
     cycleCounterInit();
