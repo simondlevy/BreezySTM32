@@ -11,7 +11,12 @@ void setup() {
 // the loop routine runs over and over again forever:
 void loop() {
 
-    Serial.printf("%d\n", millis());
+    char * s = "Hello world!\n";
+
+    for (char *p=s; *p; p++) {
+        Serial.write(*p);
+    }
+
 }
 
 }

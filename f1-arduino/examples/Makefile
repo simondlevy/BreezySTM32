@@ -10,7 +10,7 @@
 BREEZY_DIR = $(HOME)/Desktop/BreezySTM32
 
 # Change this to whatever example you want
-TARGET		?= Blink
+TARGET		?= Hello
 
 ###############################################################################
 
@@ -169,3 +169,5 @@ flash_$(TARGET): $(TARGET_HEX)
 
 flash: flash_$(TARGET)
 
+listen:
+	miniterm.py $(SERIAL_DEVICE) 115200

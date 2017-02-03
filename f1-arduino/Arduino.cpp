@@ -26,6 +26,11 @@ extern "C" {
 #include <stm32f10x_conf.h>
 #include <drv_gpio.h>
 #include <drv_system.h>
+#include <drv_serial.h>
+#include <drv_uart.h>
+#include <drv_serial.h>
+
+#include <stdlib.h>
 
 static GPIO_TypeDef * gpio_type_from_pin(uint8_t pin)
 {
@@ -69,9 +74,16 @@ void digitalWrite(uint8_t pin, uint8_t level)
     }
 }
 
+HardwareSerial::HardwareSerial(uint8_t id)
+{
+    this->_id = id;
+}
+
 void HardwareSerial::begin(uint32_t baud)
 {
-    (void)baud;
+    USART_TypeDef * usarts[3] = {USART1, USART2, USART3};
+
+    this->_uart = (void *)uartOpen(usarts[this->_id], NULL, baud, MODE_RXTX);
 }
 
 void HardwareSerial::printf(const char * fmt, ...)
@@ -79,12 +91,13 @@ void HardwareSerial::printf(const char * fmt, ...)
     (void)fmt;
 }
 
-uint8_t HardwareSerial::write(uint8_t byte)
+void HardwareSerial::write(uint8_t byte)
 {
-    (void)byte;
-    return 0;
+    serialPort_t * port = (serialPort_t *)this->_uart;
+    serialWrite(port, byte);
+    while (!isSerialTransmitBufferEmpty(port));
 }
 
-HardwareSerial Serial;
+HardwareSerial0 Serial;
 
 }

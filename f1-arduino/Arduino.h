@@ -37,15 +37,32 @@ void delay(unsigned long);
 
 class HardwareSerial {
 
+    private:
+
+        uint8_t _id;
+        void *  _uart;
+
+    protected:
+
+        HardwareSerial(uint8_t id);
+
     public:
 
-    void printf(const char *, ...);
+        void printf(const char *, ...);
 
-    void begin(uint32_t baud);
+        void begin(uint32_t baud);
 
-    uint8_t write(uint8_t byte);
+        void write(uint8_t byte);
 };
 
-extern HardwareSerial Serial;
+class HardwareSerial0 : public HardwareSerial {
+
+    public:
+
+        HardwareSerial0(void) : HardwareSerial(0) { }
+
+};
+
+extern HardwareSerial0 Serial;
 
 }
