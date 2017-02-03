@@ -19,6 +19,8 @@ You should have received a copy of the GNU General Public License
 along with BreezySTM32.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+extern "C" {
+
 #include <stdint.h>
 
 #define HIGH 0x1
@@ -31,3 +33,5 @@ void pinMode(uint8_t pin, uint8_t mode);
 void digitalWrite(uint8_t pin, uint8_t level);
 
 void delay(unsigned long);
+
+}

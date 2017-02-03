@@ -152,7 +152,7 @@ $(OBJECT_DIR)/$(TARGET)/%.o: %.S
 %.o: %.cpp
 	$(CC) -c $(CFLAGS) -o $@ $^
 
-$(OBJECT_DIR)/$(TARGET)/Arduino.o: ../Arduino.cpp
+$(OBJECT_DIR)/$(TARGET)/Arduino.o: ../Arduino.cpp ../Arduino.h
 	@$(CC) -c -o $(OBJECT_DIR)/$(TARGET)/Arduino.o $(CFLAGS) ../Arduino.cpp
 
 $(OBJECT_DIR)/$(TARGET).o: ./$(TARGET).cpp
