@@ -112,6 +112,26 @@ void HardwareSerial::flush(void)
 
 HardwareSerial0 Serial;
 
+void HardwareWire::begin(void)
+{
+}
+
+HardwareWire::HardwareWire(uint8_t id)
+{
+    this->_id = id;
+}
+
+void HardwareWire::beginTransmission(uint8_t addr)
+{
+    (void)addr;
+}
+
+int8_t HardwareWire::endTransmission(void)
+{
+    return -1;
+}
+
+HardwareWire2 Wire2;
 
 int main(void)
 {

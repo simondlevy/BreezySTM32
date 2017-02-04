@@ -44,7 +44,6 @@ $(TARGET)_CSRC = \
 		   $(F1_DIR)/drv_serial.c \
 		   $(F1_DIR)/drv_uart.c \
 		   $(F1_DIR)/drv_timer.c \
-		   $(F1_DIR)/printf.c \
 		   $(CMSIS_SRC) \
 		   $(STDPERIPH_SRC)
 

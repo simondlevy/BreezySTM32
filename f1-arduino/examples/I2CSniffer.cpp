@@ -31,27 +31,27 @@ void setup(void)
 {
     pinMode(LEDPIN, OUTPUT);
     Serial.begin(115200);
-    //Wire2.begin();
+    Wire2.begin();
     //i2cInit(I2CDEV_2);
 } 
 
 void loop(void)
 {
-    /*
     uint8_t addr;
-
-    for (addr=0; addr<128; ++addr)
-        if (i2cWrite(addr, 0x00, 0x00))
-            printf("Found device at address 0X%02X\n", addr);
-
-    printf("--------------------------\n");
-
-    delay(1000);
-    */
 
     // Flash the LED to make sure we're not borked
     digitalWrite(LEDPIN, HIGH);
     delay(500);
+
+    for (addr=0; addr<128; ++addr) {
+        Wire2.beginTransmission(addr);
+        //if (i2cWrite(addr, 0x00, 0x00))
+        if (!Wire2.endTransmission())
+            Serial.printf("Found device at address 0X%02X\n", addr);
+    }
+
+    Serial.printf("--------------------------\n");
+
     digitalWrite(LEDPIN, LOW);
     delay(500);
 }

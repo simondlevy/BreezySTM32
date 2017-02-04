@@ -30,7 +30,6 @@
 
 #include "stm32f10x_conf.h"
 #include "core_cm3.h"
-#include "printf.h"
 #include "drv_system.h"         // timers, delays, etc
 #include "drv_gpio.h"
 
