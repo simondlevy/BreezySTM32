@@ -243,72 +243,6 @@ bool i2cRead(uint8_t addr_, uint8_t reg_, uint8_t len, uint8_t *buf)
     return !error;
 }
 
-bool i2cReadAsync(uint8_t addr_, uint8_t reg_, uint8_t len, uint8_t *buf, volatile uint8_t* status_, void (*CB)(void))
-{
-    uint32_t timeout = I2C_DEFAULT_TIMEOUT;
-
-    addr = addr_ << 1;
-    myreg = reg_;
-    writing = 0;
-    reading = 1;
-    read_p = buf;
-    write_p = buf;
-    bytes = len;
-    busy = 1;
-    error = false;
-    status = status_;
-    complete_CB = CB;
-
-    if(!I2Cx)
-        return false;
-
-    if (!(I2Cx->CR2 & I2C_IT_EVT)) {                                    // if we are restarting the driver
-        if (!(I2Cx->CR1 & 0x0100)) {                                    // ensure sending a start
-            while (I2Cx->CR1 & 0x0200 && --timeout > 0) {               // This is blocking, but happens only
-                ;    // wait for any stop to finish sending             // if we are stomping on the port (try to avoid)
-            }
-            if (timeout == 0)
-                return i2cHandleHardwareFailure();
-            I2C_GenerateSTART(I2Cx, ENABLE);                            // send the start for the new job
-        }
-        I2C_ITConfig(I2Cx, I2C_IT_EVT | I2C_IT_ERR, ENABLE);            // allow the interrupts to fire off again
-    }
-    return true;
-}
-
-bool i2cWriteAsync(uint8_t addr_, uint8_t reg_, uint8_t len_, uint8_t *buf_, volatile uint8_t* status_, void (*CB)(void))
-{
-    uint32_t timeout = I2C_DEFAULT_TIMEOUT;
-
-    addr = addr_ << 1;
-    myreg = reg_;
-    writing = 1;
-    reading = 0;
-    write_p = buf_;
-    read_p = buf_;
-    bytes = len_;
-    busy = 1;
-    error = false;
-    status = status_;
-    complete_CB = CB;
-
-    if (!I2Cx)
-        return false;
-
-    if (!(I2Cx->CR2 & I2C_IT_EVT)) {                                    // if we are restarting the driver
-        if (!(I2Cx->CR1 & 0x0100)) {                                    // ensure sending a start
-            while (I2Cx->CR1 & 0x0200 && --timeout > 0) {
-                ;    // wait for any stop to finish sending
-            }
-            if (timeout == 0)
-                return i2cHandleHardwareFailure();
-            I2C_GenerateSTART(I2Cx, ENABLE);                            // send the start for the new job
-        }
-        I2C_ITConfig(I2Cx, I2C_IT_EVT | I2C_IT_ERR, ENABLE);            // allow the interrupts to fire off again
-    }
-    return true;
-}
-
 void i2c_ev_handler(void)
 {
     static uint8_t subaddress_sent, final_stop;                         // flag to indicate if subaddess sent, flag to indicate final bus condition
@@ -402,7 +336,7 @@ void i2c_ev_handler(void)
                 I2C_ITConfig(I2Cx, I2C_IT_BUF, DISABLE);                // disable TXE to allow the buffer to flush
         } else {
             index++;
-            I2Cx->DR = myreg;                                             // send the subaddress
+            I2Cx->DR = myreg;                                           // send the subaddress
             if (reading || !bytes)                                      // if receiving or sending 0 bytes, flush now
                 I2C_ITConfig(I2Cx, I2C_IT_BUF, DISABLE);                // disable TXE to allow the buffer to flush
         }
