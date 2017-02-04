@@ -50,7 +50,6 @@ static volatile uint8_t i2c_buffer_head;
 static volatile uint8_t i2c_buffer_tail;
 static volatile uint8_t i2c_buffer_count;
 static void i2c_init_buffer(void);
-static void i2c_job_handler(void);
 
 typedef struct i2cDevice_t {
     I2C_TypeDef *dev;
@@ -360,7 +359,6 @@ static void i2c_er_handler(void)
     if (complete_CB != NULL)
         complete_CB();
     busy = 0;
-    i2c_job_handler();
 }
 
 void i2c_ev_handler(void)
@@ -474,7 +472,6 @@ void i2c_ev_handler(void)
             complete_CB();                                              // Call the custom callback (we are finished)
         }
         busy = 0;
-        i2c_job_handler();                                              // Start the next job (if there is one on the queue)
     }
 }
 
@@ -521,56 +518,6 @@ void i2cInit(I2CDevice index)
 
     // Initialize buffer
     i2c_init_buffer();
-}
-
-void i2c_job_handler()
-{
-    if(i2c_buffer_count == 0)
-    {
-        // the queue is empty, stop performing i2c until
-        // a new job is enqueued
-        return;
-    }
-
-    if(busy)
-    {
-        // wait for the current job to finish.  This function
-        // will get called again when the job is done
-        return;
-    }
-
-    // Perform the job on the front of the queue
-    i2cJob_t* job = i2c_buffer + i2c_buffer_tail;
-
-    // First, change status to BUSY
-    (*job->status) = I2C_JOB_BUSY;
-
-    // perform the appropriate job
-    if(job->type == READ)
-    {
-        i2cReadAsync(job->addr,
-                     job->reg,
-                     job->length,
-                     job->data,
-                     job->status,
-                     job->CB);
-    }
-    else
-    {
-        i2cWriteAsync(job->addr,
-                      job->reg,
-                      job->length,
-                      job->data,
-                      job->status,
-                      job->CB);
-    }
-
-    // Increment the tail
-    i2c_buffer_tail = (i2c_buffer_tail +1)%I2C_BUFFER_SIZE;
-
-    // Decrement the number of jobs on the buffer
-    i2c_buffer_count--;
-    return;
 }
 
 void i2c_init_buffer()
