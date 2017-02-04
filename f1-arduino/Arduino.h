@@ -19,7 +19,7 @@ You should have received a copy of the GNU General Public License
 along with BreezySTM32.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-extern "C" {
+//extern "C" {
 
 #include <stdint.h>
 
@@ -53,7 +53,9 @@ class HardwareSerial {
 
         void begin(uint32_t baud);
 
-        uint32_t available(void);
+        uint8_t available(void);
+
+        uint8_t read(void);
 
         void write(uint8_t byte);
 
@@ -70,4 +72,4 @@ class HardwareSerial0 : public HardwareSerial {
 
 extern HardwareSerial0 Serial;
 
-}
+//}

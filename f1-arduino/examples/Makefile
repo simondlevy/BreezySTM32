@@ -108,7 +108,7 @@ ASFLAGS		 = $(ARCH_FLAGS) \
 LD_SCRIPT	 = $(F1_DIR)/stm32_flash.ld
 LDFLAGS		 = -lm \
 		   -nostartfiles \
-		   -lc \
+		   -lc -lc \
 		   --specs=rdimon.specs \
 		   $(ARCH_FLAGS) \
 		   $(LTO_FLAGS) \
