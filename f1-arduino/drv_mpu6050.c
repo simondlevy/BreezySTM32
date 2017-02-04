@@ -120,8 +120,6 @@ static bool mpuWriteRegisterI2C(uint8_t reg, uint8_t data)
 
 void mpu6050_init(uint16_t * acc1G, float * gyroScale)
 {
-    gpio_config_t gpio;
-
     // Set acc1G. Modified once by mpu6050CheckRevision for old (hopefully nonexistent outside of clones) parts
     *acc1G = 512 * 8;
 
