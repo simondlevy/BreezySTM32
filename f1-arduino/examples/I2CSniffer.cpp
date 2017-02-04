@@ -48,10 +48,9 @@ void loop(void)
     delay(500);
 
     for (addr=0; addr<128; ++addr) {
-        //Wire2.beginTransmission(addr);
-        if (i2cWrite(addr, 0x00, 0x00))
-        //if (!Wire2.endTransmission())
-            Serial.printf("Found device at address 0X%02X\n", addr);
+        if (i2cWriteBegin(addr, 0, 0))
+            if (i2cWriteEnd())
+                Serial.printf("Found device at address 0X%02X\n", addr);
     }
 
     Serial.printf("--------------------------\n");

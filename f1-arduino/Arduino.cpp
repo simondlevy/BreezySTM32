@@ -29,6 +29,7 @@ extern "C" {
 #include <drv_serial.h>
 #include <drv_uart.h>
 #include <drv_serial.h>
+#include <drv_i2c.h>
 
 #include <stdlib.h>
 
@@ -112,13 +113,16 @@ void HardwareSerial::flush(void)
 
 HardwareSerial0 Serial;
 
-void HardwareWire::begin(void)
-{
-}
-
 HardwareWire::HardwareWire(uint8_t id)
 {
     this->_id = id;
+}
+
+void HardwareWire::begin(void)
+{
+    I2CDevice devices[2] = {I2CDEV_1, I2CDEV_2};
+    
+    i2cInit(devices[this->_id]);
 }
 
 void HardwareWire::beginTransmission(uint8_t addr)
