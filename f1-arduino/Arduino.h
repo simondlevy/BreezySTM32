@@ -19,9 +19,11 @@ You should have received a copy of the GNU General Public License
 along with BreezySTM32.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-//extern "C" {
+extern "C" {
 
 #include <stdint.h>
+#include <stdarg.h>
+#include <stdio.h>
 
 #define HIGH 0x1
 #define LOW  0x0
@@ -60,6 +62,20 @@ class HardwareSerial {
         void write(uint8_t byte);
 
         void flush(void);
+
+        void printf(const char * fmt, ...)
+        {
+            va_list ap;       
+            va_start(ap, fmt);     
+            char buf[1000];
+            vsprintf(buf, fmt, ap);
+            for (char *p=buf; *p; p++)
+               this->write(*p);
+            va_end(ap);  
+            this->flush();
+        }
+
+
 };
 
 class HardwareSerial0 : public HardwareSerial {
@@ -67,9 +83,8 @@ class HardwareSerial0 : public HardwareSerial {
     public:
 
         HardwareSerial0(void) : HardwareSerial(0) { }
-
 };
 
 extern HardwareSerial0 Serial;
 
-//}
+}

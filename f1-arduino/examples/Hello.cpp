@@ -11,13 +11,7 @@ void setup() {
 // the loop routine runs over and over again forever:
 void loop() {
 
-    const char * s = "Hello world!\n";
-
-    for (char *p=(char *)s; *p; p++) {
-        Serial.write(*p);
-    }
-
-    Serial.flush();
+    Serial.printf("Hello world!\n");
 }
 
 }
