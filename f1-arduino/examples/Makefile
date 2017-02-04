@@ -10,7 +10,7 @@
 BREEZY_DIR = $(HOME)/Desktop/BreezySTM32
 
 # Change this to whatever example you want
-TARGET		?= I2CSniffer
+TARGET		?= MPU6050Poller
 
 ###############################################################################
 
@@ -40,6 +40,7 @@ $(TARGET)_CSRC = \
 		   $(F1_DIR)/drv_adc.c \
 		   $(F1_DIR)/drv_spi.c \
 		   $(F1_DIR)/drv_pwm.c \
+		   $(F1_DIR)/drv_mpu6050.c \
 		   $(F1_DIR)/drv_system.c \
 		   $(F1_DIR)/drv_serial.c \
 		   $(F1_DIR)/drv_uart.c \

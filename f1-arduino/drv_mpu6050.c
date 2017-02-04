@@ -117,7 +117,7 @@ static bool mpuReadRegisterI2C(uint8_t reg, uint8_t *data, int length)
 
 static bool mpuWriteRegisterI2C(uint8_t reg, uint8_t data)
 {
-    return i2cWrite(MPU_ADDRESS, reg, data);
+    return i2cBeginTransmission(MPU_ADDRESS, reg, data) ? i2cEndTransmission() : false;
 }
 
 void mpu6050_exti_init(int boardVersion)
@@ -282,91 +282,4 @@ void mpu6050_read_temperature(int16_t *tempData)
     mpuReadRegisterI2C(MPU_RA_TEMP_OUT_A, buf, 2);
 
     *tempData = (int16_t)((buf[0] << 8) | buf[1]) / 4;
-}
-
-
-/*=======================================================
- * Asynchronous I2C Read Functions:
- * These methods use the asynchronous I2C
- * read capability on the naze32.
- */
-
-// Allocate storage for asynchronous I2C communcation
-static uint8_t accel_buffer[6];
-static volatile int16_t* accel_data;
-
-// This function is called when the I2C job is finished
-void accel_read_CB(void)
-{
-    accel_data[0] = (int16_t)((accel_buffer[0] << 8) | accel_buffer[1]);
-    accel_data[1] = (int16_t)((accel_buffer[2] << 8) | accel_buffer[3]);
-    accel_data[2] = (int16_t)((accel_buffer[4] << 8) | accel_buffer[5]);
-}
-
-void mpu6050_request_async_accel_read(int16_t *accData, volatile uint8_t *status)
-{
-    accel_data = accData;
-    // Adds a new i2c job to the I2C job queue.
-    // Current status of the job can be read by polling the
-    // status variable, and the callback will be called when the function
-    // is finished
-    i2c_queue_job(READ,
-                  MPU_ADDRESS,
-                  MPU_RA_ACCEL_XOUT_H,
-                  accel_buffer,
-                  6,
-                  status,
-                  &accel_read_CB);
-}
-
-
-static uint8_t gyro_buffer[6];
-static volatile int16_t* gyro_data;
-void gyro_read_CB(void)
-{
-    gyro_data[0] = (int16_t)((gyro_buffer[0] << 8) | gyro_buffer[1]);
-    gyro_data[1] = (int16_t)((gyro_buffer[2] << 8) | gyro_buffer[3]);
-    gyro_data[2] = (int16_t)((gyro_buffer[4] << 8) | gyro_buffer[5]);
-}
-
-void mpu6050_request_async_gyro_read(int16_t *gyroData, volatile uint8_t *status)
-{
-    gyro_data = gyroData;
-    i2c_queue_job(READ,
-                  MPU_ADDRESS,
-                  MPU_RA_GYRO_XOUT_H,
-                  gyro_buffer,
-                  6,
-                  status,
-                  &gyro_read_CB);
-}
-
-static uint8_t temp_buffer[2];
-static volatile int16_t* temp_data;
-void temp_read_CB(void)
-{
-    (*temp_data) = (int16_t)((temp_buffer[0] << 8)| temp_buffer[1])/4;
-}
-
-void mpu6050_request_async_temp_read(volatile int16_t *tempData, volatile uint8_t *status)
-{
-    temp_data = tempData;
-    i2c_queue_job(READ,
-                  MPU_ADDRESS,
-                  MPU_RA_TEMP_OUT_A,
-                  temp_buffer,
-                  2,
-                  status,
-                  &temp_read_CB);
-}
-
-
-/*=======================================================
- * Custom ISR Registration
- * This method registers a custom interrpt to be
- * run upon the interrupt pin on the MPU6050 going high
- */
-void mpu6050_register_interrupt_cb(void (*functionPtr)(void))
-{
-    mpuInterruptCallbackPtr = functionPtr;
 }
