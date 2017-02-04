@@ -48,7 +48,6 @@ static i2cJob_t i2c_buffer[I2C_BUFFER_SIZE];
 static volatile uint8_t i2c_buffer_head;
 static volatile uint8_t i2c_buffer_tail;
 static volatile uint8_t i2c_buffer_count;
-static void i2c_init_buffer(void);
 
 typedef struct i2cDevice_t {
     I2C_TypeDef *dev;
@@ -398,17 +397,12 @@ void i2cInit(I2CDevice index)
     nvic.NVIC_IRQChannelPreemptionPriority = 0;
     NVIC_Init(&nvic);
 
-    // Initialize buffer
-    i2c_init_buffer();
-}
-
-void i2c_init_buffer()
-{
     // write zeros to the buffer, and set all the indexes to zero
     memset(i2c_buffer, 0, I2C_BUFFER_SIZE*sizeof(i2cJob_t));
     i2c_buffer_count = 0;
     i2c_buffer_head = 0;
     i2c_buffer_tail = 0;
 }
+
 
 #endif
