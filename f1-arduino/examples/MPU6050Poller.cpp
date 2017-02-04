@@ -23,6 +23,7 @@ extern "C" {
 
 #include <Arduino.h>
 #include <drv_mpu6050.h>
+#include <drv_i2c.h>
 
 #define BOARD_REV 2
 
@@ -35,7 +36,7 @@ void setup(void)
     i2cInit(I2CDEV_2);
 
     uint16_t acc1G;
-    mpu6050_init(false, &acc1G, &gyro_scale, BOARD_REV);
+    mpu6050_init(&acc1G, &gyro_scale, BOARD_REV);
 }
 
 void loop(void)

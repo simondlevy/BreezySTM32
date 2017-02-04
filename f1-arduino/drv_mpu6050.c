@@ -120,49 +120,6 @@ static bool mpuWriteRegisterI2C(uint8_t reg, uint8_t data)
     return i2cBeginTransmission(MPU_ADDRESS, reg, data) ? i2cEndTransmission() : false;
 }
 
-void mpu6050_exti_init(int boardVersion)
-{
-    // enable AFIO for EXTI support
-    RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO, ENABLE);
-
-    // Configure EXTI
-    EXTI_ClearITPendingBit(EXTI_Line13);
-    EXTI_InitTypeDef EXTI_InitStrutcure;
-    // GPIO Structure Used To initialize external interrupt pin
-    // This assumes that the interrupt pin is attached to pin 26 (PB13)
-    // Which is not be the case for all boards. The naze32 rev5+ has it's
-    // interrupt on PC13, while rev4- and the flip32 devices use PB13.
-    // see src/main/sensors/initializiation.c:85 in the cleanflight source code
-    // for their version handling.
-    if (boardVersion > 4) {
-        gpioExtiLineConfig(GPIO_PortSourceGPIOC, GPIO_PinSource13);
-    } else {
-        gpioExtiLineConfig(GPIO_PortSourceGPIOB, GPIO_PinSource13);
-    }
-
-    // Configure EXTI Line13
-    EXTI_InitStrutcure.EXTI_Line = EXTI_Line13;
-    EXTI_InitStrutcure.EXTI_Mode = EXTI_Mode_Interrupt;
-    EXTI_InitStrutcure.EXTI_Trigger = EXTI_Trigger_Rising;
-    EXTI_InitStrutcure.EXTI_LineCmd = ENABLE;
-    EXTI_Init(&EXTI_InitStrutcure);
-
-    // Disable AFIO Clock - we don't need it anymore
-    RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO, DISABLE);
-
-    // Configure NVIC (Nested Vector Interrupt Controller)
-    NVIC_InitTypeDef NVIC_InitStructure;
-    // Select NVIC Channel to configure
-    NVIC_InitStructure.NVIC_IRQChannel = EXTI15_10_IRQn;
-    // Set priority to lowest
-    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0x0F;
-    // Set subpriority to lowest
-    NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0x0F;
-    NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
-    // Update NVIC registers
-    NVIC_Init(&NVIC_InitStructure);
-}
-
 void EXTI15_10_IRQHandler(void)
 {
     if (EXTI_GetITStatus(EXTI_Line13) != RESET)
@@ -177,7 +134,7 @@ void EXTI15_10_IRQHandler(void)
 
 
 // ======================================================================
-void mpu6050_init(bool enableInterrupt, uint16_t * acc1G, float * gyroScale, int boardVersion)
+void mpu6050_init(uint16_t * acc1G, float * gyroScale)
 {
     gpio_config_t gpio;
 
@@ -218,19 +175,6 @@ void mpu6050_init(bool enableInterrupt, uint16_t * acc1G, float * gyroScale, int
 
     // 16.4 dps/lsb scalefactor for all Invensense devices
     *gyroScale = (1.0f / 16.4f) * (M_PI / 180.0f);
-
-    // MPU_INT output on rev5+ hardware (PC13)
-    if (enableInterrupt) {
-        gpio.pin = Pin_13;
-        gpio.speed = Speed_2MHz;
-        gpio.mode = Mode_IN_FLOATING;
-        if (boardVersion > 4){
-            gpioInit(GPIOC, &gpio);
-        } else {
-            gpioInit(GPIOB, &gpio);
-        }
-        mpu6050_exti_init(boardVersion);
-    }
 
     // Device reset
     mpuWriteRegisterI2C(MPU_RA_PWR_MGMT_1, 0x80); // Device reset
@@ -273,13 +217,4 @@ void mpu6050_read_gyro(int16_t *gyroData)
     gyroData[0] = (int16_t)((buf[0] << 8) | buf[1]);
     gyroData[1] = (int16_t)((buf[2] << 8) | buf[3]);
     gyroData[2] = (int16_t)((buf[4] << 8) | buf[5]);
-}
-
-void mpu6050_read_temperature(int16_t *tempData)
-{
-    uint8_t buf[2];
-
-    mpuReadRegisterI2C(MPU_RA_TEMP_OUT_A, buf, 2);
-
-    *tempData = (int16_t)((buf[0] << 8) | buf[1]) / 4;
 }
