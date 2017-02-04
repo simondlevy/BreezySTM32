@@ -41,7 +41,6 @@
 // SDA  PB7
 
 // I2C Interrupt Handlers
-static void i2c_er_handler(void);
 static void i2c_ev_handler(void);
 
 // I2C Circular Buffer Variables
@@ -72,21 +71,6 @@ static I2C_TypeDef *I2Cx = NULL;
 // Copy of device index for reinit, etc purposes
 static I2CDevice I2Cx_index;
 
-
-void I2C1_ER_IRQHandler(void)
-{
-    i2c_er_handler();
-}
-
-void I2C1_EV_IRQHandler(void)
-{
-    i2c_ev_handler();
-}
-
-void I2C2_ER_IRQHandler(void)
-{
-    i2c_er_handler();
-}
 
 void I2C2_EV_IRQHandler(void)
 {
@@ -323,42 +307,6 @@ bool i2cWriteAsync(uint8_t addr_, uint8_t reg_, uint8_t len_, uint8_t *buf_, vol
         I2C_ITConfig(I2Cx, I2C_IT_EVT | I2C_IT_ERR, ENABLE);            // allow the interrupts to fire off again
     }
     return true;
-}
-
-static void i2c_er_handler(void)
-{
-    // Read the I2C1 status register
-    volatile uint32_t SR1Register = I2Cx->SR1;
-
-    if (SR1Register & 0x0F00)                                           // an error
-        error = true;
-
-    // If AF, BERR or ARLO, abandon the current job and commence new if there are jobs
-    if (SR1Register & 0x0700) {
-        (void)I2Cx->SR2;                                                // read second status register to clear ADDR if it is set (note that BTF will not be set after a NACK)
-        I2C_ITConfig(I2Cx, I2C_IT_BUF, DISABLE);                        // disable the RXNE/TXE interrupt - prevent the ISR tailchaining onto the ER (hopefully)
-        if (!(SR1Register & 0x0200) && !(I2Cx->CR1 & 0x0200)) {         // if we dont have an ARLO error, ensure sending of a stop
-            if (I2Cx->CR1 & 0x0100) {                                   // We are currently trying to send a start, this is very bad as start, stop will hang the peripheral
-                while (I2Cx->CR1 & 0x0100) {
-                    ;    // wait for any start to finish sending
-                }
-                I2C_GenerateSTOP(I2Cx, ENABLE);                         // send stop to finalise bus transaction
-                while (I2Cx->CR1 & 0x0200) {
-                    ;    // wait for stop to finish sending
-                }
-                i2cInit(I2Cx_index);                                    // reset and configure the hardware
-            } else {
-                I2C_GenerateSTOP(I2Cx, ENABLE);                         // stop to free up the bus
-                I2C_ITConfig(I2Cx, I2C_IT_EVT | I2C_IT_ERR, DISABLE);   // Disable EVT and ERR interrupts while bus inactive
-            }
-        }
-    }
-    I2Cx->SR1 &= ~0x0F00;                                               // reset all the error bits to clear the interrupt
-    if (status != NULL)
-        (*status) = I2C_JOB_ERROR;                                      // Update job status
-    if (complete_CB != NULL)
-        complete_CB();
-    busy = 0;
 }
 
 void i2c_ev_handler(void)
