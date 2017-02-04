@@ -48,8 +48,8 @@ void loop(void)
     delay(500);
 
     for (addr=0; addr<128; ++addr) {
-        if (i2cWriteBegin(addr, 0, 0))
-            if (i2cWriteEnd())
+        if (i2cBeginTransmission(addr, 0, 0))
+            if (i2cEndTransmission())
                 Serial.printf("Found device at address 0X%02X\n", addr);
     }
 

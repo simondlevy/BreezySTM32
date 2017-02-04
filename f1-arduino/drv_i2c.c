@@ -120,7 +120,7 @@ static bool i2cHandleHardwareFailure(void)
     return false;
 }
 
-bool i2cWriteBegin(uint8_t addr_, uint8_t reg_, uint8_t data)
+bool i2cBeginTransmission(uint8_t addr_, uint8_t reg_, uint8_t data)
 {
     uint32_t timeout = I2C_DEFAULT_TIMEOUT;
 
@@ -152,7 +152,7 @@ bool i2cWriteBegin(uint8_t addr_, uint8_t reg_, uint8_t data)
     return !error;
 }
 
-bool i2cWriteEnd(void)
+bool i2cEndTransmission(void)
 {
     error = false;
 
