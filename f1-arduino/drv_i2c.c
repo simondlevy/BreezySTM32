@@ -69,11 +69,10 @@ static const i2cDevice_t i2cHardwareMap[] = {
 
 // Copy of peripheral address for IRQ routines
 static I2C_TypeDef *I2Cx = NULL;
+
 // Copy of device index for reinit, etc purposes
 static I2CDevice I2Cx_index;
 
-// Custom function to call after an asynchronous write or read is completed
-//void (*i2c_ev_complete_CB_Ptr)(void) = NULL;
 
 void I2C1_ER_IRQHandler(void)
 {
@@ -171,11 +170,15 @@ static bool i2cHandleHardwareFailure(void)
     return false;
 }
 
-bool i2cBeginTransmission(uint8_t addr_, uint8_t reg_, uint8_t data)
+void i2cBeginTransmission(uint8_t addr_)
+{
+    addr = addr_ << 1;
+}
+
+bool i2cWrite(uint8_t reg_, uint8_t data)
 {
     uint32_t timeout = I2C_DEFAULT_TIMEOUT;
 
-    addr = addr_ << 1;
     reg = reg_;
     writing = 1;
     reading = 0;
@@ -578,9 +581,5 @@ void i2c_init_buffer()
     i2c_buffer_head = 0;
     i2c_buffer_tail = 0;
 }
-
-
-
-
 
 #endif

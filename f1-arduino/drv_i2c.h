@@ -56,6 +56,8 @@ typedef struct i2cJob{
 void i2cInit(I2CDevice index);
 
 // Blocking I2C functions (returns value success or failure)
-bool i2cBeginTransmission(uint8_t addr_, uint8_t reg_, uint8_t data);
+void i2cBeginTransmission(uint8_t addr_);
+bool i2cWrite(uint8_t reg_, uint8_t data);
 bool i2cEndTransmission(void);
+
 bool i2cRead(uint8_t addr_, uint8_t reg, uint8_t len, uint8_t *buf);

@@ -115,7 +115,8 @@ static bool mpuReadRegisterI2C(uint8_t reg, uint8_t *data, int length)
 
 static bool mpuWriteRegisterI2C(uint8_t reg, uint8_t data)
 {
-    return i2cBeginTransmission(MPU_ADDRESS, reg, data) ? i2cEndTransmission() : false;
+    i2cBeginTransmission(MPU_ADDRESS);
+    return i2cWrite(reg, data) ? i2cEndTransmission() : false;
 }
 
 void mpu6050_init(uint16_t * acc1G, float * gyroScale)
