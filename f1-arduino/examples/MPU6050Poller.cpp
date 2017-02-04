@@ -36,7 +36,7 @@ void setup(void)
     i2cInit(I2CDEV_2);
 
     uint16_t acc1G;
-    mpu6050_init(&acc1G, &gyro_scale, BOARD_REV);
+    mpu6050_init(&acc1G, &gyro_scale);
 }
 
 void loop(void)

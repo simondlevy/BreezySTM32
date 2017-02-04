@@ -43,7 +43,6 @@
 // I2C Interrupt Handlers
 static void i2c_er_handler(void);
 static void i2c_ev_handler(void);
-static void i2cUnstick(void);
 
 // I2C Circular Buffer Variables
 static i2cJob_t i2c_buffer[I2C_BUFFER_SIZE];
@@ -111,6 +110,58 @@ static volatile uint8_t *write_p;
 static volatile uint8_t *read_p;
 static volatile uint8_t *status;
 static void (*complete_CB)(void);
+
+static void i2cUnstick(void)
+{
+    GPIO_TypeDef *gpio;
+    gpio_config_t cfg;
+    uint16_t scl, sda;
+    int i;
+
+    // prepare pins
+    gpio = i2cHardwareMap[I2Cx_index].gpio;
+    scl = i2cHardwareMap[I2Cx_index].scl;
+    sda = i2cHardwareMap[I2Cx_index].sda;
+
+    digitalHi(gpio, scl | sda);
+
+    cfg.pin = scl | sda;
+    cfg.speed = Speed_2MHz;
+    cfg.mode = Mode_Out_OD;
+    gpioInit(gpio, &cfg);
+
+    for (i = 0; i < 8; i++) {
+        // Wait for any clock stretching to finish
+        while (!digitalIn(gpio, scl))
+            delayMicroseconds(10);
+
+        // Pull low
+        digitalLo(gpio, scl); // Set bus low
+        delayMicroseconds(10);
+        // Release high again
+        digitalHi(gpio, scl); // Set bus high
+        delayMicroseconds(10);
+    }
+
+    // Generate a start then stop condition
+    // SCL  PB10
+    // SDA  PB11
+    digitalLo(gpio, sda); // Set bus data low
+    delayMicroseconds(10);
+    digitalLo(gpio, scl); // Set bus scl low
+    delayMicroseconds(10);
+    digitalHi(gpio, scl); // Set bus scl high
+    delayMicroseconds(10);
+    digitalHi(gpio, sda); // Set bus sda high
+
+    // Init pins
+    cfg.pin = scl | sda;
+    cfg.speed = Speed_2MHz;
+    cfg.mode = Mode_AF_OD;
+    gpioInit(gpio, &cfg);
+}
+
+
 
 static bool i2cHandleHardwareFailure(void)
 {
@@ -467,61 +518,6 @@ void i2cInit(I2CDevice index)
 
     // Initialize buffer
     i2c_init_buffer();
-}
-
-uint16_t i2cGetErrorCounter(void)
-{
-    return i2cErrorCount;
-}
-
-static void i2cUnstick(void)
-{
-    GPIO_TypeDef *gpio;
-    gpio_config_t cfg;
-    uint16_t scl, sda;
-    int i;
-
-    // prepare pins
-    gpio = i2cHardwareMap[I2Cx_index].gpio;
-    scl = i2cHardwareMap[I2Cx_index].scl;
-    sda = i2cHardwareMap[I2Cx_index].sda;
-
-    digitalHi(gpio, scl | sda);
-
-    cfg.pin = scl | sda;
-    cfg.speed = Speed_2MHz;
-    cfg.mode = Mode_Out_OD;
-    gpioInit(gpio, &cfg);
-
-    for (i = 0; i < 8; i++) {
-        // Wait for any clock stretching to finish
-        while (!digitalIn(gpio, scl))
-            delayMicroseconds(10);
-
-        // Pull low
-        digitalLo(gpio, scl); // Set bus low
-        delayMicroseconds(10);
-        // Release high again
-        digitalHi(gpio, scl); // Set bus high
-        delayMicroseconds(10);
-    }
-
-    // Generate a start then stop condition
-    // SCL  PB10
-    // SDA  PB11
-    digitalLo(gpio, sda); // Set bus data low
-    delayMicroseconds(10);
-    digitalLo(gpio, scl); // Set bus scl low
-    delayMicroseconds(10);
-    digitalHi(gpio, scl); // Set bus scl high
-    delayMicroseconds(10);
-    digitalHi(gpio, sda); // Set bus sda high
-
-    // Init pins
-    cfg.pin = scl | sda;
-    cfg.speed = Speed_2MHz;
-    cfg.mode = Mode_AF_OD;
-    gpioInit(gpio, &cfg);
 }
 
 void i2c_job_handler()

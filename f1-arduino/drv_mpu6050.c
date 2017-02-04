@@ -108,8 +108,6 @@ static uint8_t mpuLowPassFilter = INV_FILTER_42HZ;
 #define MPU6050_BIT_DMP_RST     0x08
 #define MPU6050_BIT_FIFO_EN     0x40
 
-void (*mpuInterruptCallbackPtr)(void) = NULL;
-
 static bool mpuReadRegisterI2C(uint8_t reg, uint8_t *data, int length)
 {
     return i2cRead(MPU_ADDRESS, reg, length, data);
@@ -120,20 +118,6 @@ static bool mpuWriteRegisterI2C(uint8_t reg, uint8_t data)
     return i2cBeginTransmission(MPU_ADDRESS, reg, data) ? i2cEndTransmission() : false;
 }
 
-void EXTI15_10_IRQHandler(void)
-{
-    if (EXTI_GetITStatus(EXTI_Line13) != RESET)
-    {
-        if(mpuInterruptCallbackPtr != NULL)
-        {
-            mpuInterruptCallbackPtr();
-        }
-    }
-    EXTI_ClearITPendingBit(EXTI_Line13);
-}
-
-
-// ======================================================================
 void mpu6050_init(uint16_t * acc1G, float * gyroScale)
 {
     gpio_config_t gpio;

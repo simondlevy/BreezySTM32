@@ -54,7 +54,6 @@ typedef struct i2cJob{
 #define I2C_BUFFER_SIZE 64
 
 void i2cInit(I2CDevice index);
-uint16_t i2cGetErrorCounter(void);
 
 // Blocking I2C functions (returns value success or failure)
 bool i2cBeginTransmission(uint8_t addr_, uint8_t reg_, uint8_t data);
