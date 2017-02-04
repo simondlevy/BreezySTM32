@@ -574,39 +574,6 @@ void i2c_job_handler()
     return;
 }
 
-void i2c_queue_job(i2cJobType_t type, uint8_t addr_, uint8_t reg_, uint8_t *data, uint8_t length, volatile uint8_t* status_, void (*CB)(void))
-{
-    // Get a pointer to the head
-    i2cJob_t* job = i2c_buffer + i2c_buffer_head;
-
-    // save the data about the job
-    job->type = type;
-    job->data = data;
-    job->addr = addr_;
-    job->reg = reg_;
-    job->length = length;
-    job->next_job = NULL;
-    job->status = status_;
-    job->CB = CB;
-
-    // change job status
-    (*job->status) = I2C_JOB_QUEUED;
-
-    // Increment the buffer size
-    i2c_buffer_count++;
-
-    // Increment the buffer head for next call
-    i2c_buffer_head = (i2c_buffer_head + 1)%I2C_BUFFER_SIZE;
-
-    if(i2c_buffer_count == 1)
-    {
-        // if the buffer queue was empty, restart i2c job handling
-        i2c_job_handler();
-    }
-
-    return;
-}
-
 void i2c_init_buffer()
 {
     // write zeros to the buffer, and set all the indexes to zero

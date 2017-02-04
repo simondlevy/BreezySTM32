@@ -60,18 +60,3 @@ uint16_t i2cGetErrorCounter(void);
 bool i2cBeginTransmission(uint8_t addr_, uint8_t reg_, uint8_t data);
 bool i2cEndTransmission(void);
 bool i2cRead(uint8_t addr_, uint8_t reg, uint8_t len, uint8_t *buf);
-
-// ===================================================================
-// Asynchronous I2C handler
-// To use this, queue up a job, and create a callback you want called when the job is finished
-// You can track progress of the job using the status pointer.  Otherwise, functions the same
-// as the blocking versions.
-//
-// This uses a circular buffer to stage jobs for the I2C peripheral.  The buffer is, by default, 64 jobs
-// long (I2C_BUFFER_SIZE), with a maximum size of 256. I hope you never queue up that many jobs, because
-// that will take a long time to process However, if you were to reach the limit, it would then start
-// ignoring new jobs until there was space on the buffer.
-//
-// For an example of how to use, check out mpu6050_request_read_temp - the non-blocking way to read
-// the accelerometer
-void i2c_queue_job(i2cJobType_t type, uint8_t addr_, uint8_t reg_, uint8_t *data, uint8_t length, volatile uint8_t *status_, void (*CB)(void));
