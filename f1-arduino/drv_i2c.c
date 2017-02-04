@@ -120,7 +120,7 @@ static bool i2cHandleHardwareFailure(void)
     return false;
 }
 
-bool i2cWriteBuffer(uint8_t addr_, uint8_t reg_, uint8_t len_, uint8_t *data)
+bool i2cWriteBufferBegin(uint8_t addr_, uint8_t reg_, uint8_t len_, uint8_t *data)
 {
     uint32_t timeout = I2C_DEFAULT_TIMEOUT;
 
@@ -149,7 +149,15 @@ bool i2cWriteBuffer(uint8_t addr_, uint8_t reg_, uint8_t len_, uint8_t *data)
         I2C_ITConfig(I2Cx, I2C_IT_EVT | I2C_IT_ERR, ENABLE);            // allow the interrupts to fire off again
     }
 
-    timeout = I2C_DEFAULT_TIMEOUT;
+    return !error;
+}
+
+bool i2cWriteBufferEnd(void)
+{
+    error = false;
+
+    uint32_t timeout = I2C_DEFAULT_TIMEOUT;
+
     while (busy && --timeout > 0) {
         ;
     }
@@ -157,6 +165,12 @@ bool i2cWriteBuffer(uint8_t addr_, uint8_t reg_, uint8_t len_, uint8_t *data)
         return i2cHandleHardwareFailure();
 
     return !error;
+}
+
+bool i2cWriteBuffer(uint8_t addr_, uint8_t reg_, uint8_t len_, uint8_t *data)
+{
+    bool success = i2cWriteBufferBegin(addr_, reg_, len_, data);
+    return success ? i2cWriteBufferEnd() : false;
 }
 
 bool i2cWrite(uint8_t addr_, uint8_t reg_, uint8_t data)

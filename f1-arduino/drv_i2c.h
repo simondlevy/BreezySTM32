@@ -57,6 +57,8 @@ void i2cInit(I2CDevice index);
 uint16_t i2cGetErrorCounter(void);
 
 // Blocking I2C functions (returns value success or failure)
+bool i2cWriteBufferBegin(uint8_t addr_, uint8_t reg_, uint8_t len_, uint8_t *data);
+bool i2cWriteBufferEnd(void);
 bool i2cWriteBuffer(uint8_t addr_, uint8_t reg_, uint8_t len_, uint8_t *data);
 bool i2cWrite(uint8_t addr_, uint8_t reg, uint8_t data);
 bool i2cRead(uint8_t addr_, uint8_t reg, uint8_t len, uint8_t *buf);
