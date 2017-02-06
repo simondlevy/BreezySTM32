@@ -44,12 +44,11 @@ class HardwareSerial {
 
     private:
 
-        uint8_t _id;
         void *  _uart;
 
     protected:
 
-        HardwareSerial(uint8_t id);
+        uint8_t getid(void) { return 0; }
 
     public:
 
@@ -74,18 +73,27 @@ class HardwareSerial {
             va_end(ap);  
             this->flush();
         }
-
-
 };
 
 class HardwareSerial0 : public HardwareSerial {
 
-    public:
+    protected:
 
-        HardwareSerial0(void) : HardwareSerial(0) { }
+        uint8_t getid(void) { return 0; }
+
 };
 
 extern HardwareSerial0 Serial;
+
+class HardwareSerial1 : public HardwareSerial {
+
+    protected:
+
+        uint8_t getid(void) { return 1; }
+
+};
+
+extern HardwareSerial1 Serial1;
 
 class HardwareWire {
 

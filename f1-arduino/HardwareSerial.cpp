@@ -27,16 +27,11 @@ extern "C" {
 #include <drv_serial.h>
 #include <drv_uart.h>
 
-HardwareSerial::HardwareSerial(uint8_t id)
-{
-    this->_id = id; // XXX this probably doesn't work!
-}
-
 void HardwareSerial::begin(uint32_t baud)
 {
     USART_TypeDef * usarts[3] = {USART1, USART2, USART3};
 
-    this->_uart = (void *)uartOpen(usarts[this->_id], NULL, baud, MODE_RXTX);
+    this->_uart = (void *)uartOpen(usarts[this->getid()], NULL, baud, MODE_RXTX);
 }
 
 uint8_t HardwareSerial::read(void)

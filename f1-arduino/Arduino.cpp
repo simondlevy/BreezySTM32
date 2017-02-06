@@ -92,6 +92,7 @@ int main(void)
 }
 
 HardwareSerial0 Serial;
+HardwareSerial1 Serial1;
 HardwareWire Wire;
 
 } // extern "C"
