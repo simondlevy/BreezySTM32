@@ -46,8 +46,6 @@ along with BreezySTM32.  If not, see <http://www.gnu.org/licenses/>.
 #include "drv_spektrum.h"
 
 
-extern serialPort_t * Serial1;
-
 void setup(void);
 
 void loop(void);
