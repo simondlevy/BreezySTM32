@@ -39,13 +39,9 @@ class MPU6050 {
 
     private:
 
-        uint8_t address;
-
         uint8_t readByte(uint8_t reg);
 
     public:
-
-        MPU6050(uint8_t addr=0x68);
 
         // Returns true on success, false on failure
         bool begin(mpu_accel_range arange, mpu_gyro_range grange);

@@ -98,20 +98,12 @@ static bool mpuWriteRegisterI2C(uint8_t reg, uint8_t data)
 uint8_t MPU6050::readByte(uint8_t reg)
 {
     uint8_t byte;
-    Wire.read(this->address, reg, 1, &byte);
+    Wire.read(MPU_ADDRESS, reg, 1, &byte);
     return byte;
-}
-
-MPU6050::MPU6050(uint8_t addr)
-{
-    this->address = addr;
 }
 
 bool MPU6050::begin(mpu_accel_range arange, mpu_gyro_range grange)
 {
-
-    this->address = 0x68;
-
     // WHO_AM_I should always be 0x68
     if (readByte(MPU_RA_WHO_AM_I) != 0x68) {
         return false;
