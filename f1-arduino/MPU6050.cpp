@@ -114,27 +114,6 @@ static bool mpuWriteRegisterI2C(uint8_t reg, uint8_t data)
 
 void MPU6050::begin(void)
 {
-    uint8_t rev;
-    uint8_t tmp[6];
-
-    // determine product ID and accel revision
-    mpuReadRegisterI2C(MPU_RA_XA_OFFS_H, tmp, 6);
-    rev = ((tmp[5] & 0x01) << 2) | ((tmp[3] & 0x01) << 1) | (tmp[1] & 0x01);
-    if (rev) {
-        // Congrats, these parts are better
-        if (rev == 1) {
-        } else if (rev == 2) {
-        } else {
-        }
-    } else {
-        mpuReadRegisterI2C(MPU_RA_PRODUCT_ID, &rev, 1);
-        rev &= 0x0F;
-        if (!rev) {
-        } else if (rev == 4) {
-        } else {
-        }
-    }
-
     // Device reset
     mpuWriteRegisterI2C(MPU_RA_PWR_MGMT_1, 0x80); // Device reset
     delay(100);
