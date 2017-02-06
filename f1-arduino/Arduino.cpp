@@ -75,71 +75,6 @@ void digitalWrite(uint8_t pin, uint8_t level)
     }
 }
 
-HardwareSerial::HardwareSerial(uint8_t id)
-{
-    this->_id = id;
-}
-
-void HardwareSerial::begin(uint32_t baud)
-{
-    USART_TypeDef * usarts[3] = {USART1, USART2, USART3};
-
-    this->_uart = (void *)uartOpen(usarts[this->_id], NULL, baud, MODE_RXTX);
-}
-
-uint8_t HardwareSerial::read(void)
-{
-    serialPort_t * port = (serialPort_t *)this->_uart;
-    return serialRead(port);
-}
-
-void HardwareSerial::write(uint8_t byte)
-{
-    serialPort_t * port = (serialPort_t *)this->_uart;
-    serialWrite(port, byte);
-}
-
-uint8_t HardwareSerial::available(void)
-{
-    serialPort_t * port = (serialPort_t *)this->_uart;
-    return serialTotalBytesWaiting(port);
-}
-
-void HardwareSerial::flush(void)
-{
-    serialPort_t * port = (serialPort_t *)this->_uart;
-    while (!isSerialTransmitBufferEmpty(port));
-}
-
-HardwareSerial0 Serial;
-
-void HardwareWire::begin(void)
-{
-    i2cInit(I2CDEV_2);
-}
-
-void HardwareWire::beginTransmission(uint8_t addr)
-{
-    i2cBeginTransmission(addr);
-}
-
-int8_t HardwareWire::write(uint8_t reg, uint8_t data)
-{
-    return i2cWrite(reg, data) ? 0 : -1;
-}
-
-int8_t HardwareWire::endTransmission(void)
-{
-    return i2cEndTransmission() ? 0 : -1;
-}
-
-bool HardwareWire::read(uint8_t addr, uint8_t reg, uint8_t len, uint8_t *buf)
-{
-    return i2cRead(addr, reg, len, buf);
-}
-
-HardwareWire Wire;
-
 int main(void)
 {
     void SetSysClock(bool overclock);
@@ -155,5 +90,8 @@ int main(void)
     while (1) 
         loop();
 }
+
+HardwareSerial0 Serial;
+HardwareWire Wire;
 
 } // extern "C"
