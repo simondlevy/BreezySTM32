@@ -36,7 +36,7 @@ void loop(void)
     int16_t ax, ay, az, gx, gy, gz;
 
     if (imu.getMotion6Counts(&ax, &ay, &az, &gx, &gy, &gz)) {
-        Serial.printf("%d %d %d %d %d %d\n", ax, ay, ax, gx, gy, gz);
+        Serial.printf("%5d %5d %5d %d %5d %5d\n", ax, ay, ax, gx, gy, gz);
     }
 
 }
