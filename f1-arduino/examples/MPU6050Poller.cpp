@@ -22,15 +22,13 @@
 #include <Arduino.h>
 #include <MPU6050.h>
 
-#define BOARD_REV 2
-
 MPU6050 mpu;
 
 void setup(void)
 {
     Serial.begin(115200);
     Wire.begin();
-    mpu.begin();
+    mpu.begin(AFS_2G, GFS_250DPS);
 }
 
 void loop(void)

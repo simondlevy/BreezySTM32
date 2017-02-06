@@ -21,13 +21,36 @@
 
 #pragma once
 
+typedef enum {
+    GFS_250DPS = 0,
+    GFS_500DPS,
+    GFS_1000DPS,
+    GFS_2000DPS
+} mpu_gyro_range;
+
+typedef enum {
+    AFS_2G = 0,
+    AFS_4G,
+    AFS_8G,
+    AFS_16G
+} mpu_accel_range;
+
 class MPU6050 {
+
+    private:
+
+        uint8_t address;
+
+        uint8_t readByte(uint8_t reg);
 
     public:
 
-    void begin(void);
+        MPU6050(uint8_t addr=0x68);
 
-    void readAccel(int16_t *accData);
+        // Returns true on success, false on failure
+        bool begin(mpu_accel_range arange, mpu_gyro_range grange);
 
-    void readGyro(int16_t *gyroData);
+        void readAccel(int16_t *accData);
+
+        void readGyro(int16_t *gyroData);
 };

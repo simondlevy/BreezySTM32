@@ -53,28 +53,11 @@ enum lpf_e {
     NUM_FILTER
 };
 
-enum gyro_fsr_e {
-    INV_FSR_250DPS = 0,
-    INV_FSR_500DPS,
-    INV_FSR_1000DPS,
-    INV_FSR_2000DPS,
-    NUM_GYRO_FSR
-};
-
 enum clock_sel_e {
     INV_CLK_INTERNAL = 0,
     INV_CLK_PLL,
     NUM_CLK
 };
-
-enum accel_fsr_e {
-    INV_FSR_2G = 0,
-    INV_FSR_4G,
-    INV_FSR_8G,
-    INV_FSR_16G,
-    NUM_ACCEL_FSR
-};
-
 
 // Lowpass
 static uint8_t mpuLowPassFilter = INV_FILTER_42HZ;
@@ -112,8 +95,28 @@ static bool mpuWriteRegisterI2C(uint8_t reg, uint8_t data)
     return Wire.write(reg, data) ? Wire.endTransmission() : false;
 }
 
-void MPU6050::begin(void)
+uint8_t MPU6050::readByte(uint8_t reg)
 {
+    uint8_t byte;
+    Wire.read(this->address, reg, 1, &byte);
+    return byte;
+}
+
+MPU6050::MPU6050(uint8_t addr)
+{
+    this->address = addr;
+}
+
+bool MPU6050::begin(mpu_accel_range arange, mpu_gyro_range grange)
+{
+
+    this->address = 0x68;
+
+    // WHO_AM_I should always be 0x68
+    if (readByte(MPU_RA_WHO_AM_I) != 0x68) {
+        return false;
+    }
+
     // Device reset
     mpuWriteRegisterI2C(MPU_RA_PWR_MGMT_1, 0x80); // Device reset
     delay(100);
@@ -123,15 +126,17 @@ void MPU6050::begin(void)
     mpuWriteRegisterI2C(MPU_RA_PWR_MGMT_1, MPU6050_INV_CLK_GYROZ); // Clock source = 3 (PLL with Z Gyro reference)
     delay(10);
     mpuWriteRegisterI2C(MPU_RA_CONFIG, mpuLowPassFilter); // set DLPF
-    mpuWriteRegisterI2C(MPU_RA_GYRO_CONFIG, INV_FSR_2000DPS << 3); // full-scale 2kdps gyro range
+    mpuWriteRegisterI2C(MPU_RA_GYRO_CONFIG, grange << 3); // full-scale 2kdps gyro range
 
     // Accel scale 8g (4096 LSB/g)
-    mpuWriteRegisterI2C(MPU_RA_ACCEL_CONFIG, INV_FSR_8G << 3);
+    mpuWriteRegisterI2C(MPU_RA_ACCEL_CONFIG, arange << 3);
 
     // Data ready interrupt configuration:  INT_RD_CLEAR_DIS, I2C_BYPASS_EN
     mpuWriteRegisterI2C(MPU_RA_INT_PIN_CFG, 0 << 7 | 0 << 6 | 0 << 5 | 1 << 4 | 0 << 3 | 0 << 2 | 1 << 1 | 0 << 0);
     mpuWriteRegisterI2C(MPU_RA_INT_ENABLE, 0x01); // DATA_RDY_EN interrupt enable
 
+    // success
+    return true;
 }
 
 
