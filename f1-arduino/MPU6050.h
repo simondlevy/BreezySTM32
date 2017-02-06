@@ -1,7 +1,7 @@
 /*
-   mpu6050_poll.c : polling-based report of MPU6050 accelerometer and gyroscope values
+   MPU6050.h : driver for Invensense MPU6050
 
-   Copyright (C) 2016 Simon D. Levy
+   Adapted from https://github.com/multiwii/baseflight/blob/master/src/drv_mpu.h
 
    This file is part of BreezySTM32.
 
@@ -19,27 +19,15 @@
    along with BreezySTM32.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <Arduino.h>
-#include <MPU6050.h>
+#pragma once
 
-#define BOARD_REV 2
+class MPU6050 {
 
-MPU6050 mpu;
+    public:
 
-void setup(void)
-{
-    Serial.begin(115200);
-    Wire.begin();
-    mpu.begin();
-}
+    void begin(void);
 
-void loop(void)
-{
-    int16_t accel[3];
-    mpu.readAccel(accel);
-    Serial.printf("ax: %d  ay: %d  az: %d    ", accel[0], accel[1], accel[2]);
+    void readAccel(int16_t *accData);
 
-    int16_t gyro[3];
-    mpu.readGyro(gyro);
-    Serial.printf("gx: %d  gy: %d  gz: %d\n", gyro[0], gyro[1], gyro[2]);
-}
+    void readGyro(int16_t *gyroData);
+};

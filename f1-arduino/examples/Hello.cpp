@@ -1,5 +1,3 @@
-extern "C" {
- 
 #include <Arduino.h>
 
 // the setup routine runs once when you press reset:
@@ -12,6 +10,4 @@ void setup() {
 void loop() {
 
     Serial.printf("Hello world!\n");
-}
-
 }

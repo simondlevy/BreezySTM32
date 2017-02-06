@@ -23,8 +23,6 @@
    along with BreezySTM32.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-extern "C" {
-
 #include <Arduino.h>
 
 #include <drv_i2c.h>
@@ -35,8 +33,7 @@ void setup(void)
 {
     pinMode(LEDPIN, OUTPUT);
     Serial.begin(115200);
-    //Wire2.begin();
-    i2cInit(I2CDEV_2);
+    Wire.begin();
 } 
 
 void loop(void)
@@ -48,15 +45,13 @@ void loop(void)
     delay(500);
 
     for (addr=0; addr<128; ++addr) {
-        if (i2cBeginTransmission(addr, 0, 0))
-            if (i2cEndTransmission())
-                Serial.printf("Found device at address 0X%02X\n", addr);
+        Wire.beginTransmission(addr);
+        if (!Wire.endTransmission())
+            Serial.printf("Found device at address 0X%02X\n", addr);
     }
 
-    Serial.printf("--------------------------\n");
+    Serial.printf(" --------------------------\n");
 
     digitalWrite(LEDPIN, LOW);
     delay(500);
 }
-
-} // extern "C"

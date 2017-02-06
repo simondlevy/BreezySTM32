@@ -5,8 +5,6 @@
   This example code is in the public domain.
  */
 
-extern "C" {
- 
 // Pin 13 has an LED connected on most Arduino boards.
 // Pin 11 has the LED on Teensy 2.0
 // Pin 6  has the LED on Teensy++ 2.0
@@ -30,6 +28,4 @@ void loop() {
   delay(1000);               // wait for a second
   digitalWrite(led, LOW);    // turn the LED off by making the voltage LOW
   delay(1000);               // wait for a second
-}
-
 }

@@ -113,29 +113,32 @@ void HardwareSerial::flush(void)
 
 HardwareSerial0 Serial;
 
-HardwareWire::HardwareWire(uint8_t id)
-{
-    this->_id = id;
-}
-
 void HardwareWire::begin(void)
 {
-    I2CDevice devices[2] = {I2CDEV_1, I2CDEV_2};
-    
-    i2cInit(devices[this->_id]);
+    i2cInit(I2CDEV_2);
 }
 
 void HardwareWire::beginTransmission(uint8_t addr)
 {
-    (void)addr;
+    i2cBeginTransmission(addr);
+}
+
+int8_t HardwareWire::write(uint8_t reg, uint8_t data)
+{
+    return i2cWrite(reg, data) ? 0 : -1;
 }
 
 int8_t HardwareWire::endTransmission(void)
 {
-    return -1;
+    return i2cEndTransmission() ? 0 : -1;
 }
 
-HardwareWire2 Wire2;
+bool HardwareWire::read(uint8_t addr, uint8_t reg, uint8_t len, uint8_t *buf)
+{
+    return i2cRead(addr, reg, len, buf);
+}
+
+HardwareWire Wire;
 
 int main(void)
 {

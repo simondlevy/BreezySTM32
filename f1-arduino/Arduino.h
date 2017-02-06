@@ -89,31 +89,23 @@ extern HardwareSerial0 Serial;
 
 class HardwareWire {
 
-    private:
-
-        uint8_t _id;
-        void *  _uart;
-
     protected:
 
-        HardwareWire(uint8_t id);
+        uint8_t _id;
 
     public:
 
-        void begin(void);
+        void begin();
 
         void beginTransmission(uint8_t addr);
 
+        int8_t write(uint8_t reg, uint8_t data);
+
         int8_t endTransmission(void);
+
+        bool read(uint8_t addr_, uint8_t reg, uint8_t len, uint8_t *buf);
 };
 
-class HardwareWire2 : public HardwareWire {
-
-    public:
-
-        HardwareWire2(void) : HardwareWire(1) { }
-};
-
-extern HardwareWire2 Wire2;
+extern HardwareWire Wire;
 
 } // extern "C"
