@@ -116,7 +116,6 @@ void MPU6050::begin(void)
 {
     uint8_t rev;
     uint8_t tmp[6];
-    int half = 0;
 
     // determine product ID and accel revision
     mpuReadRegisterI2C(MPU_RA_XA_OFFS_H, tmp, 6);
@@ -124,9 +123,7 @@ void MPU6050::begin(void)
     if (rev) {
         // Congrats, these parts are better
         if (rev == 1) {
-            half = 1;
         } else if (rev == 2) {
-            half = 0;
         } else {
         }
     } else {
@@ -134,9 +131,7 @@ void MPU6050::begin(void)
         rev &= 0x0F;
         if (!rev) {
         } else if (rev == 4) {
-            half = 1;
         } else {
-            half = 0;
         }
     }
 

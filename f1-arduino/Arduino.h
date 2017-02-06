@@ -89,10 +89,6 @@ extern HardwareSerial0 Serial;
 
 class HardwareWire {
 
-    protected:
-
-        uint8_t _id;
-
     public:
 
         void begin();
