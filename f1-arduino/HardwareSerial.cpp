@@ -24,12 +24,8 @@ extern "C" {
 #include <Arduino.h>
 
 #include <stm32f10x_conf.h>
-//#include <drv_gpio.h>
-//#include <drv_system.h>
 #include <drv_serial.h>
 #include <drv_uart.h>
-
-#include <stdlib.h>
 
 HardwareSerial::HardwareSerial(uint8_t id)
 {
