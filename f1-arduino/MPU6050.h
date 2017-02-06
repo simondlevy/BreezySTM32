@@ -46,6 +46,8 @@ class MPU6050 {
         // Returns true on success, false on failure
         bool begin(mpu_accel_range arange, mpu_gyro_range grange);
 
+        bool getMotion6Counts(int16_t * ax, int16_t * ay, int16_t * az, int16_t * gx, int16_t * gy, int16_t * gz);
+
         void readAccel(int16_t *accData);
 
         void readGyro(int16_t *gyroData);

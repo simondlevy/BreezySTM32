@@ -131,26 +131,21 @@ bool MPU6050::begin(mpu_accel_range arange, mpu_gyro_range grange)
     return true;
 }
 
-
-void MPU6050::readAccel(int16_t *accData)
+bool MPU6050::getMotion6Counts(int16_t * ax, int16_t * ay, int16_t * az, int16_t * gx, int16_t * gy, int16_t * gz)
 {
     uint8_t buf[6];
 
     mpuReadRegisterI2C(MPU_RA_ACCEL_XOUT_H, buf, 6);
 
-    accData[0] = (int16_t)((buf[0] << 8) | buf[1]);
-    accData[1] = (int16_t)((buf[2] << 8) | buf[3]);
-    accData[2] = (int16_t)((buf[4] << 8) | buf[5]);
-}
-
-
-void MPU6050::readGyro(int16_t *gyroData)
-{
-    uint8_t buf[6];
+    *ax = (int16_t)((buf[0] << 8) | buf[1]);
+    *ay = (int16_t)((buf[2] << 8) | buf[3]);
+    *az = (int16_t)((buf[4] << 8) | buf[5]);
 
     mpuReadRegisterI2C(MPU_RA_GYRO_XOUT_H, buf, 6);
 
-    gyroData[0] = (int16_t)((buf[0] << 8) | buf[1]);
-    gyroData[1] = (int16_t)((buf[2] << 8) | buf[3]);
-    gyroData[2] = (int16_t)((buf[4] << 8) | buf[5]);
+    *gx = (int16_t)((buf[0] << 8) | buf[1]);
+    *gy = (int16_t)((buf[2] << 8) | buf[3]);
+    *gz = (int16_t)((buf[4] << 8) | buf[5]);
+
+    return true;
 }

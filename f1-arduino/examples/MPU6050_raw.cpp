@@ -22,22 +22,21 @@
 #include <Arduino.h>
 #include <MPU6050.h>
 
-MPU6050 mpu;
+MPU6050 imu;
 
 void setup(void)
 {
     Serial.begin(115200);
     Wire.begin();
-    mpu.begin(AFS_2G, GFS_250DPS);
+    imu.begin(AFS_2G, GFS_250DPS);
 }
 
 void loop(void)
 {
-    int16_t accel[3];
-    mpu.readAccel(accel);
-    Serial.printf("ax: %d  ay: %d  az: %d    ", accel[0], accel[1], accel[2]);
+    int16_t ax, ay, az, gx, gy, gz;
 
-    int16_t gyro[3];
-    mpu.readGyro(gyro);
-    Serial.printf("gx: %d  gy: %d  gz: %d\n", gyro[0], gyro[1], gyro[2]);
+    if (imu.getMotion6Counts(&ax, &ay, &az, &gx, &gy, &gz)) {
+        Serial.printf("%d %d %d %d %d %d\n", ax, ay, ax, gx, gy, gz);
+    }
+
 }
