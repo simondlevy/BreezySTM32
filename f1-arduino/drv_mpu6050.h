@@ -38,6 +38,6 @@ enum accel_fsr_e {
 };
 
 
-void mpu6050_init(void);
+bool mpu6050_init(void);
 void mpu6050_read_accel(int16_t *accData);
 void mpu6050_read_gyro(int16_t *gyroData);

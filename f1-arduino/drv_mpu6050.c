@@ -73,34 +73,19 @@ static bool mpuWriteRegisterI2C(uint8_t reg, uint8_t data)
     return i2cWrite(reg, data) ? i2cEndTransmission() : false;
 }
 
-void mpu6050_init(void)
+static uint8_t readByte(uint8_t reg)
 {
-    uint8_t rev;
-    uint8_t tmp[6];
-    int half = 0;
+    uint8_t byte;
+    mpuReadRegisterI2C(reg, &byte, 1);
+    return byte;
+}
 
-    // determine product ID and accel revision
-    mpuReadRegisterI2C(MPU_RA_XA_OFFS_H, tmp, 6);
-    rev = ((tmp[5] & 0x01) << 2) | ((tmp[3] & 0x01) << 1) | (tmp[1] & 0x01);
-    if (rev) {
-        // Congrats, these parts are better
-        if (rev == 1) {
-            half = 1;
-        } else if (rev == 2) {
-            half = 0;
-        } else {
-            failureMode(5);
-        }
-    } else {
-        mpuReadRegisterI2C(MPU_RA_PRODUCT_ID, &rev, 1);
-        rev &= 0x0F;
-        if (!rev) {
-            failureMode(5);
-        } else if (rev == 4) {
-            half = 1;
-        } else {
-            half = 0;
-        }
+
+bool mpu6050_init(void)
+{
+    // WHO_AM_I should always be 0x68
+    if (readByte(MPU_RA_WHO_AM_I) != 0x68) {
+        return false;
     }
 
     // Device reset
@@ -120,6 +105,8 @@ void mpu6050_init(void)
     // Data ready interrupt configuration:  INT_RD_CLEAR_DIS, I2C_BYPASS_EN
     mpuWriteRegisterI2C(MPU_RA_INT_PIN_CFG, 0 << 7 | 0 << 6 | 0 << 5 | 1 << 4 | 0 << 3 | 0 << 2 | 1 << 1 | 0 << 0);
     mpuWriteRegisterI2C(MPU_RA_INT_ENABLE, 0x01); // DATA_RDY_EN interrupt enable
+
+    return true;
 }
 
 
