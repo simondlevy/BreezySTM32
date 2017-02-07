@@ -25,6 +25,11 @@ extern "C" {
 
 #include <drv_i2c.h>
 
+void HardwareWire::begin(void)
+{
+    i2cInit(I2CDEV_2);
+}
+
 void HardwareWire::beginTransmission(uint8_t addr)
 {
     i2cBeginTransmission(addr);
@@ -45,10 +50,5 @@ bool HardwareWire::read(uint8_t addr, uint8_t reg, uint8_t len, uint8_t *buf)
     return i2cRead(addr, reg, len, buf);
 }
 
-
-void HardwareWire::begin(void)
-{
-    i2cInit(I2CDEV_2);
-}
 
 } // extern "C"

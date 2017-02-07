@@ -1,8 +1,5 @@
-extern "C" {
-
 #include <Arduino.h>
 #include <MPU6050.h>
-#include <drv_i2c.h>
 
 #include <math.h>
 
@@ -66,15 +63,16 @@ static uint8_t mpuLowPassFilter = INV_FILTER_42HZ;
 #define MPU6050_BIT_FIFO_EN     0x40
 
 
-static bool mpuReadRegisterI2C(uint8_t reg, uint8_t *data, int length)
+static void mpuReadRegisterI2C(uint8_t reg, uint8_t *data, int length)
 {
-        return i2cRead(MPU_ADDRESS, reg, length, data);
+    Wire.read(MPU_ADDRESS, reg, length, data);
 }
 
-static bool mpuWriteRegisterI2C(uint8_t reg, uint8_t data)
+static void mpuWriteRegisterI2C(uint8_t reg, uint8_t data)
 {
-    i2cBeginTransmission(MPU_ADDRESS);
-    return i2cWrite(reg, data) ? i2cEndTransmission() : false;
+    Wire.beginTransmission(MPU_ADDRESS);
+    Wire.write(reg, data);
+    Wire.endTransmission();
 }
 
 static uint8_t readByte(uint8_t reg)
@@ -131,5 +129,3 @@ bool MPU6050::getMotion6Counts(int16_t * ax, int16_t * ay, int16_t * az, int16_t
 
     return true;
 }
-
-} // extern "C"
