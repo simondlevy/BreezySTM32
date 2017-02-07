@@ -21,23 +21,21 @@
 
 #pragma once
 
-enum gyro_fsr_e {
-    INV_FSR_250DPS = 0,
-    INV_FSR_500DPS,
-    INV_FSR_1000DPS,
-    INV_FSR_2000DPS,
-    NUM_GYRO_FSR
-};
+typedef enum {
+    GFS_250DPS = 0,
+    GFS_500DPS,
+    GFS_1000DPS,
+    GFS_2000DPS
+} mpu_gyro_range;
 
-enum accel_fsr_e {
-    INV_FSR_2G = 0,
-    INV_FSR_4G,
-    INV_FSR_8G,
-    INV_FSR_16G,
-    NUM_ACCEL_FSR
-};
+typedef enum {
+    AFS_2G = 0,
+    AFS_4G,
+    AFS_8G,
+    AFS_16G
+} mpu_accel_range;
 
 
-bool mpu6050_init(void);
+bool mpu6050_init(mpu_accel_range arange, mpu_gyro_range grange);
 void mpu6050_read_accel(int16_t *accData);
 void mpu6050_read_gyro(int16_t *gyroData);

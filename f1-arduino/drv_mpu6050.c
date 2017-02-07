@@ -81,7 +81,7 @@ static uint8_t readByte(uint8_t reg)
 }
 
 
-bool mpu6050_init(void)
+bool mpu6050_init(mpu_accel_range arange, mpu_gyro_range grange)
 {
     // WHO_AM_I should always be 0x68
     if (readByte(MPU_RA_WHO_AM_I) != 0x68) {
@@ -97,10 +97,10 @@ bool mpu6050_init(void)
     mpuWriteRegisterI2C(MPU_RA_PWR_MGMT_1, MPU6050_INV_CLK_GYROZ); // Clock source = 3 (PLL with Z Gyro reference)
     delay(10);
     mpuWriteRegisterI2C(MPU_RA_CONFIG, mpuLowPassFilter); // set DLPF
-    mpuWriteRegisterI2C(MPU_RA_GYRO_CONFIG, INV_FSR_2000DPS << 3); // full-scale 2kdps gyro range
+    mpuWriteRegisterI2C(MPU_RA_GYRO_CONFIG, grange << 3); // full-scale 2kdps gyro range
 
     // Accel scale 8g (4096 LSB/g)
-    mpuWriteRegisterI2C(MPU_RA_ACCEL_CONFIG, INV_FSR_8G << 3);
+    mpuWriteRegisterI2C(MPU_RA_ACCEL_CONFIG, arange << 3);
 
     // Data ready interrupt configuration:  INT_RD_CLEAR_DIS, I2C_BYPASS_EN
     mpuWriteRegisterI2C(MPU_RA_INT_PIN_CFG, 0 << 7 | 0 << 6 | 0 << 5 | 1 << 4 | 0 << 3 | 0 << 2 | 1 << 1 | 0 << 0);
