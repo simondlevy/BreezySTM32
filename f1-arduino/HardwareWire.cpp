@@ -1,5 +1,5 @@
 /*
-Arduino.cpp : Arduino API impelentation for BreezySTM32 library
+HardwareWire.cpp : Wire API impelentation for BreezySTM32 library
 
 Copyright (C) 2017 Simon D. Levy 
 
