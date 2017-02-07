@@ -37,10 +37,6 @@ typedef enum {
 
 class MPU6050 {
 
-    private:
-
-        uint8_t readByte(uint8_t reg);
-
     public:
 
         // Returns true on success, false on failure

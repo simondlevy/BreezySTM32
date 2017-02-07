@@ -62,24 +62,23 @@ static uint8_t mpuLowPassFilter = INV_FILTER_42HZ;
 #define MPU6050_BIT_DMP_RST     0x08
 #define MPU6050_BIT_FIFO_EN     0x40
 
-static bool mpuReadRegisterI2C(uint8_t reg, uint8_t *data, int length)
+tatic bool mpuReadRegisterI2C(uint8_t reg, uint8_t *data, int length)
 {
-    return i2cRead(MPU_ADDRESS, reg, length, data);
+        return i2cRead(MPU_ADDRESS, reg, length, data);
 }
 
 static bool mpuWriteRegisterI2C(uint8_t reg, uint8_t data)
 {
-    i2cBeginTransmission(MPU_ADDRESS);
-    return i2cWrite(reg, data) ? i2cEndTransmission() : false;
+        i2cBeginTransmission(MPU_ADDRESS);
+            return i2cWrite(reg, data) ? i2cEndTransmission() : false;
 }
 
 static uint8_t readByte(uint8_t reg)
 {
-    uint8_t byte;
-    mpuReadRegisterI2C(reg, &byte, 1);
-    return byte;
+        uint8_t byte;
+            mpuReadRegisterI2C(reg, &byte, 1);
+                return byte;
 }
-
 
 bool mpu6050_init(mpu_accel_range arange, mpu_gyro_range grange)
 {
