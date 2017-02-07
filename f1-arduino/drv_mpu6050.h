@@ -37,5 +37,4 @@ typedef enum {
 
 
 bool mpu6050_init(mpu_accel_range arange, mpu_gyro_range grange);
-void mpu6050_read_accel(int16_t *accData);
-void mpu6050_read_gyro(int16_t *gyroData);
+void mpu6050_getMotion6Counts(int16_t * ax, int16_t * ay, int16_t * az, int16_t * gx, int16_t * gy, int16_t * gz);
