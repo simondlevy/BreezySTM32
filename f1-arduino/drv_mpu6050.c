@@ -1,36 +1,6 @@
-/*
-   drv_mpu6050.c : driver for Invensense MPU6050
-
-   Adapted from https://github.com/multiwii/baseflight/blob/master/src/drv_mpu.c
-
-   This file is part of BreezySTM32.
-
-   BreezySTM32 is free software: you can redistribute it and/or modify
-   it under the terms of the GNU General Public License as published by
-   the Free Software Foundation, either version 3 of the License, or
-   (at your option) any later version.
-
-   BreezySTM32 is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
-
-   You should have received a copy of the GNU General Public License
-   along with BreezySTM32.  If not, see <http://www.gnu.org/licenses/>.
- */
-
-
 #include <breezystm32.h>
 
 #include <math.h>
-
-/* Generic driver for invensense gyro/acc devices.
- *
- * Supported hardware:
- * MPU6050 (gyro + acc)
- *
- * AUX_I2C is enabled on devices which have bypass, to allow forwarding to compass in MPU9150-style devices
- */
 
 // This is generally where all Invensense devices are at, for default (AD0 down) I2C address
 #define MPU_ADDRESS                         (0x68)
@@ -60,26 +30,10 @@ enum lpf_e {
     NUM_FILTER
 };
 
-enum gyro_fsr_e {
-    INV_FSR_250DPS = 0,
-    INV_FSR_500DPS,
-    INV_FSR_1000DPS,
-    INV_FSR_2000DPS,
-    NUM_GYRO_FSR
-};
-
 enum clock_sel_e {
     INV_CLK_INTERNAL = 0,
     INV_CLK_PLL,
     NUM_CLK
-};
-
-enum accel_fsr_e {
-    INV_FSR_2G = 0,
-    INV_FSR_4G,
-    INV_FSR_8G,
-    INV_FSR_16G,
-    NUM_ACCEL_FSR
 };
 
 
@@ -119,11 +73,8 @@ static bool mpuWriteRegisterI2C(uint8_t reg, uint8_t data)
     return i2cWrite(reg, data) ? i2cEndTransmission() : false;
 }
 
-void mpu6050_init(uint16_t * acc1G, float * gyroScale)
+void mpu6050_init(void)
 {
-    // Set acc1G. Modified once by mpu6050CheckRevision for old (hopefully nonexistent outside of clones) parts
-    *acc1G = 512 * 8;
-
     uint8_t rev;
     uint8_t tmp[6];
     int half = 0;
@@ -151,13 +102,6 @@ void mpu6050_init(uint16_t * acc1G, float * gyroScale)
             half = 0;
         }
     }
-
-    // All this just to set the value
-    if (half)
-        *acc1G = 256 * 8;
-
-    // 16.4 dps/lsb scalefactor for all Invensense devices
-    *gyroScale = (1.0f / 16.4f) * (M_PI / 180.0f);
 
     // Device reset
     mpuWriteRegisterI2C(MPU_RA_PWR_MGMT_1, 0x80); // Device reset
