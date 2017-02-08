@@ -19,7 +19,7 @@
 #include <Arduino.h>
 #include <SpektrumDSM.h>
 
-SpektrumDSM rx;
+SpektrumDSM2048 rx;
 
 static uint8_t chanmap[5] = {1, 2, 3, 0, 5};
 
@@ -27,7 +27,7 @@ void setup() {
   
   Serial.begin(115200);
   
-  rx.begin(SERIALRX_SPEKTRUM2048);
+  rx.begin();
 }
 
 void loop() {
