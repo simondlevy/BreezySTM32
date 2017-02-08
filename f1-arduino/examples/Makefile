@@ -61,6 +61,7 @@ STDPERIPH_SRC	 = $(notdir $(wildcard $(STDPERIPH_DIR)/src/*.c))
 #
 
 # Tool names
+C++		 = arm-none-eabi-g++
 CC		 = arm-none-eabi-gcc 
 OBJCOPY	 = arm-none-eabi-objcopy
 

@@ -27,13 +27,6 @@ extern "C" {
 #include <drv_serial.h>
 #include <drv_uart.h>
 
-void HardwareSerial::begin(uint32_t baud)
-{
-    USART_TypeDef * usarts[3] = {USART1, USART2, USART3};
-
-    this->_uart = (void *)uartOpen(usarts[this->getid()], NULL, baud, MODE_RXTX);
-}
-
 uint8_t HardwareSerial::read(void)
 {
     serialPort_t * port = (serialPort_t *)this->_uart;
@@ -56,6 +49,16 @@ void HardwareSerial::flush(void)
 {
     serialPort_t * port = (serialPort_t *)this->_uart;
     while (!isSerialTransmitBufferEmpty(port));
+}
+
+void HardwareSerial0::begin(uint32_t baud)
+{
+    this->_uart = (void *)uartOpen(USART1, NULL, baud, MODE_RXTX);
+}
+
+void HardwareSerial1::begin(uint32_t baud)
+{
+    this->_uart = (void *)uartOpen(USART1, NULL, baud, MODE_RXTX);
 }
 
 } // extern "C"

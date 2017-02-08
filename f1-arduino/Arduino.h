@@ -42,17 +42,11 @@ void loop(void);
 
 class HardwareSerial {
 
-    private:
+    protected:
 
         void *  _uart;
 
-    protected:
-
-        uint8_t getid(void) { return 0; }
-
     public:
-
-        void begin(uint32_t baud);
 
         uint8_t available(void);
 
@@ -77,20 +71,18 @@ class HardwareSerial {
 
 class HardwareSerial0 : public HardwareSerial {
 
-    protected:
+    public:
 
-        uint8_t getid(void) { return 0; }
-
+        void begin(uint32_t baud);
 };
 
 extern HardwareSerial0 Serial;
 
 class HardwareSerial1 : public HardwareSerial {
 
-    protected:
+    public:
 
-        uint8_t getid(void) { return 1; }
-
+        void begin(uint32_t baud);
 };
 
 extern HardwareSerial1 Serial1;
