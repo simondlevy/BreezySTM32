@@ -19,8 +19,11 @@ You should have received a copy of the GNU General Public License
 along with BreezySTM32.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-void serialEvent1() __attribute__((weak));
-void serialEvent1() { }
+void serialEvent(void) __attribute__((weak));
+void serialEvent(void) { }
+
+void serialEvent1(void) __attribute__((weak));
+void serialEvent1(void) { }
 
 extern "C" {
 
@@ -61,8 +64,11 @@ void HardwareSerial0::begin(uint32_t baud)
 
 void HardwareSerial1::begin(uint32_t baud)
 {
-    this->_uart = (void *)uartOpen(USART1, NULL, baud, MODE_RXTX);
+    this->_uart = (void *)uartOpen(USART2, serialEvent1, baud, MODE_RXTX);
 }
 
 } // extern "C"
+
+HardwareSerial0 Serial;
+HardwareSerial1 Serial1;
 
