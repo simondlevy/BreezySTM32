@@ -3,20 +3,21 @@
  */
 
 #include <Arduino.h>
+#include <SpektrumDSM.h>
+
+SpektrumDSM2048 rx;
+
 
 // the setup routine runs once when you press reset:
 void setup() {                
     Serial.begin(115200);
-    Serial1.begin(115200);
+    rx.begin();
 }
 
 // the loop routine runs over and over again forever:
 void loop() {
-    delay(10);
-}
-
-void serialEvent1(void)
-{
-    static int count;
-    Serial.printf("%d\n", count++);
+    for (int k=0; k<6; ++k) {
+        Serial.printf("%d ", rx.getChannelValue(k));
+    }
+    Serial.printf("\n");
 }

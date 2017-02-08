@@ -126,6 +126,7 @@ TARGET_OBJS	 = $(addsuffix .o,$(addprefix $(OBJECT_DIR)/$(TARGET)/,$(basename $(
 			   $(OBJECT_DIR)/$(TARGET)/HardwareSerial.o \
 			   $(OBJECT_DIR)/$(TARGET)/HardwareWire.o \
 			   $(OBJECT_DIR)/$(TARGET)/MPU6050.o \
+			   $(OBJECT_DIR)/$(TARGET)/SpektrumDSM.o \
 			   $(OBJECT_DIR)/$(TARGET).o
 TARGET_MAP   = $(OBJECT_DIR)/$(TARGET).map
 
@@ -167,6 +168,9 @@ $(OBJECT_DIR)/$(TARGET)/HardwareWire.o: ../HardwareWire.cpp ../Arduino.h
 
 $(OBJECT_DIR)/$(TARGET)/MPU6050.o: ../MPU6050.cpp ../MPU6050.h
 	@$(CC) -c -o $(OBJECT_DIR)/$(TARGET)/MPU6050.o $(CFLAGS) ../MPU6050.cpp
+
+$(OBJECT_DIR)/$(TARGET)/SpektrumDSM.o: SpektrumDSM.cpp SpektrumDSM.h
+	@$(CC) -c -o $(OBJECT_DIR)/$(TARGET)/SpektrumDSM.o $(CFLAGS) SpektrumDSM.cpp
 
 $(OBJECT_DIR)/$(TARGET).o: ./$(TARGET).cpp
 	@$(CC) -c -o $(OBJECT_DIR)/$(TARGET).o $(CFLAGS) ./$(TARGET).cpp

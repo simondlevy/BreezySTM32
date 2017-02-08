@@ -34,6 +34,7 @@ extern "C" {
 void pinMode(uint8_t pin, uint8_t mode);
 void digitalWrite(uint8_t pin, uint8_t level);
 
+unsigned long micros(void);
 unsigned long millis(void);
 void delay(unsigned long);
 
