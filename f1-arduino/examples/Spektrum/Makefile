@@ -9,12 +9,17 @@
 # Change this to wherever you put BreezySTM32
 BREEZY_DIR = $(HOME)/Desktop/BreezySTM32
 
+# Change this to wherever you put Arduino libraries
+ARDUINO_DIR = $(HOME)/Development/arduino-1.6.13/hardware/teensy/avr/libraries
+
 # Change this to whatever example you want
 TARGET		?= Spektrum
 
 ###############################################################################
 
 F1_DIR = $(BREEZY_DIR)/f1-arduino
+
+SPEKTRUM_DIR = $(ARDUINO_DIR)/SpektrumDSM
 
 # Compile-time options
 OPTIONS		?=
@@ -71,6 +76,7 @@ OBJCOPY	 = arm-none-eabi-objcopy
 INCLUDE_DIRS	 = $(SRC_DIR) \
 		   $(F1_DIR) \
 		   $(F1_DIR)/arduino \
+		   $(SPEKTRUM_DIR) \
 		   $(STDPERIPH_DIR)/inc \
 		   $(CMSIS_DIR)/CM3/CoreSupport \
 		   $(CMSIS_DIR)/CM3/DeviceSupport/ST/STM32F10x \
@@ -161,8 +167,8 @@ $(OBJECT_DIR)/$(TARGET)/Arduino.o: $(F1_DIR)/Arduino.cpp $(F1_DIR)/Arduino.h
 $(OBJECT_DIR)/$(TARGET)/HardwareSerial.o: $(F1_DIR)/HardwareSerial.cpp $(F1_DIR)/Arduino.h
 	@$(CC) -c -o $(OBJECT_DIR)/$(TARGET)/HardwareSerial.o $(CFLAGS) $(F1_DIR)/HardwareSerial.cpp
 
-$(OBJECT_DIR)/$(TARGET)/SpektrumDSM.o: SpektrumDSM.cpp SpektrumDSM.h
-	@$(CC) -c -o $(OBJECT_DIR)/$(TARGET)/SpektrumDSM.o $(CFLAGS) SpektrumDSM.cpp
+$(OBJECT_DIR)/$(TARGET)/SpektrumDSM.o: $(SPEKTRUM_DIR)/SpektrumDSM.cpp $(SPEKTRUM_DIR)/SpektrumDSM.h
+	@$(CC) -c -o $(OBJECT_DIR)/$(TARGET)/SpektrumDSM.o $(CFLAGS) $(SPEKTRUM_DIR)/SpektrumDSM.cpp
 
 $(OBJECT_DIR)/$(TARGET).o: ./$(TARGET).cpp
 	@$(CC) -c -o $(OBJECT_DIR)/$(TARGET).o $(CFLAGS) ./$(TARGET).cpp
