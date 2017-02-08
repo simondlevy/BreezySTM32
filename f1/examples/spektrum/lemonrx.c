@@ -26,7 +26,7 @@ static uint8_t chanmap[5] = {1, 2, 3, 0, 5};
 
 void setup(void)
 {
-    spektrumInit(USART2, SERIALRX_SPEKTRUM2048); 
+    spektrumInit(SERIALRX_SPEKTRUM2048); 
 }
 
 void loop(void)

@@ -20,10 +20,7 @@ along with BreezySTM32.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 void serialEvent(void) __attribute__((weak));
-void serialEvent(void) { }
-
 void serialEvent1(void) __attribute__((weak));
-void serialEvent1(void) { }
 
 extern "C" {
 
@@ -71,4 +68,7 @@ void HardwareSerial1::begin(uint32_t baud)
 
 HardwareSerial0 Serial;
 HardwareSerial1 Serial1;
+
+void serialEvent(void) { }
+void serialEvent1(void) { }
 

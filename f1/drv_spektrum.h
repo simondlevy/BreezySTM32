@@ -26,7 +26,7 @@ typedef enum {
     SERIALRX_SPEKTRUM2048
 } serialrx_t;
 
-void spektrumInit(USART_TypeDef * uart, serialrx_t serialrx_type);
+void spektrumInit(serialrx_t serialrx_type);
 
 bool spektrumFrameComplete(void);
 

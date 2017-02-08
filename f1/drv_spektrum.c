@@ -31,7 +31,6 @@ static uint8_t spek_chan_mask;
 static bool rcFrameComplete;
 static bool spekHiRes;
 static bool spekDataIncoming;
-static USART_TypeDef *spekUart;
 
 volatile uint8_t spekFrame[SPEK_FRAME_SIZE];
 
@@ -50,7 +49,7 @@ static void spektrumDataReceive(void)
     spekTimeLast = spekTime;
     if (spekTimeInterval > 5000)
         spekFramePosition = 0;
-    spekFrame[spekFramePosition] = (uint8_t)spekUart->DR;
+    spekFrame[spekFramePosition] = (uint8_t)USART2->DR;
     if (spekFramePosition == SPEK_FRAME_SIZE - 1) {
         rcFrameComplete = true;
     } else {
@@ -59,10 +58,8 @@ static void spektrumDataReceive(void)
 }
 
 
-void spektrumInit(USART_TypeDef * uart, serialrx_t serialrx_type)
+void spektrumInit(serialrx_t serialrx_type)
 {
-    spekUart = uart;
-
     switch (serialrx_type) {
 
         case SERIALRX_SPEKTRUM2048:
@@ -81,7 +78,7 @@ void spektrumInit(USART_TypeDef * uart, serialrx_t serialrx_type)
             break;
     }
 
-    uartOpen(spekUart, spektrumDataReceive, 115200, MODE_RXTX);
+    uartOpen(USART2, spektrumDataReceive, 115200, MODE_RXTX);
 }
 
 bool spektrumFrameComplete(void)
