@@ -10,7 +10,7 @@
 BREEZY_DIR = $(HOME)/Desktop/BreezySTM32
 
 # Change this to whatever example you want
-TARGET		?= I2CSniffer
+TARGET		?= Blink
 
 ###############################################################################
 

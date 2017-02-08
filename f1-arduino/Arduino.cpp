@@ -19,6 +19,9 @@ You should have received a copy of the GNU General Public License
 along with BreezySTM32.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+void serialEvent1() __attribute__((weak));
+void serialEvent1() { }
+
 extern "C" {
 
 #include <Arduino.h>
@@ -87,8 +90,10 @@ int main(void)
 
     setup();
 
-    while (1) 
-        loop();
+    while (1) {
+        //loop();
+        serialEvent1();
+    }
 }
 
 HardwareSerial0 Serial;
@@ -96,3 +101,5 @@ HardwareSerial1 Serial1;
 HardwareWire Wire;
 
 } // extern "C"
+
+
