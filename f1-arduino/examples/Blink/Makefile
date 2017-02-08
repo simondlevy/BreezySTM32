@@ -10,7 +10,7 @@
 BREEZY_DIR = $(HOME)/Desktop/BreezySTM32
 
 # Change this to whatever example you want
-TARGET		?= Spektrum
+TARGET		?= Blink
 
 ###############################################################################
 
@@ -124,9 +124,6 @@ TARGET_ELF	 = $(BIN_DIR)/$(TARGET).elf
 TARGET_OBJS	 = $(addsuffix .o,$(addprefix $(OBJECT_DIR)/$(TARGET)/,$(basename $($(TARGET)_CSRC)))) \
 			   $(OBJECT_DIR)/$(TARGET)/Arduino.o \
 			   $(OBJECT_DIR)/$(TARGET)/HardwareSerial.o \
-			   $(OBJECT_DIR)/$(TARGET)/HardwareWire.o \
-			   $(OBJECT_DIR)/$(TARGET)/MPU6050.o \
-			   $(OBJECT_DIR)/$(TARGET)/SpektrumDSM.o \
 			   $(OBJECT_DIR)/$(TARGET).o
 TARGET_MAP   = $(OBJECT_DIR)/$(TARGET).map
 
@@ -157,20 +154,11 @@ $(OBJECT_DIR)/$(TARGET)/%.o: %.S
 %.o: %.cpp
 	$(CC) -c $(CFLAGS) -o $@ $^
 
-$(OBJECT_DIR)/$(TARGET)/Arduino.o: ../Arduino.cpp ../Arduino.h
-	@$(CC) -c -o $(OBJECT_DIR)/$(TARGET)/Arduino.o $(CFLAGS) ../Arduino.cpp
+$(OBJECT_DIR)/$(TARGET)/Arduino.o: $(F1_DIR)/Arduino.cpp $(F1_DIR)/Arduino.h
+	@$(CC) -c -o $(OBJECT_DIR)/$(TARGET)/Arduino.o $(CFLAGS) $(F1_DIR)/Arduino.cpp
 
-$(OBJECT_DIR)/$(TARGET)/HardwareSerial.o: ../HardwareSerial.cpp ../Arduino.h
-	@$(CC) -c -o $(OBJECT_DIR)/$(TARGET)/HardwareSerial.o $(CFLAGS) ../HardwareSerial.cpp
-
-$(OBJECT_DIR)/$(TARGET)/HardwareWire.o: ../HardwareWire.cpp ../Arduino.h
-	@$(CC) -c -o $(OBJECT_DIR)/$(TARGET)/HardwareWire.o $(CFLAGS) ../HardwareWire.cpp
-
-$(OBJECT_DIR)/$(TARGET)/MPU6050.o: ../MPU6050.cpp ../MPU6050.h
-	@$(CC) -c -o $(OBJECT_DIR)/$(TARGET)/MPU6050.o $(CFLAGS) ../MPU6050.cpp
-
-$(OBJECT_DIR)/$(TARGET)/SpektrumDSM.o: SpektrumDSM.cpp SpektrumDSM.h
-	@$(CC) -c -o $(OBJECT_DIR)/$(TARGET)/SpektrumDSM.o $(CFLAGS) SpektrumDSM.cpp
+$(OBJECT_DIR)/$(TARGET)/HardwareSerial.o: $(F1_DIR)/HardwareSerial.cpp $(F1_DIR)/Arduino.h
+	@$(CC) -c -o $(OBJECT_DIR)/$(TARGET)/HardwareSerial.o $(CFLAGS) $(F1_DIR)/HardwareSerial.cpp
 
 $(OBJECT_DIR)/$(TARGET).o: ./$(TARGET).cpp
 	@$(CC) -c -o $(OBJECT_DIR)/$(TARGET).o $(CFLAGS) ./$(TARGET).cpp
