@@ -10,7 +10,7 @@
 BREEZY_DIR = $(HOME)/Desktop/BreezySTM32
 
 # Change this to whatever example you want
-TARGET		?= MPU6050_raw
+TARGET		?= Hello
 
 ###############################################################################
 
@@ -37,9 +37,6 @@ $(TARGET)_CSRC = \
 		   $(F1_DIR)/startup_stm32f10x_md_gcc.S \
 		   $(F1_DIR)/drv_gpio.c \
 		   $(F1_DIR)/drv_i2c.c \
-		   $(F1_DIR)/drv_i2c.c \
-		   $(F1_DIR)/drv_adc.c \
-		   $(F1_DIR)/drv_spi.c \
 		   $(F1_DIR)/drv_pwm.c \
 		   $(F1_DIR)/drv_system.c \
 		   $(F1_DIR)/drv_serial.c \
