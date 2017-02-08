@@ -10,7 +10,7 @@
 BREEZY_DIR = $(HOME)/Desktop/BreezySTM32
 
 # Change this to whatever example you want
-TARGET		?= Hello
+TARGET		?= MPU6050_raw
 
 ###############################################################################
 

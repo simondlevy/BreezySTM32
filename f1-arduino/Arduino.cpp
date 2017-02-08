@@ -92,8 +92,6 @@ int main(void)
     }
 }
 
-HardwareWire Wire;
-
 } // extern "C"
 
 

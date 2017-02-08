@@ -52,3 +52,6 @@ bool HardwareWire::read(uint8_t addr, uint8_t reg, uint8_t len, uint8_t *buf)
 
 
 } // extern "C"
+
+HardwareWire Wire;
+
