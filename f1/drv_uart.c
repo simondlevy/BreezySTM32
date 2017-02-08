@@ -416,13 +416,11 @@ void USART2_IRQHandler(void)
     uint16_t SR = s->USARTx->SR;
 
     if (SR & USART_FLAG_RXNE) {
-        // If we registered a callback, pass crap there
+        s->port.rxBuffer[s->port.rxBufferHead] = s->USARTx->DR;
+        s->port.rxBufferHead = (s->port.rxBufferHead + 1) % s->port.rxBufferSize;
         if (s->port.callback) {
-            s->port.callback(s->USARTx->DR);
-        } else {
-            s->port.rxBuffer[s->port.rxBufferHead] = s->USARTx->DR;
-            s->port.rxBufferHead = (s->port.rxBufferHead + 1) % s->port.rxBufferSize;
-        }
+            s->port.callback();
+        } 
     }
     if (SR & USART_FLAG_TXE) {
         if (s->port.txBufferTail != s->port.txBufferHead) {
@@ -441,12 +439,10 @@ void USART3_IRQHandler(void)
     uint16_t SR = s->USARTx->SR;
 
     if (SR & USART_FLAG_RXNE) {
-        // If we registered a callback, pass crap there
+        s->port.rxBuffer[s->port.rxBufferHead] = s->USARTx->DR;
+        s->port.rxBufferHead = (s->port.rxBufferHead + 1) % s->port.rxBufferSize;
         if (s->port.callback) {
-            s->port.callback(s->USARTx->DR);
-        } else {
-            s->port.rxBuffer[s->port.rxBufferHead] = s->USARTx->DR;
-            s->port.rxBufferHead = (s->port.rxBufferHead + 1) % s->port.rxBufferSize;
+            s->port.callback();
         }
     }
 }

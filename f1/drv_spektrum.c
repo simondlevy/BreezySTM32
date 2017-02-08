@@ -34,12 +34,11 @@ static bool spekDataIncoming;
 static USART_TypeDef *spekUart;
 
 volatile uint8_t spekFrame[SPEK_FRAME_SIZE];
-static void spektrumDataReceive(uint16_t c);
 
 static uint8_t numRCChannels;
 
 // Receive ISR callback
-static void spektrumDataReceive(uint16_t c)
+static void spektrumDataReceive(void)
 {
     uint32_t spekTime;
     static uint32_t spekTimeLast, spekTimeInterval;
@@ -51,7 +50,7 @@ static void spektrumDataReceive(uint16_t c)
     spekTimeLast = spekTime;
     if (spekTimeInterval > 5000)
         spekFramePosition = 0;
-    spekFrame[spekFramePosition] = (uint8_t)c;
+    spekFrame[spekFramePosition] = (uint8_t)spekUart->DR;
     if (spekFramePosition == SPEK_FRAME_SIZE - 1) {
         rcFrameComplete = true;
     } else {
