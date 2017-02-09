@@ -30,7 +30,6 @@
 
 #include "stm32f10x_conf.h"
 #include "core_cm3.h"
-#include "printf.h"
 #include "drv_system.h"         // timers, delays, etc
 #include "drv_gpio.h"
 
@@ -44,10 +43,8 @@
 
 #define I2C_DEVICE (I2CDEV_2)
 
-#include "drv_adc.h"
 #include "drv_i2c.h"
 #include "drv_pwm.h"
-#include "drv_spi.h"
 #include "drv_timer.h"
 #include "drv_serial.h"
 #include "drv_uart.h"

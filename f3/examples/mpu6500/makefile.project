@@ -1,7 +1,0 @@
-PROJECT_NAME = mpu6500_poll
-
-# Contains your setup() and loop()
-PROJECT_SRC_FILE  = mpu6500_poll.c
-
-# Drivers, etc.
-PROJECT_BREEZY_FILES = $(F3_DIR)/i2c_stm32f30x.c $(DRIVERS_DIR)/mpu.c

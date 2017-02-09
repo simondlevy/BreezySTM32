@@ -1,7 +1,0 @@
-PROJECT_NAME = lemonrx
-
-# Contains your setup() and loop()
-PROJECT_SRC_FILE  = lemonrx.c
-
-# Drivers, etc.
-PROJECT_BREEZY_FILES = $(DRIVERS_DIR)/spektrum.c

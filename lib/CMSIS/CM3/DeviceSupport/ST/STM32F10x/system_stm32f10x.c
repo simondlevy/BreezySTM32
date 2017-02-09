@@ -5,7 +5,7 @@
 
 uint32_t SystemCoreClock = SYSCLK_FREQ_72MHz;   /*!< System Clock Frequency (Core Clock) */
 
-__I uint8_t AHBPrescTable[16] = { 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 3, 4, 6, 7, 8, 9 };
+static const uint8_t AHBPrescTable[16] = { 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 3, 4, 6, 7, 8, 9 };
 
 uint32_t hse_value = 8000000;
 
@@ -118,8 +118,7 @@ void SetSysClock(bool overclock)
             // we're on internal RC
             clocksrc = SRC_HSI;
         } else {
-            // We're fucked
-            while(1);
+            while(1); // Unable to continue.
         }
     }
 
@@ -142,7 +141,14 @@ void SetSysClock(bool overclock)
     *RCC_CRH |= (uint32_t)0x8 << (RCC_CFGR_PLLMULL9 >> 16);
     GPIOC->ODR &= (uint32_t)~(CAN_MCR_RESET);
 	
-    RCC_CFGR_PLLMUL = GPIOC->IDR & CAN_MCR_RESET ? hse_value = 12000000, RCC_CFGR_PLLMULL6 : RCC_CFGR_PLLMULL9;
+#if defined(CJMCU)
+    // On CJMCU new revision boards (Late 2014) bit 15 of GPIOC->IDR is '1'.
+    RCC_CFGR_PLLMUL = RCC_CFGR_PLLMULL9;
+#elif defined(NAZE)
+    RCC_CFGR_PLLMUL = GPIOC->IDR & GPIO_IDR_IDR15 ? hse_value = 12000000, RCC_CFGR_PLLMULL6 : RCC_CFGR_PLLMULL9;
+#else
+    RCC_CFGR_PLLMUL = RCC_CFGR_PLLMULL9;
+#endif
     switch (clocksrc) {
         case SRC_HSE:
             if (overclock) {

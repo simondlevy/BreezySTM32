@@ -1,6 +1,6 @@
+f1-legacy/examples/*/obj
+f1examples/f1
 f1/examples/*/obj
-f1/examples/f1
-f1-arduino/examples/*/obj
-f1-arduino/examples/*.o
-f3-arduino/obj
+f1/examples/*.o
+f3/obj
 *.swp

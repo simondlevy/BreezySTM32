@@ -45,7 +45,6 @@
 #include "drv_timer.h"
 #include "drv_pwm.h"
 
-#include "printf.h"
 
 typedef struct {
     volatile uint16_t *ccr;
@@ -66,7 +65,6 @@ typedef void (*pwmWriteFuncPtr)(uint8_t index, uint16_t value);  // function poi
 static pwmPortData_t   pwmPorts[MAX_PORTS];
 static uint16_t        captures[MAX_INPUTS];
 static pwmWriteFuncPtr pwmWritePtr = NULL;
-static uint8_t         pwmFilter = 0;
 
 #define PWM_TIMER_MHZ 1
 #define PWM_TIMER_8_MHZ 8
@@ -115,7 +113,7 @@ static void pwmICConfig(TIM_TypeDef *tim, uint8_t channel, uint16_t polarity)
     TIM_ICInitStructure.TIM_ICPolarity = polarity;
     TIM_ICInitStructure.TIM_ICSelection = TIM_ICSelection_DirectTI;
     TIM_ICInitStructure.TIM_ICPrescaler = TIM_ICPSC_DIV1;
-    TIM_ICInitStructure.TIM_ICFilter = pwmFilter;
+    TIM_ICInitStructure.TIM_ICFilter = 0;
 
     TIM_ICInit(tim, &TIM_ICInitStructure);
 }
@@ -276,12 +274,9 @@ static void pwmWriteStandard(uint8_t index, uint16_t value)
     *motors[index]->ccr = value;
 }
 
-void pwmInit(bool useCPPM, bool usePwmFilter, bool fastPWM, uint32_t motorPwmRate, uint16_t idlePulseUsec)
+void pwmInit(bool useCPPM, uint32_t motorPwmRate, uint16_t idlePulseUsec)
 {
     const uint8_t *setup;
-
-    // pwm filtering on input
-    pwmFilter = usePwmFilter ? 1 : 0;
 
     setup = useCPPM ? multiPPM : multiPWM;
 
@@ -302,10 +297,10 @@ void pwmInit(bool useCPPM, bool usePwmFilter, bool fastPWM, uint32_t motorPwmRat
             numInputs++;
         } else if (mask & TYPE_M) {
 
-            uint32_t mhz = (motorPwmRate > 500 || fastPWM) ? PWM_TIMER_8_MHZ : PWM_TIMER_MHZ;
+            uint32_t mhz = (motorPwmRate > 500) ? PWM_TIMER_8_MHZ : PWM_TIMER_MHZ;
             uint32_t hz = mhz * 1000000;
 
-            uint16_t period = hz / (fastPWM ? 4000 : motorPwmRate);
+            uint16_t period = hz / motorPwmRate;
 
             motors[numMotors++] = pwmOutConfig(port, mhz, period, idlePulseUsec);
         }

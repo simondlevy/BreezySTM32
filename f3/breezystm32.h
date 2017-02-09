@@ -1,51 +1,30 @@
-/*
-breezystm32.h : general header for BreezySTM32 library
-
-Copyright (C) 2016 Simon D. Levy 
-
-This file is part of BreezySTM32.
-
-BreezySTM32 is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-BreezySTM32 is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with BreezySTM32.  If not, see <http://www.gnu.org/licenses/>.
-*/
-
-#pragma once
-
-#include <stdint.h>
 #include <stdbool.h>
-#include <stdarg.h>
+#include <stdint.h>
+#include <stdlib.h>
 #include <string.h>
+#include <stdarg.h>
 #include <stdio.h>
 
-#include "platform.h"
-#include "system.h"
-#include "gpio.h"
-#include "io.h"
-#include "serial.h"
-#include "timer.h"
-#include "serial_usb_vcp.h"
-#include "exti.h"
-#include "ioserial.h"
-#include "system.h"
-#include "light_led.h"
-#include "i2c.h"
-#include "serial_uart.h"
-#include "motors.h"
-#include "pwm_output.h"
+#include <platform.h>
 
-extern serialPort_t * Serial1;
+#include "config/parameter_group.h"
+#include "config/parameter_group_ids.h"
+
+#include "drivers/system.h"
+#include "drivers/dma.h"
+#include "drivers/gpio.h"
+#include "drivers/timer.h"
+#include "drivers/pwm_mapping.h"
+#include "drivers/pwm_output.h"
+#include "drivers/pwm_rx.h"
+#include "drivers/io.h"
+#include "drivers/serial.h"
+#include "drivers/serial_usb_vcp.h"
+
+#include "io/motors.h"
+
+#include "config/config_system.h"
+#include "config/config_eeprom.h"
+#include "config/profile.h"
 
 void debug(const char * fmt, ...);
-
-void setup(void);
-void loop(void);
