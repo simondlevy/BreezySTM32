@@ -63,7 +63,6 @@ typedef struct {
 typedef void (*pwmWriteFuncPtr)(uint8_t index, uint16_t value);  // function pointer used to write motors
 
 static pwmPortData_t   pwmPorts[MAX_PORTS];
-static uint16_t        captures[MAX_INPUTS];
 static pwmWriteFuncPtr pwmWritePtr = NULL;
 
 #define PWM_TIMER_MHZ 1
@@ -102,20 +101,6 @@ static void pwmOCConfig(TIM_TypeDef *tim, uint8_t channel, uint16_t value)
             TIM_OC4PreloadConfig(tim, tim_oc_preload);
             break;
     }
-}
-
-static void pwmICConfig(TIM_TypeDef *tim, uint8_t channel, uint16_t polarity)
-{
-    TIM_ICInitTypeDef TIM_ICInitStructure;
-
-    TIM_ICStructInit(&TIM_ICInitStructure);
-    TIM_ICInitStructure.TIM_Channel = channel;
-    TIM_ICInitStructure.TIM_ICPolarity = polarity;
-    TIM_ICInitStructure.TIM_ICSelection = TIM_ICSelection_DirectTI;
-    TIM_ICInitStructure.TIM_ICPrescaler = TIM_ICPSC_DIV1;
-    TIM_ICInitStructure.TIM_ICFilter = 0;
-
-    TIM_ICInit(tim, &TIM_ICInitStructure);
 }
 
 static void pwmGPIOConfig(GPIO_TypeDef *gpio, uint32_t pin, GPIO_Mode mode)
@@ -160,63 +145,6 @@ static pwmPortData_t *pwmOutConfig(uint8_t port, uint8_t mhz, uint16_t period, u
     return p;
 }
 
-static pwmPortData_t *pwmInConfig(uint8_t port, timerCCCallbackPtr callback, uint8_t channel)
-{
-    pwmPortData_t *p = &pwmPorts[port];
-    const timerHardware_t *timerHardwarePtr = &(timerHardware[port]);
-
-    p->channel = channel;
-
-    pwmGPIOConfig(timerHardwarePtr->gpio, timerHardwarePtr->pin, Mode_IPD);
-    pwmICConfig(timerHardwarePtr->tim, timerHardwarePtr->channel, TIM_ICPolarity_Rising);
-
-    timerConfigure(timerHardwarePtr, 0xFFFF, PWM_TIMER_MHZ);
-    configureTimerCaptureCompareInterrupt(timerHardwarePtr, port, callback);
-
-    return p;
-}
-
-static void ppmCallback(uint8_t port, uint16_t capture)
-{
-    (void)port;
-    uint16_t diff;
-    static uint16_t now;
-    static uint16_t last = 0;
-    static uint8_t chan = 0;
-
-    last = now;
-    now = capture;
-    diff = now - last;
-
-    if (diff > 2700) { // Per http://www.rcgroups.com/forums/showpost.php?p=21996147&postcount=3960 "So, if you use 2.5ms or higher as being the reset for the PPM stream start, you will be fine. I use 2.7ms just to be safe."
-        chan = 0;
-    } else {
-        if (diff > PULSE_MIN && diff < PULSE_MAX && chan < MAX_INPUTS) {   // 750 to 2250 ms is our 'valid' channel range
-            captures[chan] = diff;
-        }
-        chan++;
-    }
-}
-
-static void pwmCallback(uint8_t port, uint16_t capture)
-{
-    if (pwmPorts[port].state == 0) {
-        pwmPorts[port].rise = capture;
-        pwmPorts[port].state = 1;
-        pwmICConfig(timerHardware[port].tim, timerHardware[port].channel, TIM_ICPolarity_Falling);
-    } else {
-        pwmPorts[port].fall = capture;
-        // compute capture
-        pwmPorts[port].capture = pwmPorts[port].fall - pwmPorts[port].rise;
-        if (pwmPorts[port].capture > PULSE_MIN && pwmPorts[port].capture < PULSE_MAX) { // valid pulse width
-            captures[pwmPorts[port].channel] = pwmPorts[port].capture;
-        }
-        // switch state
-        pwmPorts[port].state = 0;
-        pwmICConfig(timerHardware[port].tim, timerHardware[port].channel, TIM_ICPolarity_Rising);
-    }
-}
-
 // ===========================================================================
 
 enum {
@@ -241,28 +169,8 @@ static const uint8_t multiPPM[] = {
     0xFF
 };
 
-static const uint8_t multiPWM[] = {
-    PWM1 | TYPE_IW,     // input #1
-    PWM2 | TYPE_IW,
-    PWM3 | TYPE_IW,
-    PWM4 | TYPE_IW,
-    PWM5 | TYPE_IW,
-    PWM6 | TYPE_IW,
-    PWM7 | TYPE_IW,
-    PWM8 | TYPE_IW,     // input #8
-    PWM9 | TYPE_M,      // motor #1 or servo #1 (swap to servo if needed)
-    PWM10 | TYPE_M,     // motor #2 or servo #2 (swap to servo if needed)
-    PWM11 | TYPE_M,     // motor #1 or #3
-    PWM12 | TYPE_M,
-    PWM13 | TYPE_M,
-    PWM14 | TYPE_M,     // motor #4 or #6
-    0xFF
-};
-
-
 static         pwmPortData_t *motors[4];
 static uint8_t numMotors = 0;
-static uint8_t numInputs = 0;
 
 static void pwmWriteBrushed(uint8_t index, uint16_t value)
 {
@@ -289,13 +197,7 @@ void pwmInit(uint32_t motorPwmRate, uint16_t idlePulseUsec)
         if (setup[i] == 0xFF) // terminator
             break;
 
-        if (mask & TYPE_IP) {
-            pwmInConfig(port, ppmCallback, 0);
-            numInputs = 8;
-        } else if (mask & TYPE_IW) {
-            pwmInConfig(port, pwmCallback, numInputs);
-            numInputs++;
-        } else if (mask & TYPE_M) {
+        if (mask & TYPE_M) {
 
             uint32_t mhz = (motorPwmRate > 500) ? PWM_TIMER_8_MHZ : PWM_TIMER_MHZ;
             uint32_t hz = mhz * 1000000;
