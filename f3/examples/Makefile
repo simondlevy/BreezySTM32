@@ -1,6 +1,6 @@
 BREEZY_DIR = $(HOME)/Desktop/BreezySTM32
 
-PROJECT_SRC = blinky.c
+PROJECT_SRC = motor.c
 
 # The target to build, see VALID_TARGETS below
 TARGET		?= ALIENFLIGHTF3
@@ -20,7 +20,7 @@ FLASH_SIZE ?=
 
 ###############################################################################
 
-F3_DIR = $(BREEZY_DIR)/f3-arduino
+F3_DIR = $(BREEZY_DIR)/f3
 
 256K_TARGETS = ALIENFLIGHTF3 
 
@@ -48,13 +48,13 @@ REVISION := $(shell git log -1 --format="%h")
 # Working directories
 #ROOT		 := $(patsubst %/,%,$(dir $(lastword $(MAKEFILE_LIST))))
 ROOT		 = $(dir $(lastword $(MAKEFILE_LIST)))
-SRC_DIR		 = $(ROOT)/src
+SRC_DIR		 = $(F3_DIR)/src
 OBJECT_DIR	 = $(ROOT)/obj
 BIN_DIR		 = $(ROOT)/obj
 #CMSIS_DIR	 = $(ROOT)/lib/CMSIS
 CMSIS_DIR	 = $(BREEZY_DIR)/lib/CMSIS
-INCLUDE_DIRS = $(ROOT) $(SRC_DIR) $(ROOT)/src/target
-LINKER_DIR	 = $(ROOT)/src/target
+INCLUDE_DIRS = $(F3_DIR) $(SRC_DIR) $(SRC_DIR)/target
+LINKER_DIR	 = $(SRC_DIR)/target
 
 # Search path for sources
 VPATH		:= $(SRC_DIR):$(SRC_DIR)/startup
@@ -88,7 +88,7 @@ INCLUDE_DIRS := $(INCLUDE_DIRS) \
 ifeq ($(TARGET),$(filter $(TARGET),$(VCP_TARGETS)))
 INCLUDE_DIRS := $(INCLUDE_DIRS) \
 		   $(USBFS_DIR)/inc \
-		   $(ROOT)/src/vcp
+		   $(SRC_DIR)/vcp
 
 VPATH := $(VPATH):$(USBFS_DIR)/src
 
