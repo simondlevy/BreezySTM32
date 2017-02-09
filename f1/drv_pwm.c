@@ -1,5 +1,5 @@
 /*
-   drv_pwm.c : PWM support for STM32F103
+   drv_pwm.c : PWM motor support for STM32F103
 
    Adapted from https://github.com/multiwii/baseflight/blob/master/src/drv_pwm.c
 
@@ -19,21 +19,6 @@
    along with BreezySTM32.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-/*
-   Configuration maps:
-
-   1) multirotor PPM input
-   PWM1 used for PPM
-   PWM5..8 used for motors
-   PWM9..10 used for motors
-   PWM11..14 used for motors
-
-   2) multirotor PWM input
-   PWM1..8 used for input
-   PWM9..10 used for motors
-   PWM11..14 used for motors
- */
 
 #include <stdint.h>
 #include <stdbool.h>
@@ -155,7 +140,6 @@ enum {
 };
 
 static const uint8_t multiPPM[] = {
-    PWM1 | TYPE_IP,     // PPM input
     PWM9 | TYPE_M,      // Swap to servo if needed
     PWM10 | TYPE_M,     // Swap to servo if needed
     PWM11 | TYPE_M,
@@ -192,20 +176,16 @@ void pwmInit(uint32_t motorPwmRate, uint16_t idlePulseUsec)
     for (i = 0; i < MAX_PORTS; i++) {
 
         uint8_t port = setup[i] & 0x0F;
-        uint8_t mask = setup[i] & 0xF0;
 
         if (setup[i] == 0xFF) // terminator
             break;
 
-        if (mask & TYPE_M) {
+        uint32_t mhz = (motorPwmRate > 500) ? PWM_TIMER_8_MHZ : PWM_TIMER_MHZ;
+        uint32_t hz = mhz * 1000000;
 
-            uint32_t mhz = (motorPwmRate > 500) ? PWM_TIMER_8_MHZ : PWM_TIMER_MHZ;
-            uint32_t hz = mhz * 1000000;
+        uint16_t period = hz / motorPwmRate;
 
-            uint16_t period = hz / motorPwmRate;
-
-            motors[numMotors++] = pwmOutConfig(port, mhz, period, idlePulseUsec);
-        }
+        motors[numMotors++] = pwmOutConfig(port, mhz, period, idlePulseUsec);
     }
 
     // determine motor writer function
