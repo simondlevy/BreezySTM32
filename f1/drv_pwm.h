@@ -45,8 +45,6 @@ enum {
     MAX_PORTS
 };
 
-void     pwmInit(bool useCPPM, uint32_t motorPwmRate, uint16_t idlePulseUsec);
+void     pwmInit(uint32_t motorPwmRate, uint16_t idlePulseUsec);
 
 void     pwmWriteMotor(uint8_t index, uint16_t value);
-
-uint16_t pwmRead(uint8_t channel);

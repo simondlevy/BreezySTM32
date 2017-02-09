@@ -274,11 +274,11 @@ static void pwmWriteStandard(uint8_t index, uint16_t value)
     *motors[index]->ccr = value;
 }
 
-void pwmInit(bool useCPPM, uint32_t motorPwmRate, uint16_t idlePulseUsec)
+void pwmInit(uint32_t motorPwmRate, uint16_t idlePulseUsec)
 {
     const uint8_t *setup;
 
-    setup = useCPPM ? multiPPM : multiPWM;
+    setup = multiPPM;
 
     int i;
     for (i = 0; i < MAX_PORTS; i++) {
@@ -317,9 +317,4 @@ void pwmWriteMotor(uint8_t index, uint16_t value)
 {
     if (index < numMotors)
         pwmWritePtr(index, value);
-}
-
-uint16_t pwmRead(uint8_t channel)
-{
-    return captures[channel];
 }
