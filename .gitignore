@@ -2,5 +2,5 @@ f1-legacy/examples/*/obj
 f1examples/f1
 f1/examples/*/obj
 f1/examples/*.o
-f3/obj
+f3/examples/obj
 *.swp
