@@ -21,30 +21,8 @@
 
 #pragma once
 
-#define MAX_SERVOS  8
-#define MAX_INPUTS  8
-#define PULSE_MIN   (750)       // minimum PWM pulse width which is considered valid
-#define PULSE_MAX   (2250)      // maximum PWM pulse width which is considered valid
+void pwmInit(uint32_t motorPwmRate, uint16_t idlePulseUsec);
 
-// This indexes into the read-only hardware definition structure in drv_pwm.c, as well as into pwmPorts[] structure with dynamic data.
-enum {
-    PWM1 = 0,
-    PWM2,
-    PWM3,
-    PWM4,
-    PWM5,
-    PWM6,
-    PWM7,
-    PWM8,
-    PWM9,
-    PWM10,
-    PWM11,
-    PWM12,
-    PWM13,
-    PWM14,
-    MAX_PORTS
-};
+void pwmWriteBrushed(uint8_t index, uint16_t value);
 
-void     pwmInit(uint32_t motorPwmRate, uint16_t idlePulseUsec);
-
-void     pwmWriteMotor(uint8_t index, uint16_t value);
+void pwmWriteStandard(uint8_t index, uint16_t value);

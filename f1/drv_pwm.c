@@ -30,6 +30,26 @@
 #include "drv_timer.h"
 #include "drv_pwm.h"
 
+// This indexes into the read-only hardware definition structure in drv_pwm.c, as well as into pwmPorts[] structure with dynamic data.
+enum {
+    PWM1 = 0,
+    PWM2,
+    PWM3,
+    PWM4,
+    PWM5,
+    PWM6,
+    PWM7,
+    PWM8,
+    PWM9,
+    PWM10,
+    PWM11,
+    PWM12,
+    PWM13,
+    PWM14,
+    MAX_PORTS
+};
+
+
 
 typedef struct {
     volatile uint16_t *ccr;
@@ -140,28 +160,28 @@ enum {
 };
 
 static const uint8_t multiPPM[] = {
-    PWM9 | TYPE_M,      // Swap to servo if needed
-    PWM10 | TYPE_M,     // Swap to servo if needed
+    PWM9 | TYPE_M,      // Swap to TYPE_S if needed
+    PWM10 | TYPE_M,     // Swap to TYPE_S if needed
     PWM11 | TYPE_M,
     PWM12 | TYPE_M,
     PWM13 | TYPE_M,
     PWM14 | TYPE_M,
-    PWM5 | TYPE_M,      // Swap to servo if needed
-    PWM6 | TYPE_M,      // Swap to servo if needed
-    PWM7 | TYPE_M,      // Swap to servo if needed
-    PWM8 | TYPE_M,      // Swap to servo if needed
+    PWM5 | TYPE_M,      // Swap to TYPE_S if needed
+    PWM6 | TYPE_M,      // Swap to TYPE_S if needed
+    PWM7 | TYPE_M,      // Swap to TYPE_S if needed
+    PWM8 | TYPE_M,      // Swap to TYPE_S if needed
     0xFF
 };
 
 static         pwmPortData_t *motors[4];
 static uint8_t numMotors = 0;
 
-static void pwmWriteBrushed(uint8_t index, uint16_t value)
+void pwmWriteBrushed(uint8_t index, uint16_t value)
 {
     *motors[index]->ccr = (value<1000) ? 0 : (value - 1000) * motors[index]->period / 1000;
 }
 
-static void pwmWriteStandard(uint8_t index, uint16_t value)
+void pwmWriteStandard(uint8_t index, uint16_t value)
 {
     *motors[index]->ccr = value;
 }
@@ -193,10 +213,4 @@ void pwmInit(uint32_t motorPwmRate, uint16_t idlePulseUsec)
     if (motorPwmRate > 500) {
         pwmWritePtr = pwmWriteBrushed;
     }
-}
-
-void pwmWriteMotor(uint8_t index, uint16_t value)
-{
-    if (index < numMotors)
-        pwmWritePtr(index, value);
 }
