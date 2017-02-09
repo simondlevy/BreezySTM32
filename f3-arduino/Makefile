@@ -19,7 +19,8 @@ SERIAL_DEVICE	?= /dev/ttyACM0
 FLASH_SIZE ?=
 
 ###############################################################################
-#
+
+F3_DIR = $(BREEZY_DIR)/f3-arduino
 
 FORKNAME			 = cleanflight
 
@@ -47,7 +48,8 @@ endif
 REVISION := $(shell git log -1 --format="%h")
 
 # Working directories
-ROOT		 := $(patsubst %/,%,$(dir $(lastword $(MAKEFILE_LIST))))
+#ROOT		 := $(patsubst %/,%,$(dir $(lastword $(MAKEFILE_LIST))))
+ROOT		 = $(dir $(lastword $(MAKEFILE_LIST)))
 SRC_DIR		 = $(ROOT)/src
 OBJECT_DIR	 = $(ROOT)/obj
 BIN_DIR		 = $(ROOT)/obj
@@ -320,6 +322,7 @@ all_targets : $(VALID_TARGETS)
 ## clean       : clean up all temporary / machine-generated files
 clean:
 	rm -rf obj
+
 
 flash_$(TARGET): $(TARGET_BIN)
 	echo -n 'R' >$(SERIAL_DEVICE)
