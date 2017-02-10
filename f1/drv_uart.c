@@ -19,7 +19,15 @@
    along with BreezySTM32.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <breezystm32.h>
+#include <stdbool.h>
+#include <stdlib.h>
+#include <stdint.h>
+
+#include "stm32f10x_conf.h"
+
+#include "drv_serial.h"
+#include "drv_uart.h"
+#include "drv_gpio.h"
 
 static uartPort_t uartPort1;
 static uartPort_t uartPort2;
