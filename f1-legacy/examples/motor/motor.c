@@ -1,5 +1,5 @@
 /*
-   ledblink.c : blink the LED
+   motor.c : spin a brushed motor
 
    Copyright (C) 2016 Simon D. Levy 
 
