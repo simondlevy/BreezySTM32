@@ -21,12 +21,20 @@
 
 #include <breezystm32.h>
 
+#define MOTOR 0
+
 void setup(void)
 {
-    pwmInit(1, 0, 0, 32000, 0);
+    pwmInit(1, 0, 0, 400, 1000);
+
+    delay(100);
+
+    pwmWriteMotor(MOTOR, 1000);
+
+    delay(100);
 } 
 
 void loop(void)
 {
-    pwmWriteMotor(1, 1200);
+    pwmWriteMotor(MOTOR, 1200);
 }
