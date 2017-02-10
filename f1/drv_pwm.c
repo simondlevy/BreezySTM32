@@ -65,8 +65,6 @@ typedef struct {
     uint16_t capture;
 } pwmPortData_t;
 
-typedef void (*pwmWriteFuncPtr)(uint8_t index, uint16_t value);  // function pointer used to write motors
-
 static pwmPortData_t   pwmPorts[MAX_PORTS];
 
 #define PWM_TIMER_MHZ 1
@@ -151,24 +149,17 @@ static pwmPortData_t *pwmOutConfig(uint8_t port, uint8_t mhz, uint16_t period, u
 
 // ===========================================================================
 
-enum {
-    TYPE_IP = 0x10,
-    TYPE_IW = 0x20,
-    TYPE_M = 0x40,
-    TYPE_S = 0x80
-};
-
 static const uint8_t multiPPM[] = {
-    PWM9 | TYPE_M,      // Swap to TYPE_S if needed
-    PWM10 | TYPE_M,     // Swap to TYPE_S if needed
-    PWM11 | TYPE_M,
-    PWM12 | TYPE_M,
-    PWM13 | TYPE_M,
-    PWM14 | TYPE_M,
-    PWM5 | TYPE_M,      // Swap to TYPE_S if needed
-    PWM6 | TYPE_M,      // Swap to TYPE_S if needed
-    PWM7 | TYPE_M,      // Swap to TYPE_S if needed
-    PWM8 | TYPE_M,      // Swap to TYPE_S if needed
+    PWM9,      // Swap to TYPE_S if needed
+    PWM10,     // Swap to TYPE_S if needed
+    PWM11,
+    PWM12,
+    PWM13,
+    PWM14,
+    PWM5,      // Swap to TYPE_S if needed
+    PWM6,      // Swap to TYPE_S if needed
+    PWM7,      // Swap to TYPE_S if needed
+    PWM8,      // Swap to TYPE_S if needed
     0xFF
 };
 
@@ -186,17 +177,10 @@ void pwmWriteStandard(uint8_t index, uint16_t value)
 
 void pwmInit(uint32_t motorPwmRate, uint16_t idlePulseUsec)
 {
-    const uint8_t *setup;
-
-    setup = multiPPM;
-
     int i;
     for (i = 0; i < 4; i++) {
 
-        uint8_t port = setup[i] & 0x0F;
-
-        if (setup[i] == 0xFF) // terminator
-            break;
+        uint8_t port = multiPPM[i] & 0x0F;
 
         uint32_t mhz = (motorPwmRate > 500) ? PWM_TIMER_8_MHZ : PWM_TIMER_MHZ;
         uint32_t hz = mhz * 1000000;
