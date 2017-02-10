@@ -174,7 +174,6 @@ STM32F30x_COMMON_SRC = \
 		   drivers/light_led_stm32f30x.c \
 		   drivers/serial_uart.c \
 		   drivers/serial_uart_stm32f30x.c \
-		   drivers/sound_beeper_stm32f30x.c \
 		   drivers/system_stm32f30x.c
 
 ALIENFLIGHTF3_SRC = \
