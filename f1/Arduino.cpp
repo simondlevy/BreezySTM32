@@ -48,6 +48,8 @@ void pinMode(uint8_t pin, uint8_t mode)
     // XXX currently support output mode only
     if (mode != OUTPUT) return;
 
+    pin = 1<<pin;
+
     GPIO_TypeDef * gpio = gpio_type_from_pin(pin);
 
     gpio_config_t cfg;
@@ -61,6 +63,8 @@ void pinMode(uint8_t pin, uint8_t mode)
 
 void digitalWrite(uint8_t pin, uint8_t level)
 {
+    pin = 1<<pin;
+
     GPIO_TypeDef * gpio = gpio_type_from_pin(pin);
 
     uint16_t gpio_pin = gpio_pin_from_pin(pin);
