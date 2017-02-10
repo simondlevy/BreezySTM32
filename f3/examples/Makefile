@@ -1,6 +1,6 @@
 BREEZY_DIR = $(HOME)/Desktop/BreezySTM32
 
-PROJECT_SRC = blinky.c
+PROJECT_SRC = motor.c
 
 # The target to build, see VALID_TARGETS below
 TARGET		?= ALIENFLIGHTF3
@@ -184,7 +184,6 @@ ALIENFLIGHTF3_SRC = \
 		   drivers/timer_stm32f30x.c \
 		   drivers/pwm_mapping.c \
 		   drivers/pwm_output.c \
-		   drivers/pwm_rx.c \
 		   drivers/serial_usb_vcp.c \
 		   $(FC_COMMON_SRC) \
 		   $(SYSTEM_SRC) \

@@ -743,9 +743,6 @@ pwmIOConfiguration_t *pwmInit(drv_pwm_config_t *init)
     int i = 0;
     const uint16_t *setup;
 
-    int channelIndex = 0;
-
-
     memset(&pwmIOConfiguration, 0, sizeof(pwmIOConfiguration));
 
     // this is pretty hacky shit, but it will do for now. array of 4 config maps, [ multiPWM multiPPM airPWM airPPM ]  PWM mappings are used for RX_MSP.
@@ -984,27 +981,8 @@ pwmIOConfiguration_t *pwmInit(drv_pwm_config_t *init)
 #endif
 
         if (type == MAP_TO_PPM_INPUT) {
-#if defined(SPARKY) || defined(ALIENFLIGHTF3)
-            if (init->useOneshot || isMotorBrushed(init->motorPwmRate)) {
-                ppmAvoidPWMTimerClash(timerHardwarePtr, TIM2);
-            }
-#endif
-            ppmInConfig(timerHardwarePtr);
-            pwmIOConfiguration.ioConfigurations[pwmIOConfiguration.ioCount].flags = PWM_PF_PPM;
-            pwmIOConfiguration.ppmInputCount++;
         } else if (type == MAP_TO_PWM_INPUT) {
-            pwmInConfig(timerHardwarePtr, channelIndex);
-            pwmIOConfiguration.ioConfigurations[pwmIOConfiguration.ioCount].flags = PWM_PF_PWM;
-            pwmIOConfiguration.pwmInputCount++;
-            channelIndex++;
         } else if (type == MAP_TO_MOTOR_OUTPUT) {
-#ifdef CC3D
-            if (init->useOneshot || isMotorBrushed(init->motorPwmRate)){
-            	// Skip it if it would cause PPM capture timer to be reconfigured or manually overflowed
-            	if (timerHardwarePtr->tim == TIM2)
-            		continue;
-            }
-#endif
             if (init->useOneshot) {
 
                 pwmOneshotMotorConfig(timerHardwarePtr, pwmIOConfiguration.motorCount);
