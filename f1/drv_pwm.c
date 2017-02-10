@@ -68,7 +68,6 @@ typedef struct {
 typedef void (*pwmWriteFuncPtr)(uint8_t index, uint16_t value);  // function pointer used to write motors
 
 static pwmPortData_t   pwmPorts[MAX_PORTS];
-static pwmWriteFuncPtr pwmWritePtr = NULL;
 
 #define PWM_TIMER_MHZ 1
 #define PWM_TIMER_8_MHZ 8
@@ -206,11 +205,5 @@ void pwmInit(uint32_t motorPwmRate, uint16_t idlePulseUsec)
         uint16_t period = hz / motorPwmRate;
 
         motors[numMotors++] = pwmOutConfig(port, mhz, period, idlePulseUsec);
-    }
-
-    // determine motor writer function
-    pwmWritePtr = pwmWriteStandard;
-    if (motorPwmRate > 500) {
-        pwmWritePtr = pwmWriteBrushed;
     }
 }
