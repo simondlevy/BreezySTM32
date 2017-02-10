@@ -48,9 +48,6 @@ typedef struct {
 
 static pwmPortData_t pwmPorts[14];
 
-#define PWM_TIMER_MHZ 1
-#define PWM_TIMER_8_MHZ 8
-
 static void pwmOCConfig(TIM_TypeDef *tim, uint8_t channel, uint16_t value)
 {
     uint16_t tim_oc_preload;
@@ -153,7 +150,7 @@ void Servo::attach(uint8_t pin, uint32_t motorPwmRate, uint16_t idlePulseUsec)
         while (1)
             ;
 
-    uint32_t mhz = (motorPwmRate > 500) ? PWM_TIMER_8_MHZ : PWM_TIMER_MHZ;
+    uint32_t mhz = (motorPwmRate > 500) ? 8 : 1;
     uint32_t hz = mhz * 1000000;
     uint16_t period = hz / motorPwmRate;
 
