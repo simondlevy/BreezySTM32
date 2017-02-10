@@ -48,7 +48,7 @@ REVISION := $(shell git log -1 --format="%h")
 # Working directories
 #ROOT		 := $(patsubst %/,%,$(dir $(lastword $(MAKEFILE_LIST))))
 ROOT		 = $(dir $(lastword $(MAKEFILE_LIST)))
-SRC_DIR		 = $(F3_DIR)/src
+SRC_DIR		 = $(F3_DIR)
 OBJECT_DIR	 = $(ROOT)/obj
 BIN_DIR		 = $(ROOT)/obj
 #CMSIS_DIR	 = $(ROOT)/lib/CMSIS
