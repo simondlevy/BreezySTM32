@@ -48,7 +48,7 @@ typedef struct {
 
 static pwmPortData_t pwmPorts[14];
 
-static void pwmOCConfig(TIM_TypeDef *tim, uint8_t channel, uint16_t value)
+static void pwmOCConfig(TIM_TypeDef *tim, uint8_t channel, uint16_t idlePulseUsec)
 {
     uint16_t tim_oc_preload;
     TIM_OCInitTypeDef TIM_OCInitStructure;
@@ -57,7 +57,7 @@ static void pwmOCConfig(TIM_TypeDef *tim, uint8_t channel, uint16_t value)
     TIM_OCInitStructure.TIM_OCMode = TIM_OCMode_PWM2;
     TIM_OCInitStructure.TIM_OutputState = TIM_OutputState_Enable;
     TIM_OCInitStructure.TIM_OutputNState = TIM_OutputNState_Disable;
-    TIM_OCInitStructure.TIM_Pulse = value;
+    TIM_OCInitStructure.TIM_Pulse = idlePulseUsec;
     TIM_OCInitStructure.TIM_OCPolarity = TIM_OCPolarity_Low;
     TIM_OCInitStructure.TIM_OCIdleState = TIM_OCIdleState_Set;
 
@@ -100,6 +100,7 @@ static pwmPortData_t *pwmOutConfig(uint8_t port, uint8_t mhz, uint16_t period, u
     configTimeBase(timerHardware[port].tim, period, mhz);
     pwmGPIOConfig(timerHardware[port].gpio, timerHardware[port].pin, Mode_AF_PP);
     pwmOCConfig(timerHardware[port].tim, timerHardware[port].channel, idlePulseUsec);
+
     // Needed only on TIM1
     if (timerHardware[port].outputEnable)
         TIM_CtrlPWMOutputs(timerHardware[port].tim, ENABLE);
