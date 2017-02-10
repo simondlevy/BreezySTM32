@@ -24,14 +24,31 @@
 
 Servo motor;
 
+static uint16_t speed;
+static int16_t  direction;
+
 void setup() {                
 
     motor.attach(8,  400, 1000);
 
     delay(100);
+
+    speed = 1100;
+    direction = +1;
 }
 
 void loop() {
 
-    motor.writeStandard(1200);
+    motor.writeStandard(speed);
+
+    speed += direction;
+
+    if (speed == 1200)
+        direction = -1;
+
+    if (speed == 1100)
+        direction = +1;
+
+    delay(10);
+
 }
