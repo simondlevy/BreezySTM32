@@ -172,8 +172,7 @@ static const uint8_t multiPPM[] = {
     0xFF
 };
 
-static         pwmPortData_t *motors[4];
-static uint8_t numMotors = 0;
+static pwmPortData_t *motors[4];
 
 void pwmWriteBrushed(uint8_t index, uint16_t value)
 {
@@ -192,7 +191,7 @@ void pwmInit(uint32_t motorPwmRate, uint16_t idlePulseUsec)
     setup = multiPPM;
 
     int i;
-    for (i = 0; i < MAX_PORTS; i++) {
+    for (i = 0; i < 4; i++) {
 
         uint8_t port = setup[i] & 0x0F;
 
@@ -204,6 +203,6 @@ void pwmInit(uint32_t motorPwmRate, uint16_t idlePulseUsec)
 
         uint16_t period = hz / motorPwmRate;
 
-        motors[numMotors++] = pwmOutConfig(port, mhz, period, idlePulseUsec);
+        motors[i] = pwmOutConfig(port, mhz, period, idlePulseUsec);
     }
 }
