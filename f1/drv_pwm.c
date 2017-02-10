@@ -180,7 +180,7 @@ void pwmInit(uint32_t motorPwmRate, uint16_t idlePulseUsec)
     int i;
     for (i = 0; i < 4; i++) {
 
-        uint8_t port = multiPPM[i] & 0x0F;
+        uint8_t port = multiPPM[i];
 
         uint32_t mhz = (motorPwmRate > 500) ? PWM_TIMER_8_MHZ : PWM_TIMER_MHZ;
         uint32_t hz = mhz * 1000000;
