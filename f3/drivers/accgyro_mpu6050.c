@@ -52,9 +52,6 @@ extern uint8_t mpuIntDenominator;
 
 #define MPU6050_SMPLRT_DIV      0       // 8000Hz
 
-static void mpu6050AccInit(acc_t *acc);
-static void mpu6050GyroInit(gyro_t *gyro, uint8_t lpf);
-
 bool mpu6050AccDetect(acc_t *acc)
 {
     if (mpuDetectionResult.sensor != MPU_60x0) {
@@ -82,7 +79,7 @@ bool mpu6050GyroDetect(gyro_t *gyro)
     return true;
 }
 
-static void mpu6050AccInit(acc_t *acc)
+void mpu6050AccInit(acc_t *acc)
 {
     mpuIntExtiInit();
 
@@ -96,7 +93,7 @@ static void mpu6050AccInit(acc_t *acc)
     }
 }
 
-static void mpu6050GyroInit(gyro_t *gyro, uint8_t lpf)
+void mpu6050GyroInit(gyro_t *gyro, uint8_t lpf)
 {
     bool ack;
 

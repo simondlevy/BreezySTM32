@@ -24,7 +24,6 @@
  */
 
 #include <breezystm32.h>
-#include <drivers/bus_i2c.h>
 
 #define I2CDEV I2CDEV_2
 

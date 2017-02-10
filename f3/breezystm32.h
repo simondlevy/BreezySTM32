@@ -20,6 +20,8 @@
 #include "drivers/io.h"
 #include "drivers/serial.h"
 #include "drivers/serial_usb_vcp.h"
+#include "drivers/exti.h"
+#include "drivers/bus_i2c.h"
 
 #include "io/motors.h"
 
@@ -28,3 +30,5 @@
 #include "config/profile.h"
 
 void debug(const char * fmt, ...);
+
+#define printf ERROR

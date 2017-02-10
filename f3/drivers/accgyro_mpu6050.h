@@ -17,5 +17,8 @@
 
 #pragma once
 
+void mpu6050AccInit(acc_t *acc);
+void mpu6050GyroInit(gyro_t *gyro, uint8_t lpf);
+
 bool mpu6050AccDetect(acc_t *acc);
 bool mpu6050GyroDetect(gyro_t *gyro);
