@@ -21,11 +21,15 @@
 
 class Servo {
 
+    private:
+
+        void * motor;
+
     public:
 
-        static void init(uint8_t k, uint8_t pin, uint32_t motorPwmRate, uint16_t idlePulseUsec);
+        void attach(uint8_t pin, uint32_t motorPwmRate, uint16_t idlePulseUsec);
 
-        static void writeBrushed(uint8_t index, uint16_t value);
+        void writeBrushed(uint16_t value);
 
-        static void writeStandard(uint8_t index, uint16_t value);
+        void writeStandard(uint16_t value);
 };

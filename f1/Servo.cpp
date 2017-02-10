@@ -130,21 +130,19 @@ static pwmPortData_t *pwmOutConfig(uint8_t port, uint8_t mhz, uint16_t period, u
 }
 
 
-// ===========================================================================
-
-static pwmPortData_t * motors[4];
-
-void Servo::writeBrushed(uint8_t index, uint16_t value)
+void Servo::writeBrushed(uint16_t value)
 {
-    *motors[index]->ccr = (value<1000) ? 0 : (value - 1000) * motors[index]->period / 1000;
+    pwmPortData_t * _motor = (pwmPortData_t *)this->motor;
+    *_motor->ccr = (value<1000) ? 0 : (value - 1000) * _motor->period / 1000;
 }
 
-void Servo::writeStandard(uint8_t index, uint16_t value)
+void Servo::writeStandard(uint16_t value)
 {
-    *motors[index]->ccr = value;
+    pwmPortData_t * _motor = (pwmPortData_t *)this->motor;
+    *_motor->ccr = value;
 }
 
-void Servo::init(uint8_t k, uint8_t pin, uint32_t motorPwmRate, uint16_t idlePulseUsec)
+void Servo::attach(uint8_t pin, uint32_t motorPwmRate, uint16_t idlePulseUsec)
 {
     // XXX currently support only four motors
     int8_t portFromPin[] = {-1, -1, -1, -1, -1, -1, 10, 11, 8, -1, -1, 9, 0};
@@ -159,7 +157,7 @@ void Servo::init(uint8_t k, uint8_t pin, uint32_t motorPwmRate, uint16_t idlePul
     uint32_t hz = mhz * 1000000;
     uint16_t period = hz / motorPwmRate;
 
-    motors[k] = pwmOutConfig(port, mhz, period, idlePulseUsec);
+    this->motor = pwmOutConfig(port, mhz, period, idlePulseUsec);
 }
 
 } // extern "C"
