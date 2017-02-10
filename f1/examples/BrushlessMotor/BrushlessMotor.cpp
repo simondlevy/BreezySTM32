@@ -29,9 +29,6 @@ void setup() {
     motor.attach(8,  400, 1000);
 
     delay(100);
-
-    motor.writeStandard(1000);
-    delay(100);
 }
 
 void loop() {
