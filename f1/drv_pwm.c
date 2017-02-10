@@ -141,22 +141,17 @@ void pwmWriteStandard(uint8_t index, uint16_t value)
     *motors[index]->ccr = value;
 }
 
-static uint8_t port_from_pin(uint8_t pin)
-{
-    uint32_t ppin = 1 << pin;
-    int j=0;
-    for (j=0; j<14; ++j) 
-        if (timerHardware[j].pin == ppin)
-            return j;
 
-    // should never get here
-    while (1) ;
-    return -1;
-}
-
-void pwmInit(uint8_t k, uint8_t port, uint32_t motorPwmRate, uint16_t idlePulseUsec)
+void pwmInit(uint8_t k, uint8_t pin, uint32_t motorPwmRate, uint16_t idlePulseUsec)
 {
-    //uint8_t port = port_from_pin(pin);
+    // XXX currently support only four motors
+    int8_t portFromPin[] = {-1, -1, -1, -1, -1, -1, 10, 11, 8, -1, -1, 9, 0};
+
+    int8_t port = portFromPin[pin];
+
+    if (port < 0)
+        while (1)
+            ;
 
     uint32_t mhz = (motorPwmRate > 500) ? PWM_TIMER_8_MHZ : PWM_TIMER_MHZ;
     uint32_t hz = mhz * 1000000;

@@ -40,7 +40,7 @@ enum {
 };
 
 
-void pwmInit(uint8_t k, uint8_t port, uint32_t motorPwmRate, uint16_t idlePulseUsec);
+void pwmInit(uint8_t k, uint8_t pin, uint32_t motorPwmRate, uint16_t idlePulseUsec);
 
 void pwmWriteBrushed(uint8_t index, uint16_t value);
 
