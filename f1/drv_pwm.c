@@ -30,26 +30,6 @@
 #include "drv_timer.h"
 #include "drv_pwm.h"
 
-// This indexes into the read-only hardware definition structure in drv_pwm.c, as well as into pwmPorts[] structure with dynamic data.
-enum {
-    PWM1 = 0,
-    PWM2,
-    PWM3,
-    PWM4,
-    PWM5,
-    PWM6,
-    PWM7,
-    PWM8,
-    PWM9,
-    PWM10,
-    PWM11,
-    PWM12,
-    PWM13,
-    PWM14,
-    MAX_PORTS
-};
-
-
 
 typedef struct {
     volatile uint16_t *ccr;
@@ -149,21 +129,7 @@ static pwmPortData_t *pwmOutConfig(uint8_t port, uint8_t mhz, uint16_t period, u
 
 // ===========================================================================
 
-static const uint8_t multiPPM[] = {
-    PWM9,      // Swap to TYPE_S if needed
-    PWM10,     // Swap to TYPE_S if needed
-    PWM11,
-    PWM12,
-    PWM13,
-    PWM14,
-    PWM5,      // Swap to TYPE_S if needed
-    PWM6,      // Swap to TYPE_S if needed
-    PWM7,      // Swap to TYPE_S if needed
-    PWM8,      // Swap to TYPE_S if needed
-    0xFF
-};
-
-static pwmPortData_t *motors[4];
+static pwmPortData_t * motors[4];
 
 void pwmWriteBrushed(uint8_t index, uint16_t value)
 {
@@ -175,18 +141,26 @@ void pwmWriteStandard(uint8_t index, uint16_t value)
     *motors[index]->ccr = value;
 }
 
-void pwmInit(uint32_t motorPwmRate, uint16_t idlePulseUsec)
+static uint8_t port_from_pin(uint8_t pin)
 {
-    int i;
-    for (i = 0; i < 4; i++) {
+    uint32_t ppin = 1 << pin;
+    int j=0;
+    for (j=0; j<14; ++j) 
+        if (timerHardware[j].pin == ppin)
+            return j;
 
-        uint8_t port = multiPPM[i];
+    // should never get here
+    while (1) ;
+    return -1;
+}
 
-        uint32_t mhz = (motorPwmRate > 500) ? PWM_TIMER_8_MHZ : PWM_TIMER_MHZ;
-        uint32_t hz = mhz * 1000000;
+void pwmInit(uint8_t k, uint8_t port, uint32_t motorPwmRate, uint16_t idlePulseUsec)
+{
+    //uint8_t port = port_from_pin(pin);
 
-        uint16_t period = hz / motorPwmRate;
+    uint32_t mhz = (motorPwmRate > 500) ? PWM_TIMER_8_MHZ : PWM_TIMER_MHZ;
+    uint32_t hz = mhz * 1000000;
+    uint16_t period = hz / motorPwmRate;
 
-        motors[i] = pwmOutConfig(port, mhz, period, idlePulseUsec);
-    }
+    motors[k] = pwmOutConfig(port, mhz, period, idlePulseUsec);
 }

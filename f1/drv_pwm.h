@@ -21,7 +21,26 @@
 
 #pragma once
 
-void pwmInit(uint32_t motorPwmRate, uint16_t idlePulseUsec);
+enum {
+    PWM1 = 0,
+    PWM2,
+    PWM3,
+    PWM4,
+    PWM5,
+    PWM6,
+    PWM7,
+    PWM8,
+    PWM9,
+    PWM10,
+    PWM11,
+    PWM12,
+    PWM13,
+    PWM14,
+    MAX_PORTS
+};
+
+
+void pwmInit(uint8_t k, uint8_t port, uint32_t motorPwmRate, uint16_t idlePulseUsec);
 
 void pwmWriteBrushed(uint8_t index, uint16_t value);
 
