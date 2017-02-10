@@ -42,7 +42,6 @@ $(TARGET)_CSRC = \
 		   $(F1_DIR)/startup_stm32f10x_md_gcc.S \
 		   $(F1_DIR)/drv_gpio.c \
 		   $(F1_DIR)/drv_i2c.c \
-		   $(F1_DIR)/drv_pwm.c \
 		   $(F1_DIR)/drv_system.c \
 		   $(F1_DIR)/drv_serial.c \
 		   $(F1_DIR)/drv_uart.c \

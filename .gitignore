@@ -3,4 +3,5 @@ f1examples/f1
 f1/examples/*/obj
 f1/examples/*.o
 f3/examples/obj
+f4/examples/*/obj
 *.swp
