@@ -41,6 +41,8 @@ void delay(unsigned long);
 void setup(void);
 void loop(void);
 
+void systemReset(bool);
+
 class HardwareSerial {
 
     protected:

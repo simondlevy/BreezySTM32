@@ -1,7 +1,5 @@
 /*
-   drv_pwm.h : PWM support for STM32F103
-
-   Adapted from https://github.com/multiwii/baseflight/blob/master/src/drv_pwm.h
+   Servo.h : PWM output support
 
    This file is part of BreezySTM32.
 
@@ -21,27 +19,13 @@
 
 #pragma once
 
-enum {
-    PWM1 = 0,
-    PWM2,
-    PWM3,
-    PWM4,
-    PWM5,
-    PWM6,
-    PWM7,
-    PWM8,
-    PWM9,
-    PWM10,
-    PWM11,
-    PWM12,
-    PWM13,
-    PWM14,
-    MAX_PORTS
+class Servo {
+
+    public:
+
+        static void init(uint8_t k, uint8_t pin, uint32_t motorPwmRate, uint16_t idlePulseUsec);
+
+        static void writeBrushed(uint8_t index, uint16_t value);
+
+        static void writeStandard(uint8_t index, uint16_t value);
 };
-
-
-void pwmInit(uint8_t k, uint8_t pin, uint32_t motorPwmRate, uint16_t idlePulseUsec);
-
-void pwmWriteBrushed(uint8_t index, uint16_t value);
-
-void pwmWriteStandard(uint8_t index, uint16_t value);

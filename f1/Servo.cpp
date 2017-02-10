@@ -19,6 +19,7 @@
    along with BreezySTM32.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+extern "C" {
 
 #include <stdint.h>
 #include <stdbool.h>
@@ -28,8 +29,8 @@
 
 #include "drv_gpio.h"
 #include "drv_timer.h"
-#include "drv_pwm.h"
 
+#include "Servo.h"
 
 typedef struct {
     volatile uint16_t *ccr;
@@ -45,7 +46,7 @@ typedef struct {
     uint16_t capture;
 } pwmPortData_t;
 
-static pwmPortData_t   pwmPorts[MAX_PORTS];
+static pwmPortData_t pwmPorts[14];
 
 #define PWM_TIMER_MHZ 1
 #define PWM_TIMER_8_MHZ 8
@@ -84,6 +85,7 @@ static void pwmOCConfig(TIM_TypeDef *tim, uint8_t channel, uint16_t value)
             break;
     }
 }
+
 
 static void pwmGPIOConfig(GPIO_TypeDef *gpio, uint32_t pin, GPIO_Mode mode)
 {
@@ -127,22 +129,22 @@ static pwmPortData_t *pwmOutConfig(uint8_t port, uint8_t mhz, uint16_t period, u
     return p;
 }
 
+
 // ===========================================================================
 
 static pwmPortData_t * motors[4];
 
-void pwmWriteBrushed(uint8_t index, uint16_t value)
+void Servo::writeBrushed(uint8_t index, uint16_t value)
 {
     *motors[index]->ccr = (value<1000) ? 0 : (value - 1000) * motors[index]->period / 1000;
 }
 
-void pwmWriteStandard(uint8_t index, uint16_t value)
+void Servo::writeStandard(uint8_t index, uint16_t value)
 {
     *motors[index]->ccr = value;
 }
 
-
-void pwmInit(uint8_t k, uint8_t pin, uint32_t motorPwmRate, uint16_t idlePulseUsec)
+void Servo::init(uint8_t k, uint8_t pin, uint32_t motorPwmRate, uint16_t idlePulseUsec)
 {
     // XXX currently support only four motors
     int8_t portFromPin[] = {-1, -1, -1, -1, -1, -1, 10, 11, 8, -1, -1, 9, 0};
@@ -159,3 +161,5 @@ void pwmInit(uint8_t k, uint8_t pin, uint32_t motorPwmRate, uint16_t idlePulseUs
 
     motors[k] = pwmOutConfig(port, mhz, period, idlePulseUsec);
 }
+
+} // extern "C"
