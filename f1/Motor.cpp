@@ -1,5 +1,5 @@
 /*
-   drv_pwm.c : PWM motor support for STM32F103
+   Motor.cpp : Support for brushed and brushless motors
 
    Adapted from https://github.com/multiwii/baseflight/blob/master/src/drv_pwm.c
 
@@ -25,12 +25,12 @@ extern "C" {
 #include <stdbool.h>
 #include <stdlib.h>
 
+#include "Motor.h"
+
 #include "stm32f10x_conf.h"
 
 #include "drv_gpio.h"
 #include "drv_timer.h"
-
-#include "Servo.h"
 
 typedef struct {
     volatile uint16_t *ccr;
@@ -92,13 +92,39 @@ static void pwmGPIOConfig(GPIO_TypeDef *gpio, uint32_t pin, GPIO_Mode mode)
     gpioInit(gpio, &cfg);
 }
 
-static pwmPortData_t *pwmOutConfig(uint8_t port, uint8_t mhz, uint16_t period, uint16_t idlePulseUsec)
+void BrushedMotor::setSpeed(uint16_t value)
+{
+    pwmPortData_t * _motor = (pwmPortData_t *)this->motor;
+    *_motor->ccr = (value<1000) ? 0 : (value - 1000) * _motor->period / 1000;
+}
+
+void BrushlessMotor::setSpeed(uint16_t value)
+{
+    pwmPortData_t * _motor = (pwmPortData_t *)this->motor;
+    *_motor->ccr = value;
+}
+
+void Motor::attach(uint8_t pin, uint32_t motorPwmRate, uint16_t idlePulseUsec)
 {
     static pwmPortData_t pwmPorts[14];
+
+    uint32_t mhz = (motorPwmRate > 500) ? 8 : 1;
+    uint32_t hz = mhz * 1000000;
+    uint16_t period = hz / motorPwmRate;
+
+    // XXX currently support only four motors
+    int8_t portFromPin[] = {-1, -1, -1, -1, -1, -1, 10, 11, 8, -1, -1, 9, 0};
+
+    int8_t port = portFromPin[pin];
+
+    if (port < 0)
+        while (1)
+            ;
 
     pwmPortData_t *p = &pwmPorts[port];
     configTimeBase(timerHardware[port].tim, period, mhz);
     pwmGPIOConfig(timerHardware[port].gpio, timerHardware[port].pin, Mode_AF_PP);
+
     pwmOCConfig(timerHardware[port].tim, timerHardware[port].channel, idlePulseUsec);
 
     // Needed only on TIM1
@@ -124,38 +150,8 @@ static pwmPortData_t *pwmOutConfig(uint8_t port, uint8_t mhz, uint16_t period, u
             break;
     }
     p->period = period;
-    return p;
-}
 
-
-void Servo::writeBrushed(uint16_t value)
-{
-    pwmPortData_t * _motor = (pwmPortData_t *)this->motor;
-    *_motor->ccr = (value<1000) ? 0 : (value - 1000) * _motor->period / 1000;
-}
-
-void Servo::writeStandard(uint16_t value)
-{
-    pwmPortData_t * _motor = (pwmPortData_t *)this->motor;
-    *_motor->ccr = value;
-}
-
-void Servo::attach(uint8_t pin, uint32_t motorPwmRate, uint16_t idlePulseUsec)
-{
-    // XXX currently support only four motors
-    int8_t portFromPin[] = {-1, -1, -1, -1, -1, -1, 10, 11, 8, -1, -1, 9, 0};
-
-    int8_t port = portFromPin[pin];
-
-    if (port < 0)
-        while (1)
-            ;
-
-    uint32_t mhz = (motorPwmRate > 500) ? 8 : 1;
-    uint32_t hz = mhz * 1000000;
-    uint16_t period = hz / motorPwmRate;
-
-    this->motor = pwmOutConfig(port, mhz, period, idlePulseUsec);
+    this->motor = p;
 }
 
 } // extern "C"

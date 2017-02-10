@@ -1,5 +1,5 @@
 /*
-   Servo.h : PWM output support
+   Motor.h : Support for brushed and brushless motors
 
    This file is part of BreezySTM32.
 
@@ -17,19 +17,40 @@
    along with BreezySTM32.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+extern "C" {
+
 #pragma once
 
-class Servo {
+#include <stdint.h>
 
-    private:
+class Motor {
+
+    protected:
 
         void * motor;
 
+        void attach(uint8_t pin, uint32_t motorPwmRate, uint16_t idlePulseUsec);
+};
+
+class BrushlessMotor : public Motor {
+
     public:
 
-        void attach(uint8_t pin, uint32_t motorPwmRate, uint16_t idlePulseUsec);
+        void attach(uint8_t pin) { Motor::attach(pin, 400, 1000); };
 
-        void writeBrushed(uint16_t value);
+        // 1000 - 2000
+        void setSpeed(uint16_t speed);
 
-        void writeStandard(uint16_t value);
 };
+
+class BrushedMotor : public Motor {
+
+    public:
+
+        void attach(uint8_t pin) { Motor::attach(pin, 32000, 0); }
+
+        // 1000 - 2000
+        void setSpeed(uint16_t speed);
+};
+
+}

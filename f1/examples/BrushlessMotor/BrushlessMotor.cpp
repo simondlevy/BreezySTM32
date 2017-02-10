@@ -20,16 +20,16 @@
   */
 
 #include <Arduino.h>
-#include <Servo.h>
+#include <Motor.h>
 
-Servo motor;
+BrushlessMotor motor;
 
 static uint16_t speed;
 static int16_t  direction;
 
 void setup() {                
 
-    motor.attach(8,  400, 1000);
+    motor.attach(8);
 
     delay(100);
 
@@ -39,7 +39,7 @@ void setup() {
 
 void loop() {
 
-    motor.writeStandard(speed);
+    motor.setSpeed(speed);
 
     speed += direction;
 

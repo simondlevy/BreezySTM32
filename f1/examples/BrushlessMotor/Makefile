@@ -95,8 +95,7 @@ CFLAGS		 = $(ARCH_FLAGS) \
 		   -ffunction-sections \
 		   -fdata-sections \
 		   -DSTM32F10X_MD \
-		   -DUSE_STDPERIPH_DRIVER \
-		   -D$(TARGET)
+		   -DUSE_STDPERIPH_DRIVER
 
 ASFLAGS		 = $(ARCH_FLAGS) \
 		   -x assembler-with-cpp \
@@ -123,7 +122,7 @@ TARGET_ELF	 = $(BIN_DIR)/$(TARGET).elf
 TARGET_OBJS	 = $(addsuffix .o,$(addprefix $(OBJECT_DIR)/$(TARGET)/,$(basename $($(TARGET)_CSRC)))) \
 			   $(OBJECT_DIR)/$(TARGET)/Arduino.o \
 			   $(OBJECT_DIR)/$(TARGET)/HardwareSerial.o \
-			   $(OBJECT_DIR)/$(TARGET)/Servo.o \
+			   $(OBJECT_DIR)/$(TARGET)/Motor.o \
 			   $(OBJECT_DIR)/$(TARGET).o
 TARGET_MAP   = $(OBJECT_DIR)/$(TARGET).map
 
@@ -160,8 +159,8 @@ $(OBJECT_DIR)/$(TARGET)/Arduino.o: $(F1_DIR)/Arduino.cpp $(F1_DIR)/Arduino.h
 $(OBJECT_DIR)/$(TARGET)/HardwareSerial.o: $(F1_DIR)/HardwareSerial.cpp $(F1_DIR)/Arduino.h
 	@$(CC) -c -o $(OBJECT_DIR)/$(TARGET)/HardwareSerial.o $(CFLAGS) $(F1_DIR)/HardwareSerial.cpp
 
-$(OBJECT_DIR)/$(TARGET)/Servo.o: $(F1_DIR)/Servo.cpp $(F1_DIR)/Servo.h
-	@$(CC) -c -o $(OBJECT_DIR)/$(TARGET)/Servo.o $(CFLAGS) $(F1_DIR)/Servo.cpp
+$(OBJECT_DIR)/$(TARGET)/Motor.o: $(F1_DIR)/Motor.cpp $(F1_DIR)/Motor.h
+	$(CC) -c -o $(OBJECT_DIR)/$(TARGET)/Motor.o $(CFLAGS) $(F1_DIR)/Motor.cpp
 
 $(OBJECT_DIR)/$(TARGET).o: ./$(TARGET).cpp
 	@$(CC) -c -o $(OBJECT_DIR)/$(TARGET).o $(CFLAGS) ./$(TARGET).cpp
