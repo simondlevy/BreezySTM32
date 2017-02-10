@@ -94,12 +94,12 @@ static void pwmGPIOConfig(GPIO_TypeDef *gpio, uint32_t pin, GPIO_Mode mode)
     gpioInit(gpio, &cfg);
 }
 
-static pwmPortData_t *pwmOutConfig(uint8_t port, uint8_t mhz, uint16_t period, uint16_t value)
+static pwmPortData_t *pwmOutConfig(uint8_t port, uint8_t mhz, uint16_t period, uint16_t idlePulseUsec)
 {
     pwmPortData_t *p = &pwmPorts[port];
     configTimeBase(timerHardware[port].tim, period, mhz);
     pwmGPIOConfig(timerHardware[port].gpio, timerHardware[port].pin, Mode_AF_PP);
-    pwmOCConfig(timerHardware[port].tim, timerHardware[port].channel, value);
+    pwmOCConfig(timerHardware[port].tim, timerHardware[port].channel, idlePulseUsec);
     // Needed only on TIM1
     if (timerHardware[port].outputEnable)
         TIM_CtrlPWMOutputs(timerHardware[port].tim, ENABLE);
