@@ -46,8 +46,6 @@ typedef struct {
     uint16_t capture;
 } pwmPortData_t;
 
-static pwmPortData_t pwmPorts[14];
-
 static void pwmOCConfig(TIM_TypeDef *tim, uint8_t channel, uint16_t idlePulseUsec)
 {
     uint16_t tim_oc_preload;
@@ -96,6 +94,8 @@ static void pwmGPIOConfig(GPIO_TypeDef *gpio, uint32_t pin, GPIO_Mode mode)
 
 static pwmPortData_t *pwmOutConfig(uint8_t port, uint8_t mhz, uint16_t period, uint16_t idlePulseUsec)
 {
+    static pwmPortData_t pwmPorts[14];
+
     pwmPortData_t *p = &pwmPorts[port];
     configTimeBase(timerHardware[port].tim, period, mhz);
     pwmGPIOConfig(timerHardware[port].gpio, timerHardware[port].pin, Mode_AF_PP);
