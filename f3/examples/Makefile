@@ -1,6 +1,6 @@
 BREEZY_DIR = $(HOME)/Desktop/BreezySTM32
 
-PROJECT_SRC = motor.c
+PROJECT_SRC = mpu6050_poll.c
 
 # The target to build, see VALID_TARGETS below
 TARGET		?= ALIENFLIGHTF3

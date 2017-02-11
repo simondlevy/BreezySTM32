@@ -24,7 +24,7 @@
 #include "drivers/exti.h"
 #include "drivers/bus_i2c.h"
 
-#include "io/motors.h"
+//#include "io/motors.h"
 
 #include "config_system.h"
 #include "profile.h"
