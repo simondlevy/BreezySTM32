@@ -29,7 +29,7 @@
 
 #include "pwm_output.h"
 
-#include "maths.h"
+#define MAX(a, b) ((a) > (b) ? (a) : (b))
 
 #define MAX_PWM_OUTPUT_PORTS MAX(MAX_MOTORS, MAX_SERVOS)
 

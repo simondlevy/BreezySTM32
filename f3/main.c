@@ -1,5 +1,15 @@
 #include "breezystm32.h"
 
+#define PG_SYSTEM_CONFIG 18
+#define PG_DRIVER_PWM_RX_CONFIG 100
+
+typedef struct systemConfig_s {
+    uint8_t emf_avoidance;                   // change pll settings to avoid noise in the uhf band
+    uint8_t i2c_highspeed;                   // Overclock i2c Bus for faster IMU readings
+} systemConfig_t;
+
+PG_DECLARE(systemConfig_t, systemConfig);
+
 // from system_stm32f30x.c
 void SetSysClock(void);
 

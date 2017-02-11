@@ -8,7 +8,6 @@
 #include <platform.h>
 
 #include "parameter_group.h"
-#include "parameter_group_ids.h"
 
 #include "drivers/system.h"
 #include "drivers/dma.h"
@@ -26,7 +25,6 @@
 
 //#include "io/motors.h"
 
-#include "config_system.h"
 #include "profile.h"
 
 void debug(const char * fmt, ...);

@@ -1,6 +1,6 @@
 BREEZY_DIR = $(HOME)/Desktop/BreezySTM32
 
-PROJECT_SRC = mpu6050_poll.c
+PROJECT_SRC = motor.c
 
 # The target to build, see VALID_TARGETS below
 TARGET		?= ALIENFLIGHTF3
@@ -127,7 +127,6 @@ endif
 
 # SMARTPORT F3
 # Use bidirectional feature of F3 processor for smartport, for F1 targets always use two pins to allow external inverter.
-# This behavior will likely need modifying if softserial is updated to suport bidirectional communication on F3 targets. 
 ifeq ($(TARGET),$(filter $(TARGET),$(F3_TARGETS)))
 TARGET_FLAGS := $(TARGET_FLAGS) -DUSE_SMARTPORT_ONEWIRE
 endif
@@ -142,7 +141,6 @@ SYSTEM_SRC = \
 		   drivers/dma.c \
 		   drivers/serial.c \
 		   drivers/system.c \
-		   io/serial.c \
 		   $(TARGET_SRC) \
 		   $(CMSIS_SRC) \
 		   $(DEVICE_STDPERIPH_SRC)

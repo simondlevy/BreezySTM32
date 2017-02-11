@@ -20,8 +20,6 @@
 
 #include <platform.h>
 
-#include "build_config.h"
-
 #include "gpio.h"
 
 // Software I2C driver, using same pins as hardware I2C, with hw i2c module disabled.

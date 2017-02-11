@@ -37,12 +37,11 @@
 
 #include <stdbool.h>
 
-#include "build_config.h"
-
 #include "drivers/system.h"
 #include "drivers/usb_io.h"
 #include "drivers/nvic.h"
 
+#define UNUSED(x) (void)(x)
 
 
 /* Private typedef -----------------------------------------------------------*/

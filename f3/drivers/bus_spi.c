@@ -20,11 +20,12 @@
 
 #include <platform.h>
 
-#include "build_config.h"
 
 #include "gpio.h"
 
 #include "bus_spi.h"
+
+#define UNUSED(x) (void)(x)
 
 #ifdef USE_SPI_DEVICE_1
 
