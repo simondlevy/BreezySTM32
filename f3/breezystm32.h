@@ -20,6 +20,7 @@
 #include "drivers/io.h"
 #include "drivers/serial.h"
 #include "drivers/serial_usb_vcp.h"
+#include "drivers/serial_uart.h"
 #include "drivers/exti.h"
 #include "drivers/bus_i2c.h"
 

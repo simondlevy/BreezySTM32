@@ -1,6 +1,6 @@
 BREEZY_DIR = $(HOME)/Desktop/BreezySTM32
 
-PROJECT_SRC = mpu6050_poll.c
+PROJECT_SRC = lemonrx.c
 
 # The target to build, see VALID_TARGETS below
 TARGET		?= ALIENFLIGHTF3
@@ -13,7 +13,7 @@ export OPTIONS
 DEBUG ?=
 
 # Serial port/Device for flashing
-SERIAL_DEVICE	?= /dev/ttyACM0
+SERIAL_DEVICE	?= /dev/ttyACM1
 
 # Flash size (KB).  Some low-end chips actually have more flash than advertised, use this to override.
 FLASH_SIZE ?=
@@ -322,7 +322,6 @@ all_targets : $(VALID_TARGETS)
 clean:
 	rm -rf obj
 
-
 flash_$(TARGET): $(TARGET_BIN)
 	echo -n 'R' >$(SERIAL_DEVICE)
 	sleep 2
@@ -330,12 +329,6 @@ flash_$(TARGET): $(TARGET_BIN)
 
 ## flash       : flash firmware (.hex) onto flight controller
 flash: flash_$(TARGET)
-
-st-flash_$(TARGET): $(TARGET_BIN)
-	st-flash --reset write $< 0x08000000
-
-## st-flash    : flash firmware (.bin) onto flight controller
-st-flash: st-flash_$(TARGET)
 
 unbrick_$(TARGET): $(TARGET_BIN)
 	dfu-util -a 0 -s 0x08000000:leave -D $(TARGET_BIN)
