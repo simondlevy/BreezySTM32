@@ -1,6 +1,6 @@
 BREEZY_DIR = $(HOME)/Desktop/BreezySTM32
 
-PROJECT_SRC = lemonrx.c
+PROJECT_SRC = motor.c
 
 # The target to build, see VALID_TARGETS below
 TARGET		?= ALIENFLIGHTF3
@@ -184,9 +184,6 @@ ALIENFLIGHTF3_SRC = \
 		   drivers/pwm_mapping.c \
 		   drivers/pwm_output.c \
 		   drivers/serial_usb_vcp.c \
-		   drivers/accgyro_mpu.c \
-		   drivers/accgyro_mpu6050.c \
-		   drivers/gyro_sync.c \
 		   $(FC_COMMON_SRC) \
 		   $(SYSTEM_SRC) \
 		   $(VCP_SRC)
