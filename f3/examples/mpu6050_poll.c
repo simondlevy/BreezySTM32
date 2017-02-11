@@ -154,13 +154,20 @@ void setup(void)
 
 void loop(void)
 {
-    /*
-    uint8_t addr;
 
-    for (addr=0; addr<128; ++addr)
-        if (i2cWrite(addr, 0x00, 0x00))
-            debug("Found device at address 0X%02X\n", addr);
-    */
+    uint8_t buf[6];
 
-    debug("x%x\n", whoami);
+    mpuReadRegisterI2C(MPU_RA_ACCEL_XOUT_H, buf, 6);
+
+    int16_t ax = (int16_t)((buf[0] << 8) | buf[1]);
+    int16_t ay = (int16_t)((buf[2] << 8) | buf[3]);
+    int16_t az = (int16_t)((buf[4] << 8) | buf[5]);
+
+    mpuReadRegisterI2C(MPU_RA_GYRO_XOUT_H, buf, 6);
+
+    int16_t gx = (int16_t)((buf[0] << 8) | buf[1]);
+    int16_t gy = (int16_t)((buf[2] << 8) | buf[3]);
+    int16_t gz = (int16_t)((buf[4] << 8) | buf[5]);
+
+    debug("%d %d %d %d %d %d\n", ax, ay, az, gx, gy, gz);
 }
