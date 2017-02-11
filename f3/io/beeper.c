@@ -20,10 +20,10 @@
 #include "stdlib.h"
 
 #include <platform.h>
-#include "build/build_config.h"
+#include "build_config.h"
 
-#include "config/parameter_group.h"
-#include "config/feature.h"
+#include "parameter_group.h"
+#include "feature.h"
 
 #include "io/statusindicator.h"
 

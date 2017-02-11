@@ -21,8 +21,8 @@
 
 #include <platform.h>
 
-#include "common/axis.h"
-#include "common/maths.h"
+#include "axis.h"
+#include "maths.h"
 
 #include "system.h"
 #include "exti.h"

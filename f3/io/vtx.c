@@ -19,13 +19,13 @@
 #include <stdint.h>
 
 #include <platform.h>
-#include "build/debug.h"
+#include "debug.h"
 
-#include "config/parameter_group.h"
-#include "config/parameter_group_ids.h"
+#include "parameter_group.h"
+#include "parameter_group_ids.h"
 
 #include "fc/rc_controls.h"
-#include "common/utils.h"
+#include "utils.h"
 
 #include "drivers/system.h"
 #include "drivers/gpio.h"

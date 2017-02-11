@@ -24,19 +24,19 @@
 #include <ctype.h>
 
 #include <platform.h>
-#include "build/version.h"
+#include "version.h"
 
-#include "build/build_config.h"
+#include "build_config.h"
 
-#include "common/utils.h"
-#include "common/axis.h"
-#include "common/maths.h"
-#include "common/color.h"
-#include "common/typeconversion.h"
-#include "common/filter.h"
+#include "utils.h"
+#include "axis.h"
+#include "maths.h"
+#include "color.h"
+#include "typeconversion.h"
+#include "filter.h"
 
-#include "config/parameter_group.h"
-#include "config/parameter_group_ids.h"
+#include "parameter_group.h"
+#include "parameter_group_ids.h"
 
 #include "drivers/system.h"
 
@@ -106,12 +106,12 @@
 
 #include "fc/runtime_config.h"
 #include "fc/config.h"
-#include "config/config_system.h"
-#include "config/feature.h"
-#include "config/profile.h"
+#include "config_system.h"
+#include "feature.h"
+#include "profile.h"
 #include "drivers/flash_m25p16.h"
 
-#include "common/printf.h"
+#include "printf.h"
 
 #include "serial_cli.h"
 #include "../sensors/amperage.h"

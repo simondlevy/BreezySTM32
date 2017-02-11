@@ -20,11 +20,11 @@
 #include <stdlib.h>
 
 #include <platform.h>
-#include "build/build_config.h"
+#include "build_config.h"
 
-#include "common/axis.h"
-#include "common/maths.h"
-#include "common/time.h"
+#include "axis.h"
+#include "maths.h"
+#include "time.h"
 
 #include "system.h"
 #include "exti.h"

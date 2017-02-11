@@ -20,7 +20,7 @@
 
 #include <platform.h>
 
-#include "common/maths.h"
+#include "maths.h"
 
 #include "system.h"
 #include "exti.h"

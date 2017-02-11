@@ -23,16 +23,16 @@
 #include <math.h>
 
 #include <platform.h>
-#include "build/build_config.h"
-#include "build/debug.h"
+#include "build_config.h"
+#include "debug.h"
 
-#include "common/maths.h"
-#include "common/axis.h"
-#include "common/utils.h"
+#include "maths.h"
+#include "axis.h"
+#include "utils.h"
 
-#include "config/parameter_group.h"
-#include "config/parameter_group_ids.h"
-#include "config/feature.h"
+#include "parameter_group.h"
+#include "parameter_group_ids.h"
+#include "feature.h"
 
 #include "drivers/dma.h"
 #include "drivers/system.h"

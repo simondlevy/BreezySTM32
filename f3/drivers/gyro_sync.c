@@ -19,7 +19,7 @@
 #include <stdlib.h>
 
 #include <platform.h>
-#include "build/build_config.h"
+#include "build_config.h"
 
 #include "drivers/system.h"
 #include "drivers/gyro_sync.h"

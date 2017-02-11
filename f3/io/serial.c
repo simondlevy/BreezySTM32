@@ -22,13 +22,13 @@
 
 #include <platform.h>
 
-#include "build/build_config.h"
+#include "build_config.h"
 
-#include "common/utils.h"
-#include "common/streambuf.h"
+#include "utils.h"
+#include "streambuf.h"
 
-#include "config/parameter_group.h"
-#include "config/parameter_group_ids.h"
+#include "parameter_group.h"
+#include "parameter_group_ids.h"
 
 #include "drivers/dma.h"
 #include "drivers/serial.h"

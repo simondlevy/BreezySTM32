@@ -21,7 +21,7 @@
 
 #include <platform.h>
 
-#include "common/utils.h"
+#include "utils.h"
 
 #include "gpio.h"
 

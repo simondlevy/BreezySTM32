@@ -24,7 +24,7 @@
 #include "gpio.h"
 #include "nvic.h"
 
-#include "common/color.h"
+#include "color.h"
 #include "drivers/light_ws2811strip.h"
 
 #ifndef WS2811_GPIO

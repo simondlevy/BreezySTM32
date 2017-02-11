@@ -24,9 +24,9 @@
 
 #include <platform.h>
 
-#include "common/utils.h"
+#include "utils.h"
 
-#include "config/parameter_group.h"
+#include "parameter_group.h"
 
 #include "drivers/gpio.h"
 #include "drivers/buf_writer.h"

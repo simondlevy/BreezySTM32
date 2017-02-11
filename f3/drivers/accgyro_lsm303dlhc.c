@@ -19,11 +19,11 @@
 #include <stdint.h>
 
 #include <platform.h>
-#include "build/build_config.h"
-#include "build/debug.h"
+#include "build_config.h"
+#include "debug.h"
 
-#include "common/maths.h"
-#include "common/axis.h"
+#include "maths.h"
+#include "axis.h"
 
 #include "system.h"
 #include "gpio.h"

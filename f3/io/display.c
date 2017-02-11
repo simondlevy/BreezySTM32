@@ -21,12 +21,12 @@
 #include <string.h>
 
 #include <platform.h>
-#include "build/build_config.h"
+#include "build_config.h"
 
 #ifdef DISPLAY
 
-#include "build/version.h"
-#include "build/debug.h"
+#include "version.h"
+#include "debug.h"
 
 #include "drivers/serial.h"
 #include "drivers/system.h"
@@ -35,14 +35,14 @@
 #include "drivers/accgyro.h"
 #include "drivers/compass.h"
 
-#include "common/printf.h"
-#include "common/maths.h"
-#include "common/axis.h"
-#include "common/typeconversion.h"
+#include "printf.h"
+#include "maths.h"
+#include "axis.h"
+#include "typeconversion.h"
 
-#include "config/parameter_group.h"
-#include "config/feature.h"
-#include "config/profile.h"
+#include "parameter_group.h"
+#include "feature.h"
+#include "profile.h"
 
 #include "fc/rate_profile.h"
 #include "fc/rc_controls.h"

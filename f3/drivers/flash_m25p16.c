@@ -24,7 +24,7 @@
 #ifdef USE_FLASH_M25P16
 
 #ifdef CUSTOM_FLASHCHIP
-#include "config/parameter_group.h"
+#include "parameter_group.h"
 #endif
 
 #include "drivers/flash_m25p16.h"

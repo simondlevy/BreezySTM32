@@ -24,8 +24,8 @@
 #include <stdlib.h>
 #include <platform.h>
 
-#include "common/utils.h"
-#include "config/parameter_group.h"
+#include "utils.h"
+#include "parameter_group.h"
 #include "drivers/system.h"
 #include "drivers/serial.h"
 #include "drivers/buf_writer.h"

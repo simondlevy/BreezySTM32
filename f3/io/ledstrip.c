@@ -23,20 +23,20 @@
 
 #include <platform.h>
 
-#include "build/build_config.h"
+#include "build_config.h"
 
 #ifdef LED_STRIP
 
-#include <common/color.h>
-#include <common/maths.h>
-#include <common/typeconversion.h>
-#include <common/printf.h>
-#include <common/axis.h>
-#include <common/utils.h>
+#include <color.h>
+#include <maths.h>
+#include <typeconversion.h>
+#include <printf.h>
+#include <axis.h>
+#include <utils.h>
 
-#include "config/parameter_group.h"
-#include "config/parameter_group_ids.h"
-#include "config/feature.h"
+#include "parameter_group.h"
+#include "parameter_group_ids.h"
+#include "feature.h"
 
 #include "drivers/light_ws2811strip.h"
 #include "drivers/system.h"

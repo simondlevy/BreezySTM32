@@ -28,9 +28,9 @@
 
 #include <platform.h>
 
-#include "common/axis.h"
-#include "common/maths.h"
-#include "common/time.h"
+#include "axis.h"
+#include "maths.h"
+#include "time.h"
 
 #include "system.h"
 #include "gpio.h"

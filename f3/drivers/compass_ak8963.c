@@ -24,14 +24,14 @@
 
 #ifdef USE_MAG_AK8963
 
-#include "build/build_config.h"
+#include "build_config.h"
 
-#include "build/debug.h"
+#include "debug.h"
 
-#include "common/axis.h"
-#include "common/maths.h"
+#include "axis.h"
+#include "maths.h"
 
-#include "config/parameter_group.h"
+#include "parameter_group.h"
 
 #include "system.h"
 #include "gpio.h"

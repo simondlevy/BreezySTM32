@@ -26,7 +26,7 @@
 
 #ifdef  USE_SERIAL_4WAY_BLHELI_INTERFACE
 
-#include "config/parameter_group.h"
+#include "parameter_group.h"
 #include "drivers/serial.h"
 #include "drivers/gpio.h"
 #include "drivers/timer.h"

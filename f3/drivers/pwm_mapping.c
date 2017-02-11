@@ -22,7 +22,7 @@
 
 #include <platform.h>
 
-#include "config/parameter_group.h"
+#include "parameter_group.h"
 
 #include "gpio.h"
 #include "timer.h"

@@ -21,10 +21,10 @@
 #include <string.h>
 
 #include <platform.h>
-#include "build/build_config.h"
-#include "build/debug.h"
+#include "build_config.h"
+#include "debug.h"
 
-#include "common/maths.h"
+#include "maths.h"
 
 #include "nvic.h"
 

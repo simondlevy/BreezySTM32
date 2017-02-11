@@ -27,7 +27,7 @@
 
 #include "platform.h"
 
-#include "common/maths.h"
+#include "maths.h"
 
 #include "drivers/vtx_rtc6705.h"
 #include "drivers/bus_spi.h"

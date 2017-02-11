@@ -22,7 +22,7 @@
 
 #include <platform.h>
 
-#include "build/build_config.h"
+#include "build_config.h"
 
 #include "dma.h"
 #include "gpio.h"
