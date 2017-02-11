@@ -1,9 +1,9 @@
 
 #include "utils.h"
 
-#include "drivers/io.h"
-#include "drivers/io_impl.h"
-#include "drivers/rcc.h"
+#include "io.h"
+#include "io_impl.h"
+#include "rcc.h"
 
 #include "target.h"
 

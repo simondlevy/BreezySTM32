@@ -1,6 +1,6 @@
 BREEZY_DIR = $(HOME)/Desktop/BreezySTM32
 
-PROJECT_SRC = motor.c
+PROJECT_SRC = lemonrx.c
 
 # The target to build, see VALID_TARGETS below
 TARGET		?= ALIENFLIGHTF3
@@ -138,17 +138,17 @@ INCLUDE_DIRS := \
 VPATH		:= $(VPATH):$(TARGET_DIR)
 
 SYSTEM_SRC = \
-		   drivers/dma.c \
-		   drivers/serial.c \
-		   drivers/system.c \
+		   dma.c \
+		   serial.c \
+		   system.c \
 		   $(TARGET_SRC) \
 		   $(CMSIS_SRC) \
 		   $(DEVICE_STDPERIPH_SRC)
 
 FC_COMMON_SRC = \
 		   $(F3_DIR)/main.c \
-   	       drivers/exti.c \
-		   drivers/io.c \
+   	       exti.c \
+		   io.c \
 
 VCP_SRC = \
 		   vcp/hw_config.c \
@@ -158,30 +158,30 @@ VCP_SRC = \
 		   vcp/usb_istr.c \
 		   vcp/usb_prop.c \
 		   vcp/usb_pwr.c \
-		   drivers/serial_usb_vcp.c \
-		   drivers/usb_io.c
+		   serial_usb_vcp.c \
+		   usb_io.c
 
 STM32F30x_COMMON_SRC = \
 		   startup_stm32f30x_md_gcc.S \
 		   target/system_stm32f30x.c \
-		   drivers/adc.c \
-		   drivers/adc_stm32f30x.c \
-		   drivers/bus_i2c_stm32f30x.c \
-		   drivers/bus_spi.c \
-		   drivers/gpio_stm32f30x.c \
-		   drivers/light_led_stm32f30x.c \
-		   drivers/serial_uart.c \
-		   drivers/serial_uart_stm32f30x.c \
-		   drivers/system_stm32f30x.c
+		   adc.c \
+		   adc_stm32f30x.c \
+		   bus_i2c_stm32f30x.c \
+		   bus_spi.c \
+		   gpio_stm32f30x.c \
+		   light_led_stm32f30x.c \
+		   serial_uart.c \
+		   serial_uart_stm32f30x.c \
+		   system_stm32f30x.c
 
 ALIENFLIGHTF3_SRC = \
 		   $(PROJECT_SRC) \
 		   $(STM32F30x_COMMON_SRC) \
-		   drivers/timer.c \
-		   drivers/timer_stm32f30x.c \
-		   drivers/pwm_mapping.c \
-		   drivers/pwm_output.c \
-		   drivers/serial_usb_vcp.c \
+		   timer.c \
+		   timer_stm32f30x.c \
+		   pwm_mapping.c \
+		   pwm_output.c \
+		   serial_usb_vcp.c \
 		   $(FC_COMMON_SRC) \
 		   $(SYSTEM_SRC) \
 		   $(VCP_SRC)

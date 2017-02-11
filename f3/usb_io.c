@@ -25,9 +25,9 @@
 
 #include "gpio.h"
 
-#include "drivers/system.h"
+#include "system.h"
 
-#include "drivers/usb_io.h"
+#include "usb_io.h"
 
 #ifdef USB_IO
 

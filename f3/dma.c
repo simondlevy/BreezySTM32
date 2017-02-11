@@ -21,8 +21,8 @@
 
 #include <platform.h>
 
-#include "drivers/dma.h"
-#include "drivers/nvic.h"
+#include "dma.h"
+#include "nvic.h"
 
 #define DEFINE_DMA_CHANNEL(d, c, f, i, r) \
     {.dma = d, .channel = c, .handler = NULL, .flagsShift = f, .irqn = i, .rcc = r}

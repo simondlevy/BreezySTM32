@@ -37,9 +37,9 @@
 
 #include <stdbool.h>
 
-#include "drivers/system.h"
-#include "drivers/usb_io.h"
-#include "drivers/nvic.h"
+#include "system.h"
+#include "usb_io.h"
+#include "nvic.h"
 
 #define UNUSED(x) (void)(x)
 

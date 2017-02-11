@@ -26,7 +26,7 @@
 
 #include "gpio.h"
 #include "timer.h"
-#include "drivers/bus_i2c.h"
+#include "bus_i2c.h"
 
 #include "pwm_output.h"
 #include "pwm_rx.h"

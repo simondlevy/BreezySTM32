@@ -28,7 +28,7 @@
 #include "usb_init.h"
 #include "hw_config.h"
 
-#include "drivers/system.h"
+#include "system.h"
 
 #include "serial.h"
 #include "serial_usb_vcp.h"
