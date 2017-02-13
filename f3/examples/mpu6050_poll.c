@@ -97,12 +97,12 @@ typedef enum {
 } mpu_accel_range;
 
 
-static void mpuReadRegisterI2C(uint8_t reg, uint8_t *data, int length)
+static void mpuReadRegister(uint8_t reg, uint8_t *data, int length)
 {
     i2cRead(0x68, reg, length, data);
 }
 
-static void mpuWriteRegisterI2C(uint8_t reg, uint8_t data)
+static void mpuWriteRegister(uint8_t reg, uint8_t data)
 {
     i2cWrite(0x68, reg, data);
 }
@@ -111,7 +111,7 @@ static void mpuWriteRegisterI2C(uint8_t reg, uint8_t data)
 static uint8_t readByte(uint8_t reg)
 {
     uint8_t byte;
-    mpuReadRegisterI2C(reg, &byte, 1);
+    mpuReadRegister(reg, &byte, 1);
     return byte;
 }
 /*
@@ -133,22 +133,22 @@ void setup(void)
     whoami = readByte(MPU_RA_WHO_AM_I);
 
     // Device reset
-    mpuWriteRegisterI2C(MPU_RA_PWR_MGMT_1, 0x80); // Device reset
+    mpuWriteRegister(MPU_RA_PWR_MGMT_1, 0x80); // Device reset
     delay(100);
 
     // Gyro config
-    mpuWriteRegisterI2C(MPU_RA_SMPLRT_DIV, 0x00); // Sample Rate = Gyroscope Output Rate / (1 + SMPLRT_DIV)
-    mpuWriteRegisterI2C(MPU_RA_PWR_MGMT_1, MPU6050_INV_CLK_GYROZ); // Clock source = 3 (PLL with Z Gyro reference)
+    mpuWriteRegister(MPU_RA_SMPLRT_DIV, 0x00); // Sample Rate = Gyroscope Output Rate / (1 + SMPLRT_DIV)
+    mpuWriteRegister(MPU_RA_PWR_MGMT_1, MPU6050_INV_CLK_GYROZ); // Clock source = 3 (PLL with Z Gyro reference)
     delay(10);
-    mpuWriteRegisterI2C(MPU_RA_CONFIG, mpuLowPassFilter); // set DLPF
-    mpuWriteRegisterI2C(MPU_RA_GYRO_CONFIG, grange << 3); // full-scale 2kdps gyro range
+    mpuWriteRegister(MPU_RA_CONFIG, mpuLowPassFilter); // set DLPF
+    mpuWriteRegister(MPU_RA_GYRO_CONFIG, grange << 3); // full-scale 2kdps gyro range
 
     // Accel scale 8g (4096 LSB/g)
-    mpuWriteRegisterI2C(MPU_RA_ACCEL_CONFIG, arange << 3);
+    mpuWriteRegister(MPU_RA_ACCEL_CONFIG, arange << 3);
 
     // Data ready interrupt configuration:  INT_RD_CLEAR_DIS, I2C_BYPASS_EN
-    mpuWriteRegisterI2C(MPU_RA_INT_PIN_CFG, 0 << 7 | 0 << 6 | 0 << 5 | 1 << 4 | 0 << 3 | 0 << 2 | 1 << 1 | 0 << 0);
-    mpuWriteRegisterI2C(MPU_RA_INT_ENABLE, 0x01); // DATA_RDY_EN interrupt enable
+    mpuWriteRegister(MPU_RA_INT_PIN_CFG, 0 << 7 | 0 << 6 | 0 << 5 | 1 << 4 | 0 << 3 | 0 << 2 | 1 << 1 | 0 << 0);
+    mpuWriteRegister(MPU_RA_INT_ENABLE, 0x01); // DATA_RDY_EN interrupt enable
 
  } 
 
@@ -157,13 +157,13 @@ void loop(void)
 
     uint8_t buf[6];
 
-    mpuReadRegisterI2C(MPU_RA_ACCEL_XOUT_H, buf, 6);
+    mpuReadRegister(MPU_RA_ACCEL_XOUT_H, buf, 6);
 
     int16_t ax = (int16_t)((buf[0] << 8) | buf[1]);
     int16_t ay = (int16_t)((buf[2] << 8) | buf[3]);
     int16_t az = (int16_t)((buf[4] << 8) | buf[5]);
 
-    mpuReadRegisterI2C(MPU_RA_GYRO_XOUT_H, buf, 6);
+    mpuReadRegister(MPU_RA_GYRO_XOUT_H, buf, 6);
 
     int16_t gx = (int16_t)((buf[0] << 8) | buf[1]);
     int16_t gy = (int16_t)((buf[2] << 8) | buf[3]);
