@@ -116,7 +116,6 @@ TARGET_OBJS	 = $(addsuffix .o,$(addprefix $(OBJECT_DIR)/$(PROJECT)/,$(basename $
 TARGET_MAP   = $(OBJECT_DIR)/$(PROJECT).map
 
 # List of buildable ELF files and their object dependencies.
-# It would be nice to compute these lists, but that seems to be just beyond make.
 
 $(TARGET_HEX): $(TARGET_ELF)
 	$(OBJCOPY) -O ihex --set-start 0x8000000 $< $@

@@ -19,6 +19,8 @@
    along with BreezySTM32.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+extern "C" {
+
 #include <breezystm32.h>
 
 #define I2CDEV I2CDEV_2
@@ -170,4 +172,6 @@ void loop(void)
     int16_t gz = (int16_t)((buf[4] << 8) | buf[5]);
 
     debug("%d %d %d %d %d %d\n", ax, ay, az, gx, gy, gz);
+}
+
 }

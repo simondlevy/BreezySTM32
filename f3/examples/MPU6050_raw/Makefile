@@ -1,8 +1,7 @@
 # Change this to wherever you put BreezySTM32
 BREEZY_DIR = $(HOME)/Desktop/BreezySTM32
 
-# Change this to whatever example you want
-PROJECT_SRC = mpu6050_poll.c
+# Change this to whatever project name you want
 PROJECT = MPU6050_raw
 
 ###############################################################################
@@ -127,7 +126,6 @@ STM32F30x_COMMON_SRC = \
 		   system_stm32f30x.c
 
 $(PROJECT)_CSRC = \
-		   $(PROJECT_SRC) \
 		   timer.c \
 		   timer_stm32f30x.c \
 		   pwm_mapping.c \
@@ -209,11 +207,12 @@ LDFLAGS		 = -lm \
 # Things we will build
 
 TARGET_BIN	 = obj/$(PROJECT).bin
-TARGET_HEX	 = $(BIN_DIR)/$(TARGET).hex
+TARGET_HEX	 = $(BIN_DIR)/$(PROJECT).hex
 TARGET_ELF	 = $(OBJECT_DIR)/$(PROJECT).elf
-TARGET_OBJS	 = $(addsuffix .o,$(addprefix $(OBJECT_DIR)/$(TARGET)/,$(basename $($(PROJECT)_CSRC)))) \
-			   $(OBJECT_DIR)/$(TARGET)/HardwareWire.o
-TARGET_MAP	 = $(OBJECT_DIR)/$(TARGET).map
+TARGET_OBJS	 = $(addsuffix .o,$(addprefix $(OBJECT_DIR)/$(PROJECT)/,$(basename $($(PROJECT)_CSRC)))) \
+			   $(OBJECT_DIR)/$(PROJECT)/HardwareWire.o \
+			   $(OBJECT_DIR)/$(PROJECT).o
+TARGET_MAP	 = $(OBJECT_DIR)/$(PROJECT).map
 
 
 ## Default make goal:
@@ -231,14 +230,45 @@ bin:    $(TARGET_BIN)
 binary: $(TARGET_BIN)
 hex:    $(TARGET_HEX)
 
-# rule to reinvoke make with TARGET= parameter
-# rules that should be handled in toplevel Makefile, not dependent on TARGET
-GLOBAL_GOALS	= all_targets cppcheck test
+# List of buildable ELF files and their object dependencies.
 
-$(OBJECT_DIR)/$(TARGET)/HardwareWire.o: $(F3_DIR)/HardwareWire.cpp $(F3_DIR)/Arduino.h
-	@$(CC) -c -o $(OBJECT_DIR)/$(TARGET)/HardwareWire.o $(CFLAGS) $(F3_DIR)/HardwareWire.cpp
+$(TARGET_HEX): $(TARGET_ELF)
+	$(OBJCOPY) -O ihex --set-start 0x8000000 $< $@
 
-## clean       : clean up all temporary / machine-generated files
+$(TARGET_BIN): $(TARGET_ELF)
+	$(OBJCOPY) -O binary $< $@
+
+$(TARGET_ELF):  $(TARGET_OBJS)
+	$(CC) -o $@ $^ $(LDFLAGS)
+
+# Compile
+$(OBJECT_DIR)/$(PROJECT)/%.o: %.c
+	@mkdir -p $(dir $@)
+	@echo %% $(notdir $<)
+	@$(CC) -c -o $@ $(CFLAGS) $<
+
+# Assemble
+$(OBJECT_DIR)/$(PROJECT)/%.o: %.s
+	@mkdir -p $(dir $@)
+	@echo %% $(notdir $<)
+	@$(CC) -c -o $@ $(ASFLAGS) $<
+
+$(OBJECT_DIR)/$(PROJECT)/%.o: %.S
+	@mkdir -p $(dir $@)
+	@echo %% $(notdir $<)
+	@$(CC) -c -o $@ $(ASFLAGS) $<
+
+
+# C++ support
+%.o: %.cpp
+	$(CC) -c $(CFLAGS) -o $@ $^
+
+$(OBJECT_DIR)/$(PROJECT)/HardwareWire.o: $(F3_DIR)/HardwareWire.cpp $(F3_DIR)/Arduino.h
+	@$(CC) -c -o $(OBJECT_DIR)/$(PROJECT)/HardwareWire.o $(CFLAGS) $(F3_DIR)/HardwareWire.cpp
+
+$(OBJECT_DIR)/$(PROJECT).o: ./$(PROJECT).cpp
+	@$(CC) -c -o $(OBJECT_DIR)/$(PROJECT).o $(CFLAGS) ./$(PROJECT).cpp
+
 clean:
 	rm -rf obj
 
@@ -258,37 +288,6 @@ unbrick: unbrick_$(TARGET)
 
 # rebuild everything when makefile changes
 $(TARGET_OBJS) : Makefile
-
-# List of buildable ELF files and their object dependencies.
-# It would be nice to compute these lists, but that seems to be just beyond make.
-
-$(TARGET_HEX): $(TARGET_ELF)
-	$(OBJCOPY) -O ihex --set-start 0x8000000 $< $@
-
-$(TARGET_BIN): $(TARGET_ELF)
-	$(OBJCOPY) -O binary $< $@
-
-$(TARGET_ELF):  $(TARGET_OBJS)
-	$(CC) -o $@ $^ $(LDFLAGS)
-	$(SIZE) $(TARGET_ELF)
-
-# Compile
-$(OBJECT_DIR)/$(TARGET)/%.o: %.c
-	@mkdir -p $(dir $@)
-	@echo %% $(notdir $<)
-	@$(CC) -c -o $@ $(CFLAGS) $<
-
-# Assemble
-$(OBJECT_DIR)/$(TARGET)/%.o: %.s
-	@mkdir -p $(dir $@)
-	@echo %% $(notdir $<)
-	@$(CC) -c -o $@ $(ASFLAGS) $<
-
-$(OBJECT_DIR)/$(TARGET)/%.o: %.S
-	@mkdir -p $(dir $@)
-	@echo %% $(notdir $<)
-	@$(CC) -c -o $@ $(ASFLAGS) $<
-
 
 commit:
 	git commit -a --allow-empty-message -m ''
