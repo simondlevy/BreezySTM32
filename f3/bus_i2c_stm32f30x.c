@@ -26,8 +26,6 @@
 
 #include "bus_i2c.h"
 
-#ifndef SOFT_I2C
-
 #define I2C1_SCL_GPIO        GPIOB
 #define I2C1_SCL_GPIO_AF     GPIO_AF_4
 #define I2C1_SCL_PIN         GPIO_Pin_6
@@ -339,5 +337,3 @@ bool i2cRead(uint8_t addr_, uint8_t reg, uint8_t len, uint8_t* buf)
     /* If all operations OK */
     return true;
 }
-
-#endif
