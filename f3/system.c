@@ -25,7 +25,7 @@
 #include "dma.h"
 #include "gpio.h"
 #include "light_led.h"
-#include "sound_beeper.h"
+//#include "sound_beeper.h"
 #include "nvic.h"
 #include "serial.h"
 #include "serial_uart.h"
@@ -152,49 +152,8 @@ void delay(uint32_t ms)
         delayMicroseconds(1000);
 }
 
-#define SHORT_FLASH_DURATION 50
-#define CODE_FLASH_DURATION 250
-
 void failureMode(failureMode_e mode)
 {
-    int codeRepeatsRemaining = 10;
-    int codeFlashesRemaining;
-    int shortFlashesRemaining;
-
-    while (codeRepeatsRemaining--) {
-        LED1_ON;
-        LED0_OFF;
-        shortFlashesRemaining = 5;
-        codeFlashesRemaining = mode + 1;
-        uint8_t flashDuration = SHORT_FLASH_DURATION;
-
-        while (shortFlashesRemaining || codeFlashesRemaining) {
-            LED1_TOGGLE;
-            LED0_TOGGLE;
-            BEEP_ON;
-            delay(flashDuration);
-
-            LED1_TOGGLE;
-            LED0_TOGGLE;
-            BEEP_OFF;
-            delay(flashDuration);
-
-            if (shortFlashesRemaining) {
-                shortFlashesRemaining--;
-                if (shortFlashesRemaining == 0) {
-                    delay(500);
-                    flashDuration = CODE_FLASH_DURATION;
-                }
-            } else {
-                codeFlashesRemaining--;
-            }
-        }
-        delay(1000);
-    }
-
-#ifdef DEBUG
-    systemReset();
-#else
-    systemResetToBootloader();
-#endif
+    (void)mode;
+    while (1) ;
 }
