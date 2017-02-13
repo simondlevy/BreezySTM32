@@ -97,9 +97,11 @@ class HardwareWire {
     public:
 
         void     begin(void);
-        bool     writeBuffer(uint8_t addr_, uint8_t reg_, uint8_t len_, uint8_t *data);
+
         bool     write(uint8_t addr_, uint8_t reg, uint8_t data);
+
         bool     read(uint8_t addr_, uint8_t reg, uint8_t len, uint8_t* buf);
+
         uint16_t getErrorCounter(void);
         void     setOverclock(uint8_t OverClock); 
 };
