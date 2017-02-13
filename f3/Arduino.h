@@ -97,6 +97,8 @@ class HardwareWire {
     private:
 
         uint8_t _address;
+        uint8_t _register;
+        uint8_t _data;
 
     public:
 

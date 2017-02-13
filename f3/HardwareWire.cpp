@@ -128,11 +128,6 @@ static void i2cInitPort(I2C_TypeDef *I2Cx)
         I2C_InitStructure.I2C_Ack = I2C_Ack_Enable;
         I2C_InitStructure.I2C_AcknowledgedAddress = I2C_AcknowledgedAddress_7bit;
 
-        // FIXME timing is board specific
-        //I2C_InitStructure.I2C_Timing = 0x00310309; // //400kHz I2C @ 8MHz input -> PRESC=0x0, SCLDEL=0x3, SDADEL=0x1, SCLH=0x03, SCLL=0x09 - value from TauLabs/Sparky
-        // ^ when using this setting and after a few seconds of a scope probe being attached to the I2C bus it was observed that the bus enters
-        // a busy state and does not recover.
-
         if (i2cOverClock) {
             I2C_InitStructure.I2C_Timing = 0x00500E30; // 1000 Khz, 72Mhz Clock, Analog Filter Delay ON, Setup 40, Hold 4.
         } else {
@@ -162,6 +157,17 @@ void HardwareWire::beginTransmission(uint8_t addr_)
 
 uint8_t HardwareWire::write(uint8_t reg, uint8_t data)
 {
+    this->_register = reg;
+    this->_data = data;
+
+    return 2; // number of bytes "written"
+}
+
+
+uint8_t HardwareWire::endTransmission(bool stop)
+{
+    (void)stop; // XXX
+
     /* Test on BUSY Flag */
     i2cTimeout = I2C_DEFAULT_TIMEOUT;
     while (I2C_GetFlagStatus(I2Cx, I2C_ISR_BUSY) != RESET) {
@@ -182,7 +188,7 @@ uint8_t HardwareWire::write(uint8_t reg, uint8_t data)
     }
 
     /* Send Register address */
-    I2C_SendData(I2Cx, (uint8_t) reg);
+    I2C_SendData(I2Cx, this->_register);
 
     /* Wait until TCR flag is set */
     i2cTimeout = I2C_DEFAULT_TIMEOUT;
@@ -205,7 +211,7 @@ uint8_t HardwareWire::write(uint8_t reg, uint8_t data)
     }
 
     /* Write data to TXDR */
-    I2C_SendData(I2Cx, data);
+    I2C_SendData(I2Cx, this->_data);
 
     /* Wait until STOPF flag is set */
     i2cTimeout = I2C_DEFAULT_TIMEOUT;
@@ -220,12 +226,6 @@ uint8_t HardwareWire::write(uint8_t reg, uint8_t data)
 
     // Success
     return 0;
-}
-
-uint8_t  HardwareWire::endTransmission(bool stop)
-{
-    (void)stop;
-    return 0; // success
 }
 
 uint8_t HardwareWire::read(uint8_t addr_, uint8_t reg, uint8_t len, uint8_t* buf)
