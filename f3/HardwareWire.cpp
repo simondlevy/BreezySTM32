@@ -153,6 +153,9 @@ void HardwareWire::begin(void)
 void HardwareWire::beginTransmission(uint8_t addr_) 
 {
     this->_address = addr_ << 1;
+
+    this->_register = 0;
+    this->_data = 0;
 }
 
 uint8_t HardwareWire::write(uint8_t reg, uint8_t data)
