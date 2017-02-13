@@ -83,8 +83,7 @@ CFLAGS		 = $(ARCH_FLAGS) \
 		   -ffunction-sections \
 		   -fdata-sections \
 		   -DSTM32F10X_MD \
-		   -DUSE_STDPERIPH_DRIVER \
-		   -D$(PROJECT)
+		   -DUSE_STDPERIPH_DRIVER 
 
 ASFLAGS		 = $(ARCH_FLAGS) \
 		   -x assembler-with-cpp \
