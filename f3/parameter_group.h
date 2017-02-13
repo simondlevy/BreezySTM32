@@ -211,14 +211,6 @@ extern const uint8_t __pg_resetdata_end[];
     /**/
 
 
-// Emit reset defaults for config.
-// Config must be registered with PG_REGISTER_<xxx>_WITH_RESET_TEMPLATE macro
-#define PG_RESET_TEMPLATE(_type, _name, ...)                            \
-    const _type pgResetTemplate_ ## _name PG_RESETDATA_ATTRIBUTES = {   \
-        __VA_ARGS__                                                     \
-    }                                                                   \
-    /**/
-
 const pgRegistry_t* pgFind(pgn_t pgn);
 
 void pgLoad(const pgRegistry_t* reg, int profileIndex, const void *from, int size, int version);
