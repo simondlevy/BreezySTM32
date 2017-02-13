@@ -97,8 +97,6 @@ class HardwareWire {
     private:
 
         uint8_t _address;
-        uint8_t _buffer[100]; // arbitrary
-        uint8_t _count;
 
     public:
 
@@ -106,8 +104,7 @@ class HardwareWire {
 
         void     beginTransmission(uint8_t addr_);
 
-        // returns 0 on success, 1 on error
-        uint8_t  write(uint8_t value);
+        bool     write(uint8_t reg, uint8_t data);
 
         uint8_t  endTransmission(bool stop=true);
 

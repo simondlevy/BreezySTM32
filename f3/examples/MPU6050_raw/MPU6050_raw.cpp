@@ -106,8 +106,7 @@ static void mpuReadRegister(uint8_t reg, uint8_t *data, int length)
 static void mpuWriteRegister(uint8_t reg, uint8_t data)
 {
     Wire.beginTransmission(MPU_ADDRESS);
-    Wire.write(reg);
-    Wire.write(data);
+    Wire.write(reg, data);
     Wire.endTransmission();
 }
 
