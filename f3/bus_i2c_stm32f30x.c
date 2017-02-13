@@ -58,18 +58,9 @@ static volatile uint16_t i2c2ErrorCount = 0;
 
 static I2C_TypeDef *I2Cx = NULL;
 
-///////////////////////////////////////////////////////////////////////////////
-// I2C TimeoutUserCallback
-///////////////////////////////////////////////////////////////////////////////
-
 static bool i2cOverClock;
 
-void i2cSetOverclock(uint8_t OverClock)
-{
-    i2cOverClock = (OverClock) ? true : false;
-}
-
-uint32_t i2cTimeoutUserCallback(I2C_TypeDef *I2Cx)
+static uint32_t i2cTimeoutUserCallback(I2C_TypeDef *I2Cx)
 {
     if (I2Cx == I2C1) {
         i2c1ErrorCount++;
@@ -79,7 +70,7 @@ uint32_t i2cTimeoutUserCallback(I2C_TypeDef *I2Cx)
     return false;
 }
 
-void i2cInitPort(I2C_TypeDef *I2Cx)
+static void i2cInitPort(I2C_TypeDef *I2Cx)
 {
     GPIO_InitTypeDef GPIO_InitStructure;
     I2C_InitTypeDef I2C_InitStructure;
@@ -183,6 +174,8 @@ void i2cInitPort(I2C_TypeDef *I2Cx)
         I2C_Cmd(I2C2, ENABLE);
     }
 }
+
+// ===================================================================================
 
 void i2cInit(I2CDevice index)
 {
@@ -337,3 +330,10 @@ bool i2cRead(uint8_t addr_, uint8_t reg, uint8_t len, uint8_t* buf)
     /* If all operations OK */
     return true;
 }
+
+void i2cSetOverclock(uint8_t OverClock)
+{
+    i2cOverClock = (OverClock) ? true : false;
+}
+
+
