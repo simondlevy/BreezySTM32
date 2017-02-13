@@ -166,8 +166,8 @@ STM32F30x_COMMON_SRC = \
 		   target/system_stm32f30x.c \
 		   adc.c \
 		   adc_stm32f30x.c \
-		   bus_i2c_stm32f30x.c \
 		   bus_spi.c \
+		   bus_i2c_stm32f30x.c \
 		   gpio_stm32f30x.c \
 		   light_led_stm32f30x.c \
 		   serial_uart.c \
@@ -228,15 +228,12 @@ CFLAGS		 = $(ARCH_FLAGS) \
 		   $(addprefix -D,$(OPTIONS)) \
 		   $(addprefix -I,$(INCLUDE_DIRS)) \
 		   $(DEBUG_FLAGS) \
-		   -std=gnu99 \
 		   -Wall -Wpedantic -Wextra -Wunsafe-loop-optimizations -Wdouble-promotion -Wundef \
 		   -ffunction-sections \
 		   -fdata-sections \
 		   $(DEVICE_FLAGS) \
 		   -DUSE_STDPERIPH_DRIVER \
 		   $(TARGET_FLAGS) \
-		   -D'__TARGET__="$(TARGET)"' \
-		   -D'__REVISION__="$(REVISION)"' \
 		   -fverbose-asm -ffat-lto-objects \
 		   -save-temps=obj \
 		   -MMD -MP
@@ -281,7 +278,8 @@ endif
 TARGET_BIN	 = obj/$(TARGET).bin
 TARGET_HEX	 = $(BIN_DIR)/$(TARGET).hex
 TARGET_ELF	 = $(OBJECT_DIR)/$(TARGET).elf
-TARGET_OBJS	 = $(addsuffix .o,$(addprefix $(OBJECT_DIR)/$(TARGET)/,$(basename $($(TARGET)_SRC))))
+TARGET_OBJS	 = $(addsuffix .o,$(addprefix $(OBJECT_DIR)/$(TARGET)/,$(basename $($(TARGET)_SRC)))) \
+			   $(OBJECT_DIR)/$(TARGET)/HardwareWire.o
 TARGET_DEPS	 = $(addsuffix .d,$(addprefix $(OBJECT_DIR)/$(TARGET)/,$(basename $($(TARGET)_SRC))))
 TARGET_MAP	 = $(OBJECT_DIR)/$(TARGET).map
 
@@ -312,6 +310,9 @@ $(VALID_TARGETS):
 ## all_targets : Make all TARGETs
 .PHONY: all_targets
 all_targets : $(VALID_TARGETS)
+
+$(OBJECT_DIR)/$(TARGET)/HardwareWire.o: $(F3_DIR)/HardwareWire.cpp $(F3_DIR)/Arduino.h
+	@$(CC) -c -o $(OBJECT_DIR)/$(TARGET)/HardwareWire.o $(CFLAGS) $(F3_DIR)/HardwareWire.cpp
 
 ## clean       : clean up all temporary / machine-generated files
 clean:
