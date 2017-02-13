@@ -258,11 +258,6 @@ $(OBJECT_DIR)/$(PROJECT)/%.o: %.S
 	@echo %% $(notdir $<)
 	@$(CC) -c -o $@ $(ASFLAGS) $<
 
-
-# C++ support
-%.o: %.cpp
-	$(CC) -c $(CFLAGS) -o $@ $^
-
 $(OBJECT_DIR)/$(PROJECT)/HardwareWire.o: $(F3_DIR)/HardwareWire.cpp $(F3_DIR)/Arduino.h
 	@$(CC) -c -o $(OBJECT_DIR)/$(PROJECT)/HardwareWire.o $(CFLAGS) $(F3_DIR)/HardwareWire.cpp
 
