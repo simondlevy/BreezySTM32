@@ -1,11 +1,3 @@
-###############################################################################
-# "THE BEER-WARE LICENSE" (Revision 42):
-# <msmith@FreeBSD.ORG> wrote this file. As long as you retain this notice you
-# can do whatever you want with this stuff. If we meet some day, and you think
-# this stuff is worth it, you can buy me a beer in return
-
-###############################################################################
-
 # Change this to wherever you put BreezySTM32
 BREEZY_DIR = $(HOME)/Desktop/BreezySTM32
 
@@ -17,8 +9,6 @@ TARGET		?= MPU6050_raw
 F1_DIR = $(BREEZY_DIR)/f1
 
 # Compile-time options
-OPTIONS		?=
-
 # Debugger optons, must be empty or GDB
 DEBUG ?=
 
@@ -88,7 +78,6 @@ DEBUG_FLAGS	 = -ggdb3
 
 CFLAGS		 = $(ARCH_FLAGS) \
 		   $(LTO_FLAGS) \
-		   $(addprefix -D,$(OPTIONS)) \
 		   $(addprefix -I,$(INCLUDE_DIRS)) \
 		   $(DEBUG_FLAGS) \
 		   -Wall -pedantic -Wextra -Wshadow -Wunsafe-loop-optimizations \

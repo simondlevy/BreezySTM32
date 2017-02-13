@@ -1,6 +1,12 @@
+# Change this to wherever you put BreezySTM32
 BREEZY_DIR = $(HOME)/Desktop/BreezySTM32
 
+# Change this to whatever example you want
 PROJECT_SRC = mpu6050_poll.c
+
+###############################################################################
+
+F3_DIR = $(BREEZY_DIR)/f3
 
 # The target to build, see VALID_TARGETS below
 TARGET		?= ALIENFLIGHTF3
@@ -17,10 +23,6 @@ SERIAL_DEVICE	?= /dev/ttyACM0
 
 # Flash size (KB).  Some low-end chips actually have more flash than advertised, use this to override.
 FLASH_SIZE ?= 256
-
-###############################################################################
-
-F3_DIR = $(BREEZY_DIR)/f3
 
 256K_TARGETS = ALIENFLIGHTF3 
 
@@ -246,16 +248,6 @@ LDFLAGS		 = -lm \
 		   -Wl,--cref \
 		   -T$(LD_SCRIPT)
 
-###############################################################################
-# No user-serviceable parts below
-###############################################################################
-
-CPPCHECK         = cppcheck $(CSOURCES) --enable=all --platform=unix64 \
-		   --std=c99 --inline-suppr --quiet --force \
-		   $(addprefix -I,$(INCLUDE_DIRS)) \
-		   -I/usr/include -I/usr/include/linux
-
-#
 # Things we will build
 #
 ifeq ($(filter $(TARGET),$(VALID_TARGETS)),)
@@ -319,14 +311,6 @@ unbrick_$(TARGET): $(TARGET_BIN)
 ## unbrick     : unbrick flight controller
 unbrick: unbrick_$(TARGET)
 
-## cppcheck    : run static analysis on C source code
-cppcheck: $(CSOURCES)
-	$(CPPCHECK)
-
-cppcheck-result.xml: $(CSOURCES)
-	$(CPPCHECK) --xml-version=2 2> cppcheck-result.xml
-
-
 # rebuild everything when makefile changes
 $(TARGET_OBJS) : Makefile
 
@@ -367,6 +351,3 @@ commit:
 
 listen:
 	miniterm.py $(SERIAL_DEVICE)
-
-# include auto-generated dependencies
--include $(TARGET_DEPS)
