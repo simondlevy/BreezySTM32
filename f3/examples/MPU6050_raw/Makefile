@@ -16,7 +16,7 @@ DEBUG ?=
 SERIAL_DEVICE	?= /dev/ttyACM0
 
 # Flash size (KB).  Some low-end chips actually have more flash than advertised, use this to override.
-FLASH_SIZE ?=
+FLASH_SIZE ?= 256
 
 ###############################################################################
 
@@ -29,19 +29,6 @@ F3_TARGETS = ALIENFLIGHTF3
 VALID_TARGETS = $(256K_TARGETS)
 
 VCP_TARGETS = ALIENFLIGHTF3 
-
-# Configure default flash sizes for the targets
-ifeq ($(FLASH_SIZE),)
-ifeq ($(TARGET),$(filter $(TARGET),$(64K_TARGETS)))
-FLASH_SIZE = 64
-else ifeq ($(TARGET),$(filter $(TARGET),$(128K_TARGETS)))
-FLASH_SIZE = 128
-else ifeq ($(TARGET),$(filter $(TARGET),$(256K_TARGETS)))
-FLASH_SIZE = 256
-else
-$(error FLASH_SIZE not configured for target $(TARGET))
-endif
-endif
 
 REVISION := $(shell git log -1 --format="%h")
 
