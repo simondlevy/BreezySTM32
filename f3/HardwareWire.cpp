@@ -41,7 +41,7 @@ static uint32_t i2cTimeout;
 static volatile uint16_t i2c1ErrorCount = 0;
 static volatile uint16_t i2c2ErrorCount = 0;
 
-static I2C_TypeDef *I2Cx = NULL;
+static I2C_TypeDef *I2Cx;
 
 static bool i2cOverClock;
 
