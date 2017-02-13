@@ -20,7 +20,7 @@ typedef enum {
     OWNER_PINDEBUG,
     OWNER_TIMER,
     OWNER_SONAR,
-    OWNER_SYSTEM,
+    OWNER_SYSTEM
 } resourceOwner_t;
 
 
@@ -34,5 +34,5 @@ typedef enum {
     RESOURCE_TIMER_DUAL = 1 << 3, // channel used in dual-capture, other channel will be allocated too
     RESOURCE_USART = 1 << 4,
     RESOURCE_ADC = 1 << 5,
-    RESOURCE_EXTI = 1 << 6,
+    RESOURCE_EXTI = 1 << 6
 } resourceType_t;
