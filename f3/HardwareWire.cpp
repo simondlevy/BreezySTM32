@@ -162,13 +162,9 @@ static void i2cInitPort(I2C_TypeDef *I2Cx)
 
 // ===================================================================================
 
-void HardwareWire::init(I2CDevice index)
+void HardwareWire::begin(void)
 {
-    if (index == I2CDEV_1) {
-        I2Cx = I2C1;
-    } else {
-        I2Cx = I2C2;
-    }
+    I2Cx = I2C2;
     i2cInitPort(I2Cx);
 }
 

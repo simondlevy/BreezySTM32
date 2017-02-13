@@ -24,8 +24,6 @@ extern "C" {
 #include <breezystm32.h>
 #include <Arduino.h>
 
-#define I2CDEV I2CDEV_2
-
 // This is generally where all Invensense devices are at, for default (AD0 down) I2C address
 #define MPU_ADDRESS                         (0x68)
 
@@ -122,7 +120,7 @@ uint8_t whoami;
 
 void setup(void)
 {
-    Wire.init(I2CDEV); 
+    Wire.begin(); 
 
     mpu_gyro_range grange = GFS_250DPS;
     mpu_accel_range arange = AFS_2G;

@@ -96,7 +96,7 @@ class HardwareWire {
 
     public:
 
-        void     init(I2CDevice index);
+        void     begin(void);
         bool     writeBuffer(uint8_t addr_, uint8_t reg_, uint8_t len_, uint8_t *data);
         bool     write(uint8_t addr_, uint8_t reg, uint8_t data);
         bool     read(uint8_t addr_, uint8_t reg, uint8_t len, uint8_t* buf);

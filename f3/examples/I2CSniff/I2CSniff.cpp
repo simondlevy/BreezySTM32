@@ -28,11 +28,9 @@ extern "C" {
 #include <breezystm32.h>
 #include <Arduino.h>
 
-#define I2CDEV I2CDEV_2
-
 void setup(void)
 {
-    Wire.init(I2CDEV); 
+    Wire.begin(); 
 } 
 
 void loop(void)
