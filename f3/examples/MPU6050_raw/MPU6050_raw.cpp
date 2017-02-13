@@ -22,6 +22,7 @@
 extern "C" {
 
 #include <breezystm32.h>
+#include <Arduino.h>
 
 #define I2CDEV I2CDEV_2
 
@@ -101,12 +102,12 @@ typedef enum {
 
 static void mpuReadRegister(uint8_t reg, uint8_t *data, int length)
 {
-    i2cRead(0x68, reg, length, data);
+    Wire.read(0x68, reg, length, data);
 }
 
 static void mpuWriteRegister(uint8_t reg, uint8_t data)
 {
-    i2cWrite(0x68, reg, data);
+    Wire.write(0x68, reg, data);
 }
 
 
@@ -116,18 +117,12 @@ static uint8_t readByte(uint8_t reg)
     mpuReadRegister(reg, &byte, 1);
     return byte;
 }
-/*
-void i2cInit(I2CDevice index);
-bool i2cWriteBuffer(uint8_t addr_, uint8_t reg_, uint8_t len_, uint8_t *data);
-bool i2cWrite(uint8_t addr_, uint8_t reg, uint8_t data);
-bool i2cRead(uint8_t addr_, uint8_t reg, uint8_t len, uint8_t* buf);
-*/
 
 uint8_t whoami;
 
 void setup(void)
 {
-    i2cInit(I2CDEV); 
+    Wire.init(I2CDEV); 
 
     mpu_gyro_range grange = GFS_250DPS;
     mpu_accel_range arange = AFS_2G;

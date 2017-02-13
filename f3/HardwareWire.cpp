@@ -321,4 +321,6 @@ void HardwareWire::setOverclock(uint8_t OverClock)
     i2cOverClock = (OverClock) ? true : false;
 }
 
+HardwareWire Wire;
+
 } // extern "C"
