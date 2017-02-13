@@ -61,7 +61,8 @@ INCLUDE_DIRS := $(INCLUDE_DIRS) \
 		   $(CMSIS_DIR)/CM1/CoreSupport \
 		   $(CMSIS_DIR)/CM1/DeviceSupport/ST/STM32F30x
 
-ifeq ($(TARGET),$(filter $(TARGET),$(VCP_TARGETS)))
+# VCP support
+#ifeq ($(TARGET),$(filter $(TARGET),$(VCP_TARGETS))
 INCLUDE_DIRS := $(INCLUDE_DIRS) \
 		   $(USBFS_DIR)/inc \
 		   $(SRC_DIR)/vcp
@@ -71,7 +72,7 @@ VPATH := $(VPATH):$(USBFS_DIR)/src
 DEVICE_STDPERIPH_SRC := $(DEVICE_STDPERIPH_SRC)\
 		   $(USBPERIPH_SRC)
 
-endif
+#endif
 
 LD_SCRIPT	 = $(LINKER_DIR)/stm32_flash_f303_$(FLASH_SIZE)k.ld
 
