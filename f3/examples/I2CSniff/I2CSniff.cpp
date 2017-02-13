@@ -39,12 +39,7 @@ void loop(void)
 
     for (addr=0; addr<128; ++addr) {
         Wire.beginTransmission(addr);
-        Wire.write(0,0);
-        uint8_t err = Wire.endTransmission();
-        if (err) {
-            debug("%d **********\n", err);
-        }
-        else {
+        if (!Wire.endTransmission()) {
             debug("Found device at address 0X%02X\n", addr);
         }
     }
