@@ -29,7 +29,6 @@
 #include "bus_i2c.h"
 
 #include "pwm_output.h"
-#include "pwm_rx.h"
 #include "pwm_mapping.h"
 
 #ifdef STM32F10X
