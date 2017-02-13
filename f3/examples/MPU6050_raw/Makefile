@@ -3,6 +3,7 @@ BREEZY_DIR = $(HOME)/Desktop/BreezySTM32
 
 # Change this to whatever example you want
 PROJECT_SRC = mpu6050_poll.c
+PROJECT = MPU6050_raw
 
 ###############################################################################
 
@@ -19,8 +20,6 @@ SERIAL_DEVICE	?= /dev/ttyACM0
 
 # Flash size (KB).  Some low-end chips actually have more flash than advertised, use this to override.
 FLASH_SIZE ?= 256
-
-VCP_TARGETS = ALIENFLIGHTF3 
 
 # Working directories
 ROOT		 = $(dir $(lastword $(MAKEFILE_LIST)))
@@ -62,7 +61,6 @@ INCLUDE_DIRS := $(INCLUDE_DIRS) \
 		   $(CMSIS_DIR)/CM1/DeviceSupport/ST/STM32F30x
 
 # VCP support
-#ifeq ($(TARGET),$(filter $(TARGET),$(VCP_TARGETS))
 INCLUDE_DIRS := $(INCLUDE_DIRS) \
 		   $(USBFS_DIR)/inc \
 		   $(SRC_DIR)/vcp
@@ -71,8 +69,6 @@ VPATH := $(VPATH):$(USBFS_DIR)/src
 
 DEVICE_STDPERIPH_SRC := $(DEVICE_STDPERIPH_SRC)\
 		   $(USBPERIPH_SRC)
-
-#endif
 
 LD_SCRIPT	 = $(LINKER_DIR)/stm32_flash_f303_$(FLASH_SIZE)k.ld
 
@@ -86,21 +82,6 @@ endif
 
 TARGET_DIR = $(ROOT)/target/$(TARGET)
 TARGET_SRC = $(notdir $(wildcard $(TARGET_DIR)/*.c))
-
-# VARIANTS
-ifeq ($(TARGET),ALIENFLIGHTF1)
-# ALIENFLIGHTF1 is a VARIANT of NAZE
-TARGET_FLAGS := $(TARGET_FLAGS) -DNAZE -DALIENFLIGHT
-TARGET_DIR = $(ROOT)/target/NAZE
-endif
-ifeq ($(TARGET),CHEBUZZF3)
-# CHEBUZZ is a VARIANT of STM32F3DISCOVERY
-TARGET_FLAGS := $(TARGET_FLAGS) -DSTM32F3DISCOVERY
-endif
-ifeq ($(TARGET),$(filter $(TARGET),RMDO IRCFUSIONF3))
-# RMDO and IRCFUSIONF3 are a VARIANT of SPRACINGF3
-TARGET_FLAGS := $(TARGET_FLAGS) -DSPRACINGF3
-endif
 
 INCLUDE_DIRS := \
 		    $(INCLUDE_DIRS) \
@@ -145,14 +126,14 @@ STM32F30x_COMMON_SRC = \
 		   serial_uart_stm32f30x.c \
 		   system_stm32f30x.c
 
-ALIENFLIGHTF3_SRC = \
+$(PROJECT)_CSRC = \
 		   $(PROJECT_SRC) \
-		   $(STM32F30x_COMMON_SRC) \
 		   timer.c \
 		   timer_stm32f30x.c \
 		   pwm_mapping.c \
 		   pwm_output.c \
 		   serial_usb_vcp.c \
+		   $(STM32F30x_COMMON_SRC) \
 		   $(FC_COMMON_SRC) \
 		   $(SYSTEM_SRC) \
 		   $(VCP_SRC)
@@ -227,12 +208,11 @@ LDFLAGS		 = -lm \
 
 # Things we will build
 
-TARGET_BIN	 = obj/$(TARGET).bin
+TARGET_BIN	 = obj/$(PROJECT).bin
 TARGET_HEX	 = $(BIN_DIR)/$(TARGET).hex
-TARGET_ELF	 = $(OBJECT_DIR)/$(TARGET).elf
-TARGET_OBJS	 = $(addsuffix .o,$(addprefix $(OBJECT_DIR)/$(TARGET)/,$(basename $($(TARGET)_SRC)))) \
+TARGET_ELF	 = $(OBJECT_DIR)/$(PROJECT).elf
+TARGET_OBJS	 = $(addsuffix .o,$(addprefix $(OBJECT_DIR)/$(TARGET)/,$(basename $($(PROJECT)_CSRC)))) \
 			   $(OBJECT_DIR)/$(TARGET)/HardwareWire.o
-TARGET_DEPS	 = $(addsuffix .d,$(addprefix $(OBJECT_DIR)/$(TARGET)/,$(basename $($(TARGET)_SRC))))
 TARGET_MAP	 = $(OBJECT_DIR)/$(TARGET).map
 
 
