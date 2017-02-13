@@ -38,22 +38,9 @@ extern "C" {
 
 static uint32_t i2cTimeout;
 
-static volatile uint16_t i2c1ErrorCount = 0;
-static volatile uint16_t i2c2ErrorCount = 0;
-
 static I2C_TypeDef *I2Cx;
 
 static bool i2cOverClock;
-
-static uint32_t i2cTimeoutUserCallback(I2C_TypeDef *I2Cx)
-{
-    if (I2Cx == I2C1) {
-        i2c1ErrorCount++;
-    } else {
-        i2c2ErrorCount++;
-    }
-    return false;
-}
 
 static void i2cInitPort(I2C_TypeDef *I2Cx)
 {
@@ -173,13 +160,13 @@ void HardwareWire::beginTransmission(uint8_t addr_)
     this->_address = addr_ << 1;
 }
 
-bool HardwareWire::write(uint8_t reg, uint8_t data)
+uint8_t HardwareWire::write(uint8_t reg, uint8_t data)
 {
     /* Test on BUSY Flag */
     i2cTimeout = I2C_DEFAULT_TIMEOUT;
     while (I2C_GetFlagStatus(I2Cx, I2C_ISR_BUSY) != RESET) {
         if ((i2cTimeout--) == 0) {
-            return i2cTimeoutUserCallback(I2Cx);
+            return 1;
         }
     }
 
@@ -190,7 +177,7 @@ bool HardwareWire::write(uint8_t reg, uint8_t data)
     i2cTimeout = I2C_DEFAULT_TIMEOUT;
     while (I2C_GetFlagStatus(I2Cx, I2C_ISR_TXIS) == RESET) {
         if ((i2cTimeout--) == 0) {
-            return i2cTimeoutUserCallback(I2Cx);
+            return 2;
         }
     }
 
@@ -202,7 +189,7 @@ bool HardwareWire::write(uint8_t reg, uint8_t data)
     while (I2C_GetFlagStatus(I2Cx, I2C_ISR_TCR) == RESET)
     {
         if ((i2cTimeout--) == 0) {
-            return i2cTimeoutUserCallback(I2Cx);
+            return 3;
         }
     }
 
@@ -213,7 +200,7 @@ bool HardwareWire::write(uint8_t reg, uint8_t data)
     i2cTimeout = I2C_DEFAULT_TIMEOUT;
     while (I2C_GetFlagStatus(I2Cx, I2C_ISR_TXIS) == RESET) {
         if ((i2cTimeout--) == 0) {
-            return i2cTimeoutUserCallback(I2Cx);
+            return 4;
         }
     }
 
@@ -224,14 +211,15 @@ bool HardwareWire::write(uint8_t reg, uint8_t data)
     i2cTimeout = I2C_DEFAULT_TIMEOUT;
     while (I2C_GetFlagStatus(I2Cx, I2C_ISR_STOPF) == RESET) {
         if ((i2cTimeout--) == 0) {
-            return i2cTimeoutUserCallback(I2Cx);
+            return 5;
         }
     }
 
     /* Clear STOPF flag */
     I2C_ClearFlag(I2Cx, I2C_ICR_STOPCF);
 
-    return true;
+    // Success
+    return 0;
 }
 
 uint8_t  HardwareWire::endTransmission(bool stop)
@@ -240,7 +228,7 @@ uint8_t  HardwareWire::endTransmission(bool stop)
     return 0; // success
 }
 
-bool HardwareWire::read(uint8_t addr_, uint8_t reg, uint8_t len, uint8_t* buf)
+uint8_t HardwareWire::read(uint8_t addr_, uint8_t reg, uint8_t len, uint8_t* buf)
 {
     addr_ <<= 1;
 
@@ -248,7 +236,7 @@ bool HardwareWire::read(uint8_t addr_, uint8_t reg, uint8_t len, uint8_t* buf)
     i2cTimeout = I2C_DEFAULT_TIMEOUT;
     while (I2C_GetFlagStatus(I2Cx, I2C_ISR_BUSY) != RESET) {
         if ((i2cTimeout--) == 0) {
-            return i2cTimeoutUserCallback(I2Cx);
+            return 1;
         }
     }
 
@@ -259,7 +247,7 @@ bool HardwareWire::read(uint8_t addr_, uint8_t reg, uint8_t len, uint8_t* buf)
     i2cTimeout = I2C_DEFAULT_TIMEOUT;
     while (I2C_GetFlagStatus(I2Cx, I2C_ISR_TXIS) == RESET) {
         if ((i2cTimeout--) == 0) {
-            return i2cTimeoutUserCallback(I2Cx);
+            return 2;
         }
     }
 
@@ -270,7 +258,7 @@ bool HardwareWire::read(uint8_t addr_, uint8_t reg, uint8_t len, uint8_t* buf)
     i2cTimeout = I2C_DEFAULT_TIMEOUT;
     while (I2C_GetFlagStatus(I2Cx, I2C_ISR_TC) == RESET) {
         if ((i2cTimeout--) == 0) {
-            return i2cTimeoutUserCallback(I2Cx);
+            return 3;
         }
     }
 
@@ -283,7 +271,7 @@ bool HardwareWire::read(uint8_t addr_, uint8_t reg, uint8_t len, uint8_t* buf)
         i2cTimeout = I2C_DEFAULT_TIMEOUT;
         while (I2C_GetFlagStatus(I2Cx, I2C_ISR_RXNE) == RESET) {
             if ((i2cTimeout--) == 0) {
-                return i2cTimeoutUserCallback(I2Cx);
+                return 4;
             }
         }
 
@@ -300,7 +288,7 @@ bool HardwareWire::read(uint8_t addr_, uint8_t reg, uint8_t len, uint8_t* buf)
     i2cTimeout = I2C_DEFAULT_TIMEOUT;
     while (I2C_GetFlagStatus(I2Cx, I2C_ISR_STOPF) == RESET) {
         if ((i2cTimeout--) == 0) {
-            return i2cTimeoutUserCallback(I2Cx);
+            return 5;
         }
     }
 
@@ -308,22 +296,12 @@ bool HardwareWire::read(uint8_t addr_, uint8_t reg, uint8_t len, uint8_t* buf)
     I2C_ClearFlag(I2Cx, I2C_ICR_STOPCF);
 
     /* If all operations OK */
-    return true;
+    return 0;
 }
 
 void HardwareWire::setOverclock(uint8_t OverClock)
 {
     i2cOverClock = (OverClock) ? true : false;
-}
-
-uint16_t HardwareWire::getErrorCounter(void)
-{
-    if (I2Cx == I2C1) {
-        return i2c1ErrorCount;
-    }
-
-    return i2c2ErrorCount;
-
 }
 
 HardwareWire Wire;

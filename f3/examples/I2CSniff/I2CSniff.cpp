@@ -39,7 +39,7 @@ void loop(void)
 
     for (addr=0; addr<128; ++addr) {
         Wire.beginTransmission(addr);
-        if (Wire.write(0x00, 0x00)) {
+        if (!Wire.write(0x00, 0x00)) {
             debug("Found device at address 0X%02X\n", addr);
             Wire.endTransmission();
         }
