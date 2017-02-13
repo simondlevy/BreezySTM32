@@ -15,8 +15,6 @@
  * along with Cleanflight.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "sdcard.h"
-
 #include <stdlib.h>
 #include <stdbool.h>
 #include <stdint.h>
