@@ -168,20 +168,13 @@ void HardwareWire::begin(void)
     i2cInitPort(I2Cx);
 }
 
-uint16_t HardwareWire::getErrorCounter(void)
+void HardwareWire::beginTransmission(uint8_t addr_) 
 {
-    if (I2Cx == I2C1) {
-        return i2c1ErrorCount;
-    }
-
-    return i2c2ErrorCount;
-
+    this->_address = addr_ << 1;
 }
 
-bool HardwareWire::write(uint8_t addr_, uint8_t reg, uint8_t data)
+bool HardwareWire::write(uint8_t reg, uint8_t data)
 {
-    addr_ <<= 1;
-
     /* Test on BUSY Flag */
     i2cTimeout = I2C_DEFAULT_TIMEOUT;
     while (I2C_GetFlagStatus(I2Cx, I2C_ISR_BUSY) != RESET) {
@@ -191,7 +184,7 @@ bool HardwareWire::write(uint8_t addr_, uint8_t reg, uint8_t data)
     }
 
     /* Configure slave address, nbytes, reload, end mode and start or stop generation */
-    I2C_TransferHandling(I2Cx, addr_, 1, I2C_Reload_Mode, I2C_Generate_Start_Write);
+    I2C_TransferHandling(I2Cx, this->_address, 1, I2C_Reload_Mode, I2C_Generate_Start_Write);
 
     /* Wait until TXIS flag is set */
     i2cTimeout = I2C_DEFAULT_TIMEOUT;
@@ -214,7 +207,7 @@ bool HardwareWire::write(uint8_t addr_, uint8_t reg, uint8_t data)
     }
 
     /* Configure slave address, nbytes, reload, end mode and start or stop generation */
-    I2C_TransferHandling(I2Cx, addr_, 1, I2C_AutoEnd_Mode, I2C_No_StartStop);
+    I2C_TransferHandling(I2Cx, this->_address, 1, I2C_AutoEnd_Mode, I2C_No_StartStop);
 
     /* Wait until TXIS flag is set */
     i2cTimeout = I2C_DEFAULT_TIMEOUT;
@@ -239,6 +232,12 @@ bool HardwareWire::write(uint8_t addr_, uint8_t reg, uint8_t data)
     I2C_ClearFlag(I2Cx, I2C_ICR_STOPCF);
 
     return true;
+}
+
+uint8_t  HardwareWire::endTransmission(bool stop)
+{
+    (void)stop;
+    return 0; // success
 }
 
 bool HardwareWire::read(uint8_t addr_, uint8_t reg, uint8_t len, uint8_t* buf)
@@ -317,6 +316,17 @@ void HardwareWire::setOverclock(uint8_t OverClock)
     i2cOverClock = (OverClock) ? true : false;
 }
 
+uint16_t HardwareWire::getErrorCounter(void)
+{
+    if (I2Cx == I2C1) {
+        return i2c1ErrorCount;
+    }
+
+    return i2c2ErrorCount;
+
+}
+
 HardwareWire Wire;
+
 
 } // extern "C"

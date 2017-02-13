@@ -100,12 +100,14 @@ typedef enum {
 
 static void mpuReadRegister(uint8_t reg, uint8_t *data, int length)
 {
-    Wire.read(0x68, reg, length, data);
+    Wire.read(MPU_ADDRESS, reg, length, data);
 }
 
 static void mpuWriteRegister(uint8_t reg, uint8_t data)
 {
-    Wire.write(0x68, reg, data);
+    Wire.beginTransmission(MPU_ADDRESS);
+    Wire.write(reg, data);
+    Wire.endTransmission();
 }
 
 

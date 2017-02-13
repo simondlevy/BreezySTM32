@@ -94,11 +94,19 @@ extern HardwareSerial1 Serial1;
 
 class HardwareWire {
 
+    private:
+
+        uint8_t _address;
+
     public:
 
         void     begin(void);
 
-        bool     write(uint8_t addr_, uint8_t reg, uint8_t data);
+        void     beginTransmission(uint8_t addr_);
+
+        bool     write(uint8_t reg, uint8_t data);
+
+        uint8_t  endTransmission(bool stop=true);
 
         bool     read(uint8_t addr_, uint8_t reg, uint8_t len, uint8_t* buf);
 
