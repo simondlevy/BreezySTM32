@@ -8,15 +8,11 @@ PROJECT_SRC = mpu6050_poll.c
 
 F3_DIR = $(BREEZY_DIR)/f3
 
-# The target to build, see VALID_TARGETS below
-TARGET		?= ALIENFLIGHTF3
-
-# Compile-time options
-OPTIONS		?=
-export OPTIONS
-
 # Debugger optons, must be empty or GDB
 DEBUG ?=
+
+# The target to build
+TARGET		?= ALIENFLIGHTF3
 
 # Serial port/Device for flashing
 SERIAL_DEVICE	?= /dev/ttyACM0
@@ -24,18 +20,9 @@ SERIAL_DEVICE	?= /dev/ttyACM0
 # Flash size (KB).  Some low-end chips actually have more flash than advertised, use this to override.
 FLASH_SIZE ?= 256
 
-256K_TARGETS = ALIENFLIGHTF3 
-
-F3_TARGETS = ALIENFLIGHTF3 
-
-VALID_TARGETS = $(256K_TARGETS)
-
 VCP_TARGETS = ALIENFLIGHTF3 
 
-REVISION := $(shell git log -1 --format="%h")
-
 # Working directories
-#ROOT		 := $(patsubst %/,%,$(dir $(lastword $(MAKEFILE_LIST))))
 ROOT		 = $(dir $(lastword $(MAKEFILE_LIST)))
 SRC_DIR		 = $(F3_DIR)
 OBJECT_DIR	 = $(ROOT)/obj
@@ -112,12 +99,6 @@ endif
 ifeq ($(TARGET),$(filter $(TARGET),RMDO IRCFUSIONF3))
 # RMDO and IRCFUSIONF3 are a VARIANT of SPRACINGF3
 TARGET_FLAGS := $(TARGET_FLAGS) -DSPRACINGF3
-endif
-
-# SMARTPORT F3
-# Use bidirectional feature of F3 processor for smartport, for F1 targets always use two pins to allow external inverter.
-ifeq ($(TARGET),$(filter $(TARGET),$(F3_TARGETS)))
-TARGET_FLAGS := $(TARGET_FLAGS) -DUSE_SMARTPORT_ONEWIRE
 endif
 
 INCLUDE_DIRS := \
@@ -205,16 +186,11 @@ OPTIMIZE	 = -Os
 LTO_FLAGS	 =  -flto -fuse-linker-plugin $(OPTIMIZE)
 endif
 
-ifneq ($(filter $(OPTIONS),FAIL_ON_WARNINGS),)
-WARN_FLAGS      += -Werror
-endif
-
 DEBUG_FLAGS	 = -ggdb3 -DDEBUG
 
 CFLAGS		 = $(ARCH_FLAGS) \
 		   $(LTO_FLAGS) \
 		   $(WARN_FLAGS) \
-		   $(addprefix -D,$(OPTIONS)) \
 		   $(addprefix -I,$(INCLUDE_DIRS)) \
 		   $(DEBUG_FLAGS) \
 		   -Wall -Wpedantic -Wextra -Wunsafe-loop-optimizations -Wdouble-promotion -Wundef \
@@ -249,10 +225,6 @@ LDFLAGS		 = -lm \
 		   -T$(LD_SCRIPT)
 
 # Things we will build
-#
-ifeq ($(filter $(TARGET),$(VALID_TARGETS)),)
-$(error Target '$(TARGET)' is not valid, must be one of $(VALID_TARGETS))
-endif
 
 TARGET_BIN	 = obj/$(TARGET).bin
 TARGET_HEX	 = $(BIN_DIR)/$(TARGET).hex
@@ -281,14 +253,6 @@ hex:    $(TARGET_HEX)
 # rule to reinvoke make with TARGET= parameter
 # rules that should be handled in toplevel Makefile, not dependent on TARGET
 GLOBAL_GOALS	= all_targets cppcheck test
-
-.PHONY: $(VALID_TARGETS)
-$(VALID_TARGETS):
-	$(MAKE) TARGET=$@ $(filter-out $(VALID_TARGETS) $(GLOBAL_GOALS), $(MAKECMDGOALS))
-
-## all_targets : Make all TARGETs
-.PHONY: all_targets
-all_targets : $(VALID_TARGETS)
 
 $(OBJECT_DIR)/$(TARGET)/HardwareWire.o: $(F3_DIR)/HardwareWire.cpp $(F3_DIR)/Arduino.h
 	@$(CC) -c -o $(OBJECT_DIR)/$(TARGET)/HardwareWire.o $(CFLAGS) $(F3_DIR)/HardwareWire.cpp

@@ -1,14 +1,13 @@
 # Change this to wherever you put BreezySTM32
 BREEZY_DIR = $(HOME)/Desktop/BreezySTM32
 
-# Change this to whatever example you want
-TARGET		?= MPU6050_raw
+# Change this to whatever project name you want
+PROJECT		?= MPU6050_raw
 
 ###############################################################################
 
 F1_DIR = $(BREEZY_DIR)/f1
 
-# Compile-time options
 # Debugger optons, must be empty or GDB
 DEBUG ?=
 
@@ -23,7 +22,7 @@ STDPERIPH_DIR	 = $(BREEZY_DIR)/lib/STM32F10x_StdPeriph_Driver
 OBJECT_DIR	 = $(ROOT)/obj
 BIN_DIR		 = $(ROOT)/obj
 
-$(TARGET)_CSRC = \
+$(PROJECT)_CSRC = \
 		   $(F1_DIR)/startup_stm32f10x_md_gcc.S \
 		   $(F1_DIR)/drv_gpio.c \
 		   $(F1_DIR)/drv_i2c.c \
@@ -85,7 +84,7 @@ CFLAGS		 = $(ARCH_FLAGS) \
 		   -fdata-sections \
 		   -DSTM32F10X_MD \
 		   -DUSE_STDPERIPH_DRIVER \
-		   -D$(TARGET)
+		   -D$(PROJECT)
 
 ASFLAGS		 = $(ARCH_FLAGS) \
 		   -x assembler-with-cpp \
@@ -107,15 +106,15 @@ LDFLAGS		 = -lm \
 # Things we will build
 #
 
-TARGET_HEX	 = $(BIN_DIR)/$(TARGET).hex
-TARGET_ELF	 = $(BIN_DIR)/$(TARGET).elf
-TARGET_OBJS	 = $(addsuffix .o,$(addprefix $(OBJECT_DIR)/$(TARGET)/,$(basename $($(TARGET)_CSRC)))) \
-			   $(OBJECT_DIR)/$(TARGET)/Arduino.o \
-			   $(OBJECT_DIR)/$(TARGET)/HardwareSerial.o \
-			   $(OBJECT_DIR)/$(TARGET)/HardwareWire.o \
-			   $(OBJECT_DIR)/$(TARGET)/MPU6050.o \
-			   $(OBJECT_DIR)/$(TARGET).o
-TARGET_MAP   = $(OBJECT_DIR)/$(TARGET).map
+TARGET_HEX	 = $(BIN_DIR)/$(PROJECT).hex
+TARGET_ELF	 = $(BIN_DIR)/$(PROJECT).elf
+TARGET_OBJS	 = $(addsuffix .o,$(addprefix $(OBJECT_DIR)/$(PROJECT)/,$(basename $($(PROJECT)_CSRC)))) \
+			   $(OBJECT_DIR)/$(PROJECT)/Arduino.o \
+			   $(OBJECT_DIR)/$(PROJECT)/HardwareSerial.o \
+			   $(OBJECT_DIR)/$(PROJECT)/HardwareWire.o \
+			   $(OBJECT_DIR)/$(PROJECT)/MPU6050.o \
+			   $(OBJECT_DIR)/$(PROJECT).o
+TARGET_MAP   = $(OBJECT_DIR)/$(PROJECT).map
 
 # List of buildable ELF files and their object dependencies.
 # It would be nice to compute these lists, but that seems to be just beyond make.
@@ -129,13 +128,13 @@ $(TARGET_ELF):  $(TARGET_OBJS)
 MKDIR_OBJDIR = @mkdir -p $(dir $@)
 
 # Compile
-$(OBJECT_DIR)/$(TARGET)/%.o: %.c
+$(OBJECT_DIR)/$(PROJECT)/%.o: %.c
 	$(MKDIR_OBJDIR)
 	@echo %% $(notdir $<)
 	@$(CC) -c -o $@ $(CFLAGS) $<
 
 # Assemble
-$(OBJECT_DIR)/$(TARGET)/%.o: %.S
+$(OBJECT_DIR)/$(PROJECT)/%.o: %.S
 	$(MKDIR_OBJDIR)
 	@echo %% $(notdir $<)
 	@$(CC) -c -o $@ $(ASFLAGS) $< 
@@ -144,29 +143,29 @@ $(OBJECT_DIR)/$(TARGET)/%.o: %.S
 %.o: %.cpp
 	$(CC) -c $(CFLAGS) -o $@ $^
 
-$(OBJECT_DIR)/$(TARGET)/Arduino.o: $(F1_DIR)/Arduino.cpp $(F1_DIR)/Arduino.h
-	@$(CC) -c -o $(OBJECT_DIR)/$(TARGET)/Arduino.o $(CFLAGS) $(F1_DIR)/Arduino.cpp
+$(OBJECT_DIR)/$(PROJECT)/Arduino.o: $(F1_DIR)/Arduino.cpp $(F1_DIR)/Arduino.h
+	@$(CC) -c -o $(OBJECT_DIR)/$(PROJECT)/Arduino.o $(CFLAGS) $(F1_DIR)/Arduino.cpp
 
-$(OBJECT_DIR)/$(TARGET)/HardwareSerial.o: $(F1_DIR)/HardwareSerial.cpp $(F1_DIR)/Arduino.h
-	@$(CC) -c -o $(OBJECT_DIR)/$(TARGET)/HardwareSerial.o $(CFLAGS) $(F1_DIR)/HardwareSerial.cpp
+$(OBJECT_DIR)/$(PROJECT)/HardwareSerial.o: $(F1_DIR)/HardwareSerial.cpp $(F1_DIR)/Arduino.h
+	@$(CC) -c -o $(OBJECT_DIR)/$(PROJECT)/HardwareSerial.o $(CFLAGS) $(F1_DIR)/HardwareSerial.cpp
 
-$(OBJECT_DIR)/$(TARGET)/HardwareWire.o: $(F1_DIR)/HardwareWire.cpp $(F1_DIR)/Arduino.h
-	@$(CC) -c -o $(OBJECT_DIR)/$(TARGET)/HardwareWire.o $(CFLAGS) $(F1_DIR)/HardwareWire.cpp
+$(OBJECT_DIR)/$(PROJECT)/HardwareWire.o: $(F1_DIR)/HardwareWire.cpp $(F1_DIR)/Arduino.h
+	@$(CC) -c -o $(OBJECT_DIR)/$(PROJECT)/HardwareWire.o $(CFLAGS) $(F1_DIR)/HardwareWire.cpp
 
-$(OBJECT_DIR)/$(TARGET)/MPU6050.o: $(F1_DIR)/MPU6050.cpp $(F1_DIR)/MPU6050.h
-	@$(CC) -c -o $(OBJECT_DIR)/$(TARGET)/MPU6050.o $(CFLAGS) $(F1_DIR)/MPU6050.cpp
+$(OBJECT_DIR)/$(PROJECT)/MPU6050.o: $(F1_DIR)/MPU6050.cpp $(F1_DIR)/MPU6050.h
+	@$(CC) -c -o $(OBJECT_DIR)/$(PROJECT)/MPU6050.o $(CFLAGS) $(F1_DIR)/MPU6050.cpp
 
-$(OBJECT_DIR)/$(TARGET).o: ./$(TARGET).cpp
-	@$(CC) -c -o $(OBJECT_DIR)/$(TARGET).o $(CFLAGS) ./$(TARGET).cpp
+$(OBJECT_DIR)/$(PROJECT).o: ./$(PROJECT).cpp
+	@$(CC) -c -o $(OBJECT_DIR)/$(PROJECT).o $(CFLAGS) ./$(PROJECT).cpp
 
 clean:
 	rm -rf $(TARGET_HEX) $(TARGET_ELF) $(TARGET_OBJS) $(TARGET_MAP) *.o obj 
 
-flash_$(TARGET): $(TARGET_HEX)
+flash_$(PROJECT): $(TARGET_HEX)
 	stty -F $(SERIAL_DEVICE) raw speed 115200 -crtscts cs8 -parenb -cstopb -ixon
 	stm32flash -w $(TARGET_HEX) -v -g 0x0 -b 115200 $(SERIAL_DEVICE)
 
-flash: flash_$(TARGET)
+flash: flash_$(PROJECT)
 
 listen:
 	miniterm.py $(SERIAL_DEVICE) 115200
