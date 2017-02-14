@@ -21,7 +21,6 @@ along with BreezySTM32.  If not, see <http://www.gnu.org/licenses/>.
 
 extern "C" {
 
-    /*
 #include <stdint.h>
 #include <stdarg.h>
 #include <stdio.h>
@@ -42,7 +41,7 @@ void delay(unsigned long);
 void setup(void);
 void loop(void);
 
-void systemReset(bool);
+void systemReset(void);
 
 class HardwareSerial {
 
@@ -80,7 +79,7 @@ class HardwareSerial0 : public HardwareSerial {
         void begin(uint32_t baud);
 };
 
-extern HardwareSerial0 Serial;
+//extern HardwareSerial0 Serial;
 
 class HardwareSerial1 : public HardwareSerial {
 
@@ -89,8 +88,7 @@ class HardwareSerial1 : public HardwareSerial {
         void begin(uint32_t baud);
 };
 
-extern HardwareSerial1 Serial1;
-*/
+//extern HardwareSerial1 Serial1;
 
 class HardwareWire {
 
