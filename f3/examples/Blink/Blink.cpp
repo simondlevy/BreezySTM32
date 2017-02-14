@@ -1,3 +1,5 @@
+extern "C" {
+
 #include <breezystm32.h>
 
 #include <light_led.h>
@@ -14,3 +16,4 @@ void loop(void)
     delay(500);
 }
 
+} // extern "C"
