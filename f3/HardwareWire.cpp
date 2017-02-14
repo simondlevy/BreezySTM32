@@ -234,7 +234,7 @@ uint8_t HardwareWire::endTransmission(bool stop)
     return 0;
 }
 
-uint8_t HardwareWire::requestFrom(uint8_t addr_, uint8_t reg_, uint8_t len_)
+void HardwareWire::prepareRequest(uint8_t addr_, uint8_t reg_)
 {
     addr_ <<= 1;
 
@@ -242,7 +242,7 @@ uint8_t HardwareWire::requestFrom(uint8_t addr_, uint8_t reg_, uint8_t len_)
     i2cTimeout = I2C_DEFAULT_TIMEOUT;
     while (I2C_GetFlagStatus(I2Cx, I2C_ISR_BUSY) != RESET) {
         if ((i2cTimeout--) == 0) {
-            return 0;
+            return;
         }
     }
 
@@ -253,7 +253,7 @@ uint8_t HardwareWire::requestFrom(uint8_t addr_, uint8_t reg_, uint8_t len_)
     i2cTimeout = I2C_DEFAULT_TIMEOUT;
     while (I2C_GetFlagStatus(I2Cx, I2C_ISR_TXIS) == RESET) {
         if ((i2cTimeout--) == 0) {
-            return 0;
+            return;
         }
     }
 
@@ -264,9 +264,14 @@ uint8_t HardwareWire::requestFrom(uint8_t addr_, uint8_t reg_, uint8_t len_)
     i2cTimeout = I2C_DEFAULT_TIMEOUT;
     while (I2C_GetFlagStatus(I2Cx, I2C_ISR_TC) == RESET) {
         if ((i2cTimeout--) == 0) {
-            return 0;
+            return;
         }
     }
+}
+
+uint8_t HardwareWire::requestFrom(uint8_t addr_, uint8_t len_)
+{
+    addr_ <<= 1;
 
     // Configure slave address, nbytes, reload, end mode and start or stop generation 
     I2C_TransferHandling(I2Cx, addr_, len_, I2C_AutoEnd_Mode, I2C_Generate_Start_Read);
