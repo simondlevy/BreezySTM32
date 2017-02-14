@@ -100,6 +100,10 @@ class HardwareWire {
         uint8_t _register;
         uint8_t _data;
 
+        uint8_t _buffer[256];
+        uint8_t _index;
+        uint8_t _avail;
+
     public:
 
         void     begin(void);
@@ -110,7 +114,11 @@ class HardwareWire {
 
         uint8_t  endTransmission(bool stop=true);
 
-        uint8_t  read(uint8_t addr_, uint8_t reg, uint8_t len, uint8_t* buf);
+        uint8_t  requestFrom(uint8_t addr_, uint8_t reg_, uint8_t count_);
+
+        uint8_t  available(void);
+
+        uint8_t  read(void);
 
         void     setOverclock(uint8_t OverClock); 
 };

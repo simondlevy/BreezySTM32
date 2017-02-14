@@ -234,7 +234,7 @@ uint8_t HardwareWire::endTransmission(bool stop)
     return 0;
 }
 
-uint8_t HardwareWire::read(uint8_t addr_, uint8_t reg, uint8_t len, uint8_t* buf)
+uint8_t HardwareWire::requestFrom(uint8_t addr_, uint8_t reg_, uint8_t len_)
 {
     addr_ <<= 1;
 
@@ -242,7 +242,7 @@ uint8_t HardwareWire::read(uint8_t addr_, uint8_t reg, uint8_t len, uint8_t* buf
     i2cTimeout = I2C_DEFAULT_TIMEOUT;
     while (I2C_GetFlagStatus(I2Cx, I2C_ISR_BUSY) != RESET) {
         if ((i2cTimeout--) == 0) {
-            return 1;
+            return 0;
         }
     }
 
@@ -253,56 +253,72 @@ uint8_t HardwareWire::read(uint8_t addr_, uint8_t reg, uint8_t len, uint8_t* buf
     i2cTimeout = I2C_DEFAULT_TIMEOUT;
     while (I2C_GetFlagStatus(I2Cx, I2C_ISR_TXIS) == RESET) {
         if ((i2cTimeout--) == 0) {
-            return 2;
+            return 0;
         }
     }
 
     /* Send Register address */
-    I2C_SendData(I2Cx, (uint8_t) reg);
+    I2C_SendData(I2Cx, (uint8_t) reg_);
 
     /* Wait until TC flag is set */
     i2cTimeout = I2C_DEFAULT_TIMEOUT;
     while (I2C_GetFlagStatus(I2Cx, I2C_ISR_TC) == RESET) {
         if ((i2cTimeout--) == 0) {
-            return 3;
+            return 0;
         }
     }
 
     /* Configure slave address, nbytes, reload, end mode and start or stop generation */
-    I2C_TransferHandling(I2Cx, addr_, len, I2C_AutoEnd_Mode, I2C_Generate_Start_Read);
+    I2C_TransferHandling(I2Cx, addr_, len_, I2C_AutoEnd_Mode, I2C_Generate_Start_Read);
 
     /* Wait until all data are received */
-    while (len) {
+
+    this->_avail = 0;
+
+    while (len_) {
+
         /* Wait until RXNE flag is set */
         i2cTimeout = I2C_DEFAULT_TIMEOUT;
         while (I2C_GetFlagStatus(I2Cx, I2C_ISR_RXNE) == RESET) {
             if ((i2cTimeout--) == 0) {
-                return 4;
+                return 0;
             }
         }
 
         /* Read data from RXDR */
-        *buf = I2C_ReceiveData(I2Cx);
-        /* Point to the next location where the byte read will be saved */
-        buf++;
+        this->_buffer[this->_avail++] = I2C_ReceiveData(I2Cx);
 
         /* Decrement the read bytes counter */
-        len--;
+        len_--;
     }
 
     /* Wait until STOPF flag is set */
     i2cTimeout = I2C_DEFAULT_TIMEOUT;
     while (I2C_GetFlagStatus(I2Cx, I2C_ISR_STOPF) == RESET) {
         if ((i2cTimeout--) == 0) {
-            return 5;
+            return 0;
         }
     }
 
     /* Clear STOPF flag */
     I2C_ClearFlag(I2Cx, I2C_ICR_STOPCF);
 
+    this->_index = 0;
+
     /* If all operations OK */
-    return 0;
+    return this->_avail;
+}
+
+uint8_t HardwareWire::available(void)
+{
+    return this->_avail;
+}
+
+uint8_t HardwareWire::read(void)
+{
+    uint8_t value = this->_buffer[this->_index++];
+    this->_avail--;
+    return value;
 }
 
 void HardwareWire::setOverclock(uint8_t OverClock)
