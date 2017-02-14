@@ -7,25 +7,18 @@
 
 #include <platform.h>
 
-#include "parameter_group.h"
-
 #include "system.h"
 #include "dma.h"
 #include "gpio.h"
 #include "timer.h"
 #include "pwm_mapping.h"
 #include "pwm_output.h"
-//#include "pwm_rx.h"
 #include "io.h"
 #include "serial.h"
 #include "serial_usb_vcp.h"
 #include "serial_uart.h"
 #include "exti.h"
 #include "bus_i2c.h"
-
-//#include "io/motors.h"
-
-#include "profile.h"
 
 void debug(const char * fmt, ...);
 

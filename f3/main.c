@@ -1,28 +1,5 @@
 #include "breezystm32.h"
 
-#define PG_SYSTEM_CONFIG 18
-#define PG_DRIVER_PWM_RX_CONFIG 100
-
-/*
-typedef struct systemConfig_s {
-    uint8_t emf_avoidance;                   // change pll settings to avoid noise in the uhf band
-    uint8_t i2c_highspeed;                   // Overclock i2c Bus for faster IMU readings
-} systemConfig_t;
-
-PG_DECLARE(systemConfig_t, systemConfig);
-
-PG_REGISTER_WITH_RESET_TEMPLATE(systemConfig_t, systemConfig, PG_SYSTEM_CONFIG, 0);
-
-// Emit reset defaults for config.
-// Config must be registered with PG_REGISTER_<xxx>_WITH_RESET_TEMPLATE macro
-#define PG_RESET_TEMPLATE(_type, _name, ...)                            \
-    const _type pgResetTemplate_ ## _name PG_RESETDATA_ATTRIBUTES = {   \
-        __VA_ARGS__                                                     \
-    }                                                                   \
- 
-PG_RESET_TEMPLATE(systemConfig_t, systemConfig, .i2c_highspeed = 1,);
-*/
-
 // from system_stm32f30x.c
 void SetSysClock(void);
 
