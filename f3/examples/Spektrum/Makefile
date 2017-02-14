@@ -1,6 +1,6 @@
 BREEZY_DIR = $(HOME)/Desktop/BreezySTM32
 
-PROJECT_SRC = mpu6050_poll.c
+PROJECT_SRC = lemonrx.c
 
 # The target to build, see VALID_TARGETS below
 TARGET		?= ALIENFLIGHTF3
@@ -166,7 +166,6 @@ STM32F30x_COMMON_SRC = \
 		   target/system_stm32f30x.c \
 		   adc.c \
 		   adc_stm32f30x.c \
-		   bus_i2c_stm32f30x.c \
 		   bus_spi.c \
 		   gpio_stm32f30x.c \
 		   light_led_stm32f30x.c \
