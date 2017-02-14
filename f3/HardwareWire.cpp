@@ -158,14 +158,17 @@ void HardwareWire::beginTransmission(uint8_t addr_)
     this->_data = 0;
 }
 
-uint8_t HardwareWire::write(uint8_t reg, uint8_t data)
+uint8_t HardwareWire::write(uint8_t value)
 {
-    this->_register = reg;
-    this->_data = data;
+    if (this->_register) {
+        this->_data = value;
+    }
+    else {
+        this->_register = value;
+    }
 
-    return 2; // number of bytes "written"
+    return 1; // number of bytes "written"
 }
-
 
 uint8_t HardwareWire::endTransmission(bool stop)
 {
