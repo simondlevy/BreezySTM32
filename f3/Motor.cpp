@@ -32,10 +32,6 @@ extern "C" {
 #include "gpio.h"
 #include "timer.h"
 
-#include "pwm_mapping.h"
-#include "pwm_output.h"
-
-
 typedef struct {
     volatile timCCR_t *ccr;
     TIM_TypeDef *tim;

@@ -11,8 +11,6 @@
 #include "dma.h"
 #include "gpio.h"
 #include "timer.h"
-#include "pwm_mapping.h"
-#include "pwm_output.h"
 #include "io.h"
 #include "serial.h"
 #include "serial_usb_vcp.h"

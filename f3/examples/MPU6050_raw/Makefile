@@ -126,8 +126,6 @@ STM32F30x_COMMON_SRC = \
 $(PROJECT)_CSRC = \
 		   timer.c \
 		   timer_stm32f30x.c \
-		   pwm_mapping.c \
-		   pwm_output.c \
 		   serial_usb_vcp.c \
 		   $(STM32F30x_COMMON_SRC) \
 		   $(FC_COMMON_SRC) \

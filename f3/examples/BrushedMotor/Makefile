@@ -176,8 +176,6 @@ ALIENFLIGHTF3_SRC = \
 		   $(STM32F30x_COMMON_SRC) \
 		   timer.c \
 		   timer_stm32f30x.c \
-		   pwm_mapping.c \
-		   pwm_output.c \
 		   serial_usb_vcp.c \
 		   $(FC_COMMON_SRC) \
 		   $(SYSTEM_SRC) \
