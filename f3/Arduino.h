@@ -99,6 +99,7 @@ class HardwareWire {
         uint8_t _address;
         uint8_t _register;
         uint8_t _data;
+        bool    _have_data;
 
         uint8_t _buffer[256];
         uint8_t _index;

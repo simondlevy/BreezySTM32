@@ -110,7 +110,7 @@ static void readBytes(uint8_t subAddress, uint8_t count, uint8_t *dest)
 {
     Wire.beginTransmission(MPU_ADDRESS);
     Wire.write(subAddress);
-    Wire.endTransmission2();
+    Wire.endTransmission(false);
     Wire.requestFrom(MPU_ADDRESS, count);
     uint8_t i = 0;
     while (Wire.available()) {
