@@ -146,7 +146,6 @@ SYSTEM_SRC = \
 		   $(DEVICE_STDPERIPH_SRC)
 
 FC_COMMON_SRC = \
-		   $(F3_DIR)/main.c \
    	       exti.c \
 		   io.c \
 
@@ -280,7 +279,8 @@ endif
 TARGET_BIN	 = obj/$(TARGET).bin
 TARGET_HEX	 = $(BIN_DIR)/$(TARGET).hex
 TARGET_ELF	 = $(OBJECT_DIR)/$(TARGET).elf
-TARGET_OBJS	 = $(addsuffix .o,$(addprefix $(OBJECT_DIR)/$(TARGET)/,$(basename $($(TARGET)_SRC))))
+TARGET_OBJS	 = $(addsuffix .o,$(addprefix $(OBJECT_DIR)/$(TARGET)/,$(basename $($(TARGET)_SRC)))) \
+			   $(OBJECT_DIR)/$(PROJECT)/Arduino.o
 TARGET_DEPS	 = $(addsuffix .d,$(addprefix $(OBJECT_DIR)/$(TARGET)/,$(basename $($(TARGET)_SRC))))
 TARGET_MAP	 = $(OBJECT_DIR)/$(TARGET).map
 
@@ -371,6 +371,9 @@ $(OBJECT_DIR)/$(TARGET)/%.o: %.S
 	@echo %% $(notdir $<)
 	@$(CC) -c -o $@ $(ASFLAGS) $<
 
+
+$(OBJECT_DIR)/$(PROJECT)/Arduino.o: $(F3_DIR)/Arduino.cpp $(F3_DIR)/Arduino.h
+	@$(CC) -c -o $(OBJECT_DIR)/$(PROJECT)/Arduino.o $(CFLAGS) $(F3_DIR)/Arduino.cpp
 
 commit:
 	git commit -a --allow-empty-message -m ''
