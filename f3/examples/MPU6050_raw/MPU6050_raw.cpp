@@ -108,7 +108,9 @@ static void writeByte(uint8_t subAddress, uint8_t data)
 
 static void readBytes(uint8_t subAddress, uint8_t count, uint8_t *dest)
 {
-    Wire.prepareRequest(MPU_ADDRESS, subAddress);
+    Wire.beginTransmission(MPU_ADDRESS);
+    Wire.write(subAddress);
+    Wire.endTransmission2();
     Wire.requestFrom(MPU_ADDRESS, count);
     uint8_t i = 0;
     while (Wire.available()) {
