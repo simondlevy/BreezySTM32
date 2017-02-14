@@ -1,8 +1,7 @@
 /*
-  BrushlessMotor
+  BrushedMotor
 
-  Runs a brushless motor up and down.  
-  Make sure that the propellers are off and the motor is secured!
+  Runs a brushed motor for one second.
 
    This file is part of BreezySTM32.
 
@@ -18,12 +17,12 @@
 
    You should have received a copy of the GNU General Public License
    along with BreezySTM32.  If not, see <http://www.gnu.org/licenses/>.
-  */
+*/
 
 #include <Arduino.h>
 #include <Motor.h>
 
-BrushlessMotor motor;
+BrushedMotor motor;
 
 static uint16_t speed;
 static int16_t  direction;
