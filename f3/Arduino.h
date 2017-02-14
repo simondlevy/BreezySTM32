@@ -115,8 +115,6 @@ class HardwareWire {
 
         uint8_t  endTransmission(bool stop=true);
 
-        uint8_t  endTransmission2(bool stop=true);
-
         uint8_t  requestFrom(uint8_t addr_, uint8_t count_);
 
         uint8_t  available(void);

@@ -242,44 +242,6 @@ uint8_t HardwareWire::endTransmission(bool stop)
     return 0;
 }
 
-uint8_t HardwareWire::endTransmission2(bool stop)
-{
-    (void)stop; // XXX
-
-    // Test on BUSY Flag 
-    i2cTimeout = I2C_DEFAULT_TIMEOUT;
-    while (I2C_GetFlagStatus(I2Cx, I2C_ISR_BUSY) != RESET) {
-        if ((i2cTimeout--) == 0) {
-            return 1;
-        }
-    }
-
-    // Configure slave address, nbytes, reload, end mode and start or stop generation 
-    I2C_TransferHandling(I2Cx, this->_address, 1, I2C_SoftEnd_Mode, I2C_Generate_Start_Write);
-
-    // Wait until TXIS flag is set 
-    i2cTimeout = I2C_DEFAULT_TIMEOUT;
-    while (I2C_GetFlagStatus(I2Cx, I2C_ISR_TXIS) == RESET) {
-        if ((i2cTimeout--) == 0) {
-            return 2;
-        }
-    }
-
-    // Send Register address 
-    I2C_SendData(I2Cx, (uint8_t) this->_register);
-
-    // Wait until TC flag is set 
-    i2cTimeout = I2C_DEFAULT_TIMEOUT;
-    while (I2C_GetFlagStatus(I2Cx, I2C_ISR_TC) == RESET) {
-        if ((i2cTimeout--) == 0) {
-            return 3;
-        }
-    }
-
-    // success
-    return 0;
-}
-
 uint8_t HardwareWire::requestFrom(uint8_t addr_, uint8_t len_)
 {
     addr_ <<= 1;
