@@ -98,24 +98,23 @@ typedef enum {
 } mpu_accel_range;
 
 
-static void mpuReadRegister(uint8_t reg, uint8_t *data, int length)
-{
-    Wire.read(MPU_ADDRESS, reg, length, data);
-}
-
-static void mpuWriteRegister(uint8_t reg, uint8_t data)
+static void writeByte(uint8_t subAddress, uint8_t data)
 {
     Wire.beginTransmission(MPU_ADDRESS);
-    Wire.write(reg);
+    Wire.write(subAddress);
     Wire.write(data);
     Wire.endTransmission();
 }
 
+static void readBytes(uint8_t subAddress, uint8_t count, uint8_t *dest)
+{
+    Wire.read(MPU_ADDRESS, subAddress, count, dest);
+}
 
-static uint8_t readByte(uint8_t reg)
+static uint8_t readByte(uint8_t subAddress)
 {
     uint8_t byte;
-    mpuReadRegister(reg, &byte, 1);
+    readBytes(subAddress, 1, &byte);
     return byte;
 }
 
@@ -131,22 +130,22 @@ void setup(void)
     whoami = readByte(MPU_RA_WHO_AM_I);
 
     // Device reset
-    mpuWriteRegister(MPU_RA_PWR_MGMT_1, 0x80); // Device reset
+    writeByte(MPU_RA_PWR_MGMT_1, 0x80); // Device reset
     delay(100);
 
     // Gyro config
-    mpuWriteRegister(MPU_RA_SMPLRT_DIV, 0x00); // Sample Rate = Gyroscope Output Rate / (1 + SMPLRT_DIV)
-    mpuWriteRegister(MPU_RA_PWR_MGMT_1, MPU6050_INV_CLK_GYROZ); // Clock source = 3 (PLL with Z Gyro reference)
+    writeByte(MPU_RA_SMPLRT_DIV, 0x00); // Sample Rate = Gyroscope Output Rate / (1 + SMPLRT_DIV)
+    writeByte(MPU_RA_PWR_MGMT_1, MPU6050_INV_CLK_GYROZ); // Clock source = 3 (PLL with Z Gyro reference)
     delay(10);
-    mpuWriteRegister(MPU_RA_CONFIG, mpuLowPassFilter); // set DLPF
-    mpuWriteRegister(MPU_RA_GYRO_CONFIG, grange << 3); // full-scale 2kdps gyro range
+    writeByte(MPU_RA_CONFIG, mpuLowPassFilter); // set DLPF
+    writeByte(MPU_RA_GYRO_CONFIG, grange << 3); // full-scale 2kdps gyro range
 
     // Accel scale 8g (4096 LSB/g)
-    mpuWriteRegister(MPU_RA_ACCEL_CONFIG, arange << 3);
+    writeByte(MPU_RA_ACCEL_CONFIG, arange << 3);
 
     // Data ready interrupt configuration:  INT_RD_CLEAR_DIS, I2C_BYPASS_EN
-    mpuWriteRegister(MPU_RA_INT_PIN_CFG, 0 << 7 | 0 << 6 | 0 << 5 | 1 << 4 | 0 << 3 | 0 << 2 | 1 << 1 | 0 << 0);
-    mpuWriteRegister(MPU_RA_INT_ENABLE, 0x01); // DATA_RDY_EN interrupt enable
+    writeByte(MPU_RA_INT_PIN_CFG, 0 << 7 | 0 << 6 | 0 << 5 | 1 << 4 | 0 << 3 | 0 << 2 | 1 << 1 | 0 << 0);
+    writeByte(MPU_RA_INT_ENABLE, 0x01); // DATA_RDY_EN interrupt enable
 
  } 
 
@@ -155,13 +154,13 @@ void loop(void)
 
     uint8_t buf[6];
 
-    mpuReadRegister(MPU_RA_ACCEL_XOUT_H, buf, 6);
+    readBytes(MPU_RA_ACCEL_XOUT_H, 6, buf);
 
     int16_t ax = (int16_t)((buf[0] << 8) | buf[1]);
     int16_t ay = (int16_t)((buf[2] << 8) | buf[3]);
     int16_t az = (int16_t)((buf[4] << 8) | buf[5]);
 
-    mpuReadRegister(MPU_RA_GYRO_XOUT_H, buf, 6);
+    readBytes(MPU_RA_GYRO_XOUT_H, 6, buf);
 
     int16_t gx = (int16_t)((buf[0] << 8) | buf[1]);
     int16_t gy = (int16_t)((buf[2] << 8) | buf[3]);

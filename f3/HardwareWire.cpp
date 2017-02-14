@@ -160,7 +160,7 @@ void HardwareWire::beginTransmission(uint8_t addr_)
 
 uint8_t HardwareWire::write(uint8_t value)
 {
-    if (this->_register) {
+    if (this->_register) {     // XXX we should support a buffer instead of just two values
         this->_data = value;
     }
     else {
