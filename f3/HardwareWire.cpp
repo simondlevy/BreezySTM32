@@ -10,6 +10,7 @@ extern "C" {
 #include "bus_i2c.h"
 
 #include "Arduino.h"
+#include "Wire.h"
 
 #define I2C1_SCL_GPIO        GPIOB
 #define I2C1_SCL_GPIO_AF     GPIO_AF_4

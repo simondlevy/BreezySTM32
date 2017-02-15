@@ -23,6 +23,7 @@ extern "C" {
 
 #include <breezystm32.h>
 #include <Arduino.h>
+#include <Wire.h>
 
 // This is generally where all Invensense devices are at, for default (AD0 down) I2C address
 #define MPU_ADDRESS                         (0x68)

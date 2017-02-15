@@ -27,6 +27,7 @@ extern "C" {
 
 #include <breezystm32.h>
 #include <Arduino.h>
+#include <Wire.h>
 
 void setup(void)
 {
