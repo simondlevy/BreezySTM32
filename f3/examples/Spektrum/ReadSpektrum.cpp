@@ -61,8 +61,9 @@ volatile uint8_t spekFrame[SPEK_FRAME_SIZE];
 
 static uint8_t numRCChannels;
 
-// Receive ISR callback
-static void spektrumDataReceive(uint16_t value)
+static uint8_t currentValue;
+
+static void spektrumDataReceive(void)
 {
     uint32_t spekTime;
     static uint32_t spekTimeLast, spekTimeInterval;
@@ -74,7 +75,7 @@ static void spektrumDataReceive(uint16_t value)
     spekTimeLast = spekTime;
     if (spekTimeInterval > 5000)
         spekFramePosition = 0;
-    spekFrame[spekFramePosition] = (uint8_t)value;
+    spekFrame[spekFramePosition] = currentValue;
     if (spekFramePosition == SPEK_FRAME_SIZE - 1) {
         rcFrameComplete = true;
     } else {
@@ -82,6 +83,12 @@ static void spektrumDataReceive(uint16_t value)
     }
 }
 
+// Receive ISR callback
+static void callback(uint16_t value)
+{
+    currentValue = (uint8_t)value;
+    spektrumDataReceive();
+}
 
 static void spektrumInit(serialrx_t serialrx_type)
 {
@@ -103,7 +110,7 @@ static void spektrumInit(serialrx_t serialrx_type)
             break;
     }
 
-    uartOpen(USART2, spektrumDataReceive, 115200, MODE_RX, SERIAL_NOT_INVERTED);
+    uartOpen(USART2, callback, 115200, MODE_RX, SERIAL_NOT_INVERTED);
 }
 
 static bool spektrumFrameComplete(void)
