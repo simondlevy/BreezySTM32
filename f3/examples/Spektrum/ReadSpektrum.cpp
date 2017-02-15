@@ -1,7 +1,7 @@
 /*
-   lemonrx.c : report PWM values from LemonRX DSM receiver
+   ReadSpektrum : report PWM values from LemonRX Spektrum DSM satellite receiver
 
-   Copyright (C) 2016 Simon D. Levy
+   Copyright (C) 2017 Simon D. Levy
 
    This file is part of BreezySTM32.
 
