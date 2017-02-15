@@ -169,8 +169,6 @@ VCP_SRC = \
 STM32F30x_COMMON_SRC = \
 		   startup_stm32f30x_md_gcc.S \
 		   target/system_stm32f30x.c \
-		   adc.c \
-		   adc_stm32f30x.c \
 		   bus_spi.c \
 		   gpio_stm32f30x.c \
 		   light_led_stm32f30x.c \
