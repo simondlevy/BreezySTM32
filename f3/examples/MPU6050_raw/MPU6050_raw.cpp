@@ -1,5 +1,5 @@
 /*
-   mpu6050_poll.c : polling-based report of MPU6050 accelerometer and gyroscope values
+   MPU6050_raw.cpp : polling-based report of MPU6050 accelerometer and gyroscope values
 
    Copyright (C) 2016 Simon D. Levy
 
@@ -175,6 +175,7 @@ void loop(void)
     int16_t gz = (int16_t)((buf[4] << 8) | buf[5]);
 
     Serial.printf("%d %d %d %d %d %d\n", ax, ay, az, gx, gy, gz);
-}
+
+} // extern "C"
 
 }

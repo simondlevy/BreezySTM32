@@ -1,12 +1,17 @@
 # Change this to wherever you put BreezySTM32
 BREEZY_DIR = $(HOME)/Desktop/BreezySTM32
 
+# Change this to where you put your Arduino libraries
+ARDUINO_DIR = $(HOME)/Development/arduino-1.6.13/hardware/teensy/avr/libraries
+
 # Change this to whatever project name you want
 PROJECT = MPU6050_raw
 
 ###############################################################################
 
 F3_DIR = $(BREEZY_DIR)/f3
+
+MPU6050_DIR = $(ARDUINO_DIR)/MPU6050
 
 # Debugger optons, must be empty or GDB
 DEBUG ?=
@@ -62,7 +67,8 @@ INCLUDE_DIRS := $(INCLUDE_DIRS) \
 # VCP support
 INCLUDE_DIRS := $(INCLUDE_DIRS) \
 		   $(USBFS_DIR)/inc \
-		   $(SRC_DIR)/vcp
+		   $(SRC_DIR)/vcp \
+           $(MPU6050_DIR)
 
 VPATH := $(VPATH):$(USBFS_DIR)/src
 
@@ -208,6 +214,7 @@ TARGET_ELF	 = $(OBJECT_DIR)/$(PROJECT).elf
 TARGET_OBJS	 = $(addsuffix .o,$(addprefix $(OBJECT_DIR)/$(PROJECT)/,$(basename $($(PROJECT)_CSRC)))) \
 			   $(OBJECT_DIR)/$(PROJECT)/Arduino.o \
 			   $(OBJECT_DIR)/$(PROJECT)/HardwareWire.o \
+			   $(OBJECT_DIR)/$(PROJECT)/MPU6050.o \
 			   $(OBJECT_DIR)/$(PROJECT).o
 TARGET_MAP	 = $(OBJECT_DIR)/$(PROJECT).map
 
@@ -263,6 +270,9 @@ $(OBJECT_DIR)/$(PROJECT)/HardwareSerial.o: $(F3_DIR)/HardwareSerial.cpp $(F3_DIR
 
 $(OBJECT_DIR)/$(PROJECT)/HardwareWire.o: $(F3_DIR)/HardwareWire.cpp $(F3_DIR)/Arduino.h
 	@$(CC) -c -o $(OBJECT_DIR)/$(PROJECT)/HardwareWire.o $(CFLAGS) $(F3_DIR)/HardwareWire.cpp
+
+$(OBJECT_DIR)/$(PROJECT)/MPU6050.o: $(MPU6050_DIR)/MPU6050.cpp $(MPU6050_DIR)/MPU6050.h
+	@$(CC) -c -o $(OBJECT_DIR)/$(PROJECT)/MPU6050.o $(CFLAGS) $(MPU6050_DIR)/MPU6050.cpp
 
 $(OBJECT_DIR)/$(PROJECT).o: ./$(PROJECT).cpp
 	@$(CC) -c -o $(OBJECT_DIR)/$(PROJECT).o $(CFLAGS) ./$(PROJECT).cpp
