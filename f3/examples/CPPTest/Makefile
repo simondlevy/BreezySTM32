@@ -146,6 +146,7 @@ CCACHE :=
 endif
 
 # Tool names
+C++         := $(CCACHE) arm-none-eabi-g++
 CC          := $(CCACHE) arm-none-eabi-gcc
 OBJCOPY     := arm-none-eabi-objcopy
 SIZE        := arm-none-eabi-size
@@ -235,7 +236,7 @@ $(TARGET_BIN): $(TARGET_ELF)
 	$(OBJCOPY) -O binary $< $@
 
 $(TARGET_ELF):  $(TARGET_OBJS)
-	$(CC) -o $@ $^ $(LDFLAGS)
+	$(C++) -o $@ $^ $(LDFLAGS)
 
 # Compile
 $(OBJECT_DIR)/$(PROJECT)/%.o: %.c
@@ -258,7 +259,7 @@ $(OBJECT_DIR)/$(PROJECT)/Arduino.o: $(F3_DIR)/Arduino.cpp $(F3_DIR)/Arduino.h
 	@$(CC) -c -o $(OBJECT_DIR)/$(PROJECT)/Arduino.o $(CFLAGS) $(F3_DIR)/Arduino.cpp
 
 $(OBJECT_DIR)/$(PROJECT).o: ./$(PROJECT).cpp
-	@$(CC) -c -o $(OBJECT_DIR)/$(PROJECT).o $(CFLAGS) ./$(PROJECT).cpp
+	@$(C++) -c -o $(OBJECT_DIR)/$(PROJECT).o $(CFLAGS) ./$(PROJECT).cpp
 
 clean:
 	rm -rf obj

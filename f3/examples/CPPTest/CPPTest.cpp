@@ -19,18 +19,30 @@
    along with BreezySTM32.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-extern "C" {
-
 #include <Arduino.h>
+
+class Foo {
+
+    public:
+
+        uint8_t x;
+
+        Foo(void) 
+        {
+            this->x = 99;
+        }
+
+};
+
+Foo * foo;
 
 void setup(void)
 {
+    foo = new Foo();
     Serial.begin(115200);
 } 
 
 void loop(void)
 {
-    Serial.printf("--------------------------\n");
+    Serial.printf("%d\n", foo->x);
 }
-
-} // extern "C"
