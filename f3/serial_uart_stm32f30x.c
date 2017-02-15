@@ -77,12 +77,7 @@ uartPort_t *serialUART1(uint32_t baudRate, portMode_t mode, portOptions_t option
     s->port.rxBufferSize = UART1_RX_BUFFER_SIZE;
     s->port.txBufferSize = UART1_TX_BUFFER_SIZE;
     
-#ifdef USE_UART1_RX_DMA
-    s->rxDMAChannel = DMA1_Channel5;
-#endif
-#ifdef USE_UART1_TX_DMA
     s->txDMAChannel = DMA1_Channel4;
-#endif
 
     s->USARTx = USART1;
 
@@ -117,19 +112,15 @@ uartPort_t *serialUART1(uint32_t baudRate, portMode_t mode, portOptions_t option
         }
     }
 
-#ifdef USE_UART1_TX_DMA
     // DMA TX Interrupt
     dmaHandlerInit(&uartPort1.dmaTxHandler, handleUsartTxDma);
     dmaSetHandler(DMA1Channel4Descriptor, &uartPort1.dmaTxHandler, NVIC_PRIO_SERIALUART1_TXDMA);
-#endif
 
-#ifndef USE_UART1_RX_DMA
     NVIC_InitStructure.NVIC_IRQChannel = USART1_IRQn;
     NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = NVIC_PRIORITY_BASE(NVIC_PRIO_SERIALUART1_RXDMA);
     NVIC_InitStructure.NVIC_IRQChannelSubPriority = NVIC_PRIORITY_SUB(NVIC_PRIO_SERIALUART1_RXDMA);
     NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
     NVIC_Init(&NVIC_InitStructure);
-#endif
 
     return s;
 }
@@ -154,15 +145,6 @@ uartPort_t *serialUART2(uint32_t baudRate, portMode_t mode, portOptions_t option
 
     s->USARTx = USART2;
     
-#ifdef USE_UART2_RX_DMA
-    s->rxDMAChannel = DMA1_Channel6;
-    s->rxDMAPeripheralBaseAddr = (uint32_t)&s->USARTx->RDR;
-#endif
-#ifdef USE_UART2_TX_DMA
-    s->txDMAChannel = DMA1_Channel7;
-    s->txDMAPeripheralBaseAddr = (uint32_t)&s->USARTx->TDR;
-#endif
-
     RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART2, ENABLE);
 
     GPIO_InitStructure.GPIO_Mode  = GPIO_Mode_AF;
@@ -191,19 +173,11 @@ uartPort_t *serialUART2(uint32_t baudRate, portMode_t mode, portOptions_t option
         }
     }
 
-#ifdef USE_UART2_TX_DMA
-    // DMA TX Interrupt
-    dmaHandlerInit(&uartPort2.dmaTxHandler, handleUsartTxDma);
-    dmaSetHandler(DMA1Channel7Descriptor, &uartPort2.dmaTxHandler, NVIC_PRIO_SERIALUART2_TXDMA);
-#endif
-
-#ifndef USE_UART2_RX_DMA
     NVIC_InitStructure.NVIC_IRQChannel = USART2_IRQn;
     NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = NVIC_PRIORITY_BASE(NVIC_PRIO_SERIALUART2_RXDMA);
     NVIC_InitStructure.NVIC_IRQChannelSubPriority = NVIC_PRIORITY_SUB(NVIC_PRIO_SERIALUART2_RXDMA);
     NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
     NVIC_Init(&NVIC_InitStructure);
-#endif
 
     return s;
 }
@@ -227,15 +201,6 @@ uartPort_t *serialUART3(uint32_t baudRate, portMode_t mode, portOptions_t option
     s->port.txBuffer = tx3Buffer;
 
     s->USARTx = USART3;
-
-#ifdef USE_UART3_RX_DMA
-    s->rxDMAChannel = DMA1_Channel3;
-    s->rxDMAPeripheralBaseAddr = (uint32_t)&s->USARTx->RDR;
-#endif
-#ifdef USE_UART3_TX_DMA
-    s->txDMAChannel = DMA1_Channel2;
-    s->txDMAPeripheralBaseAddr = (uint32_t)&s->USARTx->TDR;
-#endif
 
     RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART3, ENABLE);
 
@@ -265,19 +230,11 @@ uartPort_t *serialUART3(uint32_t baudRate, portMode_t mode, portOptions_t option
         }
     }
 
-#ifdef USE_UART3_TX_DMA
-    // DMA TX Interrupt
-    dmaHandlerInit(&uartPort3.dmaTxHandler, handleUsartTxDma);
-    dmaSetHandler(DMA1Channel2Descriptor, &uartPort3.dmaTxHandler, NVIC_PRIO_SERIALUART3_TXDMA);
-#endif
-
-#ifndef USE_UART3_RX_DMA
     NVIC_InitStructure.NVIC_IRQChannel = USART3_IRQn;
     NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = NVIC_PRIORITY_BASE(NVIC_PRIO_SERIALUART3_RXDMA);
     NVIC_InitStructure.NVIC_IRQChannelSubPriority = NVIC_PRIORITY_SUB(NVIC_PRIO_SERIALUART3_RXDMA);
     NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
     NVIC_Init(&NVIC_InitStructure);
-#endif
 
     return s;
 }
