@@ -9,10 +9,10 @@
 // Pin 11 has the LED on Teensy 2.0
 // Pin 6  has the LED on Teensy++ 2.0
 // Pin 13 has the LED on Teensy 3.0
-// Pin 8 has LED 0 on Naze
-// Pin 16 has LED 0 on Naze
+// Pin 3 has LED 0 on STM32 flight controllers
+// Pin 4 has LED 1 on STM32 flight controllers
 // give it a name:
-int led = 16;
+int led = 4;
 
 #include <Arduino.h>
 
