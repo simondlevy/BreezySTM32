@@ -1,1 +1,3 @@
-This directory contains work in progress on Arduino API support for STM32 F1 boards.
+This directory contains support for F1 flight controllers (Naze, Beef's Brushed Board).  I am no
+longer supporting these controllers.
+
