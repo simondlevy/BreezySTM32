@@ -1,5 +1,5 @@
 /*
-   ReadSpektrum : report PWM values from LemonRX Spektrum DSM satellite receiver
+   ReadSpektrum : report microsend channel values from LemonRX Spektrum DSM satellite receiver
 
    Copyright (C) 2017 Simon D. Levy
 
