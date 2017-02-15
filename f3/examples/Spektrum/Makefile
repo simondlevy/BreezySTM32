@@ -2,6 +2,9 @@ BREEZY_DIR = $(HOME)/Desktop/BreezySTM32
 
 PROJECT = ReadSpektrum
 
+# Change this to wherever you put Arduino libraries
+ARDUINO_DIR = $(HOME)/Development/arduino-1.6.13/hardware/teensy/avr/libraries
+
 # The target to build, see VALID_TARGETS below
 TARGET		?= ALIENFLIGHTF3
 
@@ -21,6 +24,8 @@ FLASH_SIZE ?=
 ###############################################################################
 
 F3_DIR = $(BREEZY_DIR)/f3
+
+SPEKTRUM_DIR = $(ARDUINO_DIR)/SpektrumDSM
 
 256K_TARGETS = ALIENFLIGHTF3 
 
@@ -82,6 +87,7 @@ CMSIS_SRC	 = $(notdir $(wildcard $(CMSIS_DIR)/CM1/CoreSupport/*.c \
 
 INCLUDE_DIRS := $(INCLUDE_DIRS) \
 		   $(STDPERIPH_DIR)/inc \
+		   $(SPEKTRUM_DIR) \
 		   $(CMSIS_DIR)/CM1/CoreSupport \
 		   $(CMSIS_DIR)/CM1/DeviceSupport/ST/STM32F30x
 
@@ -277,7 +283,8 @@ TARGET_HEX	 = $(BIN_DIR)/$(TARGET).hex
 TARGET_ELF	 = $(OBJECT_DIR)/$(TARGET).elf
 TARGET_OBJS	 = $(addsuffix .o,$(addprefix $(OBJECT_DIR)/$(TARGET)/,$(basename $($(TARGET)_SRC)))) \
 			   $(OBJECT_DIR)/$(TARGET)/$(PROJECT).o \
-			   $(OBJECT_DIR)/$(TARGET)/Arduino.o
+			   $(OBJECT_DIR)/$(TARGET)/Arduino.o \
+			   $(OBJECT_DIR)/$(TARGET)/SpektrumDSM.o
 TARGET_DEPS	 = $(addsuffix .d,$(addprefix $(OBJECT_DIR)/$(TARGET)/,$(basename $($(TARGET)_SRC))))
 TARGET_MAP	 = $(OBJECT_DIR)/$(TARGET).map
 
@@ -374,6 +381,9 @@ $(OBJECT_DIR)/$(TARGET)/$(PROJECT).o: $(PROJECT).cpp $(F3_DIR)/Arduino.h
 
 $(OBJECT_DIR)/$(TARGET)/Arduino.o: $(F3_DIR)/Arduino.cpp $(F3_DIR)/Arduino.h
 	@$(CC) -c -o $(OBJECT_DIR)/$(TARGET)/Arduino.o $(CFLAGS) $(F3_DIR)/Arduino.cpp
+
+$(OBJECT_DIR)/$(TARGET)/SpektrumDSM.o: $(SPEKTRUM_DIR)/SpektrumDSM.cpp $(SPEKTRUM_DIR)/SpektrumDSM.h
+	@$(CC) -c -o $(OBJECT_DIR)/$(TARGET)/SpektrumDSM.o $(CFLAGS) $(SPEKTRUM_DIR)/SpektrumDSM.cpp
 
 commit:
 	git commit -a --allow-empty-message -m ''
