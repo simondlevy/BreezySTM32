@@ -6,6 +6,26 @@ extern "C" {
 // from system_stm32f30x.c
 void SetSysClock(void);
 
+serialPort_t * Serial1;
+
+void debug(const char * fmt, ...)
+{
+    va_list ap;       
+
+    va_start(ap, fmt);     
+
+    char buf[1000];
+
+    vsprintf(buf, fmt, ap);
+
+    for (char * p = buf; *p; p++)
+        serialWrite(Serial1, *p);
+
+    va_end(ap);  
+    
+    while (!isSerialTransmitBufferEmpty(Serial1));
+}
+
 static GPIO_TypeDef * gpio_type_from_pin(uint8_t pin)
 {
     return  pin == 8 ? LED0_GPIO : LED1_GPIO;
@@ -69,6 +89,8 @@ int main(void) {
 
     timerInit();
 
+    Serial1 = usbVcpOpen();
+
     dmaInit();
 
     setup();
@@ -80,8 +102,8 @@ int main(void) {
         // support reboot from host computer
         if (millis()-dbg_start_msec > 100) {
             dbg_start_msec = millis();
-            while (Serial.available()) {
-                uint8_t c = Serial.read();
+            while (serialRxBytesWaiting(Serial1)) {
+                uint8_t c = serialRead(Serial1);
                 if (c == 'R') 
                     systemResetToBootloader();
             }
