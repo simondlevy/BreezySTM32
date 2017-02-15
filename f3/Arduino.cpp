@@ -120,6 +120,12 @@ void HardFault_Handler(void)
     while (1);
 }
 
+uint8_t HardwareSerial::read(void)
+{
+    serialPort_t * port = (serialPort_t *)this->_uart;
+    return serialRead(port);
+}
+
 void HardwareSerial::write(uint8_t byte)
 {
     serialPort_t * port = (serialPort_t *)this->_uart;
@@ -144,34 +150,13 @@ void HardwareSerial0::begin(uint32_t baud)
     this->_uart = serial0;
 }
 
-uint8_t HardwareSerial0::read(void)
-{
-    serialPort_t * port = (serialPort_t *)this->_uart;
-    return serialRead(port);
-}
-
-static uint8_t serial1_value;
-
-uint8_t HardwareSerial1::read(void)
-{
-    return serial1_value;
-}
-
-static void serial1_callback(uint16_t value)
-{
-    serial1_value = (uint8_t)value;
-    serialEvent1();
-}
-
 void HardwareSerial1::begin(uint32_t baud)
 {
-    this->_uart = uartOpen(USART2, serial1_callback, baud, MODE_RX, SERIAL_NOT_INVERTED);
+    this->_uart = uartOpen(USART2, serialEvent1, baud, MODE_RX, SERIAL_NOT_INVERTED);
 }
 
 } // extern "C"
 
 HardwareSerial0 Serial;
 HardwareSerial1 Serial1;
-void serialEvent(void) { }
-void serialEvent1(void) { }
 
