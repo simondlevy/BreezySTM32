@@ -19,8 +19,27 @@
    along with BreezySTM32.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+extern "C" {
 
-#include <breezystm32.h>
+#include <Arduino.h>
+
+#include "platform.h"
+
+#include "system.h"
+#include "dma.h"
+#include "gpio.h"
+#include "timer.h"
+#include "io.h"
+#include "serial.h"
+#include "serial_usb_vcp.h"
+#include "serial_uart.h"
+#include "exti.h"
+#include "bus_i2c.h"
+#include "dma.h"
+#include "serial.h"
+#include "serial_uart.h"
+#include "serial_usb_vcp.h"
+
 
 typedef enum {
     SERIALRX_SPEKTRUM1024,
@@ -124,6 +143,7 @@ static uint8_t chanmap[5] = {1, 2, 3, 0, 5};
 
 void setup(void)
 {
+    Serial.begin(115200);
     spektrumInit(SERIALRX_SPEKTRUM2048); 
 }
 
@@ -131,10 +151,12 @@ void loop(void)
 {
     if (spektrumFrameComplete()) {
         for (int k=0; k<5; ++k)
-            debug("%d ", spektrumReadRawRC(chanmap[k]));
-        debug("\n");
+            Serial.printf("%d ", spektrumReadRawRC(chanmap[k]));
+        Serial.printf("\n");
     }
 
     // Allow some time between readings
     delay(10);
+}
+
 }

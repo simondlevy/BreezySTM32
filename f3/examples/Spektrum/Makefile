@@ -1,6 +1,6 @@
 BREEZY_DIR = $(HOME)/Desktop/BreezySTM32
 
-PROJECT_SRC = lemonrx.c
+PROJECT = ReadSpektrum
 
 # The target to build, see VALID_TARGETS below
 TARGET		?= ALIENFLIGHTF3
@@ -146,7 +146,6 @@ SYSTEM_SRC = \
 		   $(DEVICE_STDPERIPH_SRC)
 
 FC_COMMON_SRC = \
-		   $(F3_DIR)/main.c \
    	       exti.c \
 		   io.c \
 
@@ -174,12 +173,9 @@ STM32F30x_COMMON_SRC = \
 		   system_stm32f30x.c
 
 ALIENFLIGHTF3_SRC = \
-		   $(PROJECT_SRC) \
 		   $(STM32F30x_COMMON_SRC) \
 		   timer.c \
 		   timer_stm32f30x.c \
-		   pwm_mapping.c \
-		   pwm_output.c \
 		   serial_usb_vcp.c \
 		   $(FC_COMMON_SRC) \
 		   $(SYSTEM_SRC) \
@@ -227,7 +223,6 @@ CFLAGS		 = $(ARCH_FLAGS) \
 		   $(addprefix -D,$(OPTIONS)) \
 		   $(addprefix -I,$(INCLUDE_DIRS)) \
 		   $(DEBUG_FLAGS) \
-		   -std=gnu99 \
 		   -Wall -Wpedantic -Wextra -Wunsafe-loop-optimizations -Wdouble-promotion -Wundef \
 		   -ffunction-sections \
 		   -fdata-sections \
@@ -280,7 +275,9 @@ endif
 TARGET_BIN	 = obj/$(TARGET).bin
 TARGET_HEX	 = $(BIN_DIR)/$(TARGET).hex
 TARGET_ELF	 = $(OBJECT_DIR)/$(TARGET).elf
-TARGET_OBJS	 = $(addsuffix .o,$(addprefix $(OBJECT_DIR)/$(TARGET)/,$(basename $($(TARGET)_SRC))))
+TARGET_OBJS	 = $(addsuffix .o,$(addprefix $(OBJECT_DIR)/$(TARGET)/,$(basename $($(TARGET)_SRC)))) \
+			   $(OBJECT_DIR)/$(TARGET)/$(PROJECT).o \
+			   $(OBJECT_DIR)/$(TARGET)/Arduino.o
 TARGET_DEPS	 = $(addsuffix .d,$(addprefix $(OBJECT_DIR)/$(TARGET)/,$(basename $($(TARGET)_SRC))))
 TARGET_MAP	 = $(OBJECT_DIR)/$(TARGET).map
 
@@ -371,6 +368,12 @@ $(OBJECT_DIR)/$(TARGET)/%.o: %.S
 	@echo %% $(notdir $<)
 	@$(CC) -c -o $@ $(ASFLAGS) $<
 
+
+$(OBJECT_DIR)/$(TARGET)/$(PROJECT).o: $(PROJECT).cpp $(F3_DIR)/Arduino.h
+	@$(CC) -c -o $(OBJECT_DIR)/$(TARGET)/$(PROJECT).o $(CFLAGS) $(PROJECT).cpp
+
+$(OBJECT_DIR)/$(TARGET)/Arduino.o: $(F3_DIR)/Arduino.cpp $(F3_DIR)/Arduino.h
+	@$(CC) -c -o $(OBJECT_DIR)/$(TARGET)/Arduino.o $(CFLAGS) $(F3_DIR)/Arduino.cpp
 
 commit:
 	git commit -a --allow-empty-message -m ''
