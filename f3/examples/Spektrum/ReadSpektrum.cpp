@@ -19,27 +19,7 @@
    along with BreezySTM32.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-extern "C" {
-
 #include <Arduino.h>
-
-#include "platform.h"
-
-#include "system.h"
-#include "dma.h"
-#include "gpio.h"
-#include "timer.h"
-#include "io.h"
-#include "serial.h"
-#include "serial_usb_vcp.h"
-#include "serial_uart.h"
-#include "exti.h"
-#include "bus_i2c.h"
-#include "dma.h"
-#include "serial.h"
-#include "serial_uart.h"
-#include "serial_usb_vcp.h"
-
 
 typedef enum {
     SERIALRX_SPEKTRUM1024,
@@ -61,9 +41,7 @@ volatile uint8_t spekFrame[SPEK_FRAME_SIZE];
 
 static uint8_t numRCChannels;
 
-static uint8_t currentValue;
-
-static void spektrumDataReceive(void)
+void serialEvent1(void)
 {
     uint32_t spekTime;
     static uint32_t spekTimeLast, spekTimeInterval;
@@ -75,19 +53,12 @@ static void spektrumDataReceive(void)
     spekTimeLast = spekTime;
     if (spekTimeInterval > 5000)
         spekFramePosition = 0;
-    spekFrame[spekFramePosition] = currentValue;
+    spekFrame[spekFramePosition] = Serial1.read();
     if (spekFramePosition == SPEK_FRAME_SIZE - 1) {
         rcFrameComplete = true;
     } else {
         spekFramePosition++;
     }
-}
-
-// Receive ISR callback
-static void callback(uint16_t value)
-{
-    currentValue = (uint8_t)value;
-    spektrumDataReceive();
 }
 
 static void spektrumInit(serialrx_t serialrx_type)
@@ -109,8 +80,6 @@ static void spektrumInit(serialrx_t serialrx_type)
             numRCChannels = SPEK_1024_MAX_CHANNEL;
             break;
     }
-
-    uartOpen(USART2, callback, 115200, MODE_RX, SERIAL_NOT_INVERTED);
 }
 
 static bool spektrumFrameComplete(void)
@@ -151,6 +120,7 @@ static uint8_t chanmap[5] = {1, 2, 3, 0, 5};
 void setup(void)
 {
     Serial.begin(115200);
+    Serial1.begin(115200);
     spektrumInit(SERIALRX_SPEKTRUM2048); 
 }
 
@@ -164,6 +134,4 @@ void loop(void)
 
     // Allow some time between readings
     delay(10);
-}
-
 }
