@@ -1,5 +1,5 @@
 /*
-   MPU6050_raw.cpp : polling-based report of MPU6050 accelerometer and gyroscope values
+   MPU6050_ra : polling-based report of MPU6050 accelerometer and gyroscope values
 
    Copyright (C) 2016 Simon D. Levy
 
@@ -21,7 +21,6 @@
 
 extern "C" {
 
-#include <breezystm32.h>
 #include <Arduino.h>
 #include <Wire.h>
 

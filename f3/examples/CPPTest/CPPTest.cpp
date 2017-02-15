@@ -1,9 +1,7 @@
 /*
-   I2CSniff sniff and report I^2C devices 
+   CPPTest.cpp : test C++ constructor invocation
 
-   Copyright (C) 2016 Simon D. Levy 
-
-   Don't forget to supply external power for external sensors (like MB1242 sonar)!
+   Copyright (C) 2017 Simon D. Levy 
 
    This file is part of BreezySTM32.
 
@@ -24,25 +22,14 @@
 extern "C" {
 
 #include <Arduino.h>
-#include <Wire.h>
 
 void setup(void)
 {
     Serial.begin(115200);
-    Wire.begin(); 
 } 
 
 void loop(void)
 {
-    uint8_t addr;
-
-    for (addr=0; addr<128; ++addr) {
-        Wire.beginTransmission(addr);
-        if (!Wire.endTransmission()) {
-            Serial.printf("Found device at address 0X%02X\n", addr);
-        }
-    }
-
     Serial.printf("--------------------------\n");
 }
 
