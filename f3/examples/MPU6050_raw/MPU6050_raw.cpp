@@ -1,7 +1,7 @@
 /*
-   MPU6050_raw.ino : example of reading raw IMU data from MPU6050 using Teensy 3.X or Teensy LC
+   MPU6050_raw : example of reading raw IMU data from MPU6050
 
-   This file is part of MPU6050.
+   This file is part of BreezySTM32.
 
    MPU6050 is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
