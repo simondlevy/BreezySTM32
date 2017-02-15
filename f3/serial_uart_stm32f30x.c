@@ -239,8 +239,10 @@ uartPort_t *serialUART3(uint32_t baudRate, portMode_t mode, portOptions_t option
     return s;
 }
 
-void usartIrqHandler(uartPort_t *s)
+void USART1_IRQHandler(void)
 {
+    uartPort_t *s = &uartPort1;
+
     uint32_t ISR = s->USARTx->ISR;
 
     if (!s->rxDMAChannel && (ISR & USART_FLAG_RXNE)) {
@@ -271,25 +273,70 @@ void usartIrqHandler(uartPort_t *s)
     }
 }
 
-void USART1_IRQHandler(void)
-{
-    uartPort_t *s = &uartPort1;
-
-    usartIrqHandler(s);
-}
-
 void USART2_IRQHandler(void)
 {
     uartPort_t *s = &uartPort2;
 
-    usartIrqHandler(s);
+    uint32_t ISR = s->USARTx->ISR;
+
+    if (!s->rxDMAChannel && (ISR & USART_FLAG_RXNE)) {
+        if (s->port.callback) {
+            s->port.callback(s->USARTx->RDR);
+        } else {
+            s->port.rxBuffer[s->port.rxBufferHead++] = s->USARTx->RDR;
+            if (s->port.rxBufferHead >= s->port.rxBufferSize) {
+                s->port.rxBufferHead = 0;
+            }
+        }
+    }
+
+    if (!s->txDMAChannel && (ISR & USART_FLAG_TXE)) {
+        if (s->port.txBufferTail != s->port.txBufferHead) {
+            USART_SendData(s->USARTx, s->port.txBuffer[s->port.txBufferTail++]);
+            if (s->port.txBufferTail >= s->port.txBufferSize) {
+                s->port.txBufferTail = 0;
+            }
+        } else {
+            USART_ITConfig(s->USARTx, USART_IT_TXE, DISABLE);
+        }
+    }
+
+    if (ISR & USART_FLAG_ORE)
+    {
+        USART_ClearITPendingBit (s->USARTx, USART_IT_ORE);
+    }
 }
 
 void USART3_IRQHandler(void)
 {
     uartPort_t *s = &uartPort3;
 
-    usartIrqHandler(s);
+    uint32_t ISR = s->USARTx->ISR;
+
+    if (!s->rxDMAChannel && (ISR & USART_FLAG_RXNE)) {
+        if (s->port.callback) {
+            s->port.callback(s->USARTx->RDR);
+        } else {
+            s->port.rxBuffer[s->port.rxBufferHead++] = s->USARTx->RDR;
+            if (s->port.rxBufferHead >= s->port.rxBufferSize) {
+                s->port.rxBufferHead = 0;
+            }
+        }
+    }
+
+    if (!s->txDMAChannel && (ISR & USART_FLAG_TXE)) {
+        if (s->port.txBufferTail != s->port.txBufferHead) {
+            USART_SendData(s->USARTx, s->port.txBuffer[s->port.txBufferTail++]);
+            if (s->port.txBufferTail >= s->port.txBufferSize) {
+                s->port.txBufferTail = 0;
+            }
+        } else {
+            USART_ITConfig(s->USARTx, USART_IT_TXE, DISABLE);
+        }
+    }
+
+    if (ISR & USART_FLAG_ORE)
+    {
+        USART_ClearITPendingBit (s->USARTx, USART_IT_ORE);
+    }
 }
-
-
