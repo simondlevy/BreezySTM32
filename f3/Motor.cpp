@@ -1,7 +1,7 @@
 /*
    Motor.cpp : Support for brushed and brushless motors
 
-   Adapted from https://github.com/multiwii/baseflight/blob/master/src/drv_pwm.c
+   Adapted from https://github.com/cleanflight/cleanflight/blob/master/src/main/drivers/pwm_output.c
 
    This file is part of BreezySTM32.
 

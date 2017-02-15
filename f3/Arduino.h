@@ -79,7 +79,7 @@ class HardwareSerial0 : public HardwareSerial {
         void begin(uint32_t baud);
 };
 
-//extern HardwareSerial0 Serial;
+extern HardwareSerial0 Serial;
 
 class HardwareSerial1 : public HardwareSerial {
 
@@ -88,7 +88,7 @@ class HardwareSerial1 : public HardwareSerial {
         void begin(uint32_t baud);
 };
 
-//extern HardwareSerial1 Serial1;
+extern HardwareSerial1 Serial1;
 
 class HardwareWire {
 
