@@ -1,4 +1,3 @@
-void serialEvent(void) __attribute__((weak));
 void serialEvent1(void) __attribute__((weak));
 
 extern "C" {
