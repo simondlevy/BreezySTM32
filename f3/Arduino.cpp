@@ -1,12 +1,23 @@
 extern "C" {
 
-#include <Arduino.h>
-#include "breezystm32.h"
-#include <stm32f30x_conf.h>
-#include <dma.h>
-#include <serial.h>
-#include <serial_uart.h>
-#include <serial_usb_vcp.h>
+#include "Arduino.h"
+
+#include "platform.h"
+
+#include "system.h"
+#include "dma.h"
+#include "gpio.h"
+#include "timer.h"
+#include "io.h"
+#include "serial.h"
+#include "serial_usb_vcp.h"
+#include "serial_uart.h"
+#include "exti.h"
+#include "bus_i2c.h"
+#include "dma.h"
+#include "serial.h"
+#include "serial_uart.h"
+#include "serial_usb_vcp.h"
 
 // from system_stm32f30x.c
 void SetSysClock(void);
