@@ -129,6 +129,7 @@ uint8_t whoami;
 
 void setup(void)
 {
+    Serial.begin(115200);
     Wire.begin(); 
 
     mpu_gyro_range grange = GFS_250DPS;
@@ -172,7 +173,7 @@ void loop(void)
     int16_t gy = (int16_t)((buf[2] << 8) | buf[3]);
     int16_t gz = (int16_t)((buf[4] << 8) | buf[5]);
 
-    debug("%d %d %d %d %d %d\n", ax, ay, az, gx, gy, gz);
+    Serial.printf("%d %d %d %d %d %d\n", ax, ay, az, gx, gy, gz);
 }
 
 }

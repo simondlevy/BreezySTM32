@@ -2,29 +2,16 @@ extern "C" {
 
 #include <Arduino.h>
 #include "breezystm32.h"
+#include <stm32f30x_conf.h>
+#include <dma.h>
+#include <serial.h>
+#include <serial_uart.h>
+#include <serial_usb_vcp.h>
 
 // from system_stm32f30x.c
 void SetSysClock(void);
 
-serialPort_t * Serial1;
-
-void debug(const char * fmt, ...)
-{
-    va_list ap;       
-
-    va_start(ap, fmt);     
-
-    char buf[1000];
-
-    vsprintf(buf, fmt, ap);
-
-    for (char * p = buf; *p; p++)
-        serialWrite(Serial1, *p);
-
-    va_end(ap);  
-    
-    while (!isSerialTransmitBufferEmpty(Serial1));
-}
+serialPort_t * serial0;
 
 static GPIO_TypeDef * gpio_type_from_pin(uint8_t pin)
 {
@@ -89,7 +76,7 @@ int main(void) {
 
     timerInit();
 
-    Serial1 = usbVcpOpen();
+    serial0 = usbVcpOpen();
 
     dmaInit();
 
@@ -102,8 +89,8 @@ int main(void) {
         // support reboot from host computer
         if (millis()-dbg_start_msec > 100) {
             dbg_start_msec = millis();
-            while (serialRxBytesWaiting(Serial1)) {
-                uint8_t c = serialRead(Serial1);
+            while (serialRxBytesWaiting(serial0)) {
+                uint8_t c = serialRead(serial0);
                 if (c == 'R') 
                     systemResetToBootloader();
             }
@@ -112,11 +99,53 @@ int main(void) {
 
     loop();
     }
-}
+} // main
 
 void HardFault_Handler(void)
 {
     while (1);
 }
 
+uint8_t HardwareSerial::read(void)
+{
+    serialPort_t * port = (serialPort_t *)this->_uart;
+    return serialRead(port);
+}
+
+void HardwareSerial::write(uint8_t byte)
+{
+    serialPort_t * port = (serialPort_t *)this->_uart;
+    serialWrite(port, byte);
+}
+
+uint8_t HardwareSerial::available(void)
+{
+    serialPort_t * port = (serialPort_t *)this->_uart;
+    return serialRxBytesWaiting(port);
+}
+
+void HardwareSerial::flush(void)
+{
+    serialPort_t * port = (serialPort_t *)this->_uart;
+    while (!isSerialTransmitBufferEmpty(port));
+}
+
+void HardwareSerial0::begin(uint32_t baud)
+{
+    (void)baud;
+    this->_uart = serial0;
+}
+
+void HardwareSerial1::begin(uint32_t baud)
+{
+    (void)baud;
+    //this->_uart = uartOpen(USART2, serialEvent1, baud, MODE_RXTX);
+}
+
 } // extern "C"
+
+HardwareSerial0 Serial;
+HardwareSerial1 Serial1;
+
+void serialEvent(void) { }
+void serialEvent1(void) { }

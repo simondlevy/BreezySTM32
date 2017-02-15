@@ -30,6 +30,7 @@ extern "C" {
 
 void setup(void)
 {
+    Serial.begin(115200);
     Wire.begin(); 
 } 
 
@@ -40,11 +41,11 @@ void loop(void)
     for (addr=0; addr<128; ++addr) {
         Wire.beginTransmission(addr);
         if (!Wire.endTransmission()) {
-            debug("Found device at address 0X%02X\n", addr);
+            Serial.printf("Found device at address 0X%02X\n", addr);
         }
     }
 
-    debug("--------------------------\n");
+    Serial.printf("--------------------------\n");
 }
 
 } // extern "C"
