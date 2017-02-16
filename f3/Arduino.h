@@ -53,8 +53,6 @@ class HardwareSerial {
 
         uint8_t available(void);
 
-        uint8_t read(void);
-
         void write(uint8_t byte);
 
         void flush(void);
@@ -78,6 +76,7 @@ class HardwareSerial0 : public HardwareSerial {
 
         void begin(uint32_t baud);
 
+        uint8_t read(void);
 };
 
 extern HardwareSerial0 Serial;
@@ -87,6 +86,8 @@ class HardwareSerial1 : public HardwareSerial {
     public:
 
         void begin(uint32_t baud);
+
+        uint8_t read(void);
 };
 
 extern HardwareSerial1 Serial1;

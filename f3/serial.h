@@ -34,7 +34,7 @@ typedef enum portOptions_t {
     SERIAL_BIDIR         = 1 << 3
 } portOptions_t;
 
-typedef void (*serialReceiveCallbackPtr)(void);
+typedef void (*serialReceiveCallbackPtr)(uint16_t value);
 
 typedef struct serialPort_s {
 
