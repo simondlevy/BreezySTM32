@@ -255,10 +255,8 @@ uint8_t HardwareWire::endTransmission(bool stop)
     return 0; // success
 }
 
-uint8_t HardwareWire::read(uint8_t addr_, uint8_t reg, uint8_t len, uint8_t* buf)
+uint8_t HardwareWire::read(uint8_t len, uint8_t* buf)
 {
-    addr_ <<= 1;
-
     /* Test on BUSY Flag */
     i2cTimeout = I2C_DEFAULT_TIMEOUT;
     while (I2C_GetFlagStatus(I2Cx, I2C_ISR_BUSY) != RESET) {
@@ -268,7 +266,7 @@ uint8_t HardwareWire::read(uint8_t addr_, uint8_t reg, uint8_t len, uint8_t* buf
     }
 
     /* Configure slave address, nbytes, reload, end mode and start or stop generation */
-    I2C_TransferHandling(I2Cx, addr_, 1, I2C_SoftEnd_Mode, I2C_Generate_Start_Write);
+    I2C_TransferHandling(I2Cx, this->addr, 1, I2C_SoftEnd_Mode, I2C_Generate_Start_Write);
 
     /* Wait until TXIS flag is set */
     i2cTimeout = I2C_DEFAULT_TIMEOUT;
@@ -279,7 +277,7 @@ uint8_t HardwareWire::read(uint8_t addr_, uint8_t reg, uint8_t len, uint8_t* buf
     }
 
     /* Send Register address */
-    I2C_SendData(I2Cx, (uint8_t) reg);
+    I2C_SendData(I2Cx, (uint8_t) this->reg);
 
     /* Wait until TC flag is set */
     i2cTimeout = I2C_DEFAULT_TIMEOUT;
@@ -290,7 +288,7 @@ uint8_t HardwareWire::read(uint8_t addr_, uint8_t reg, uint8_t len, uint8_t* buf
     }
 
     /* Configure slave address, nbytes, reload, end mode and start or stop generation */
-    I2C_TransferHandling(I2Cx, addr_, len, I2C_AutoEnd_Mode, I2C_Generate_Start_Read);
+    I2C_TransferHandling(I2Cx, this->addr, len, I2C_AutoEnd_Mode, I2C_Generate_Start_Read);
 
     /* Wait until all data are received */
     while (len) {
