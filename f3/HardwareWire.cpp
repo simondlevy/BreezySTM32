@@ -194,9 +194,10 @@ uint8_t HardwareWire::write(uint8_t value)
 
 uint8_t HardwareWire::endTransmission(bool stop)
 {
-    (void)stop;
+    // This is done before a read request
+    if (!stop) return 0; // "success"
 
-    /* Test on BUSY Flag */
+    // Test on BUSY Flag 
     i2cTimeout = I2C_DEFAULT_TIMEOUT;
     while (I2C_GetFlagStatus(I2Cx, I2C_ISR_BUSY) != RESET) {
         if ((i2cTimeout--) == 0) {
@@ -204,10 +205,10 @@ uint8_t HardwareWire::endTransmission(bool stop)
         }
     }
 
-    /* Configure slave address, nbytes, reload, end mode and start or stop generation */
+    // Configure slave address, nbytes, reload, end mode and start or stop generation 
     I2C_TransferHandling(I2Cx, this->addr, 1, I2C_Reload_Mode, I2C_Generate_Start_Write);
 
-    /* Wait until TXIS flag is set */
+    // Wait until TXIS flag is set 
     i2cTimeout = I2C_DEFAULT_TIMEOUT;
     while (I2C_GetFlagStatus(I2Cx, I2C_ISR_TXIS) == RESET) {
         if ((i2cTimeout--) == 0) {
@@ -215,10 +216,10 @@ uint8_t HardwareWire::endTransmission(bool stop)
         }
     }
 
-    /* Send Register address */
+    // Send Register address 
     I2C_SendData(I2Cx, (uint8_t) this->reg);
 
-    /* Wait until TCR flag is set */
+    // Wait until TCR flag is set 
     i2cTimeout = I2C_DEFAULT_TIMEOUT;
     while (I2C_GetFlagStatus(I2Cx, I2C_ISR_TCR) == RESET)
     {
@@ -227,10 +228,10 @@ uint8_t HardwareWire::endTransmission(bool stop)
         }
     }
 
-    /* Configure slave address, nbytes, reload, end mode and start or stop generation */
+    // Configure slave address, nbytes, reload, end mode and start or stop generation 
     I2C_TransferHandling(I2Cx, this->addr, 1, I2C_AutoEnd_Mode, I2C_No_StartStop);
 
-    /* Wait until TXIS flag is set */
+    // Wait until TXIS flag is set 
     i2cTimeout = I2C_DEFAULT_TIMEOUT;
     while (I2C_GetFlagStatus(I2Cx, I2C_ISR_TXIS) == RESET) {
         if ((i2cTimeout--) == 0) {
@@ -238,10 +239,10 @@ uint8_t HardwareWire::endTransmission(bool stop)
         }
     }
 
-    /* Write data to TXDR */
+    // Write data to TXDR 
     I2C_SendData(I2Cx, this->data);
 
-    /* Wait until STOPF flag is set */
+    // Wait until STOPF flag is set 
     i2cTimeout = I2C_DEFAULT_TIMEOUT;
     while (I2C_GetFlagStatus(I2Cx, I2C_ISR_STOPF) == RESET) {
         if ((i2cTimeout--) == 0) {
@@ -249,7 +250,7 @@ uint8_t HardwareWire::endTransmission(bool stop)
         }
     }
 
-    /* Clear STOPF flag */
+    // Clear STOPF flag 
     I2C_ClearFlag(I2Cx, I2C_ICR_STOPCF);
 
     return 0; // success
@@ -257,7 +258,7 @@ uint8_t HardwareWire::endTransmission(bool stop)
 
 uint8_t HardwareWire::read(uint8_t len, uint8_t* buf)
 {
-    /* Test on BUSY Flag */
+    // Test on BUSY Flag 
     i2cTimeout = I2C_DEFAULT_TIMEOUT;
     while (I2C_GetFlagStatus(I2Cx, I2C_ISR_BUSY) != RESET) {
         if ((i2cTimeout--) == 0) {
@@ -265,10 +266,10 @@ uint8_t HardwareWire::read(uint8_t len, uint8_t* buf)
         }
     }
 
-    /* Configure slave address, nbytes, reload, end mode and start or stop generation */
+    // Configure slave address, nbytes, reload, end mode and start or stop generation 
     I2C_TransferHandling(I2Cx, this->addr, 1, I2C_SoftEnd_Mode, I2C_Generate_Start_Write);
 
-    /* Wait until TXIS flag is set */
+    // Wait until TXIS flag is set 
     i2cTimeout = I2C_DEFAULT_TIMEOUT;
     while (I2C_GetFlagStatus(I2Cx, I2C_ISR_TXIS) == RESET) {
         if ((i2cTimeout--) == 0) {
@@ -276,10 +277,10 @@ uint8_t HardwareWire::read(uint8_t len, uint8_t* buf)
         }
     }
 
-    /* Send Register address */
+    // Send Register address 
     I2C_SendData(I2Cx, (uint8_t) this->reg);
 
-    /* Wait until TC flag is set */
+    // Wait until TC flag is set 
     i2cTimeout = I2C_DEFAULT_TIMEOUT;
     while (I2C_GetFlagStatus(I2Cx, I2C_ISR_TC) == RESET) {
         if ((i2cTimeout--) == 0) {
@@ -287,12 +288,12 @@ uint8_t HardwareWire::read(uint8_t len, uint8_t* buf)
         }
     }
 
-    /* Configure slave address, nbytes, reload, end mode and start or stop generation */
+    // Configure slave address, nbytes, reload, end mode and start or stop generation 
     I2C_TransferHandling(I2Cx, this->addr, len, I2C_AutoEnd_Mode, I2C_Generate_Start_Read);
 
-    /* Wait until all data are received */
+    // Wait until all data are received 
     while (len) {
-        /* Wait until RXNE flag is set */
+        // Wait until RXNE flag is set 
         i2cTimeout = I2C_DEFAULT_TIMEOUT;
         while (I2C_GetFlagStatus(I2Cx, I2C_ISR_RXNE) == RESET) {
             if ((i2cTimeout--) == 0) {
@@ -300,16 +301,16 @@ uint8_t HardwareWire::read(uint8_t len, uint8_t* buf)
             }
         }
 
-        /* Read data from RXDR */
+        // Read data from RXDR 
         *buf = I2C_ReceiveData(I2Cx);
-        /* Point to the next location where the byte read will be saved */
+        // Point to the next location where the byte read will be saved 
         buf++;
 
-        /* Decrement the read bytes counter */
+        // Decrement the read bytes counter 
         len--;
     }
 
-    /* Wait until STOPF flag is set */
+    // Wait until STOPF flag is set 
     i2cTimeout = I2C_DEFAULT_TIMEOUT;
     while (I2C_GetFlagStatus(I2Cx, I2C_ISR_STOPF) == RESET) {
         if ((i2cTimeout--) == 0) {
@@ -317,7 +318,7 @@ uint8_t HardwareWire::read(uint8_t len, uint8_t* buf)
         }
     }
 
-    /* Clear STOPF flag */
+    // Clear STOPF flag 
     I2C_ClearFlag(I2Cx, I2C_ICR_STOPCF);
 
     return 0; // success
