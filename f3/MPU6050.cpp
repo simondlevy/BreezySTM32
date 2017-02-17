@@ -20,8 +20,6 @@
    along with Hackflight.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-extern "C" {
-
 #include "MPU6050.h"
 #include <Wire.h>
 
@@ -157,5 +155,3 @@ void MPU6050::readBytes(uint8_t subAddress, uint8_t count, uint8_t * dest)
         dest[i++] = Wire.read();        // Put read results in the Rx buffer
     }
 }
-
-} // extern "C"
