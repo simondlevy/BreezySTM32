@@ -256,15 +256,17 @@ uint8_t HardwareWire::endTransmission(bool stop)
     return 0; // success
 }
 
-uint8_t HardwareWire::read(uint8_t address, uint8_t quantity, uint8_t* buf)
+uint8_t HardwareWire::requestFrom(uint8_t address, uint8_t quantity)
 {
     address <<= 1;
+    this->avail = 0;
+    this->bufpos = 0;
 
     // Test on BUSY Flag 
     i2cTimeout = I2C_DEFAULT_TIMEOUT;
     while (I2C_GetFlagStatus(I2Cx, I2C_ISR_BUSY) != RESET) {
         if ((i2cTimeout--) == 0) {
-            return 1;
+            return this->avail;
         }
     }
 
@@ -275,7 +277,7 @@ uint8_t HardwareWire::read(uint8_t address, uint8_t quantity, uint8_t* buf)
     i2cTimeout = I2C_DEFAULT_TIMEOUT;
     while (I2C_GetFlagStatus(I2Cx, I2C_ISR_TXIS) == RESET) {
         if ((i2cTimeout--) == 0) {
-            return 2;
+            return this->avail;
         }
     }
 
@@ -286,7 +288,7 @@ uint8_t HardwareWire::read(uint8_t address, uint8_t quantity, uint8_t* buf)
     i2cTimeout = I2C_DEFAULT_TIMEOUT;
     while (I2C_GetFlagStatus(I2Cx, I2C_ISR_TC) == RESET) {
         if ((i2cTimeout--) == 0) {
-            return 3;
+            return this->avail;
         }
     }
 
@@ -299,14 +301,12 @@ uint8_t HardwareWire::read(uint8_t address, uint8_t quantity, uint8_t* buf)
         i2cTimeout = I2C_DEFAULT_TIMEOUT;
         while (I2C_GetFlagStatus(I2Cx, I2C_ISR_RXNE) == RESET) {
             if ((i2cTimeout--) == 0) {
-                return 4;
+                return this->avail;
             }
         }
 
         // Read data from RXDR 
-        *buf = I2C_ReceiveData(I2Cx);
-        // Point to the next location where the byte read will be saved 
-        buf++;
+        this->buffer[this->avail++] = I2C_ReceiveData(I2Cx);
 
         // Decrement the read bytes counter 
         quantity--;
@@ -316,14 +316,26 @@ uint8_t HardwareWire::read(uint8_t address, uint8_t quantity, uint8_t* buf)
     i2cTimeout = I2C_DEFAULT_TIMEOUT;
     while (I2C_GetFlagStatus(I2Cx, I2C_ISR_STOPF) == RESET) {
         if ((i2cTimeout--) == 0) {
-            return 5;
+            return this->avail;
         }
     }
 
     // Clear STOPF flag 
     I2C_ClearFlag(I2Cx, I2C_ICR_STOPCF);
 
-    return 0; // success
+    return this->avail;
+}
+
+uint8_t HardwareWire::available(void)
+{
+    return this->avail;
+}
+
+uint8_t HardwareWire::read(void)
+{
+    this->avail--;
+
+    return this->buffer[this->bufpos++];
 }
 
 HardwareWire Wire;

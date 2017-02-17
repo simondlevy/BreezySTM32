@@ -151,7 +151,11 @@ void MPU6050::readBytes(uint8_t subAddress, uint8_t count, uint8_t * dest)
     Wire.beginTransmission(0x68);
     Wire.write(subAddress);
     Wire.endTransmission(false);
-    Wire.read(0x68, count, dest);
+    uint8_t i = 0;
+    Wire.requestFrom(_address, count);  // Read bytes from slave register address 
+    while (Wire.available()) {
+        dest[i++] = Wire.read();        // Put read results in the Rx buffer
+    }
 }
 
 } // extern "C"
