@@ -2,7 +2,8 @@
 BREEZY_DIR = $(HOME)/Desktop/BreezySTM32
 
 # Change this to where you put your Arduino libraries
-ARDUINO_DIR = $(HOME)/Development/arduino-1.6.13/hardware/teensy/avr/libraries
+# XXX currently unused
+#ARDUINO_DIR = $(HOME)/Development/arduino-1.6.13/hardware/teensy/avr/libraries
 
 # Change this to whatever project name you want
 PROJECT = MPU6050_raw
@@ -11,7 +12,7 @@ PROJECT = MPU6050_raw
 
 F3_DIR = $(BREEZY_DIR)/f3
 
-MPU6050_DIR = $(ARDUINO_DIR)/MPU6050
+#MPU6050_DIR = $(ARDUINO_DIR)/MPU6050
 
 # Debugger optons, must be empty or GDB
 DEBUG ?=
@@ -269,8 +270,8 @@ $(OBJECT_DIR)/$(PROJECT)/HardwareSerial.o: $(F3_DIR)/HardwareSerial.cpp $(F3_DIR
 $(OBJECT_DIR)/$(PROJECT)/HardwareWire.o: $(F3_DIR)/HardwareWire.cpp $(F3_DIR)/Arduino.h
 	@$(CC) -c -o $(OBJECT_DIR)/$(PROJECT)/HardwareWire.o $(CFLAGS) $(F3_DIR)/HardwareWire.cpp
 
-$(OBJECT_DIR)/$(PROJECT)/MPU6050.o: $(MPU6050_DIR)/MPU6050.cpp $(MPU6050_DIR)/MPU6050.h
-	@$(CC) -c -o $(OBJECT_DIR)/$(PROJECT)/MPU6050.o $(CFLAGS) $(MPU6050_DIR)/MPU6050.cpp
+$(OBJECT_DIR)/$(PROJECT)/MPU6050.o: $(F3_DIR)/MPU6050.cpp $(F3_DIR)/MPU6050.h
+	@$(CC) -c -o $(OBJECT_DIR)/$(PROJECT)/MPU6050.o $(CFLAGS) $(F3_DIR)/MPU6050.cpp
 
 $(OBJECT_DIR)/$(PROJECT).o: ./$(PROJECT).cpp
 	@$(CC) -c -o $(OBJECT_DIR)/$(PROJECT).o $(CFLAGS) ./$(PROJECT).cpp
