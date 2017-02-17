@@ -256,7 +256,7 @@ uint8_t HardwareWire::endTransmission(bool stop)
     return 0; // success
 }
 
-uint8_t HardwareWire::read(uint8_t len, uint8_t* buf)
+uint8_t HardwareWire::read(uint8_t quantity, uint8_t* buf)
 {
     // Test on BUSY Flag 
     i2cTimeout = I2C_DEFAULT_TIMEOUT;
@@ -289,10 +289,10 @@ uint8_t HardwareWire::read(uint8_t len, uint8_t* buf)
     }
 
     // Configure slave address, nbytes, reload, end mode and start or stop generation 
-    I2C_TransferHandling(I2Cx, this->addr, len, I2C_AutoEnd_Mode, I2C_Generate_Start_Read);
+    I2C_TransferHandling(I2Cx, this->addr, quantity, I2C_AutoEnd_Mode, I2C_Generate_Start_Read);
 
     // Wait until all data are received 
-    while (len) {
+    while (quantity) {
         // Wait until RXNE flag is set 
         i2cTimeout = I2C_DEFAULT_TIMEOUT;
         while (I2C_GetFlagStatus(I2Cx, I2C_ISR_RXNE) == RESET) {
@@ -307,7 +307,7 @@ uint8_t HardwareWire::read(uint8_t len, uint8_t* buf)
         buf++;
 
         // Decrement the read bytes counter 
-        len--;
+        quantity--;
     }
 
     // Wait until STOPF flag is set 
