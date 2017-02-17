@@ -42,6 +42,7 @@ void setup(void);
 void loop(void);
 
 void systemReset(void);
+void systemResetToBootloader(void);
 
 class HardwareSerial {
 
