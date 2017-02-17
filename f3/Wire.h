@@ -25,34 +25,11 @@ extern "C" {
 
 class HardwareWire {
 
-    private:
-
-        uint8_t _address;
-        uint8_t _register;
-        uint8_t _data;
-        bool    _have_data;
-
-        uint8_t _buffer[256];
-        uint8_t _index;
-        uint8_t _avail;
-
     public:
 
         void     begin(void);
-
-        void     beginTransmission(uint8_t addr_);
-
-        uint8_t  write(uint8_t value);
-
-        uint8_t  endTransmission(bool stop=true);
-
-        uint8_t  requestFrom(uint8_t addr_, uint8_t count_);
-
-        uint8_t  available(void);
-
-        uint8_t  read(void);
-
-        void     setOverclock(uint8_t OverClock); 
+        bool     write(uint8_t addr_, uint8_t reg, uint8_t data);
+        bool     read(uint8_t addr_, uint8_t reg, uint8_t len, uint8_t* buf);
 };
 
 extern HardwareWire Wire;
