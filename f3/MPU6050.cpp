@@ -134,7 +134,8 @@ void MPU6050::readGyroData(int16_t * gx, int16_t * gy, int16_t * gz)
 void MPU6050::writeByte(uint8_t subAddress, uint8_t data)
 {
     Wire.beginTransmission(0x68);
-    Wire.write(subAddress, data);
+    Wire.write(subAddress);
+    Wire.write(data);
     Wire.endTransmission();
 }
 

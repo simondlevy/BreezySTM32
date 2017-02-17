@@ -176,15 +176,18 @@ void HardwareWire::beginTransmission(uint8_t address)
 
     this->reg = 0x00;
     this->data = 0x00;
-
 }
 
-uint8_t HardwareWire::write(uint8_t subaddr, uint8_t value)
+uint8_t HardwareWire::write(uint8_t value)
 {
-    this->reg = subaddr;
-    this->data = value;
+    if (this->reg) {
+        this->data = value;
+    }
+    else {
+        this->reg = value;
+    }
 
-    return 2; // two bytes "written"
+    return 1; // one byte "written"
 }
 
 uint8_t HardwareWire::endTransmission(bool stop)

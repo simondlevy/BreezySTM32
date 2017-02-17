@@ -37,7 +37,7 @@ class HardwareWire {
 
         void     beginTransmission(uint8_t address);
 
-        uint8_t  write(uint8_t subaddr, uint8_t data);
+        uint8_t  write(uint8_t data);
 
         uint8_t  read(uint8_t addr_, uint8_t reg, uint8_t len, uint8_t* buf);
 
