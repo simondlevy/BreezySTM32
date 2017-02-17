@@ -96,14 +96,14 @@ void BrushlessMotor::setSpeed(uint16_t value)
 
 void Motor::attach(uint8_t pin, uint32_t motorPwmRate, uint16_t idlePulseUsec)
 {
-    static pwmOutputPort_t pwmPorts[14];
+    static pwmOutputPort_t pwmPorts[16];
 
     uint32_t mhz = (motorPwmRate > 500) ? 8 : 1;
     uint32_t hz = mhz * 1000000;
     uint16_t period = hz / motorPwmRate;
 
     // XXX currently support only four motors
-    int8_t portFromPin[] = {-1, -1, -1, -1, -1, -1, 10, 11, 8, -1, -1, 9, 0};
+    int8_t portFromPin[] = {3, -1, -1, -1, -1, -1, -1, -1, 2, -1, -1, -1, -1, -1, 1, 0};
 
     int8_t port = portFromPin[pin];
 
@@ -111,31 +111,32 @@ void Motor::attach(uint8_t pin, uint32_t motorPwmRate, uint16_t idlePulseUsec)
         while (1)
             ;
     pwmOutputPort_t *p = &pwmPorts[port];
-    configTimeBase(timerHardware->tim, period, mhz);
-    pwmGPIOConfig(timerHardware->gpio, timerHardware->pin, Mode_AF_PP);
 
-    pwmOCConfig(timerHardware->tim, timerHardware->channel, idlePulseUsec);
-    if (timerHardware->outputEnable)
-        TIM_CtrlPWMOutputs(timerHardware->tim, ENABLE);
-    TIM_Cmd(timerHardware->tim, ENABLE);
+    configTimeBase(timerHardware[port].tim, period, mhz);
+    pwmGPIOConfig(timerHardware[port].gpio, timerHardware[port].pin, Mode_AF_PP);
 
-    switch (timerHardware->channel) {
+    pwmOCConfig(timerHardware[port].tim, timerHardware[port].channel, idlePulseUsec);
+    if (timerHardware[port].outputEnable)
+        TIM_CtrlPWMOutputs(timerHardware[port].tim, ENABLE);
+    TIM_Cmd(timerHardware[port].tim, ENABLE);
+
+    switch (timerHardware[port].channel) {
         case TIM_Channel_1:
-            p->ccr = &timerHardware->tim->CCR1;
+            p->ccr = &timerHardware[port].tim->CCR1;
             break;
         case TIM_Channel_2:
-            p->ccr = &timerHardware->tim->CCR2;
+            p->ccr = &timerHardware[port].tim->CCR2;
             break;
         case TIM_Channel_3:
-            p->ccr = &timerHardware->tim->CCR3;
+            p->ccr = &timerHardware[port].tim->CCR3;
             break;
         case TIM_Channel_4:
-            p->ccr = &timerHardware->tim->CCR4;
+            p->ccr = &timerHardware[port].tim->CCR4;
             break;
     }
-    p->period = period;
-    p->tim = timerHardware->tim;
 
+    p->period = period;
+    p->tim = timerHardware[port].tim;
 
     this->motor = p;
 
