@@ -256,8 +256,10 @@ uint8_t HardwareWire::endTransmission(bool stop)
     return 0; // success
 }
 
-uint8_t HardwareWire::read(uint8_t quantity, uint8_t* buf)
+uint8_t HardwareWire::read(uint8_t address, uint8_t quantity, uint8_t* buf)
 {
+    address <<= 1;
+
     // Test on BUSY Flag 
     i2cTimeout = I2C_DEFAULT_TIMEOUT;
     while (I2C_GetFlagStatus(I2Cx, I2C_ISR_BUSY) != RESET) {
@@ -267,7 +269,7 @@ uint8_t HardwareWire::read(uint8_t quantity, uint8_t* buf)
     }
 
     // Configure slave address, nbytes, reload, end mode and start or stop generation 
-    I2C_TransferHandling(I2Cx, this->addr, 1, I2C_SoftEnd_Mode, I2C_Generate_Start_Write);
+    I2C_TransferHandling(I2Cx, address, 1, I2C_SoftEnd_Mode, I2C_Generate_Start_Write);
 
     // Wait until TXIS flag is set 
     i2cTimeout = I2C_DEFAULT_TIMEOUT;
@@ -289,7 +291,7 @@ uint8_t HardwareWire::read(uint8_t quantity, uint8_t* buf)
     }
 
     // Configure slave address, nbytes, reload, end mode and start or stop generation 
-    I2C_TransferHandling(I2Cx, this->addr, quantity, I2C_AutoEnd_Mode, I2C_Generate_Start_Read);
+    I2C_TransferHandling(I2Cx, address, quantity, I2C_AutoEnd_Mode, I2C_Generate_Start_Read);
 
     // Wait until all data are received 
     while (quantity) {

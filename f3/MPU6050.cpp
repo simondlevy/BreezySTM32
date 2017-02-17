@@ -151,7 +151,7 @@ void MPU6050::readBytes(uint8_t subAddress, uint8_t count, uint8_t * dest)
     Wire.beginTransmission(0x68);
     Wire.write(subAddress);
     Wire.endTransmission(false);
-    Wire.read(count, dest);
+    Wire.read(0x68, count, dest);
 }
 
 } // extern "C"
