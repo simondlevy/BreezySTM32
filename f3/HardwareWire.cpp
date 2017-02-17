@@ -180,6 +180,11 @@ void HardwareWire::begin(void)
     i2cInitPort(I2C2);
 }
 
+void beginTransmission(uint8_t address)
+{
+    (void)address;
+}
+
 bool HardwareWire::write(uint8_t addr_, uint8_t reg, uint8_t data)
 {
     addr_ <<= 1;
@@ -243,6 +248,10 @@ bool HardwareWire::write(uint8_t addr_, uint8_t reg, uint8_t data)
     return true;
 }
 
+uint8_t HardwareWire::endTransmission(bool stop)
+{
+    return 0; // success
+}
 
 bool HardwareWire::read(uint8_t addr_, uint8_t reg, uint8_t len, uint8_t* buf)
 {
