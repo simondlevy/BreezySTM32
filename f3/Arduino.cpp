@@ -15,7 +15,6 @@ extern "C" {
 #include "serial_usb_vcp.h"
 #include "serial_uart.h"
 #include "exti.h"
-#include "bus_i2c.h"
 #include "dma.h"
 #include "serial.h"
 #include "serial_uart.h"
