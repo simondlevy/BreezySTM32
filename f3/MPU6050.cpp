@@ -21,7 +21,6 @@
  */
 
 #include "MPU6050.h"
-#include <Wire.h>
 
 // Define registers per MPU6050, Register Map and Descriptions, Rev 4.2, 08/19/2013 6 DOF Motion sensor fusion device
 // Invensense Inc., www.invensense.com
