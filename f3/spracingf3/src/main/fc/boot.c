@@ -845,7 +845,7 @@ int main(void) {
 
     while (true) {
         char tmp[100];
-        sprintf(tmp, "%ld\n", millis());
+        sprintf(tmp, "--- %ld\n", millis());
         for (char *p=tmp; *p; p++) {
             serialWrite(uart1, *p);
         }
