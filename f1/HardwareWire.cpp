@@ -103,7 +103,6 @@ static I2C_TypeDef *I2Cx = NULL;
 // Copy of device index for reinit, etc purposes
 static I2CDevice I2Cx_index;
 
-
 void I2C2_EV_IRQHandler(void)
 {
     i2c_ev_handler();
@@ -111,17 +110,16 @@ void I2C2_EV_IRQHandler(void)
 
 #define I2C_DEFAULT_TIMEOUT 30000
 
-static volatile bool _error;
-static volatile bool busy;
-
-static volatile uint8_t addr;
-static volatile uint8_t _reg;
-static volatile uint8_t _bytes;
-static volatile uint8_t _writing;
-static volatile uint8_t _reading;
-static volatile uint8_t *_write_p;
-static volatile uint8_t *_read_p;
-static volatile uint8_t *_status;
+static volatile bool      _error;
+static volatile bool      _busy;
+static volatile uint8_t   _addr;
+static volatile uint8_t   _reg;
+static volatile uint8_t   _bytes;
+static volatile uint8_t   _writing;
+static volatile uint8_t   _reading;
+static volatile uint8_t * _write_p;
+static volatile uint8_t * _read_p;
+static volatile uint8_t * _status;
 
 static void i2cUnstick(void)
 {
@@ -182,7 +180,7 @@ static bool i2cHandleHardwareFailure(void)
 
 static void i2cBeginTransmission(uint8_t addr_)
 {
-    addr = addr_ << 1;
+    _addr = addr_ << 1;
 }
 
 static bool i2cWrite(uint8_t reg_, uint8_t data)
@@ -195,7 +193,7 @@ static bool i2cWrite(uint8_t reg_, uint8_t data)
     _write_p = &data;
     _read_p = &data;
     _bytes = 1;
-    busy = 1;
+    _busy = true;
     _error = false;
 
     if (!I2Cx)
@@ -222,7 +220,7 @@ static bool i2cEndTransmission(void)
 
     uint32_t timeout = I2C_DEFAULT_TIMEOUT;
 
-    while (busy && --timeout > 0) {
+    while (_busy && --timeout > 0) {
         ;
     }
     if (timeout == 0)
@@ -235,14 +233,14 @@ static bool i2cRead(uint8_t addr_, uint8_t reg_, uint8_t len, uint8_t *buf)
 {
     uint32_t timeout = I2C_DEFAULT_TIMEOUT;
 
-    addr = addr_ << 1;
+    _addr = addr_ << 1;
     _reg = reg_;
     _writing = 0;
     _reading = 1;
     _read_p = buf;
     _write_p = buf;
     _bytes = len;
-    busy = 1;
+    _busy = true;
     _error = false;
 
     if (!I2Cx)
@@ -261,7 +259,7 @@ static bool i2cRead(uint8_t addr_, uint8_t reg_, uint8_t len, uint8_t *buf)
     }
 
     timeout = I2C_DEFAULT_TIMEOUT;
-    while (busy && --timeout > 0) {
+    while (_busy && --timeout > 0) {
         ;
     }
     if (timeout == 0)
@@ -284,9 +282,9 @@ void i2c_ev_handler(void)
             subaddress_sent = 1;                                        // make sure this is set in case of no subaddress, so following code runs correctly
             if (_bytes == 2)
                 I2Cx->CR1 |= 0x0800;                                    // set the POS bit so NACK applied to the final byte in the two byte read
-            I2C_Send7bitAddress(I2Cx, addr, I2C_Direction_Receiver);    // send the address and set hardware mode
+            I2C_Send7bitAddress(I2Cx, _addr, I2C_Direction_Receiver);    // send the address and set hardware mode
         } else {                                                        // direction is Tx, or we havent sent the sub and rep start
-            I2C_Send7bitAddress(I2Cx, addr, I2C_Direction_Transmitter); // send the address and set hardware mode
+            I2C_Send7bitAddress(I2Cx, _addr, I2C_Direction_Transmitter); // send the address and set hardware mode
             if (_reg != 0xFF)                                            // 0xFF as subaddress means it will be ignored, in Tx or Rx mode
                 index = -1;                                             // send a subaddress
         }
@@ -377,7 +375,7 @@ void i2c_ev_handler(void)
         if (_status != NULL){
             (*_status) = I2C_JOB_COMPLETE;                               // Update _status
         }
-        busy = 0;
+        _busy = false;
     }
 }
 
