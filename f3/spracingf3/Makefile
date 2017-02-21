@@ -259,7 +259,6 @@ FC_COMMON_SRC = \
 		   config/profile.c \
 		   fc/boot.c \
 		   fc/fc_debug.c \
-		   fc/cleanflight_fc.c \
 		   fc/fc_tasks.c \
 		   fc/rate_profile.c \
 		   fc/rc_adjustments.c \
@@ -310,14 +309,7 @@ FC_COMMON_SRC = \
 
 
 HIGHEND_SRC = \
-		   io/display.c \
-		   telemetry/telemetry.c \
-		   telemetry/frsky.c \
-		   telemetry/hott.c \
-		   telemetry/smartport.c \
-		   telemetry/ltm.c \
-		   telemetry/ibus.c 
-
+		   io/display.c 
 STM32F30x_COMMON_SRC = \
 		   startup_stm32f30x_md_gcc.S \
 		   target/system_stm32f30x.c \
