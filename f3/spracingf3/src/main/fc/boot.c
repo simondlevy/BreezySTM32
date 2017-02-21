@@ -122,7 +122,6 @@ PG_RESET_TEMPLATE(systemConfig_t, systemConfig,
 int main(void) {
 
     initEEPROM();
-
     ensureEEPROMContainsValidData();
     readEEPROM();
 
@@ -141,10 +140,7 @@ int main(void) {
     // initialize IO (needed for all IO operations)
     IOInitGlobal();
 
-    debugMode = debugConfig()->debug_mode;
-
     EXTIInit();
-
 
     ledInit(false);
 
@@ -155,8 +151,6 @@ int main(void) {
     dmaInit();
 
     i2cInit(I2C_DEVICE);
-
-    initBoardAlignment();
 
     displayInit();
 
