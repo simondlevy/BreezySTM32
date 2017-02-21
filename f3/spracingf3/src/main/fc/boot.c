@@ -97,47 +97,31 @@
 #include "flight/failsafe.h"
 #include "flight/navigation.h"
 
-#include "osd/osd_element.h"
-#include "osd/osd.h"
-
-#include "fc/runtime_config.h"
-#include "fc/config.h"
-#include "config/config_system.h"
-#include "config/feature.h"
-
-#include "fc/fc_tasks.h"
-#include "scheduler/scheduler.h"
-
-
 // from system_stm32f30x.c
 void SetSysClock(void);
 
+/*
 PG_REGISTER_WITH_RESET_TEMPLATE(systemConfig_t, systemConfig, PG_SYSTEM_CONFIG, 0);
 PG_REGISTER(pwmRxConfig_t, pwmRxConfig, PG_DRIVER_PWM_RX_CONFIG, 0);
 
 PG_RESET_TEMPLATE(systemConfig_t, systemConfig,
     .i2c_highspeed = 1,
 );
+*/
 
 int main(void) {
-
-    /*
-    initEEPROM();
-    ensureEEPROMContainsValidData();
-    readEEPROM();
-    */
 
     // start fpu
     SCB->CPACR = (0x3 << (10*2)) | (0x3 << (11*2));
 
     SetSysClock();
 
-    i2cSetOverclock(systemConfig()->i2c_highspeed);
+    //i2cSetOverclock(systemConfig()->i2c_highspeed);
 
     systemInit();
 
     // Latch active features to be used for feature() in the remainder of init().
-    latchActiveFeatures();
+    //latchActiveFeatures();
 
     // initialize IO (needed for all IO operations)
     IOInitGlobal();
