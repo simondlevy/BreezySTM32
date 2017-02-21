@@ -43,8 +43,6 @@
 
 #define I2C_DEVICE (I2CDEV_2)
 
-#include "drv_i2c.h"
-//#include "drv_pwm.h"
 #include "drv_timer.h"
 #include "drv_serial.h"
 #include "drv_uart.h"

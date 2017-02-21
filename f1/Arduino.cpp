@@ -29,7 +29,6 @@ extern "C" {
 #include <drv_serial.h>
 #include <drv_uart.h>
 #include <drv_serial.h>
-#include <drv_i2c.h>
 
 #include <stdlib.h>
 
