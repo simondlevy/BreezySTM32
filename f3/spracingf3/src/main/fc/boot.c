@@ -161,12 +161,14 @@ void init(void)
 {
     drv_pwm_config_t pwm_params;
 
+
     initEEPROM();
 
     ensureEEPROMContainsValidData();
     readEEPROM();
 
     systemState |= SYSTEM_STATE_CONFIG_LOADED;
+
 
     // start fpu
     SCB->CPACR = (0x3 << (10*2)) | (0x3 << (11*2));
@@ -242,11 +244,7 @@ void init(void)
 
     initBoardAlignment();
 
-#ifdef DISPLAY
-    if (feature(FEATURE_DISPLAY)) {
-        displayInit();
-    }
-#endif
+    displayInit();
 
    if (!sensorsAutodetect()) {
         // if gyro was not detected due to whatever reason, we give up now.
