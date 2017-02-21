@@ -157,8 +157,8 @@ void flashLedsAndBeep(void)
     LED1_OFF;
 }
 
-void init(void)
-{
+int main(void) {
+
     initEEPROM();
 
     ensureEEPROMContainsValidData();
@@ -169,7 +169,6 @@ void init(void)
 
     // start fpu
     SCB->CPACR = (0x3 << (10*2)) | (0x3 << (11*2));
-
 
     SetSysClock();
 
@@ -203,7 +202,6 @@ void init(void)
 
     systemState |= SYSTEM_STATE_MOTORS_READY;
 
-
     i2cInit(I2C_DEVICE);
 
     initBoardAlignment();
@@ -228,7 +226,7 @@ void init(void)
 
     imuInit();
 
-   failsafeInit();
+    failsafeInit();
 
     rxInit(modeActivationProfile()->modeActivationConditions);
 
@@ -248,13 +246,9 @@ void init(void)
     motorControlEnable = true;
 
     systemState |= SYSTEM_STATE_READY;
-}
 
-int main(void) {
-
-    init();
-
-    serialPort_t * uart1 = (serialPort_t *)uartOpen(USART1, NULL, 115200, MODE_RXTX, SERIAL_NOT_INVERTED);
+    serialPort_t * uart1 = 
+        (serialPort_t *)uartOpen(USART1, NULL, 115200, MODE_RXTX, SERIAL_NOT_INVERTED);
 
     while (true) {
         char tmp[100];
