@@ -6,15 +6,9 @@
 
 #include <platform.h>
 
-#include "build/build_config.h"
-#include "build/debug.h"
-#include "build/atomic.h"
-
-#include "config/parameter_group.h"
-#include "config/parameter_group_ids.h"
+//#include "build/build_config.h"
 
 #include "drivers/nvic.h"
-
 #include "drivers/system.h"
 #include "drivers/dma.h"
 #include "drivers/gpio.h"
@@ -24,6 +18,8 @@
 #include "drivers/serial_uart.h"
 #include "drivers/adc.h"
 #include "drivers/bus_i2c.h"
+#include "drivers/light_led.h"
+#include "drivers/exti.h"
 
 void SetSysClock(void);
 
@@ -65,7 +61,5 @@ int main(void) {
 
 void HardFault_Handler(void)
 {
-    //stopMotors();
-
     while (1);
 }
