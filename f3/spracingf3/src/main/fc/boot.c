@@ -276,22 +276,12 @@ void init(void)
         accSetCalibrationCycles(CALIBRATING_ACC_CYCLES);
     }
     gyroSetCalibrationCycles(CALIBRATING_GYRO_CYCLES);
-    // start all timers
-    // TODO - not implemented yet
+
+
     timerStart();
 
     ENABLE_STATE(SMALL_ANGLE);
     DISABLE_ARMING_FLAG(PREVENT_ARMING);
-
-#ifdef SOFTSERIAL_LOOPBACK
-    // FIXME this is a hack, perhaps add a FUNCTION_LOOPBACK to support it properly
-    loopbackPort = (serialPort_t*)&(softSerialPorts[0]);
-    if (!loopbackPort->vTable) {
-        loopbackPort = openSoftSerial(0, NULL, 19200, SERIAL_NOT_INVERTED);
-    }
-    serialPrint(loopbackPort, "LOOPBACK\r\n");
-#endif
-
 
     if (feature(FEATURE_VBAT)) {
         // Now that everything has powered up the voltage and cell count be determined.
