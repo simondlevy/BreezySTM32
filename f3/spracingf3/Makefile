@@ -327,9 +327,7 @@ HIGHEND_SRC = \
 		   telemetry/hott.c \
 		   telemetry/smartport.c \
 		   telemetry/ltm.c \
-		   telemetry/ibus.c \
-		   blackbox/blackbox.c \
-		   blackbox/blackbox_io.c
+		   telemetry/ibus.c 
 
 STM32F30x_COMMON_SRC = \
 		   startup_stm32f30x_md_gcc.S \
@@ -363,7 +361,6 @@ SPRACINGF3_SRC = \
 		   drivers/light_ws2811strip.c \
 		   drivers/light_ws2811strip_stm32f30x.c \
 		   drivers/serial_softserial.c \
-		   io/flashfs.c \
 		   $(HIGHEND_SRC) \
 		   $(FC_COMMON_SRC) \
 		   $(SYSTEM_SRC)
