@@ -90,21 +90,4 @@ class HardwareSerial1 : public HardwareSerial {
 
 extern HardwareSerial1 Serial1;
 
-class HardwareWire {
-
-    public:
-
-        void begin();
-
-        void beginTransmission(uint8_t addr);
-
-        int8_t write(uint8_t reg, uint8_t data);
-
-        int8_t endTransmission(void);
-
-        bool read(uint8_t addr_, uint8_t reg, uint8_t len, uint8_t *buf);
-};
-
-extern HardwareWire Wire;
-
 } // extern "C"

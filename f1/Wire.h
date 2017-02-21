@@ -1,5 +1,5 @@
 /*
-HardwareWire.cpp : Wire API impelentation for BreezySTM32 library
+Wire.h : I^2C header for BreezySTM32 library
 
 Copyright (C) 2017 Simon D. Levy 
 
@@ -21,38 +21,23 @@ along with BreezySTM32.  If not, see <http://www.gnu.org/licenses/>.
 
 extern "C" {
 
-#include <Arduino.h>
-#include <Wire.h>
+#include <stdint.h>
 
-#include <drv_i2c.h>
+class HardwareWire {
 
-void HardwareWire::begin(void)
-{
-    i2cInit(I2CDEV_2);
-}
+    public:
 
-void HardwareWire::beginTransmission(uint8_t addr)
-{
-    i2cBeginTransmission(addr);
-}
+        void begin();
 
-int8_t HardwareWire::write(uint8_t reg, uint8_t data)
-{
-    return i2cWrite(reg, data) ? 0 : -1;
-}
+        void beginTransmission(uint8_t addr);
 
-int8_t HardwareWire::endTransmission(void)
-{
-    return i2cEndTransmission() ? 0 : -1;
-}
+        int8_t write(uint8_t reg, uint8_t data);
 
-bool HardwareWire::read(uint8_t addr, uint8_t reg, uint8_t len, uint8_t *buf)
-{
-    return i2cRead(addr, reg, len, buf);
-}
+        int8_t endTransmission(void);
 
+        bool read(uint8_t addr_, uint8_t reg, uint8_t len, uint8_t *buf);
+};
+
+extern HardwareWire Wire;
 
 } // extern "C"
-
-HardwareWire Wire;
-
