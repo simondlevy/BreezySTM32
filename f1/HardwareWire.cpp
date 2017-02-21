@@ -178,11 +178,6 @@ static bool i2cHandleHardwareFailure(void)
     return false;
 }
 
-static void i2cBeginTransmission(uint8_t addr_)
-{
-    _addr = addr_ << 1;
-}
-
 static bool i2cWrite(uint8_t reg_, uint8_t data)
 {
     uint32_t timeout = I2C_DEFAULT_TIMEOUT;
@@ -434,7 +429,7 @@ void HardwareWire::begin(void)
 
 void HardwareWire::beginTransmission(uint8_t addr_)
 {
-    i2cBeginTransmission(addr_);
+    _addr = addr_ << 1;
 }
 
 int8_t HardwareWire::write(uint8_t reg, uint8_t data)
