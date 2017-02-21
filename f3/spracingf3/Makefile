@@ -368,7 +368,7 @@ all_targets : $(VALID_TARGETS)
 
 ## clean       : clean up all temporary / machine-generated files
 clean:
-	rm -rf obj
+	rm -rf obj *~
 
 flash_$(TARGET): $(TARGET_HEX)
 	stty -F $(SERIAL_DEVICE) raw speed 115200 -crtscts cs8 -parenb -cstopb -ixon
