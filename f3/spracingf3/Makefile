@@ -241,7 +241,6 @@ FC_COMMON_SRC = \
 		   drivers/io.c \
 		   io/motors.c \
 
-
 HIGHEND_SRC = io/display.c 
 
 STM32F30x_COMMON_SRC = \

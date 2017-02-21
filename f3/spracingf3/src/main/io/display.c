@@ -696,6 +696,7 @@ void displaySetPage(pageId_e pageId)
 
 void displayInit(void)
 {
+    /*
     delay(200);
     resetDisplay();
     delay(200);
@@ -706,6 +707,7 @@ void displayInit(void)
     updateDisplay();
 
     displaySetNextPageChangeAt(micros() + (1000 * 1000 * 5));
+    */
 }
 
 void displayShowFixedPage(pageId_e pageId)
