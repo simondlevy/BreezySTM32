@@ -365,20 +365,6 @@ void init(void)
     }
 #endif
 
-#ifdef SPEKTRUM_BIND
-    if (feature(FEATURE_RX_SERIAL)) {
-        switch (rxConfig()->serialrx_provider) {
-            case SERIALRX_SPEKTRUM1024:
-            case SERIALRX_SPEKTRUM2048:
-                // Spektrum satellite binding if enabled on startup.
-                // Must be called before that 100ms sleep so that we don't lose satellite's binding window after startup.
-                // The rest of Spektrum initialization will happen later - via spektrumInit()
-                spektrumBind(rxConfig());
-                break;
-        }
-    }
-#endif
-
 #ifdef VTX
     // This must be done early to ensure that the VTX does not power up.  We do not fully initialise the VTX at this stage
     // because it takes some time - we don't want to delay other time critical initialisation.

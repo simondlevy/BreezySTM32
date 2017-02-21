@@ -149,7 +149,6 @@
 #define USE_CLI
 #define USE_EXTI
 
-#define SPEKTRUM_BIND
 // UART3,
 #define BIND_PORT  GPIOB
 #define BIND_PIN   Pin_11
