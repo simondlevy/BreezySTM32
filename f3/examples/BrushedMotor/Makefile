@@ -27,7 +27,7 @@ OBJECT_DIR	 = $(ROOT)/obj
 BIN_DIR		 = $(ROOT)/obj
 #CMSIS_DIR	 = $(ROOT)/lib/CMSIS
 CMSIS_DIR	 = $(BREEZY_DIR)/lib/CMSIS
-INCLUDE_DIRS = $(F3_DIR) $(SRC_DIR) $(SRC_DIR)/target
+INCLUDE_DIRS = $(BREEZY_DIR) $(F3_DIR) $(SRC_DIR) $(SRC_DIR)/target
 LINKER_DIR	 = $(SRC_DIR)/target
 
 # Search path for sources
@@ -255,7 +255,7 @@ $(OBJECT_DIR)/$(PROJECT)/%.o: %.S
 $(OBJECT_DIR)/$(PROJECT)/Arduino.o: $(F3_DIR)/Arduino.cpp $(F3_DIR)/Arduino.h
 	@$(CC) -c -o $(OBJECT_DIR)/$(PROJECT)/Arduino.o $(CFLAGS) $(F3_DIR)/Arduino.cpp
 
-$(OBJECT_DIR)/$(PROJECT)/Motor.o: $(F3_DIR)/Motor.cpp $(F3_DIR)/Motor.h
+$(OBJECT_DIR)/$(PROJECT)/Motor.o: $(F3_DIR)/Motor.cpp $(BREEZY_DIR)/Motor.h
 	@$(CC) -c -o $(OBJECT_DIR)/$(PROJECT)/Motor.o $(CFLAGS) $(F3_DIR)/Motor.cpp
 
 $(OBJECT_DIR)/$(PROJECT).o: ./$(PROJECT).cpp
