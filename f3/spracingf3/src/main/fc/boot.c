@@ -121,9 +121,11 @@ PG_RESET_TEMPLATE(systemConfig_t, systemConfig,
 
 int main(void) {
 
+    /*
     initEEPROM();
     ensureEEPROMContainsValidData();
     readEEPROM();
+    */
 
     // start fpu
     SCB->CPACR = (0x3 << (10*2)) | (0x3 << (11*2));
