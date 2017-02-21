@@ -250,6 +250,12 @@ void init(void)
     }
 #endif
 
+#ifdef NAZE
+    if (hardwareRevision < NAZE32_REV5) {
+        gyroConfig()->gyro_sync = 0;
+    }
+#endif
+
     if (!sensorsAutodetect()) {
         // if gyro was not detected due to whatever reason, we give up now.
         failureMode(FAILURE_MISSING_ACC);
