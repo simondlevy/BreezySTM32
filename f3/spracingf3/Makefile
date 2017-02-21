@@ -209,7 +209,7 @@ SYSTEM_SRC = \
 		   $(DEVICE_STDPERIPH_SRC)
 
 FC_COMMON_SRC = \
-		   fc/boot.c \
+		   main.c \
 		   drivers/exti.c \
 		   drivers/io.c
 
