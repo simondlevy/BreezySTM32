@@ -315,7 +315,6 @@ HIGHEND_SRC = \
 		   flight/gps_conversion.c \
 		   common/colorconversion.c \
 		   io/gps.c \
-		   io/ledstrip.c \
 		   io/display.c \
 		   telemetry/telemetry.c \
 		   telemetry/frsky.c \
@@ -349,14 +348,7 @@ STM32F30x_FC_COMMON_SRC = \
 SPRACINGF3_SRC = \
 		   $(STM32F30x_COMMON_SRC) \
 		   $(STM32F30x_FC_COMMON_SRC) \
-		   drivers/accgyro_mpu.c \
-		   drivers/accgyro_mpu6050.c \
-		   drivers/display_ug2864hsweg01.h \
-		   drivers/flash_m25p16.c \
-		   drivers/light_ws2811strip.c \
-		   drivers/light_ws2811strip_stm32f30x.c \
-		   drivers/serial_softserial.c \
-		   $(HIGHEND_SRC) \
+   	       $(HIGHEND_SRC) \
 		   $(FC_COMMON_SRC) \
 		   $(SYSTEM_SRC)
 
