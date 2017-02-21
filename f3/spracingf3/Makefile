@@ -219,16 +219,16 @@ STM32F30x_COMMON_SRC = \
 		   adc.c \
 		   adc_stm32f30x.c \
 		   bus_i2c_stm32f30x.c \
-		   drivers/bus_spi.c \
-		   drivers/gpio_stm32f30x.c \
-		   drivers/light_led_stm32f30x.c \
-		   drivers/serial_uart.c \
-		   drivers/serial_uart_stm32f30x.c \
-		   drivers/system_stm32f30x.c
+		   bus_spi.c \
+		   gpio_stm32f30x.c \
+		   light_led_stm32f30x.c \
+		   serial_uart.c \
+		   serial_uart_stm32f30x.c \
+		   system_stm32f30x.c
 
 STM32F30x_FC_COMMON_SRC = \
-		   drivers/timer.c \
-		   drivers/timer_stm32f30x.c 
+		   timer.c \
+		   timer_stm32f30x.c 
 
 SPRACINGF3_SRC = \
 		   $(STM32F30x_COMMON_SRC) \
