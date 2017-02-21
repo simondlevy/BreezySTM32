@@ -211,7 +211,7 @@ SYSTEM_SRC = \
 FC_COMMON_SRC = \
 		   main.c \
 		   exti.c \
-		   drivers/io.c
+		   io.c
 
 STM32F30x_COMMON_SRC = \
 		   startup_stm32f30x_md_gcc.S \
