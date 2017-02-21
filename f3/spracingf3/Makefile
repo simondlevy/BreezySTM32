@@ -202,8 +202,8 @@ VPATH		:= $(VPATH):$(TARGET_DIR)
 
 SYSTEM_SRC = \
 		   dma.c \
-		   drivers/serial.c \
-		   drivers/system.c \
+		   serial.c \
+		   system.c \
 		   $(TARGET_SRC) \
 		   $(CMSIS_SRC) \
 		   $(DEVICE_STDPERIPH_SRC)

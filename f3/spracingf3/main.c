@@ -7,11 +7,11 @@
 #include <platform.h>
 
 #include "drivers/nvic.h"
-#include "drivers/system.h"
+#include "system.h"
 #include "dma.h"
 #include "drivers/gpio.h"
 #include "drivers/timer.h"
-#include "drivers/serial.h"
+#include "serial.h"
 #include "drivers/serial_uart.h"
 #include "drivers/adc.h"
 #include "drivers/bus_i2c.h"
