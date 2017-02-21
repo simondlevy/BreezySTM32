@@ -229,27 +229,9 @@ INCLUDE_DIRS := \
 VPATH		:= $(VPATH):$(TARGET_DIR)
 
 SYSTEM_SRC = \
-		   build/build_config.c \
-		   build/debug.c \
-		   build/version.c \
-		   config/config_streamer.c \
-		   config/parameter_group.c \
-		   config/config_eeprom.c \
-		   common/encoding.c \
-		   common/filter.c \
-		   common/maths.c \
-		   common/printf.c \
-		   common/streambuf.c \
-		   common/typeconversion.c \
-		   common/crc.c \
-		   common/pilot.c \
-		   drivers/buf_writer.c \
 		   drivers/dma.c \
 		   drivers/serial.c \
 		   drivers/system.c \
-		   scheduler/scheduler.c \
-		   io/serial.c \
-		   io/statusindicator.c \
 		   $(TARGET_SRC) \
 		   $(CMSIS_SRC) \
 		   $(DEVICE_STDPERIPH_SRC)
