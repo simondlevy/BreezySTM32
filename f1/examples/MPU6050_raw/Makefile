@@ -60,7 +60,8 @@ OBJCOPY	 = arm-none-eabi-objcopy
 #
 # Tool options.
 #
-INCLUDE_DIRS	 = $(SRC_DIR) \
+INCLUDE_DIRS = $(SRC_DIR) \
+		   $(BREEZY_DIR) \
 		   $(F1_DIR) \
 		   $(MPU6050_DIR) \
 		   $(STDPERIPH_DIR)/inc \
