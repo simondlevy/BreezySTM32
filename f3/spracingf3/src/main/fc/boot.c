@@ -283,30 +283,14 @@ void init(void)
     ENABLE_STATE(SMALL_ANGLE);
     DISABLE_ARMING_FLAG(PREVENT_ARMING);
 
-#ifdef CJMCU
-    LED2_ON;
-#endif
-
-    // Latch active features AGAIN since some may be modified by init().
+   // Latch active features AGAIN since some may be modified by init().
     latchActiveFeatures();
     motorControlEnable = true;
 
     systemState |= SYSTEM_STATE_READY;
 }
 
-#ifdef SOFTSERIAL_LOOPBACK
-void processLoopback(void) {
-    if (loopbackPort) {
-        uint8_t bytesWaiting;
-        while ((bytesWaiting = serialRxBytesWaiting(loopbackPort))) {
-            uint8_t b = serialRead(loopbackPort);
-            serialWrite(loopbackPort, b);
-        };
-    }
-}
-#else
 #define processLoopback()
-#endif
 
 void configureScheduler(void)
 {
