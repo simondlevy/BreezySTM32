@@ -310,11 +310,6 @@ FC_COMMON_SRC = \
 
 
 HIGHEND_SRC = \
-		   flight/gtune.c \
-		   flight/navigation.c \
-		   flight/gps_conversion.c \
-		   common/colorconversion.c \
-		   io/gps.c \
 		   io/display.c \
 		   telemetry/telemetry.c \
 		   telemetry/frsky.c \
