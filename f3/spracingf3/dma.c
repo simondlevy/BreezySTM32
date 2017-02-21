@@ -23,7 +23,7 @@
 
 #include "build_config.h"
 
-#include "drivers/dma.h"
+#include "dma.h"
 #include "drivers/nvic.h"
 
 #define DEFINE_DMA_CHANNEL(d, c, f, i, r) \

@@ -201,7 +201,7 @@ INCLUDE_DIRS := \
 VPATH		:= $(VPATH):$(TARGET_DIR)
 
 SYSTEM_SRC = \
-		   drivers/dma.c \
+		   dma.c \
 		   drivers/serial.c \
 		   drivers/system.c \
 		   $(TARGET_SRC) \

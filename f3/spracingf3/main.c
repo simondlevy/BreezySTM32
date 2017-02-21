@@ -8,7 +8,7 @@
 
 #include "drivers/nvic.h"
 #include "drivers/system.h"
-#include "drivers/dma.h"
+#include "dma.h"
 #include "drivers/gpio.h"
 #include "drivers/timer.h"
 #include "drivers/serial.h"
