@@ -213,20 +213,6 @@ void init(void)
     beeperInit(&beeperConfig);
 #endif
 
-#ifdef BUTTONS
-    buttonsInit();
-
-    if (!isMPUSoftReset()) {
-        buttonsHandleColdBootButtonPresses();
-    }
-#endif
-
-#ifdef VTX
-    // This must be done early to ensure that the VTX does not power up.  We do not fully initialise the VTX at this stage
-    // because it takes some time - we don't want to delay other time critical initialisation.
-    vtxIOInit();
-#endif
-
     delay(100);
 
     timerInit();  // timer must be initialized before any channel is allocated
