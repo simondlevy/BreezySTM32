@@ -42,7 +42,7 @@ class HardwareWire {
 
         uint8_t write(uint8_t data);
 
-        uint8_t requestFrom(uint8_t address, uint8_t len, uint8_t * dest);
+        uint8_t requestFrom(uint8_t address, uint8_t len);
 
         uint8_t available(void);
 

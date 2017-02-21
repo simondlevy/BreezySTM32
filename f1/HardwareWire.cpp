@@ -401,8 +401,11 @@ uint8_t HardwareWire::endTransmission(bool stop)
     return 0; // success
 }
 
-uint8_t HardwareWire::requestFrom(uint8_t address, uint8_t len, uint8_t * dest)
+uint8_t HardwareWire::requestFrom(uint8_t address, uint8_t len)
 {
+    this->avail = 0;
+    this->bufpos = 0;
+
     uint32_t timeout = I2C_DEFAULT_TIMEOUT;
 
     _addr = address << 1;
@@ -435,13 +438,22 @@ uint8_t HardwareWire::requestFrom(uint8_t address, uint8_t len, uint8_t * dest)
         ;
     }
 
-    for (int k=0; k<len; ++k) {
-        dest[k] = this->buffer[k];
-    }
+    this->avail = len;
 
     return (timeout == 0) ? 0 : len;
 }
 
+uint8_t HardwareWire::available(void)
+{
+    return this->avail;
+}
+
+uint8_t HardwareWire::read(void)
+{
+    this->avail--;
+
+    return this->buffer[this->bufpos++];
+}
 
 } // extern "C"
 
