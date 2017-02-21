@@ -48,7 +48,6 @@
 #define USE_ACC_MPU6050
 #define ACC_MPU6050_ALIGN CW270_DEG
 
-#define BEEPER
 #define LED0
 
 #define USE_UART1
