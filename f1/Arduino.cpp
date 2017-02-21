@@ -80,6 +80,16 @@ void digitalWrite(uint8_t pin, uint8_t level)
     }
 }
 
+void reset(void)
+{
+    systemReset(false);
+}
+
+void resetToBootloader(void)
+{
+    systemReset(true);
+}
+
 int main(void)
 {
     void SetSysClock(bool overclock);

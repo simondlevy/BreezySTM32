@@ -93,6 +93,16 @@ void digitalWrite(uint8_t pin, uint8_t level)
 }
 
 
+void reset(void)
+{
+    systemReset();
+}
+
+void resetToBootloader(void)
+{
+    systemResetToBootloader();
+}
+
 int main(void) {
 
     void setup(void);
