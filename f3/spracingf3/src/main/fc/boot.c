@@ -272,18 +272,6 @@ void init(void)
 
     rxInit(modeActivationProfile()->modeActivationConditions);
 
-#ifdef USE_FLASHFS
-#ifdef NAZE
-    if (hardwareRevision == NAZE32_REV5) {
-        m25p16_init();
-    }
-#elif defined(USE_FLASH_M25P16)
-    m25p16_init();
-#endif
-
-    flashfsInit();
-#endif
-
 #ifdef USE_SDCARD
     bool sdcardUseDMA = false;
 
