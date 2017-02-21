@@ -42,11 +42,11 @@ class HardwareWire {
 
         uint8_t write(uint8_t data);
 
-        uint8_t requestFrom(uint8_t address, uint8_t len);
+        uint8_t requestFrom(uint8_t address, uint8_t len, uint8_t * buf);
 
         uint8_t available(void);
 
-        bool    read(uint8_t addr_, uint8_t reg, uint8_t len, uint8_t *buf);
+        uint8_t read(void);
 
         uint8_t endTransmission(bool stop=true);
 };

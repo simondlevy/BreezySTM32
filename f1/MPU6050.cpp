@@ -71,8 +71,7 @@ static void readBytes(uint8_t subAddress, uint8_t count, uint8_t * dest)
     Wire.beginTransmission(MPU_ADDRESS);   // Initialize the Tx buffer
     Wire.write(subAddress);             // Put slave register address in Tx buffer
     Wire.endTransmission(false);        // Send the Tx buffer, but send a restart to keep connection alive
-
-    Wire.read(MPU_ADDRESS, subAddress, count, dest);
+    Wire.requestFrom(MPU_ADDRESS, count, dest);  // Read bytes from slave register address 
 }
 
 static void mpuWriteRegisterI2C(uint8_t reg, uint8_t data)
