@@ -266,10 +266,6 @@ void init(void)
     pidSetTargetLooptime(pidPeriodUs * gyroConfig()->pid_process_denom);
     pidInitFilters(pidProfile());
 
-#ifdef USE_SERVOS
-    mixerInitialiseServoFiltering(targetPidLooptime);
-#endif
-
     imuInit();
 
 
