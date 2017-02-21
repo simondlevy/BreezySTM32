@@ -48,8 +48,6 @@ int main(void) {
 
     i2cInit(I2C_DEVICE);
 
-    displayInit();
-
     timerStart();
 
     serialPort_t * uart1 = 

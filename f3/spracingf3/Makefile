@@ -289,16 +289,7 @@ FC_COMMON_SRC = \
 		   io/serial_4way_stk500v2.c \
 		   io/serial_cli.c \
 		   io/statusindicator.c \
-		   rx/rx.c \
-		   rx/pwm.c \
-		   rx/sbus.c \
-		   rx/sumd.c \
-		   rx/sumh.c \
-		   rx/spektrum.c \
-		   rx/xbus.c \
-		   rx/ibus.c \
-		   rx/srxl.c \
-		   sensors/sensors.c \
+   	   sensors/sensors.c \
 		   sensors/acceleration.c \
 		   sensors/battery.c \
 		   sensors/voltage.c \
@@ -308,8 +299,8 @@ FC_COMMON_SRC = \
 		   sensors/initialisation.c
 
 
-HIGHEND_SRC = \
-		   io/display.c 
+HIGHEND_SRC = io/display.c 
+
 STM32F30x_COMMON_SRC = \
 		   startup_stm32f30x_md_gcc.S \
 		   target/system_stm32f30x.c \

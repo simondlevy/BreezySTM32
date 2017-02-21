@@ -139,13 +139,6 @@
 
 #define DEFAULT_RX_FEATURE FEATURE_RX_PPM
 
-#define DISPLAY
-#define GTUNE
-#define SERIAL_RX
-#define TELEMETRY
-#define TELEMETRY_IBUS
-#define USE_SERVOS
-#define USE_CLI
 #define USE_EXTI
 
 // UART3,
