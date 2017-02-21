@@ -272,10 +272,6 @@ void init(void)
 
     rxInit(modeActivationProfile()->modeActivationConditions);
 
-#ifdef USB_CABLE_DETECTION
-    usbCableDetectInit();
-#endif
-
 #ifdef TRANSPONDER
     if (feature(FEATURE_TRANSPONDER)) {
         transponderInit(transponderConfig()->data);
