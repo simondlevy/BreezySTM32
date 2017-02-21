@@ -268,27 +268,9 @@ void init(void)
 
     imuInit();
 
-
-#ifdef USE_CLI
-    cliInit();
-#endif
-
-    failsafeInit();
+   failsafeInit();
 
     rxInit(modeActivationProfile()->modeActivationConditions);
-
-#ifdef GPS
-    if (feature(FEATURE_GPS)) {
-        gpsInit();
-        navigationInit(pidProfile());
-    }
-#endif
-
-#ifdef SONAR
-    if (feature(FEATURE_SONAR)) {
-        sonarInit(sonarHardware);
-    }
-#endif
 
 #ifdef LED_STRIP
     ledStripInit();
