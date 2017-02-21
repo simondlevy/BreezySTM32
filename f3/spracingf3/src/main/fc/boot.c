@@ -1,20 +1,3 @@
-/*
- * This file is part of Cleanflight.
- *
- * Cleanflight is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * Cleanflight is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with Cleanflight.  If not, see <http://www.gnu.org/licenses/>.
- */
-
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdlib.h>
@@ -67,10 +50,6 @@
 #include "drivers/io.h"
 #include "drivers/video.h"
 #include "drivers/video_textscreen.h"
-
-#ifdef MAX7456_SPI_INSTANCE
-#include "drivers/video_max7456.h"
-#endif
 
 #include "rx/rx.h"
 #include "rx/spektrum.h"
@@ -126,18 +105,11 @@
 #include "config/config_system.h"
 #include "config/feature.h"
 
-#ifdef USE_HARDWARE_REVISION_DETECTION
-#include "hardware_revision.h"
-#endif
-
 #include "fc/fc_tasks.h"
 #include "scheduler/scheduler.h"
 
 extern uint8_t motorControlEnable;
 
-#ifdef SOFTSERIAL_LOOPBACK
-serialPort_t *loopbackPort;
-#endif
 
 bool isUsingVTXSwitch(void);
 void mixerUsePWMIOConfiguration(pwmIOConfiguration_t *pwmIOConfiguration);
@@ -147,14 +119,9 @@ void navigationInit(pidProfile_t *pidProfile);
 const sonarHardware_t *sonarGetHardwareConfiguration(amperageMeter_e amperageMeter);
 void sonarInit(const sonarHardware_t *sonarHardware);
 
-#ifdef STM32F303xC
+
 // from system_stm32f30x.c
 void SetSysClock(void);
-#endif
-#ifdef STM32F10X
-// from system_stm32f10x.c
-void SetSysClock(bool overclock);
-#endif
 
 PG_REGISTER_WITH_RESET_TEMPLATE(systemConfig_t, systemConfig, PG_SYSTEM_CONFIG, 0);
 PG_REGISTER(pwmRxConfig_t, pwmRxConfig, PG_DRIVER_PWM_RX_CONFIG, 0);
@@ -162,15 +129,6 @@ PG_REGISTER(pwmRxConfig_t, pwmRxConfig, PG_DRIVER_PWM_RX_CONFIG, 0);
 PG_RESET_TEMPLATE(systemConfig_t, systemConfig,
     .i2c_highspeed = 1,
 );
-
-#ifdef CUSTOM_FLASHCHIP
-PG_REGISTER(flashchipConfig_t, flashchipConfig, PG_DRIVER_FLASHCHIP_CONFIG, 0);
-PG_RESET_TEMPLATE(flashchipConfig_t, flashchipConfig,
-    .flashchip_id = 0,
-    .flashchip_nsect = 0,
-    .flashchip_pps = 0,
-);
-#endif
 
 typedef enum {
     SYSTEM_STATE_INITIALISING        = 0,
@@ -199,84 +157,6 @@ void flashLedsAndBeep(void)
     LED1_OFF;
 }
 
-#ifdef VTX
-bool canUpdateVTX(void)
-{
-#if defined(MAX7456_SPI_INSTANCE) && defined(RTC6705_SPI_INSTANCE) && defined(SPI_SHARED_MAX7456_AND_RTC6705)
-    if (feature(FEATURE_OSD)) {
-        return !max7456_isBusy();
-    }
-#endif
-    return true;
-}
-#endif
-
-#ifdef BUTTONS
-void buttonsInit(void)
-{
-
-#ifdef BUTTON_A_PIN
-    gpio_config_t buttonAGpioConfig = {
-        BUTTON_A_PIN,
-        Mode_IPU,
-        Speed_2MHz
-    };
-    gpioInit(BUTTON_A_PORT, &buttonAGpioConfig);
-#endif
-
-#ifdef BUTTON_B_PIN
-    gpio_config_t buttonBGpioConfig = {
-        BUTTON_B_PIN,
-        Mode_IPU,
-        Speed_2MHz
-    };
-    gpioInit(BUTTON_B_PORT, &buttonBGpioConfig);
-#endif
-
-    delayMicroseconds(10);  // allow GPIO configuration to settle
-}
-
-void buttonsHandleColdBootButtonPresses(void)
-{
-#if defined(BUTTON_A_PIN) && defined(BUTTON_B_PIN)
-    // two buttons required
-
-    uint8_t secondsRemaining = 10;
-    bool bothButtonsHeld;
-    do {
-        bothButtonsHeld = !digitalIn(BUTTON_A_PORT, BUTTON_A_PIN) && !digitalIn(BUTTON_B_PORT, BUTTON_B_PIN);
-        if (bothButtonsHeld) {
-            if (--secondsRemaining == 0) {
-                resetEEPROM();
-                systemReset();
-            }
-
-            if (secondsRemaining > 5) {
-                delay(1000);
-            } else {
-                // flash quicker after a few seconds
-                delay(500);
-                LED0_TOGGLE;
-                delay(500);
-            }
-            LED0_TOGGLE;
-        }
-    } while (bothButtonsHeld);
-
-    // buttons released between 5 and 10 seconds
-    if (secondsRemaining < 5) {
-
-        usbGenerateDisconnectPulse();
-
-        flashLedsAndBeep();
-
-        systemResetToBootloader();
-    }
-#endif
-}
-
-#endif
-
 void init(void)
 {
     drv_pwm_config_t pwm_params;
@@ -290,26 +170,17 @@ void init(void)
 
     systemState |= SYSTEM_STATE_CONFIG_LOADED;
 
-#ifdef STM32F303
+
     // start fpu
     SCB->CPACR = (0x3 << (10*2)) | (0x3 << (11*2));
-#endif
 
-#ifdef STM32F303xC
+
+
     SetSysClock();
-#endif
-#ifdef STM32F10X
-    // Configure the System clock frequency, HCLK, PCLK2 and PCLK1 prescalers
-    // Configure the Flash Latency cycles and enable prefetch buffer
-    SetSysClock(systemConfig()->emf_avoidance);
-#endif
+
     i2cSetOverclock(systemConfig()->i2c_highspeed);
 
     systemInit();
-
-#ifdef USE_HARDWARE_REVISION_DETECTION
-    detectHardwareRevision();
-#endif
 
     // Latch active features to be used for feature() in the remainder of init().
     latchActiveFeatures();
@@ -319,19 +190,11 @@ void init(void)
 
     debugMode = debugConfig()->debug_mode;
 
-#ifdef USE_EXTI
-    EXTIInit();
-#endif
 
-#ifdef ALIENFLIGHTF3
-    if (hardwareRevision == AFF3_REV_1) {
-        ledInit(false);
-    } else {
-        ledInit(true);
-    }
-#else
+    EXTIInit();
+
+
     ledInit(false);
-#endif
 
 #ifdef BEEPER
     beeperConfig_t beeperConfig = {
@@ -346,13 +209,6 @@ void init(void)
         .isInverted = false
 #endif
     };
-#ifdef NAZE
-    if (hardwareRevision >= NAZE32_REV5) {
-        // naze rev4 and below used opendrain to PNP for buzzer. Rev5 and above use PP to NPN.
-        beeperConfig.gpioMode = Mode_Out_PP;
-        beeperConfig.isInverted = true;
-    }
-#endif
 
     beeperInit(&beeperConfig);
 #endif
