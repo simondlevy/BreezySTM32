@@ -401,7 +401,7 @@ uint8_t HardwareWire::endTransmission(bool stop)
     return 0; // success
 }
 
-uint8_t HardwareWire::requestFrom(uint8_t address, uint8_t len, uint8_t *buf)
+uint8_t HardwareWire::requestFrom(uint8_t address, uint8_t len, uint8_t * dest)
 {
     uint32_t timeout = I2C_DEFAULT_TIMEOUT;
 
@@ -409,8 +409,8 @@ uint8_t HardwareWire::requestFrom(uint8_t address, uint8_t len, uint8_t *buf)
     _reg = this->reg;
     _writing = 0;
     _reading = 1;
-    _read_p = buf;
-    _write_p = buf;
+    _read_p = this->buffer;
+    _write_p = this->buffer;
     _bytes = len;
     _busy = true;
     _error = false;
@@ -433,6 +433,10 @@ uint8_t HardwareWire::requestFrom(uint8_t address, uint8_t len, uint8_t *buf)
     timeout = I2C_DEFAULT_TIMEOUT;
     while (_busy && --timeout > 0) {
         ;
+    }
+
+    for (int k=0; k<len; ++k) {
+        dest[k] = this->buffer[k];
     }
 
     return (timeout == 0) ? 0 : len;
