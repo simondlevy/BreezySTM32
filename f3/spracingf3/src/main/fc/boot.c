@@ -283,17 +283,6 @@ void init(void)
     ENABLE_STATE(SMALL_ANGLE);
     DISABLE_ARMING_FLAG(PREVENT_ARMING);
 
-    if (feature(FEATURE_VBAT)) {
-        // Now that everything has powered up the voltage and cell count be determined.
-
-        voltageMeterInit();
-        batteryInit();
-    }
-
-    if (feature(FEATURE_AMPERAGE_METER)) {
-        amperageMeterInit();
-    }
-
 #ifdef DISPLAY
     if (feature(FEATURE_DISPLAY)) {
 #ifdef USE_OLED_GPS_DEBUG_PAGE_ONLY
