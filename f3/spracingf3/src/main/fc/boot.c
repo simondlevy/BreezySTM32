@@ -201,55 +201,6 @@ void init(void)
 
     serialInit(feature(FEATURE_SOFTSERIAL));
 
-    memset(&pwm_params, 0, sizeof(pwm_params));
-
-    // when using airplane/wing mixer, servo/motor outputs are remapped
-    if (mixerConfig()->mixerMode == MIXER_AIRPLANE || mixerConfig()->mixerMode == MIXER_FLYING_WING || mixerConfig()->mixerMode == MIXER_CUSTOM_AIRPLANE)
-        pwm_params.airplane = true;
-    else
-        pwm_params.airplane = false;
-#if defined(USE_UART2) && defined(STM32F10X)
-    pwm_params.useUART2 = doesConfigurationUsePort(SERIAL_PORT_UART2);
-#endif
-#if defined(USE_UART3)
-    pwm_params.useUART3 = doesConfigurationUsePort(SERIAL_PORT_UART3);
-#endif
-#if defined(USE_UART4)
-    pwm_params.useUART4 = doesConfigurationUsePort(SERIAL_PORT_UART4);
-#endif
-#if defined(USE_UART5)
-    pwm_params.useUART5 = doesConfigurationUsePort(SERIAL_PORT_UART5);
-#endif
-    pwm_params.useVbat = feature(FEATURE_VBAT);
-    pwm_params.useSoftSerial = feature(FEATURE_SOFTSERIAL);
-    pwm_params.useParallelPWM = feature(FEATURE_RX_PARALLEL_PWM);
-    pwm_params.useRSSIADC = feature(FEATURE_RSSI_ADC);
-    pwm_params.useCurrentMeterADC = (
-        feature(FEATURE_AMPERAGE_METER)
-        && batteryConfig()->amperageMeterSource == AMPERAGE_METER_ADC
-    );
-    pwm_params.useLEDStrip = feature(FEATURE_LED_STRIP);
-    pwm_params.usePPM = feature(FEATURE_RX_PPM);
-    pwm_params.useSerialRx = feature(FEATURE_RX_SERIAL);
-
-    pwm_params.useOneshot = feature(FEATURE_ONESHOT125);
-    pwm_params.motorPwmRate = motorConfig()->motor_pwm_rate;
-    pwm_params.idlePulse = calculateMotorOff();
-    if (pwm_params.motorPwmRate > 500)
-        pwm_params.idlePulse = 0; // brushed motors
-
-    pwmRxInit();
-
-    // pwmInit() needs to be called as soon as possible for ESC compatibility reasons
-    pwmIOConfiguration_t *pwmIOConfiguration = pwmInit(&pwm_params);
-
-    mixerUsePWMIOConfiguration(pwmIOConfiguration);
-
-#ifdef DEBUG_PWM_CONFIGURATION
-    debug[2] = pwmIOConfiguration->pwmInputCount;
-    debug[3] = pwmIOConfiguration->ppmInputCount;
-#endif
-
     if (!feature(FEATURE_ONESHOT125))
         motorControlEnable = true;
 
