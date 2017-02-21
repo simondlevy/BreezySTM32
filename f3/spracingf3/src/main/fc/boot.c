@@ -108,16 +108,6 @@
 #include "fc/fc_tasks.h"
 #include "scheduler/scheduler.h"
 
-extern uint8_t motorControlEnable;
-
-bool isUsingVTXSwitch(void);
-void mixerUsePWMIOConfiguration(pwmIOConfiguration_t *pwmIOConfiguration);
-void rxInit(modeActivationCondition_t *modeActivationConditions);
-
-void navigationInit(pidProfile_t *pidProfile);
-const sonarHardware_t *sonarGetHardwareConfiguration(amperageMeter_e amperageMeter);
-void sonarInit(const sonarHardware_t *sonarHardware);
-
 
 // from system_stm32f30x.c
 void SetSysClock(void);
