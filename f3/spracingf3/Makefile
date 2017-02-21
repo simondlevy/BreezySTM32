@@ -250,9 +250,6 @@ SYSTEM_SRC = \
 		   scheduler/scheduler.c \
 		   io/serial.c \
 		   io/statusindicator.c \
-		   msp/msp.c \
-		   msp/msp_serial.c \
-		   msp/msp_server.c \
 		   $(TARGET_SRC) \
 		   $(CMSIS_SRC) \
 		   $(DEVICE_STDPERIPH_SRC)
@@ -271,7 +268,6 @@ FC_COMMON_SRC = \
 		   fc/fc_serial.c \
 		   fc/config.c \
 		   fc/runtime_config.c \
-		   fc/msp_server_fc.c \
 		   flight/altitudehold.c \
 		   flight/failsafe.c \
 		   flight/pid.c \
@@ -296,7 +292,6 @@ FC_COMMON_SRC = \
 		   io/statusindicator.c \
 		   rx/rx.c \
 		   rx/pwm.c \
-		   rx/msp.c \
 		   rx/sbus.c \
 		   rx/sumd.c \
 		   rx/sumh.c \

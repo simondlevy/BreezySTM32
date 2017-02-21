@@ -894,15 +894,6 @@ void taskUpdateAttitude(void) {
 
 void taskHandleSerial(void)
 {
-#ifdef USE_CLI
-    // in cli mode, all serial stuff goes to here. enter cli mode by sending #
-    if (cliMode) {
-        cliProcess();
-        return;
-    }
-#endif
-
-    mspSerialProcess();
 }
 
 #ifdef BEEPER

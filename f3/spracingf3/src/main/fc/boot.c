@@ -36,9 +36,6 @@ int main(void) {
 
     systemInit();
 
-    // initialize IO (needed for all IO operations)
-    //IOInitGlobal();
-
     EXTIInit();
 
     ledInit(false);
