@@ -1,8 +1,5 @@
-f1-legacy/examples/*/obj
-f1-legacy/examples/f1-legacy
-f1examples/f1
 f1/examples/*/obj
 f1/examples/*.o
-f3/examples/*/obj
+f3/alienflightf3/examples/*/obj
 f4/examples/*/obj
 *.swp

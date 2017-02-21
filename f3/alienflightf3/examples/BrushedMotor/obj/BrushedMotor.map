@@ -1,0 +1,2001 @@
+Archive member included to satisfy reference by file (symbol)
+
+/usr/local/gcc-arm-none-eabi-5_4-2016q3/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7e-m/fpu/libc_nano.a(lib_a-memset.o)
+                              /tmp/ccl6u6y6.ltrans0.ltrans.o (memset)
+
+Allocating common symbols
+Common symbol       size              file
+
+sendLength          0x4               obj/BrushedMotor/vcp/hw_config.o (symbol from plugin)
+timerChannelInfo    0xb               obj/BrushedMotor/timer.o (symbol from plugin)
+HSEStartUpStatus    0x1               obj/BrushedMotor/vcp/hw_config.o (symbol from plugin)
+SaveState           0x2               obj/BrushedMotor/usb_init.o (symbol from plugin)
+wIstr               0x2               obj/BrushedMotor/vcp/usb_istr.o (symbol from plugin)
+EPindex             0x1               obj/BrushedMotor/usb_init.o (symbol from plugin)
+timerInfo           0x5               obj/BrushedMotor/timer.o (symbol from plugin)
+ioRecs              0x1a0             obj/BrushedMotor/io.o (symbol from plugin)
+StatusInfo          0x2               obj/BrushedMotor/usb_core.o (symbol from plugin)
+ResumeS             0x2               obj/BrushedMotor/vcp/usb_pwr.o (symbol from plugin)
+led_config          0x18              obj/BrushedMotor/light_led_stm32f30x.o (symbol from plugin)
+extiChannelRecs     0x40              obj/BrushedMotor/exti.o (symbol from plugin)
+EP                  0x20              obj/BrushedMotor/vcp/usb_pwr.o (symbol from plugin)
+EXTI_InitStructure  0x8               obj/BrushedMotor/vcp/hw_config.o (symbol from plugin)
+cachedRccCsrValue   0x4               obj/BrushedMotor/system.o (symbol from plugin)
+
+Discarded input sections
+
+ .text          0x00000000        0x0 obj/BrushedMotor/timer.o (symbol from plugin)
+ .text          0x00000000        0x0 /tmp/ccl6u6y6.ltrans0.ltrans.o
+ .ARM.extab.text.startup
+                0x00000000        0x0 /tmp/ccl6u6y6.ltrans0.ltrans.o
+ .data          0x00000000        0x0 /tmp/ccl6u6y6.ltrans2.ltrans.o
+ .data          0x00000000        0x0 /tmp/ccl6u6y6.ltrans4.ltrans.o
+ .bss           0x00000000        0x0 /tmp/ccl6u6y6.ltrans4.ltrans.o
+ .ARM.extab     0x00000000        0x0 /tmp/ccl6u6y6.ltrans4.ltrans.o
+ .text          0x00000000        0x0 obj/BrushedMotor/timer_stm32f30x.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/BrushedMotor/serial_usb_vcp.o (symbol from plugin)
+ .text          0x00000000       0x14 obj/BrushedMotor/startup_stm32f30x_md_gcc.o
+ .data          0x00000000        0x0 obj/BrushedMotor/startup_stm32f30x_md_gcc.o
+ .bss           0x00000000        0x0 obj/BrushedMotor/startup_stm32f30x_md_gcc.o
+ .text          0x00000000        0x0 obj/BrushedMotor/target/system_stm32f30x.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/BrushedMotor/gpio_stm32f30x.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/BrushedMotor/light_led_stm32f30x.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/BrushedMotor/serial_uart.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/BrushedMotor/serial_uart_stm32f30x.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/BrushedMotor/system_stm32f30x.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/BrushedMotor/exti.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/BrushedMotor/io.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/BrushedMotor/dma.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/BrushedMotor/serial.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/BrushedMotor/system.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/BrushedMotor/stm32f30x_gpio.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/BrushedMotor/stm32f30x_rcc.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/BrushedMotor/stm32f30x_adc.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/BrushedMotor/stm32f30x_comp.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/BrushedMotor/stm32f30x_dac.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/BrushedMotor/stm32f30x_dbgmcu.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/BrushedMotor/stm32f30x_dma.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/BrushedMotor/stm32f30x_exti.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/BrushedMotor/stm32f30x_flash.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/BrushedMotor/stm32f30x_hrtim.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/BrushedMotor/stm32f30x_i2c.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/BrushedMotor/stm32f30x_iwdg.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/BrushedMotor/stm32f30x_misc.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/BrushedMotor/stm32f30x_opamp.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/BrushedMotor/stm32f30x_pwr.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/BrushedMotor/stm32f30x_rtc.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/BrushedMotor/stm32f30x_spi.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/BrushedMotor/stm32f30x_syscfg.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/BrushedMotor/stm32f30x_usart.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/BrushedMotor/stm32f30x_wwdg.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/BrushedMotor/usb_core.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/BrushedMotor/usb_init.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/BrushedMotor/usb_int.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/BrushedMotor/usb_mem.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/BrushedMotor/usb_regs.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/BrushedMotor/usb_sil.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/BrushedMotor/vcp/hw_config.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/BrushedMotor/vcp/stm32_it.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/BrushedMotor/vcp/usb_desc.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/BrushedMotor/vcp/usb_endp.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/BrushedMotor/vcp/usb_istr.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/BrushedMotor/vcp/usb_prop.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/BrushedMotor/vcp/usb_pwr.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/BrushedMotor/usb_io.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/BrushedMotor/Arduino.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/BrushedMotor/Motor.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/BrushedMotor.o (symbol from plugin)
+ .gnu.linkonce.t._ZN12BrushedMotor6attachEh
+                0x00000000        0x0 obj/BrushedMotor.o (symbol from plugin)
+ .text          0x00000000        0x0 /usr/local/gcc-arm-none-eabi-5_4-2016q3/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7e-m/fpu/libc_nano.a(lib_a-memset.o)
+ .data          0x00000000        0x0 /usr/local/gcc-arm-none-eabi-5_4-2016q3/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7e-m/fpu/libc_nano.a(lib_a-memset.o)
+ .bss           0x00000000        0x0 /usr/local/gcc-arm-none-eabi-5_4-2016q3/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7e-m/fpu/libc_nano.a(lib_a-memset.o)
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+FLASH            0x08000000         0x0003f000         xr
+FLASH_CONFIG     0x0803f000         0x00001000         r
+RAM              0x20000000         0x0000a000         xrw
+MEMORY_B1        0x60000000         0x00000000         xr
+*default*        0x00000000         0xffffffff
+
+Linker script and memory map
+
+LOAD obj/BrushedMotor/timer.o
+LOAD /tmp/ccl6u6y6.ltrans0.ltrans.o
+LOAD /tmp/ccl6u6y6.ltrans1.ltrans.o
+LOAD /tmp/ccl6u6y6.ltrans2.ltrans.o
+LOAD /tmp/ccl6u6y6.ltrans3.ltrans.o
+LOAD /tmp/ccl6u6y6.ltrans4.ltrans.o
+LOAD obj/BrushedMotor/timer_stm32f30x.o
+LOAD obj/BrushedMotor/serial_usb_vcp.o
+LOAD obj/BrushedMotor/startup_stm32f30x_md_gcc.o
+LOAD obj/BrushedMotor/target/system_stm32f30x.o
+LOAD obj/BrushedMotor/gpio_stm32f30x.o
+LOAD obj/BrushedMotor/light_led_stm32f30x.o
+LOAD obj/BrushedMotor/serial_uart.o
+LOAD obj/BrushedMotor/serial_uart_stm32f30x.o
+LOAD obj/BrushedMotor/system_stm32f30x.o
+LOAD obj/BrushedMotor/exti.o
+LOAD obj/BrushedMotor/io.o
+LOAD obj/BrushedMotor/dma.o
+LOAD obj/BrushedMotor/serial.o
+LOAD obj/BrushedMotor/system.o
+LOAD obj/BrushedMotor/stm32f30x_gpio.o
+LOAD obj/BrushedMotor/stm32f30x_rcc.o
+LOAD obj/BrushedMotor/stm32f30x_adc.o
+LOAD obj/BrushedMotor/stm32f30x_comp.o
+LOAD obj/BrushedMotor/stm32f30x_dac.o
+LOAD obj/BrushedMotor/stm32f30x_dbgmcu.o
+LOAD obj/BrushedMotor/stm32f30x_dma.o
+LOAD obj/BrushedMotor/stm32f30x_exti.o
+LOAD obj/BrushedMotor/stm32f30x_flash.o
+LOAD obj/BrushedMotor/stm32f30x_hrtim.o
+LOAD obj/BrushedMotor/stm32f30x_i2c.o
+LOAD obj/BrushedMotor/stm32f30x_iwdg.o
+LOAD obj/BrushedMotor/stm32f30x_misc.o
+LOAD obj/BrushedMotor/stm32f30x_opamp.o
+LOAD obj/BrushedMotor/stm32f30x_pwr.o
+LOAD obj/BrushedMotor/stm32f30x_rtc.o
+LOAD obj/BrushedMotor/stm32f30x_spi.o
+LOAD obj/BrushedMotor/stm32f30x_syscfg.o
+LOAD obj/BrushedMotor/stm32f30x_tim.o
+LOAD obj/BrushedMotor/stm32f30x_usart.o
+LOAD obj/BrushedMotor/stm32f30x_wwdg.o
+LOAD obj/BrushedMotor/usb_core.o
+LOAD obj/BrushedMotor/usb_init.o
+LOAD obj/BrushedMotor/usb_int.o
+LOAD obj/BrushedMotor/usb_mem.o
+LOAD obj/BrushedMotor/usb_regs.o
+LOAD obj/BrushedMotor/usb_sil.o
+LOAD obj/BrushedMotor/vcp/hw_config.o
+LOAD obj/BrushedMotor/vcp/stm32_it.o
+LOAD obj/BrushedMotor/vcp/usb_desc.o
+LOAD obj/BrushedMotor/vcp/usb_endp.o
+LOAD obj/BrushedMotor/vcp/usb_istr.o
+LOAD obj/BrushedMotor/vcp/usb_prop.o
+LOAD obj/BrushedMotor/vcp/usb_pwr.o
+LOAD obj/BrushedMotor/usb_io.o
+LOAD obj/BrushedMotor/Arduino.o
+LOAD obj/BrushedMotor/Motor.o
+LOAD obj/BrushedMotor.o
+LOAD /usr/local/gcc-arm-none-eabi-5_4-2016q3/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7e-m/fpu/libm.a
+LOAD /usr/local/gcc-arm-none-eabi-5_4-2016q3/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7e-m/fpu/libc_nano.a
+LOAD /usr/local/gcc-arm-none-eabi-5_4-2016q3/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7e-m/fpu/libnosys.a
+START GROUP
+LOAD /usr/local/gcc-arm-none-eabi-5_4-2016q3/bin/../lib/gcc/arm-none-eabi/5.4.1/armv7e-m/fpu/libgcc.a
+LOAD /usr/local/gcc-arm-none-eabi-5_4-2016q3/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7e-m/fpu/libg_nano.a
+LOAD /usr/local/gcc-arm-none-eabi-5_4-2016q3/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7e-m/fpu/libc_nano.a
+END GROUP
+START GROUP
+LOAD /usr/local/gcc-arm-none-eabi-5_4-2016q3/bin/../lib/gcc/arm-none-eabi/5.4.1/armv7e-m/fpu/libgcc.a
+LOAD /usr/local/gcc-arm-none-eabi-5_4-2016q3/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7e-m/fpu/libc_nano.a
+END GROUP
+                0x2000a000                _estack = (ORIGIN (RAM) + LENGTH (RAM))
+                0x0803f000                __config_start = (ORIGIN (FLASH) + LENGTH (FLASH))
+                0x08040000                __config_end = (ORIGIN (FLASH_CONFIG) + LENGTH (FLASH_CONFIG))
+                0x00000000                _Min_Heap_Size = 0x0
+                0x00000400                _Min_Stack_Size = 0x400
+
+.isr_vector     0x08000000      0x188
+                0x08000000                . = ALIGN (0x4)
+                [!provide]                PROVIDE (isr_vector_table_base, .)
+ *(.isr_vector)
+ .isr_vector    0x08000000      0x188 obj/BrushedMotor/startup_stm32f30x_md_gcc.o
+                0x08000000                g_pfnVectors
+                0x08000188                . = ALIGN (0x4)
+
+.text           0x08000188     0x1eac
+                0x08000188                . = ALIGN (0x4)
+ *(.text)
+ .text          0x08000188      0x878 /tmp/ccl6u6y6.ltrans1.ltrans.o
+                0x08000188                Standard_GetStatus
+                0x0800021c                Standard_GetInterface
+                0x08000240                Standard_GetConfiguration
+                0x08000320                usbTxBytesFree
+                0x08000324                usbVcpBeginWrite.lto_priv.44
+                0x0800032c                usbVcpAvailable.lto_priv.38
+                0x08000338                isUsbVcpTransmitBufferEmpty.lto_priv.41
+                0x0800033c                usbVcpSetMode.lto_priv.42
+                0x0800033e                usbVcpSetBaudRate.lto_priv.40
+                0x08000340                usbVcpRead.lto_priv.39
+                0x080004f4                usbVcpEndWrite.lto_priv.45
+                0x080004fc                usbVcpWrite.lto_priv.37
+                0x0800051c                usbVcpWriteBuf.lto_priv.43
+                0x08000570                Post0_Process
+                0x080005b0                DataStageIn.lto_priv.47
+                0x08000688                Standard_ClearFeature
+                0x080007a8                GPIO_Init
+                0x08000832                delay
+                0x08000850                SysTick_Handler
+                0x08000860                DMA2_Channel5_IRQHandler
+                0x08000868                DMA2_Channel4_IRQHandler
+                0x08000870                DMA2_Channel3_IRQHandler
+                0x08000878                DMA2_Channel2_IRQHandler
+                0x08000880                DMA2_Channel1_IRQHandler
+                0x08000888                DMA1_Channel7_IRQHandler
+                0x08000890                DMA1_Channel6_IRQHandler
+                0x08000898                DMA1_Channel5_IRQHandler
+                0x080008a0                DMA1_Channel4_IRQHandler
+                0x080008a8                DMA1_Channel3_IRQHandler
+                0x080008b0                DMA1_Channel2_IRQHandler
+                0x080008b8                DMA1_Channel1_IRQHandler
+                0x080008c0                EXTI15_10_IRQHandler
+                0x080008c2                EXTI0_IRQHandler
+                0x080008c4                EXTI9_5_IRQHandler
+                0x080008c6                EXTI4_IRQHandler
+                0x080008c8                EXTI3_IRQHandler
+                0x080008ca                EXTI2_TS_IRQHandler
+                0x080008cc                EXTI1_IRQHandler
+                0x080008ce                USART3_IRQHandler
+                0x080008d8                USART2_IRQHandler
+                0x080008e0                USART1_IRQHandler
+                0x080008e8                gpioInit
+                0x0800093c                SystemInit
+                0x080009a4                TIM1_TRG_COM_TIM17_IRQHandler
+                0x080009b4                TIM1_BRK_TIM15_IRQHandler
+                0x080009c4                TIM3_IRQHandler
+                0x080009d4                TIM2_IRQHandler
+                0x080009e0                TIM1_UP_TIM16_IRQHandler
+                0x080009f0                TIM1_CC_IRQHandler
+ .text          0x08000a00      0x8c0 /tmp/ccl6u6y6.ltrans2.ltrans.o
+                0x08000a00                dmaInit
+                0x08000a00                NOP_Process
+                0x08000a02                PendSV_Handler
+                0x08000a04                DebugMon_Handler
+                0x08000a06                SVC_Handler
+                0x08000a08                UsageFault_Handler
+                0x08000a0a                BusFault_Handler
+                0x08000a0c                MemManage_Handler
+                0x08000a0e                NMI_Handler
+                0x08000a10                IntToUnicode.lto_priv.46
+                0x08000a38                SetEPRxCount
+                0x08000a7c                SetEPTxCount
+                0x08000a9c                CDC_Send_DATA.part.0
+                0x08000afc                SetDeviceAddress
+                0x08000b34                USB_LP_CAN1_RX0_IRQHandler
+ .text          0x080012c0      0x438 /tmp/ccl6u6y6.ltrans3.ltrans.o
+                0x080012da                Virtual_Com_Port_Get_Interface_Setting
+                0x080012ea                Virtual_Com_Port_GetStringDescriptor
+                0x0800131c                Virtual_Com_Port_GetConfigDescriptor
+                0x0800133c                Virtual_Com_Port_GetDeviceDescriptor
+                0x0800135c                Virtual_Com_Port_NoData_Setup
+                0x08001380                Virtual_Com_Port_Data_Setup
+                0x080013dc                Virtual_Com_Port_Status_Out
+                0x080013de                Virtual_Com_Port_Status_In
+                0x080013f0                Virtual_Com_Port_SetDeviceAddress
+                0x080013fc                Virtual_Com_Port_SetConfiguration
+                0x08001414                EP3_OUT_Callback
+                0x08001460                EP1_IN_Callback
+                0x0800146c                Virtual_Com_Port_Reset
+                0x0800163c                Virtual_Com_Port_init
+                0x080016b0                USBWakeUp_IRQHandler
+                0x080016c0                Resume_Init
+ .text          0x080016f8       0x44 /tmp/ccl6u6y6.ltrans4.ltrans.o
+                0x080016f8                NVIC_Init.part.0.constprop.30
+                0x08001738                HardFault_Handler
+ *(.text*)
+ .text.startup  0x0800173c      0x6ac /tmp/ccl6u6y6.ltrans0.ltrans.o
+                0x0800173c                main
+ .text.Reset_Handler
+                0x08001de8       0x68 obj/BrushedMotor/startup_stm32f30x_md_gcc.o
+                0x08001de8                Reset_Handler
+ .text.Default_Handler
+                0x08001e50        0x2 obj/BrushedMotor/startup_stm32f30x_md_gcc.o
+                0x08001e50                RTC_Alarm_IRQHandler
+                0x08001e50                TIM8_TRG_COM_IRQHandler
+                0x08001e50                TIM8_CC_IRQHandler
+                0x08001e50                USB_HP_IRQHandler
+                0x08001e50                PVD_IRQHandler
+                0x08001e50                I2C2_EV_IRQHandler
+                0x08001e50                FPU_IRQHandler
+                0x08001e50                ADC1_2_IRQHandler
+                0x08001e50                SPI1_IRQHandler
+                0x08001e50                TIM6_DAC_IRQHandler
+                0x08001e50                TIM8_UP_IRQHandler
+                0x08001e50                CAN1_RX1_IRQHandler
+                0x08001e50                UART5_IRQHandler
+                0x08001e50                ADC3_IRQHandler
+                0x08001e50                TIM4_IRQHandler
+                0x08001e50                I2C1_EV_IRQHandler
+                0x08001e50                UART4_IRQHandler
+                0x08001e50                RCC_IRQHandler
+                0x08001e50                Default_Handler
+                0x08001e50                USBWakeUp_RMP_IRQHandler
+                0x08001e50                TIM7_IRQHandler
+                0x08001e50                TAMPER_STAMP_IRQHandler
+                0x08001e50                RTC_WKUP_IRQHandler
+                0x08001e50                SPI2_IRQHandler
+                0x08001e50                USB_LP_IRQHandler
+                0x08001e50                USB_HP_CAN1_TX_IRQHandler
+                0x08001e50                ADC4_IRQHandler
+                0x08001e50                WWDG_IRQHandler
+                0x08001e50                COMP7_IRQHandler
+                0x08001e50                COMP1_2_3_IRQHandler
+                0x08001e50                COMP4_5_6_IRQHandler
+                0x08001e50                I2C2_ER_IRQHandler
+                0x08001e50                TIM8_BRK_IRQHandler
+                0x08001e50                CAN1_SCE_IRQHandler
+                0x08001e50                FLASH_IRQHandler
+                0x08001e50                SPI3_IRQHandler
+                0x08001e50                I2C1_ER_IRQHandler
+ .text.memset   0x08001e52       0x10 /usr/local/gcc-arm-none-eabi-5_4-2016q3/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7e-m/fpu/libc_nano.a(lib_a-memset.o)
+                0x08001e52                memset
+ *(.rodata)
+ *fill*         0x08001e62        0x2 
+ .rodata        0x08001e64       0xe4 /tmp/ccl6u6y6.ltrans0.ltrans.o
+ .rodata        0x08001f48       0x3a /tmp/ccl6u6y6.ltrans2.ltrans.o
+                0x08001f80                Device_Table
+ .rodata        0x08001f82       0xb1 /tmp/ccl6u6y6.ltrans3.ltrans.o
+ *(.rodata*)
+ *(.glue_7)
+ .glue_7        0x08002033        0x0 linker stubs
+ *(.glue_7t)
+ .glue_7t       0x08002033        0x0 linker stubs
+ *(.eh_frame)
+ *(.init)
+ *(.fini)
+                0x08002034                . = ALIGN (0x4)
+ *fill*         0x08002033        0x1 
+                0x08002034                _etext = .
+
+.vfp11_veneer   0x08002034        0x0
+ .vfp11_veneer  0x08002034        0x0 linker stubs
+
+.v4_bx          0x08002034        0x0
+ .v4_bx         0x08002034        0x0 linker stubs
+
+.iplt           0x08002034        0x0
+ .iplt          0x08002034        0x0 obj/BrushedMotor/startup_stm32f30x_md_gcc.o
+
+.ARM.extab
+ *(.ARM.extab* .gnu.linkonce.armextab.*)
+
+.ARM            0x08002034        0x8
+                0x08002034                __exidx_start = .
+ *(.ARM.exidx*)
+ .ARM.exidx.text.startup
+                0x0800203c        0x0 /tmp/ccl6u6y6.ltrans0.ltrans.o
+                                  0x8 (size before relaxing)
+ .ARM.exidx     0x08002034        0x8 /tmp/ccl6u6y6.ltrans4.ltrans.o
+                0x0800203c                __exidx_end = .
+
+.rel.dyn        0x0800203c        0x0
+ .rel.iplt      0x0800203c        0x0 obj/BrushedMotor/startup_stm32f30x_md_gcc.o
+
+.preinit_array  0x0800203c        0x0
+                [!provide]                PROVIDE (__preinit_array_start, .)
+ *(.preinit_array*)
+                [!provide]                PROVIDE (__preinit_array_end, .)
+
+.init_array     0x0800203c        0x0
+                [!provide]                PROVIDE (__init_array_start, .)
+ *(SORT(.init_array.*))
+ *(.init_array*)
+                [!provide]                PROVIDE (__init_array_end, .)
+
+.fini_array     0x0800203c        0x0
+                [!provide]                PROVIDE (__fini_array_start, .)
+ *(.fini_array*)
+ *(SORT(.fini_array.*))
+                [!provide]                PROVIDE (__fini_array_end, .)
+
+.pg_registry    0x0800203c        0x0
+                [!provide]                PROVIDE (__pg_registry_start, .)
+ *(.pg_registry)
+ *(SORT(.pg_registry.*))
+                [!provide]                PROVIDE (__pg_registry_end, .)
+
+.pg_resetdata   0x0800203c        0x0
+                [!provide]                PROVIDE (__pg_resetdata_start, .)
+ *(.pg_resetdata)
+                [!provide]                PROVIDE (__pg_resetdata_end, .)
+                0x0800203c                _sidata = .
+
+.data           0x20000000      0x1dc load address 0x0800203c
+                0x20000000                . = ALIGN (0x4)
+                0x20000000                _sdata = .
+ *(.data)
+ .data          0x20000000       0x84 /tmp/ccl6u6y6.ltrans0.ltrans.o
+                0x20000030                Device_Property
+ .data          0x20000084      0x101 /tmp/ccl6u6y6.ltrans1.ltrans.o
+ *fill*         0x20000185        0x3 
+ .data          0x20000188       0x52 /tmp/ccl6u6y6.ltrans3.ltrans.o
+ *(.data*)
+                0x200001dc                . = ALIGN (0x4)
+ *fill*         0x200001da        0x2 
+                0x200001dc                _edata = .
+
+.igot.plt       0x200001dc        0x0 load address 0x08002218
+ .igot.plt      0x200001dc        0x0 obj/BrushedMotor/startup_stm32f30x_md_gcc.o
+                0x200001dc                . = ALIGN (0x4)
+
+.bss            0x200001dc      0xb74 load address 0x08002218
+                0x200001dc                _sbss = .
+                0x200001dc                __bss_start__ = _sbss
+ *(.bss)
+ .bss           0x200001dc      0x3b8 /tmp/ccl6u6y6.ltrans0.ltrans.o
+                0x2000037c                usTicks.lto_priv.49
+                0x20000380                timerConfig
+                0x20000450                pInformation
+                0x20000454                Device_Info
+                0x20000470                pProperty
+                0x20000474                pUser_Standard_Requests
+                0x2000058c                sysTickUptime.lto_priv.48
+ .bss           0x20000594      0x758 /tmp/ccl6u6y6.ltrans1.ltrans.o
+ .bss           0x20000cec       0x10 /tmp/ccl6u6y6.ltrans2.ltrans.o
+                0x20000cf0                SaveRState
+                0x20000cf2                SaveTState
+                0x20000cf4                Data_Mul_MaxPacketSize
+ .bss           0x20000cfc       0x52 /tmp/ccl6u6y6.ltrans3.ltrans.o
+                0x20000d00                bDeviceState
+                0x20000d04                receiveLength
+                0x20000d08                receiveBuffer
+                0x20000d48                packetSent
+                0x20000d4c                wInterrupt_Mask
+ *(SORT(.bss*))
+ *(COMMON)
+                0x20000d50                . = ALIGN (0x4)
+ *fill*         0x20000d4e        0x2 
+                0x20000d50                _ebss = .
+                0x20000d50                __bss_end__ = _ebss
+
+._user_heap_stack
+                0x20000d50      0x400 load address 0x08002218
+                0x20000d50                . = ALIGN (0x4)
+                [!provide]                PROVIDE (end, .)
+                [!provide]                PROVIDE (_end, .)
+                0x20000d50                . = (. + _Min_Heap_Size)
+                0x20001150                . = (. + _Min_Stack_Size)
+ *fill*         0x20000d50      0x400 
+                0x20001150                . = ALIGN (0x4)
+
+.memory_b1_text
+ *(.mb1text)
+ *(.mb1text*)
+ *(.mb1rodata)
+ *(.mb1rodata*)
+
+/DISCARD/
+ libc.a(*)
+ libm.a(*)
+ libgcc.a(*)
+
+.ARM.attributes
+                0x00000000       0x37
+ *(.ARM.attributes)
+ .ARM.attributes
+                0x00000000       0x37 /tmp/ccl6u6y6.ltrans0.ltrans.o
+ .ARM.attributes
+                0x00000037       0x37 /tmp/ccl6u6y6.ltrans1.ltrans.o
+ .ARM.attributes
+                0x0000006e       0x37 /tmp/ccl6u6y6.ltrans2.ltrans.o
+ .ARM.attributes
+                0x000000a5       0x37 /tmp/ccl6u6y6.ltrans3.ltrans.o
+ .ARM.attributes
+                0x000000dc       0x37 /tmp/ccl6u6y6.ltrans4.ltrans.o
+ .ARM.attributes
+                0x00000113       0x21 obj/BrushedMotor/startup_stm32f30x_md_gcc.o
+ .ARM.attributes
+                0x00000134       0x34 /usr/local/gcc-arm-none-eabi-5_4-2016q3/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7e-m/fpu/libc_nano.a(lib_a-memset.o)
+OUTPUT(obj/BrushedMotor.elf elf32-littlearm)
+
+.debug_info     0x00000000     0x6cc3
+ .debug_info    0x00000000     0x2d81 /tmp/ccl6u6y6.ltrans0.ltrans.o
+ .debug_info    0x00002d81     0x22c5 /tmp/ccl6u6y6.ltrans1.ltrans.o
+ .debug_info    0x00005046      0xcc6 /tmp/ccl6u6y6.ltrans2.ltrans.o
+ .debug_info    0x00005d0c      0xe56 /tmp/ccl6u6y6.ltrans3.ltrans.o
+ .debug_info    0x00006b62      0x161 /tmp/ccl6u6y6.ltrans4.ltrans.o
+
+.debug_abbrev   0x00000000     0x1270
+ .debug_abbrev  0x00000000      0x44e /tmp/ccl6u6y6.ltrans0.ltrans.o
+ .debug_abbrev  0x0000044e      0x5c8 /tmp/ccl6u6y6.ltrans1.ltrans.o
+ .debug_abbrev  0x00000a16      0x42d /tmp/ccl6u6y6.ltrans2.ltrans.o
+ .debug_abbrev  0x00000e43      0x348 /tmp/ccl6u6y6.ltrans3.ltrans.o
+ .debug_abbrev  0x0000118b       0xe5 /tmp/ccl6u6y6.ltrans4.ltrans.o
+
+.debug_loc      0x00000000     0x25fe
+ .debug_loc     0x00000000      0xa0a /tmp/ccl6u6y6.ltrans0.ltrans.o
+ .debug_loc     0x00000a0a      0xb8d /tmp/ccl6u6y6.ltrans1.ltrans.o
+ .debug_loc     0x00001597      0x7a7 /tmp/ccl6u6y6.ltrans2.ltrans.o
+ .debug_loc     0x00001d3e      0x847 /tmp/ccl6u6y6.ltrans3.ltrans.o
+ .debug_loc     0x00002585       0x79 /tmp/ccl6u6y6.ltrans4.ltrans.o
+
+.debug_aranges  0x00000000       0xa0
+ .debug_aranges
+                0x00000000       0x20 /tmp/ccl6u6y6.ltrans0.ltrans.o
+ .debug_aranges
+                0x00000020       0x20 /tmp/ccl6u6y6.ltrans1.ltrans.o
+ .debug_aranges
+                0x00000040       0x20 /tmp/ccl6u6y6.ltrans2.ltrans.o
+ .debug_aranges
+                0x00000060       0x20 /tmp/ccl6u6y6.ltrans3.ltrans.o
+ .debug_aranges
+                0x00000080       0x20 /tmp/ccl6u6y6.ltrans4.ltrans.o
+
+.debug_ranges   0x00000000      0x790
+ .debug_ranges  0x00000000      0x360 /tmp/ccl6u6y6.ltrans0.ltrans.o
+ .debug_ranges  0x00000360      0x150 /tmp/ccl6u6y6.ltrans1.ltrans.o
+ .debug_ranges  0x000004b0      0x230 /tmp/ccl6u6y6.ltrans2.ltrans.o
+ .debug_ranges  0x000006e0       0xb0 /tmp/ccl6u6y6.ltrans3.ltrans.o
+
+.debug_line     0x00000000     0x1ada
+ .debug_line    0x00000000      0x866 /tmp/ccl6u6y6.ltrans0.ltrans.o
+ .debug_line    0x00000866      0x6f0 /tmp/ccl6u6y6.ltrans1.ltrans.o
+ .debug_line    0x00000f56      0x4b6 /tmp/ccl6u6y6.ltrans2.ltrans.o
+ .debug_line    0x0000140c      0x49f /tmp/ccl6u6y6.ltrans3.ltrans.o
+ .debug_line    0x000018ab      0x22f /tmp/ccl6u6y6.ltrans4.ltrans.o
+
+.debug_str      0x00000000     0x2d06
+ .debug_str     0x00000000     0x17c3 /tmp/ccl6u6y6.ltrans0.ltrans.o
+                               0x18f6 (size before relaxing)
+ .debug_str     0x000017c3      0xd47 /tmp/ccl6u6y6.ltrans1.ltrans.o
+                               0x1693 (size before relaxing)
+ .debug_str     0x0000250a      0x350 /tmp/ccl6u6y6.ltrans2.ltrans.o
+                                0x712 (size before relaxing)
+ .debug_str     0x0000285a      0x46b /tmp/ccl6u6y6.ltrans3.ltrans.o
+                                0x8c0 (size before relaxing)
+ .debug_str     0x00002cc5       0x41 /tmp/ccl6u6y6.ltrans4.ltrans.o
+                                0x2b9 (size before relaxing)
+
+.comment        0x00000000       0x6e
+ .comment       0x00000000       0x6e /tmp/ccl6u6y6.ltrans0.ltrans.o
+                                 0x6f (size before relaxing)
+ .comment       0x0000006e       0x6f /tmp/ccl6u6y6.ltrans1.ltrans.o
+ .comment       0x0000006e       0x6f /tmp/ccl6u6y6.ltrans2.ltrans.o
+ .comment       0x0000006e       0x6f /tmp/ccl6u6y6.ltrans3.ltrans.o
+ .comment       0x0000006e       0x6f /tmp/ccl6u6y6.ltrans4.ltrans.o
+
+.debug_frame    0x00000000      0x760
+ .debug_frame   0x00000000       0x2c /tmp/ccl6u6y6.ltrans0.ltrans.o
+ .debug_frame   0x0000002c      0x450 /tmp/ccl6u6y6.ltrans1.ltrans.o
+ .debug_frame   0x0000047c      0x128 /tmp/ccl6u6y6.ltrans2.ltrans.o
+ .debug_frame   0x000005a4      0x16c /tmp/ccl6u6y6.ltrans3.ltrans.o
+ .debug_frame   0x00000710       0x30 /tmp/ccl6u6y6.ltrans4.ltrans.o
+ .debug_frame   0x00000740       0x20 /usr/local/gcc-arm-none-eabi-5_4-2016q3/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7e-m/fpu/libc_nano.a(lib_a-memset.o)
+
+Cross Reference Table
+
+Symbol                                            File
+ADC1_2_IRQHandler                                 obj/BrushedMotor/startup_stm32f30x_md_gcc.o
+ADC3_IRQHandler                                   obj/BrushedMotor/startup_stm32f30x_md_gcc.o
+ADC4_IRQHandler                                   obj/BrushedMotor/startup_stm32f30x_md_gcc.o
+ADC_AnalogWatchdog1SingleChannelConfig            obj/BrushedMotor/stm32f30x_adc.o (symbol from plugin)
+ADC_AnalogWatchdog1ThresholdsConfig               obj/BrushedMotor/stm32f30x_adc.o (symbol from plugin)
+ADC_AnalogWatchdog2SingleChannelConfig            obj/BrushedMotor/stm32f30x_adc.o (symbol from plugin)
+ADC_AnalogWatchdog2ThresholdsConfig               obj/BrushedMotor/stm32f30x_adc.o (symbol from plugin)
+ADC_AnalogWatchdog3SingleChannelConfig            obj/BrushedMotor/stm32f30x_adc.o (symbol from plugin)
+ADC_AnalogWatchdog3ThresholdsConfig               obj/BrushedMotor/stm32f30x_adc.o (symbol from plugin)
+ADC_AnalogWatchdogCmd                             obj/BrushedMotor/stm32f30x_adc.o (symbol from plugin)
+ADC_AutoDelayCmd                                  obj/BrushedMotor/stm32f30x_adc.o (symbol from plugin)
+ADC_AutoInjectedConvCmd                           obj/BrushedMotor/stm32f30x_adc.o (symbol from plugin)
+ADC_ChannelOffset1Cmd                             obj/BrushedMotor/stm32f30x_adc.o (symbol from plugin)
+ADC_ChannelOffset2Cmd                             obj/BrushedMotor/stm32f30x_adc.o (symbol from plugin)
+ADC_ChannelOffset3Cmd                             obj/BrushedMotor/stm32f30x_adc.o (symbol from plugin)
+ADC_ChannelOffset4Cmd                             obj/BrushedMotor/stm32f30x_adc.o (symbol from plugin)
+ADC_ClearCommonFlag                               obj/BrushedMotor/stm32f30x_adc.o (symbol from plugin)
+ADC_ClearFlag                                     obj/BrushedMotor/stm32f30x_adc.o (symbol from plugin)
+ADC_ClearITPendingBit                             obj/BrushedMotor/stm32f30x_adc.o (symbol from plugin)
+ADC_Cmd                                           obj/BrushedMotor/stm32f30x_adc.o (symbol from plugin)
+ADC_CommonInit                                    obj/BrushedMotor/stm32f30x_adc.o (symbol from plugin)
+ADC_CommonStructInit                              obj/BrushedMotor/stm32f30x_adc.o (symbol from plugin)
+ADC_DMACmd                                        obj/BrushedMotor/stm32f30x_adc.o (symbol from plugin)
+ADC_DMAConfig                                     obj/BrushedMotor/stm32f30x_adc.o (symbol from plugin)
+ADC_DeInit                                        obj/BrushedMotor/stm32f30x_adc.o (symbol from plugin)
+ADC_DisableCmd                                    obj/BrushedMotor/stm32f30x_adc.o (symbol from plugin)
+ADC_DiscModeChannelCountConfig                    obj/BrushedMotor/stm32f30x_adc.o (symbol from plugin)
+ADC_DiscModeCmd                                   obj/BrushedMotor/stm32f30x_adc.o (symbol from plugin)
+ADC_ExternalTriggerConfig                         obj/BrushedMotor/stm32f30x_adc.o (symbol from plugin)
+ADC_GetCalibrationStatus                          obj/BrushedMotor/stm32f30x_adc.o (symbol from plugin)
+ADC_GetCalibrationValue                           obj/BrushedMotor/stm32f30x_adc.o (symbol from plugin)
+ADC_GetCommonFlagStatus                           obj/BrushedMotor/stm32f30x_adc.o (symbol from plugin)
+ADC_GetConversionValue                            obj/BrushedMotor/stm32f30x_adc.o (symbol from plugin)
+ADC_GetDisableCmdStatus                           obj/BrushedMotor/stm32f30x_adc.o (symbol from plugin)
+ADC_GetDualModeConversionValue                    obj/BrushedMotor/stm32f30x_adc.o (symbol from plugin)
+ADC_GetFlagStatus                                 obj/BrushedMotor/stm32f30x_adc.o (symbol from plugin)
+ADC_GetITStatus                                   obj/BrushedMotor/stm32f30x_adc.o (symbol from plugin)
+ADC_GetInjectedConversionValue                    obj/BrushedMotor/stm32f30x_adc.o (symbol from plugin)
+ADC_GetStartConversionStatus                      obj/BrushedMotor/stm32f30x_adc.o (symbol from plugin)
+ADC_GetStartInjectedConversionStatus              obj/BrushedMotor/stm32f30x_adc.o (symbol from plugin)
+ADC_ITConfig                                      obj/BrushedMotor/stm32f30x_adc.o (symbol from plugin)
+ADC_Init                                          obj/BrushedMotor/stm32f30x_adc.o (symbol from plugin)
+ADC_InjectedChannelSampleTimeConfig               obj/BrushedMotor/stm32f30x_adc.o (symbol from plugin)
+ADC_InjectedDiscModeCmd                           obj/BrushedMotor/stm32f30x_adc.o (symbol from plugin)
+ADC_InjectedInit                                  obj/BrushedMotor/stm32f30x_adc.o (symbol from plugin)
+ADC_InjectedStructInit                            obj/BrushedMotor/stm32f30x_adc.o (symbol from plugin)
+ADC_RegularChannelConfig                          obj/BrushedMotor/stm32f30x_adc.o (symbol from plugin)
+ADC_RegularChannelSequencerLengthConfig           obj/BrushedMotor/stm32f30x_adc.o (symbol from plugin)
+ADC_SelectCalibrationMode                         obj/BrushedMotor/stm32f30x_adc.o (symbol from plugin)
+ADC_SelectDifferentialMode                        obj/BrushedMotor/stm32f30x_adc.o (symbol from plugin)
+ADC_SelectQueueOfContextMode                      obj/BrushedMotor/stm32f30x_adc.o (symbol from plugin)
+ADC_SetCalibrationValue                           obj/BrushedMotor/stm32f30x_adc.o (symbol from plugin)
+ADC_SetChannelOffset1                             obj/BrushedMotor/stm32f30x_adc.o (symbol from plugin)
+ADC_SetChannelOffset2                             obj/BrushedMotor/stm32f30x_adc.o (symbol from plugin)
+ADC_SetChannelOffset3                             obj/BrushedMotor/stm32f30x_adc.o (symbol from plugin)
+ADC_SetChannelOffset4                             obj/BrushedMotor/stm32f30x_adc.o (symbol from plugin)
+ADC_StartCalibration                              obj/BrushedMotor/stm32f30x_adc.o (symbol from plugin)
+ADC_StartConversion                               obj/BrushedMotor/stm32f30x_adc.o (symbol from plugin)
+ADC_StartInjectedConversion                       obj/BrushedMotor/stm32f30x_adc.o (symbol from plugin)
+ADC_StopConversion                                obj/BrushedMotor/stm32f30x_adc.o (symbol from plugin)
+ADC_StopInjectedConversion                        obj/BrushedMotor/stm32f30x_adc.o (symbol from plugin)
+ADC_StructInit                                    obj/BrushedMotor/stm32f30x_adc.o (symbol from plugin)
+ADC_TempSensorCmd                                 obj/BrushedMotor/stm32f30x_adc.o (symbol from plugin)
+ADC_VbatCmd                                       obj/BrushedMotor/stm32f30x_adc.o (symbol from plugin)
+ADC_VoltageRegulatorCmd                           obj/BrushedMotor/stm32f30x_adc.o (symbol from plugin)
+ADC_VrefintCmd                                    obj/BrushedMotor/stm32f30x_adc.o (symbol from plugin)
+AHBPrescTable                                     obj/BrushedMotor/target/system_stm32f30x.o (symbol from plugin)
+BrushedMotor::attach(unsigned char)               obj/BrushedMotor.o (symbol from plugin)
+BrushedMotor::setSpeed(unsigned short)            obj/BrushedMotor/Motor.o (symbol from plugin)
+                                                  obj/BrushedMotor.o (symbol from plugin)
+BrushlessMotor::setSpeed(unsigned short)          obj/BrushedMotor/Motor.o (symbol from plugin)
+BusFault_Handler                                  /tmp/ccl6u6y6.ltrans2.ltrans.o
+                                                  obj/BrushedMotor/vcp/stm32_it.o (symbol from plugin)
+                                                  obj/BrushedMotor/startup_stm32f30x_md_gcc.o
+ByteSwap                                          obj/BrushedMotor/usb_regs.o (symbol from plugin)
+                                                  obj/BrushedMotor/usb_core.o (symbol from plugin)
+CAN1_RX1_IRQHandler                               obj/BrushedMotor/startup_stm32f30x_md_gcc.o
+CAN1_SCE_IRQHandler                               obj/BrushedMotor/startup_stm32f30x_md_gcc.o
+CDC_BaudRate                                      obj/BrushedMotor/vcp/hw_config.o (symbol from plugin)
+                                                  obj/BrushedMotor/serial_usb_vcp.o (symbol from plugin)
+CDC_Receive_DATA                                  obj/BrushedMotor/vcp/hw_config.o (symbol from plugin)
+                                                  obj/BrushedMotor/serial_usb_vcp.o (symbol from plugin)
+CDC_Send_DATA                                     obj/BrushedMotor/vcp/hw_config.o (symbol from plugin)
+                                                  obj/BrushedMotor/serial_usb_vcp.o (symbol from plugin)
+CDC_Send_DATA.part.0                              /tmp/ccl6u6y6.ltrans2.ltrans.o
+                                                  /tmp/ccl6u6y6.ltrans1.ltrans.o
+COMP1_2_3_IRQHandler                              obj/BrushedMotor/startup_stm32f30x_md_gcc.o
+COMP4_5_6_IRQHandler                              obj/BrushedMotor/startup_stm32f30x_md_gcc.o
+COMP7_IRQHandler                                  obj/BrushedMotor/startup_stm32f30x_md_gcc.o
+COMP_Cmd                                          obj/BrushedMotor/stm32f30x_comp.o (symbol from plugin)
+COMP_DeInit                                       obj/BrushedMotor/stm32f30x_comp.o (symbol from plugin)
+COMP_GetOutputLevel                               obj/BrushedMotor/stm32f30x_comp.o (symbol from plugin)
+COMP_Init                                         obj/BrushedMotor/stm32f30x_comp.o (symbol from plugin)
+COMP_LockConfig                                   obj/BrushedMotor/stm32f30x_comp.o (symbol from plugin)
+COMP_StructInit                                   obj/BrushedMotor/stm32f30x_comp.o (symbol from plugin)
+COMP_SwitchCmd                                    obj/BrushedMotor/stm32f30x_comp.o (symbol from plugin)
+COMP_WindowCmd                                    obj/BrushedMotor/stm32f30x_comp.o (symbol from plugin)
+CTR_HP                                            obj/BrushedMotor/usb_int.o (symbol from plugin)
+CTR_LP                                            obj/BrushedMotor/usb_int.o (symbol from plugin)
+                                                  obj/BrushedMotor/vcp/usb_istr.o (symbol from plugin)
+ClearDTOG_RX                                      obj/BrushedMotor/usb_regs.o (symbol from plugin)
+                                                  obj/BrushedMotor/usb_core.o (symbol from plugin)
+ClearDTOG_TX                                      obj/BrushedMotor/usb_regs.o (symbol from plugin)
+                                                  obj/BrushedMotor/usb_core.o (symbol from plugin)
+ClearEPDoubleBuff                                 obj/BrushedMotor/usb_regs.o (symbol from plugin)
+ClearEP_CTR_RX                                    obj/BrushedMotor/usb_regs.o (symbol from plugin)
+ClearEP_CTR_TX                                    obj/BrushedMotor/usb_regs.o (symbol from plugin)
+ClearEP_KIND                                      obj/BrushedMotor/usb_regs.o (symbol from plugin)
+Clear_Status_Out                                  obj/BrushedMotor/usb_regs.o (symbol from plugin)
+                                                  obj/BrushedMotor/vcp/usb_prop.o (symbol from plugin)
+Config_Descriptor                                 obj/BrushedMotor/vcp/usb_prop.o (symbol from plugin)
+DAC_ClearFlag                                     obj/BrushedMotor/stm32f30x_dac.o (symbol from plugin)
+DAC_ClearITPendingBit                             obj/BrushedMotor/stm32f30x_dac.o (symbol from plugin)
+DAC_Cmd                                           obj/BrushedMotor/stm32f30x_dac.o (symbol from plugin)
+DAC_DMACmd                                        obj/BrushedMotor/stm32f30x_dac.o (symbol from plugin)
+DAC_DeInit                                        obj/BrushedMotor/stm32f30x_dac.o (symbol from plugin)
+DAC_DualSoftwareTriggerCmd                        obj/BrushedMotor/stm32f30x_dac.o (symbol from plugin)
+DAC_GetDataOutputValue                            obj/BrushedMotor/stm32f30x_dac.o (symbol from plugin)
+DAC_GetFlagStatus                                 obj/BrushedMotor/stm32f30x_dac.o (symbol from plugin)
+DAC_GetITStatus                                   obj/BrushedMotor/stm32f30x_dac.o (symbol from plugin)
+DAC_ITConfig                                      obj/BrushedMotor/stm32f30x_dac.o (symbol from plugin)
+DAC_Init                                          obj/BrushedMotor/stm32f30x_dac.o (symbol from plugin)
+DAC_SetChannel1Data                               obj/BrushedMotor/stm32f30x_dac.o (symbol from plugin)
+DAC_SetChannel2Data                               obj/BrushedMotor/stm32f30x_dac.o (symbol from plugin)
+DAC_SetDualChannelData                            obj/BrushedMotor/stm32f30x_dac.o (symbol from plugin)
+DAC_SoftwareTriggerCmd                            obj/BrushedMotor/stm32f30x_dac.o (symbol from plugin)
+DAC_StructInit                                    obj/BrushedMotor/stm32f30x_dac.o (symbol from plugin)
+DAC_WaveGenerationCmd                             obj/BrushedMotor/stm32f30x_dac.o (symbol from plugin)
+DBGMCU_APB1PeriphConfig                           obj/BrushedMotor/stm32f30x_dbgmcu.o (symbol from plugin)
+DBGMCU_APB2PeriphConfig                           obj/BrushedMotor/stm32f30x_dbgmcu.o (symbol from plugin)
+DBGMCU_Config                                     obj/BrushedMotor/stm32f30x_dbgmcu.o (symbol from plugin)
+DBGMCU_GetDEVID                                   obj/BrushedMotor/stm32f30x_dbgmcu.o (symbol from plugin)
+DBGMCU_GetREVID                                   obj/BrushedMotor/stm32f30x_dbgmcu.o (symbol from plugin)
+DMA1_Channel1_IRQHandler                          /tmp/ccl6u6y6.ltrans1.ltrans.o
+                                                  obj/BrushedMotor/dma.o (symbol from plugin)
+                                                  obj/BrushedMotor/startup_stm32f30x_md_gcc.o
+DMA1_Channel2_IRQHandler                          /tmp/ccl6u6y6.ltrans1.ltrans.o
+                                                  obj/BrushedMotor/dma.o (symbol from plugin)
+                                                  obj/BrushedMotor/startup_stm32f30x_md_gcc.o
+DMA1_Channel3_IRQHandler                          /tmp/ccl6u6y6.ltrans1.ltrans.o
+                                                  obj/BrushedMotor/dma.o (symbol from plugin)
+                                                  obj/BrushedMotor/startup_stm32f30x_md_gcc.o
+DMA1_Channel4_IRQHandler                          /tmp/ccl6u6y6.ltrans1.ltrans.o
+                                                  obj/BrushedMotor/dma.o (symbol from plugin)
+                                                  obj/BrushedMotor/startup_stm32f30x_md_gcc.o
+DMA1_Channel5_IRQHandler                          /tmp/ccl6u6y6.ltrans1.ltrans.o
+                                                  obj/BrushedMotor/dma.o (symbol from plugin)
+                                                  obj/BrushedMotor/startup_stm32f30x_md_gcc.o
+DMA1_Channel6_IRQHandler                          /tmp/ccl6u6y6.ltrans1.ltrans.o
+                                                  obj/BrushedMotor/dma.o (symbol from plugin)
+                                                  obj/BrushedMotor/startup_stm32f30x_md_gcc.o
+DMA1_Channel7_IRQHandler                          /tmp/ccl6u6y6.ltrans1.ltrans.o
+                                                  obj/BrushedMotor/dma.o (symbol from plugin)
+                                                  obj/BrushedMotor/startup_stm32f30x_md_gcc.o
+DMA2_Channel1_IRQHandler                          /tmp/ccl6u6y6.ltrans1.ltrans.o
+                                                  obj/BrushedMotor/dma.o (symbol from plugin)
+                                                  obj/BrushedMotor/startup_stm32f30x_md_gcc.o
+DMA2_Channel2_IRQHandler                          /tmp/ccl6u6y6.ltrans1.ltrans.o
+                                                  obj/BrushedMotor/dma.o (symbol from plugin)
+                                                  obj/BrushedMotor/startup_stm32f30x_md_gcc.o
+DMA2_Channel3_IRQHandler                          /tmp/ccl6u6y6.ltrans1.ltrans.o
+                                                  obj/BrushedMotor/dma.o (symbol from plugin)
+                                                  obj/BrushedMotor/startup_stm32f30x_md_gcc.o
+DMA2_Channel4_IRQHandler                          /tmp/ccl6u6y6.ltrans1.ltrans.o
+                                                  obj/BrushedMotor/dma.o (symbol from plugin)
+                                                  obj/BrushedMotor/startup_stm32f30x_md_gcc.o
+DMA2_Channel5_IRQHandler                          /tmp/ccl6u6y6.ltrans1.ltrans.o
+                                                  obj/BrushedMotor/dma.o (symbol from plugin)
+                                                  obj/BrushedMotor/startup_stm32f30x_md_gcc.o
+DMA_ClearFlag                                     obj/BrushedMotor/stm32f30x_dma.o (symbol from plugin)
+DMA_ClearITPendingBit                             obj/BrushedMotor/stm32f30x_dma.o (symbol from plugin)
+DMA_Cmd                                           obj/BrushedMotor/stm32f30x_dma.o (symbol from plugin)
+                                                  obj/BrushedMotor/serial_uart_stm32f30x.o (symbol from plugin)
+                                                  obj/BrushedMotor/serial_uart.o (symbol from plugin)
+DMA_DeInit                                        obj/BrushedMotor/stm32f30x_dma.o (symbol from plugin)
+                                                  obj/BrushedMotor/serial_uart.o (symbol from plugin)
+DMA_GetCurrDataCounter                            obj/BrushedMotor/stm32f30x_dma.o (symbol from plugin)
+                                                  obj/BrushedMotor/serial_uart.o (symbol from plugin)
+DMA_GetFlagStatus                                 obj/BrushedMotor/stm32f30x_dma.o (symbol from plugin)
+DMA_GetITStatus                                   obj/BrushedMotor/stm32f30x_dma.o (symbol from plugin)
+DMA_IRQHandler                                    obj/BrushedMotor/dma.o (symbol from plugin)
+DMA_ITConfig                                      obj/BrushedMotor/stm32f30x_dma.o (symbol from plugin)
+                                                  obj/BrushedMotor/serial_uart.o (symbol from plugin)
+DMA_Init                                          obj/BrushedMotor/stm32f30x_dma.o (symbol from plugin)
+                                                  obj/BrushedMotor/serial_uart.o (symbol from plugin)
+DMA_SetCurrDataCounter                            obj/BrushedMotor/stm32f30x_dma.o (symbol from plugin)
+                                                  obj/BrushedMotor/serial_uart.o (symbol from plugin)
+DMA_StructInit                                    obj/BrushedMotor/stm32f30x_dma.o (symbol from plugin)
+                                                  obj/BrushedMotor/serial_uart.o (symbol from plugin)
+DataStageIn.lto_priv.47                           /tmp/ccl6u6y6.ltrans1.ltrans.o
+                                                  /tmp/ccl6u6y6.ltrans2.ltrans.o
+Data_Mul_MaxPacketSize                            /tmp/ccl6u6y6.ltrans2.ltrans.o
+                                                  obj/BrushedMotor/usb_core.o (symbol from plugin)
+                                                  /tmp/ccl6u6y6.ltrans1.ltrans.o
+DebugMon_Handler                                  /tmp/ccl6u6y6.ltrans2.ltrans.o
+                                                  obj/BrushedMotor/vcp/stm32_it.o (symbol from plugin)
+                                                  obj/BrushedMotor/startup_stm32f30x_md_gcc.o
+Default_Handler                                   obj/BrushedMotor/startup_stm32f30x_md_gcc.o
+Device_Descriptor                                 obj/BrushedMotor/vcp/usb_prop.o (symbol from plugin)
+Device_Info                                       /tmp/ccl6u6y6.ltrans0.ltrans.o
+                                                  obj/BrushedMotor/usb_init.o (symbol from plugin)
+                                                  /tmp/ccl6u6y6.ltrans3.ltrans.o
+                                                  obj/BrushedMotor/vcp/usb_prop.o (symbol from plugin)
+                                                  obj/BrushedMotor/vcp/hw_config.o (symbol from plugin)
+Device_Property                                   /tmp/ccl6u6y6.ltrans0.ltrans.o
+                                                  obj/BrushedMotor/vcp/usb_prop.o (symbol from plugin)
+                                                  /tmp/ccl6u6y6.ltrans3.ltrans.o
+                                                  /tmp/ccl6u6y6.ltrans2.ltrans.o
+                                                  /tmp/ccl6u6y6.ltrans1.ltrans.o
+                                                  obj/BrushedMotor/vcp/usb_istr.o (symbol from plugin)
+                                                  obj/BrushedMotor/usb_init.o (symbol from plugin)
+                                                  obj/BrushedMotor/usb_core.o (symbol from plugin)
+Device_Table                                      /tmp/ccl6u6y6.ltrans2.ltrans.o
+                                                  obj/BrushedMotor/vcp/usb_prop.o (symbol from plugin)
+                                                  obj/BrushedMotor/usb_core.o (symbol from plugin)
+EP                                                obj/BrushedMotor/vcp/usb_pwr.o (symbol from plugin)
+EP1_IN_Callback                                   /tmp/ccl6u6y6.ltrans3.ltrans.o
+                                                  obj/BrushedMotor/vcp/usb_endp.o (symbol from plugin)
+                                                  /tmp/ccl6u6y6.ltrans2.ltrans.o
+                                                  obj/BrushedMotor/vcp/usb_istr.o (symbol from plugin)
+EP3_OUT_Callback                                  /tmp/ccl6u6y6.ltrans3.ltrans.o
+                                                  obj/BrushedMotor/vcp/usb_endp.o (symbol from plugin)
+                                                  /tmp/ccl6u6y6.ltrans2.ltrans.o
+                                                  obj/BrushedMotor/vcp/usb_istr.o (symbol from plugin)
+EPindex                                           obj/BrushedMotor/usb_init.o (symbol from plugin)
+                                                  obj/BrushedMotor/usb_int.o (symbol from plugin)
+EXTI0_IRQHandler                                  /tmp/ccl6u6y6.ltrans1.ltrans.o
+                                                  obj/BrushedMotor/exti.o (symbol from plugin)
+                                                  obj/BrushedMotor/startup_stm32f30x_md_gcc.o
+EXTI15_10_IRQHandler                              /tmp/ccl6u6y6.ltrans1.ltrans.o
+                                                  obj/BrushedMotor/exti.o (symbol from plugin)
+                                                  obj/BrushedMotor/startup_stm32f30x_md_gcc.o
+EXTI1_IRQHandler                                  /tmp/ccl6u6y6.ltrans1.ltrans.o
+                                                  obj/BrushedMotor/exti.o (symbol from plugin)
+                                                  obj/BrushedMotor/startup_stm32f30x_md_gcc.o
+EXTI2_TS_IRQHandler                               /tmp/ccl6u6y6.ltrans1.ltrans.o
+                                                  obj/BrushedMotor/exti.o (symbol from plugin)
+                                                  obj/BrushedMotor/startup_stm32f30x_md_gcc.o
+EXTI3_IRQHandler                                  /tmp/ccl6u6y6.ltrans1.ltrans.o
+                                                  obj/BrushedMotor/exti.o (symbol from plugin)
+                                                  obj/BrushedMotor/startup_stm32f30x_md_gcc.o
+EXTI4_IRQHandler                                  /tmp/ccl6u6y6.ltrans1.ltrans.o
+                                                  obj/BrushedMotor/exti.o (symbol from plugin)
+                                                  obj/BrushedMotor/startup_stm32f30x_md_gcc.o
+EXTI9_5_IRQHandler                                /tmp/ccl6u6y6.ltrans1.ltrans.o
+                                                  obj/BrushedMotor/exti.o (symbol from plugin)
+                                                  obj/BrushedMotor/startup_stm32f30x_md_gcc.o
+EXTIConfig                                        obj/BrushedMotor/exti.o (symbol from plugin)
+EXTIEnable                                        obj/BrushedMotor/exti.o (symbol from plugin)
+EXTIHandlerInit                                   obj/BrushedMotor/exti.o (symbol from plugin)
+EXTIInit                                          obj/BrushedMotor/exti.o (symbol from plugin)
+EXTIRelease                                       obj/BrushedMotor/exti.o (symbol from plugin)
+EXTI_ClearFlag                                    obj/BrushedMotor/stm32f30x_exti.o (symbol from plugin)
+EXTI_ClearITPendingBit                            obj/BrushedMotor/stm32f30x_exti.o (symbol from plugin)
+                                                  obj/BrushedMotor/vcp/stm32_it.o (symbol from plugin)
+                                                  obj/BrushedMotor/vcp/hw_config.o (symbol from plugin)
+                                                  obj/BrushedMotor/exti.o (symbol from plugin)
+EXTI_DeInit                                       obj/BrushedMotor/stm32f30x_exti.o (symbol from plugin)
+EXTI_GenerateSWInterrupt                          obj/BrushedMotor/stm32f30x_exti.o (symbol from plugin)
+EXTI_GetFlagStatus                                obj/BrushedMotor/stm32f30x_exti.o (symbol from plugin)
+EXTI_GetITStatus                                  obj/BrushedMotor/stm32f30x_exti.o (symbol from plugin)
+EXTI_IRQHandler                                   obj/BrushedMotor/exti.o (symbol from plugin)
+EXTI_Init                                         obj/BrushedMotor/stm32f30x_exti.o (symbol from plugin)
+                                                  obj/BrushedMotor/vcp/hw_config.o (symbol from plugin)
+                                                  obj/BrushedMotor/exti.o (symbol from plugin)
+EXTI_InitStructure                                obj/BrushedMotor/vcp/hw_config.o (symbol from plugin)
+EXTI_StructInit                                   obj/BrushedMotor/stm32f30x_exti.o (symbol from plugin)
+Enter_LowPowerMode                                obj/BrushedMotor/vcp/hw_config.o (symbol from plugin)
+FLASH_ClearFlag                                   obj/BrushedMotor/stm32f30x_flash.o (symbol from plugin)
+FLASH_EraseAllPages                               obj/BrushedMotor/stm32f30x_flash.o (symbol from plugin)
+FLASH_ErasePage                                   obj/BrushedMotor/stm32f30x_flash.o (symbol from plugin)
+FLASH_GetFlagStatus                               obj/BrushedMotor/stm32f30x_flash.o (symbol from plugin)
+FLASH_GetStatus                                   obj/BrushedMotor/stm32f30x_flash.o (symbol from plugin)
+FLASH_HalfCycleAccessCmd                          obj/BrushedMotor/stm32f30x_flash.o (symbol from plugin)
+FLASH_IRQHandler                                  obj/BrushedMotor/startup_stm32f30x_md_gcc.o
+FLASH_ITConfig                                    obj/BrushedMotor/stm32f30x_flash.o (symbol from plugin)
+FLASH_Lock                                        obj/BrushedMotor/stm32f30x_flash.o (symbol from plugin)
+FLASH_OB_BOOTConfig                               obj/BrushedMotor/stm32f30x_flash.o (symbol from plugin)
+FLASH_OB_EnableWRP                                obj/BrushedMotor/stm32f30x_flash.o (symbol from plugin)
+FLASH_OB_Erase                                    obj/BrushedMotor/stm32f30x_flash.o (symbol from plugin)
+FLASH_OB_GetRDP                                   obj/BrushedMotor/stm32f30x_flash.o (symbol from plugin)
+FLASH_OB_GetUser                                  obj/BrushedMotor/stm32f30x_flash.o (symbol from plugin)
+FLASH_OB_GetWRP                                   obj/BrushedMotor/stm32f30x_flash.o (symbol from plugin)
+FLASH_OB_Launch                                   obj/BrushedMotor/stm32f30x_flash.o (symbol from plugin)
+FLASH_OB_Lock                                     obj/BrushedMotor/stm32f30x_flash.o (symbol from plugin)
+FLASH_OB_RDPConfig                                obj/BrushedMotor/stm32f30x_flash.o (symbol from plugin)
+FLASH_OB_SRAMParityConfig                         obj/BrushedMotor/stm32f30x_flash.o (symbol from plugin)
+FLASH_OB_Unlock                                   obj/BrushedMotor/stm32f30x_flash.o (symbol from plugin)
+FLASH_OB_UserConfig                               obj/BrushedMotor/stm32f30x_flash.o (symbol from plugin)
+FLASH_OB_VDDAConfig                               obj/BrushedMotor/stm32f30x_flash.o (symbol from plugin)
+FLASH_OB_WriteUser                                obj/BrushedMotor/stm32f30x_flash.o (symbol from plugin)
+FLASH_PrefetchBufferCmd                           obj/BrushedMotor/stm32f30x_flash.o (symbol from plugin)
+FLASH_ProgramHalfWord                             obj/BrushedMotor/stm32f30x_flash.o (symbol from plugin)
+FLASH_ProgramOptionByteData                       obj/BrushedMotor/stm32f30x_flash.o (symbol from plugin)
+FLASH_ProgramWord                                 obj/BrushedMotor/stm32f30x_flash.o (symbol from plugin)
+FLASH_SetLatency                                  obj/BrushedMotor/stm32f30x_flash.o (symbol from plugin)
+FLASH_Unlock                                      obj/BrushedMotor/stm32f30x_flash.o (symbol from plugin)
+FLASH_WaitForLastOperation                        obj/BrushedMotor/stm32f30x_flash.o (symbol from plugin)
+FPU_IRQHandler                                    obj/BrushedMotor/startup_stm32f30x_md_gcc.o
+FreeUserBuffer                                    obj/BrushedMotor/usb_regs.o (symbol from plugin)
+GPIO_DeInit                                       obj/BrushedMotor/stm32f30x_gpio.o (symbol from plugin)
+GPIO_Init                                         /tmp/ccl6u6y6.ltrans1.ltrans.o
+                                                  obj/BrushedMotor/stm32f30x_gpio.o (symbol from plugin)
+                                                  /tmp/ccl6u6y6.ltrans0.ltrans.o
+                                                  obj/BrushedMotor/usb_io.o (symbol from plugin)
+                                                  obj/BrushedMotor/vcp/hw_config.o (symbol from plugin)
+                                                  obj/BrushedMotor/io.o (symbol from plugin)
+                                                  obj/BrushedMotor/serial_uart_stm32f30x.o (symbol from plugin)
+                                                  obj/BrushedMotor/gpio_stm32f30x.o (symbol from plugin)
+GPIO_PinAFConfig                                  obj/BrushedMotor/stm32f30x_gpio.o (symbol from plugin)
+                                                  obj/BrushedMotor/vcp/hw_config.o (symbol from plugin)
+                                                  obj/BrushedMotor/io.o (symbol from plugin)
+                                                  obj/BrushedMotor/serial_uart_stm32f30x.o (symbol from plugin)
+                                                  obj/BrushedMotor/timer.o (symbol from plugin)
+GPIO_PinLockConfig                                obj/BrushedMotor/stm32f30x_gpio.o (symbol from plugin)
+GPIO_ReadInputData                                obj/BrushedMotor/stm32f30x_gpio.o (symbol from plugin)
+GPIO_ReadInputDataBit                             obj/BrushedMotor/stm32f30x_gpio.o (symbol from plugin)
+GPIO_ReadOutputData                               obj/BrushedMotor/stm32f30x_gpio.o (symbol from plugin)
+GPIO_ReadOutputDataBit                            obj/BrushedMotor/stm32f30x_gpio.o (symbol from plugin)
+GPIO_ResetBits                                    obj/BrushedMotor/stm32f30x_gpio.o (symbol from plugin)
+                                                  obj/BrushedMotor/usb_io.o (symbol from plugin)
+GPIO_SetBits                                      obj/BrushedMotor/stm32f30x_gpio.o (symbol from plugin)
+                                                  obj/BrushedMotor/usb_io.o (symbol from plugin)
+                                                  obj/BrushedMotor/serial_uart_stm32f30x.o (symbol from plugin)
+GPIO_StructInit                                   obj/BrushedMotor/stm32f30x_gpio.o (symbol from plugin)
+GPIO_Write                                        obj/BrushedMotor/stm32f30x_gpio.o (symbol from plugin)
+GPIO_WriteBit                                     obj/BrushedMotor/stm32f30x_gpio.o (symbol from plugin)
+GetBTABLE                                         obj/BrushedMotor/usb_regs.o (symbol from plugin)
+GetCNTR                                           obj/BrushedMotor/usb_regs.o (symbol from plugin)
+GetDADDR                                          obj/BrushedMotor/usb_regs.o (symbol from plugin)
+GetENDPOINT                                       obj/BrushedMotor/usb_regs.o (symbol from plugin)
+GetEPAddress                                      obj/BrushedMotor/usb_regs.o (symbol from plugin)
+GetEPDblBuf0Addr                                  obj/BrushedMotor/usb_regs.o (symbol from plugin)
+GetEPDblBuf0Count                                 obj/BrushedMotor/usb_regs.o (symbol from plugin)
+GetEPDblBuf1Addr                                  obj/BrushedMotor/usb_regs.o (symbol from plugin)
+GetEPDblBuf1Count                                 obj/BrushedMotor/usb_regs.o (symbol from plugin)
+GetEPDblBufDir                                    obj/BrushedMotor/usb_regs.o (symbol from plugin)
+GetEPRxAddr                                       obj/BrushedMotor/usb_regs.o (symbol from plugin)
+                                                  obj/BrushedMotor/usb_sil.o (symbol from plugin)
+                                                  obj/BrushedMotor/usb_core.o (symbol from plugin)
+GetEPRxCount                                      obj/BrushedMotor/usb_regs.o (symbol from plugin)
+                                                  obj/BrushedMotor/vcp/usb_endp.o (symbol from plugin)
+                                                  obj/BrushedMotor/usb_sil.o (symbol from plugin)
+GetEPRxStatus                                     obj/BrushedMotor/usb_regs.o (symbol from plugin)
+GetEPTxAddr                                       obj/BrushedMotor/usb_regs.o (symbol from plugin)
+                                                  obj/BrushedMotor/usb_sil.o (symbol from plugin)
+                                                  obj/BrushedMotor/usb_core.o (symbol from plugin)
+GetEPTxCount                                      obj/BrushedMotor/usb_regs.o (symbol from plugin)
+GetEPTxStatus                                     obj/BrushedMotor/usb_regs.o (symbol from plugin)
+GetEPType                                         obj/BrushedMotor/usb_regs.o (symbol from plugin)
+GetFNR                                            obj/BrushedMotor/usb_regs.o (symbol from plugin)
+GetISTR                                           obj/BrushedMotor/usb_regs.o (symbol from plugin)
+GetRxStallStatus                                  obj/BrushedMotor/usb_regs.o (symbol from plugin)
+GetTxStallStatus                                  obj/BrushedMotor/usb_regs.o (symbol from plugin)
+Get_SerialNum                                     obj/BrushedMotor/vcp/hw_config.o (symbol from plugin)
+                                                  obj/BrushedMotor/vcp/usb_prop.o (symbol from plugin)
+HRTIM_ADCTriggerConfig                            obj/BrushedMotor/stm32f30x_hrtim.o (symbol from plugin)
+HRTIM_BurstDMAConfig                              obj/BrushedMotor/stm32f30x_hrtim.o (symbol from plugin)
+HRTIM_BurstModeConfig                             obj/BrushedMotor/stm32f30x_hrtim.o (symbol from plugin)
+HRTIM_BurstModeCtl                                obj/BrushedMotor/stm32f30x_hrtim.o (symbol from plugin)
+HRTIM_ChopperModeConfig                           obj/BrushedMotor/stm32f30x_hrtim.o (symbol from plugin)
+HRTIM_ClearCommonFlag                             obj/BrushedMotor/stm32f30x_hrtim.o (symbol from plugin)
+HRTIM_ClearCommonITPendingBit                     obj/BrushedMotor/stm32f30x_hrtim.o (symbol from plugin)
+HRTIM_ClearFlag                                   obj/BrushedMotor/stm32f30x_hrtim.o (symbol from plugin)
+HRTIM_ClearITPendingBit                           obj/BrushedMotor/stm32f30x_hrtim.o (symbol from plugin)
+HRTIM_DLLCalibrationStart                         obj/BrushedMotor/stm32f30x_hrtim.o (symbol from plugin)
+HRTIM_DMACmd                                      obj/BrushedMotor/stm32f30x_hrtim.o (symbol from plugin)
+HRTIM_DeInit                                      obj/BrushedMotor/stm32f30x_hrtim.o (symbol from plugin)
+HRTIM_DeadTimeConfig                              obj/BrushedMotor/stm32f30x_hrtim.o (symbol from plugin)
+HRTIM_EventConfig                                 obj/BrushedMotor/stm32f30x_hrtim.o (symbol from plugin)
+HRTIM_EventPrescalerConfig                        obj/BrushedMotor/stm32f30x_hrtim.o (symbol from plugin)
+HRTIM_FaultConfig                                 obj/BrushedMotor/stm32f30x_hrtim.o (symbol from plugin)
+HRTIM_FaultModeCtl                                obj/BrushedMotor/stm32f30x_hrtim.o (symbol from plugin)
+HRTIM_FaultPrescalerConfig                        obj/BrushedMotor/stm32f30x_hrtim.o (symbol from plugin)
+HRTIM_GetBurstStatus                              obj/BrushedMotor/stm32f30x_hrtim.o (symbol from plugin)
+HRTIM_GetCapturedValue                            obj/BrushedMotor/stm32f30x_hrtim.o (symbol from plugin)
+HRTIM_GetCommonFlagStatus                         obj/BrushedMotor/stm32f30x_hrtim.o (symbol from plugin)
+HRTIM_GetCommonITStatus                           obj/BrushedMotor/stm32f30x_hrtim.o (symbol from plugin)
+HRTIM_GetCurrentPushPullStatus                    obj/BrushedMotor/stm32f30x_hrtim.o (symbol from plugin)
+HRTIM_GetDelayedProtectionStatus                  obj/BrushedMotor/stm32f30x_hrtim.o (symbol from plugin)
+HRTIM_GetFlagStatus                               obj/BrushedMotor/stm32f30x_hrtim.o (symbol from plugin)
+HRTIM_GetITStatus                                 obj/BrushedMotor/stm32f30x_hrtim.o (symbol from plugin)
+HRTIM_GetIdlePushPullStatus                       obj/BrushedMotor/stm32f30x_hrtim.o (symbol from plugin)
+HRTIM_ITCommonConfig                              obj/BrushedMotor/stm32f30x_hrtim.o (symbol from plugin)
+HRTIM_ITConfig                                    obj/BrushedMotor/stm32f30x_hrtim.o (symbol from plugin)
+HRTIM_MasterSetCompare                            obj/BrushedMotor/stm32f30x_hrtim.o (symbol from plugin)
+HRTIM_SimpleBaseStart                             obj/BrushedMotor/stm32f30x_hrtim.o (symbol from plugin)
+HRTIM_SimpleBaseStop                              obj/BrushedMotor/stm32f30x_hrtim.o (symbol from plugin)
+HRTIM_SimpleBase_Init                             obj/BrushedMotor/stm32f30x_hrtim.o (symbol from plugin)
+HRTIM_SimpleCaptureChannelConfig                  obj/BrushedMotor/stm32f30x_hrtim.o (symbol from plugin)
+HRTIM_SimpleCaptureStart                          obj/BrushedMotor/stm32f30x_hrtim.o (symbol from plugin)
+HRTIM_SimpleCaptureStop                           obj/BrushedMotor/stm32f30x_hrtim.o (symbol from plugin)
+HRTIM_SimpleCapture_Init                          obj/BrushedMotor/stm32f30x_hrtim.o (symbol from plugin)
+HRTIM_SimpleOCChannelConfig                       obj/BrushedMotor/stm32f30x_hrtim.o (symbol from plugin)
+HRTIM_SimpleOCStart                               obj/BrushedMotor/stm32f30x_hrtim.o (symbol from plugin)
+HRTIM_SimpleOCStop                                obj/BrushedMotor/stm32f30x_hrtim.o (symbol from plugin)
+HRTIM_SimpleOC_Init                               obj/BrushedMotor/stm32f30x_hrtim.o (symbol from plugin)
+HRTIM_SimpleOnePulseChannelConfig                 obj/BrushedMotor/stm32f30x_hrtim.o (symbol from plugin)
+HRTIM_SimpleOnePulseStart                         obj/BrushedMotor/stm32f30x_hrtim.o (symbol from plugin)
+HRTIM_SimpleOnePulseStop                          obj/BrushedMotor/stm32f30x_hrtim.o (symbol from plugin)
+HRTIM_SimpleOnePulse_Init                         obj/BrushedMotor/stm32f30x_hrtim.o (symbol from plugin)
+HRTIM_SimplePWMChannelConfig                      obj/BrushedMotor/stm32f30x_hrtim.o (symbol from plugin)
+HRTIM_SimplePWMStart                              obj/BrushedMotor/stm32f30x_hrtim.o (symbol from plugin)
+HRTIM_SimplePWMStop                               obj/BrushedMotor/stm32f30x_hrtim.o (symbol from plugin)
+HRTIM_SimplePWM_Init                              obj/BrushedMotor/stm32f30x_hrtim.o (symbol from plugin)
+HRTIM_SlaveSetCompare                             obj/BrushedMotor/stm32f30x_hrtim.o (symbol from plugin)
+HRTIM_SoftwareCapture                             obj/BrushedMotor/stm32f30x_hrtim.o (symbol from plugin)
+HRTIM_SoftwareReset                               obj/BrushedMotor/stm32f30x_hrtim.o (symbol from plugin)
+HRTIM_SoftwareUpdate                              obj/BrushedMotor/stm32f30x_hrtim.o (symbol from plugin)
+HRTIM_SynchronizationConfig                       obj/BrushedMotor/stm32f30x_hrtim.o (symbol from plugin)
+HRTIM_TimerEventFilteringConfig                   obj/BrushedMotor/stm32f30x_hrtim.o (symbol from plugin)
+HRTIM_WaveformCaptureConfig                       obj/BrushedMotor/stm32f30x_hrtim.o (symbol from plugin)
+HRTIM_WaveformCompareConfig                       obj/BrushedMotor/stm32f30x_hrtim.o (symbol from plugin)
+HRTIM_WaveformCounterStart                        obj/BrushedMotor/stm32f30x_hrtim.o (symbol from plugin)
+HRTIM_WaveformCounterStop                         obj/BrushedMotor/stm32f30x_hrtim.o (symbol from plugin)
+HRTIM_WaveformGetOutputLevel                      obj/BrushedMotor/stm32f30x_hrtim.o (symbol from plugin)
+HRTIM_WaveformGetOutputState                      obj/BrushedMotor/stm32f30x_hrtim.o (symbol from plugin)
+HRTIM_WaveformOutputConfig                        obj/BrushedMotor/stm32f30x_hrtim.o (symbol from plugin)
+HRTIM_WaveformOutputStart                         obj/BrushedMotor/stm32f30x_hrtim.o (symbol from plugin)
+HRTIM_WaveformOutputStop                          obj/BrushedMotor/stm32f30x_hrtim.o (symbol from plugin)
+HRTIM_WaveformSetOutputLevel                      obj/BrushedMotor/stm32f30x_hrtim.o (symbol from plugin)
+HRTIM_WaveformTimerConfig                         obj/BrushedMotor/stm32f30x_hrtim.o (symbol from plugin)
+HRTIM_Waveform_Init                               obj/BrushedMotor/stm32f30x_hrtim.o (symbol from plugin)
+HSEStartUpStatus                                  obj/BrushedMotor/vcp/hw_config.o (symbol from plugin)
+HardFault_Handler                                 /tmp/ccl6u6y6.ltrans4.ltrans.o
+                                                  obj/BrushedMotor/Arduino.o (symbol from plugin)
+                                                  obj/BrushedMotor/startup_stm32f30x_md_gcc.o
+HardwareSerial0::begin(unsigned long)             obj/BrushedMotor/Arduino.o (symbol from plugin)
+HardwareSerial0::read()                           obj/BrushedMotor/Arduino.o (symbol from plugin)
+HardwareSerial1::begin(unsigned long)             obj/BrushedMotor/Arduino.o (symbol from plugin)
+HardwareSerial1::read()                           obj/BrushedMotor/Arduino.o (symbol from plugin)
+HardwareSerial::available()                       obj/BrushedMotor/Arduino.o (symbol from plugin)
+HardwareSerial::flush()                           obj/BrushedMotor/Arduino.o (symbol from plugin)
+HardwareSerial::write(unsigned char)              obj/BrushedMotor/Arduino.o (symbol from plugin)
+I2C1_ER_IRQHandler                                obj/BrushedMotor/startup_stm32f30x_md_gcc.o
+I2C1_EV_IRQHandler                                obj/BrushedMotor/startup_stm32f30x_md_gcc.o
+I2C2_ER_IRQHandler                                obj/BrushedMotor/startup_stm32f30x_md_gcc.o
+I2C2_EV_IRQHandler                                obj/BrushedMotor/startup_stm32f30x_md_gcc.o
+I2C_10BitAddressHeaderCmd                         obj/BrushedMotor/stm32f30x_i2c.o (symbol from plugin)
+I2C_10BitAddressingModeCmd                        obj/BrushedMotor/stm32f30x_i2c.o (symbol from plugin)
+I2C_AcknowledgeConfig                             obj/BrushedMotor/stm32f30x_i2c.o (symbol from plugin)
+I2C_AutoEndCmd                                    obj/BrushedMotor/stm32f30x_i2c.o (symbol from plugin)
+I2C_CalculatePEC                                  obj/BrushedMotor/stm32f30x_i2c.o (symbol from plugin)
+I2C_ClearFlag                                     obj/BrushedMotor/stm32f30x_i2c.o (symbol from plugin)
+I2C_ClearITPendingBit                             obj/BrushedMotor/stm32f30x_i2c.o (symbol from plugin)
+I2C_ClockTimeoutCmd                               obj/BrushedMotor/stm32f30x_i2c.o (symbol from plugin)
+I2C_Cmd                                           obj/BrushedMotor/stm32f30x_i2c.o (symbol from plugin)
+I2C_DMACmd                                        obj/BrushedMotor/stm32f30x_i2c.o (symbol from plugin)
+I2C_DeInit                                        obj/BrushedMotor/stm32f30x_i2c.o (symbol from plugin)
+I2C_DualAddressCmd                                obj/BrushedMotor/stm32f30x_i2c.o (symbol from plugin)
+I2C_ExtendedClockTimeoutCmd                       obj/BrushedMotor/stm32f30x_i2c.o (symbol from plugin)
+I2C_GeneralCallCmd                                obj/BrushedMotor/stm32f30x_i2c.o (symbol from plugin)
+I2C_GenerateSTART                                 obj/BrushedMotor/stm32f30x_i2c.o (symbol from plugin)
+I2C_GenerateSTOP                                  obj/BrushedMotor/stm32f30x_i2c.o (symbol from plugin)
+I2C_GetAddressMatched                             obj/BrushedMotor/stm32f30x_i2c.o (symbol from plugin)
+I2C_GetFlagStatus                                 obj/BrushedMotor/stm32f30x_i2c.o (symbol from plugin)
+I2C_GetITStatus                                   obj/BrushedMotor/stm32f30x_i2c.o (symbol from plugin)
+I2C_GetPEC                                        obj/BrushedMotor/stm32f30x_i2c.o (symbol from plugin)
+I2C_GetTransferDirection                          obj/BrushedMotor/stm32f30x_i2c.o (symbol from plugin)
+I2C_ITConfig                                      obj/BrushedMotor/stm32f30x_i2c.o (symbol from plugin)
+I2C_IdleClockTimeoutCmd                           obj/BrushedMotor/stm32f30x_i2c.o (symbol from plugin)
+I2C_Init                                          obj/BrushedMotor/stm32f30x_i2c.o (symbol from plugin)
+I2C_MasterRequestConfig                           obj/BrushedMotor/stm32f30x_i2c.o (symbol from plugin)
+I2C_NumberOfBytesConfig                           obj/BrushedMotor/stm32f30x_i2c.o (symbol from plugin)
+I2C_OwnAddress2Config                             obj/BrushedMotor/stm32f30x_i2c.o (symbol from plugin)
+I2C_PECRequestCmd                                 obj/BrushedMotor/stm32f30x_i2c.o (symbol from plugin)
+I2C_ReadRegister                                  obj/BrushedMotor/stm32f30x_i2c.o (symbol from plugin)
+I2C_ReceiveData                                   obj/BrushedMotor/stm32f30x_i2c.o (symbol from plugin)
+I2C_ReloadCmd                                     obj/BrushedMotor/stm32f30x_i2c.o (symbol from plugin)
+I2C_SMBusAlertCmd                                 obj/BrushedMotor/stm32f30x_i2c.o (symbol from plugin)
+I2C_SendData                                      obj/BrushedMotor/stm32f30x_i2c.o (symbol from plugin)
+I2C_SlaveAddressConfig                            obj/BrushedMotor/stm32f30x_i2c.o (symbol from plugin)
+I2C_SlaveByteControlCmd                           obj/BrushedMotor/stm32f30x_i2c.o (symbol from plugin)
+I2C_SoftwareResetCmd                              obj/BrushedMotor/stm32f30x_i2c.o (symbol from plugin)
+I2C_StopModeCmd                                   obj/BrushedMotor/stm32f30x_i2c.o (symbol from plugin)
+I2C_StretchClockCmd                               obj/BrushedMotor/stm32f30x_i2c.o (symbol from plugin)
+I2C_StructInit                                    obj/BrushedMotor/stm32f30x_i2c.o (symbol from plugin)
+I2C_TimeoutAConfig                                obj/BrushedMotor/stm32f30x_i2c.o (symbol from plugin)
+I2C_TimeoutBConfig                                obj/BrushedMotor/stm32f30x_i2c.o (symbol from plugin)
+I2C_TransferHandling                              obj/BrushedMotor/stm32f30x_i2c.o (symbol from plugin)
+I2S_Cmd                                           obj/BrushedMotor/stm32f30x_spi.o (symbol from plugin)
+I2S_FullDuplexConfig                              obj/BrushedMotor/stm32f30x_spi.o (symbol from plugin)
+I2S_Init                                          obj/BrushedMotor/stm32f30x_spi.o (symbol from plugin)
+I2S_StructInit                                    obj/BrushedMotor/stm32f30x_spi.o (symbol from plugin)
+IOConfigGPIO                                      obj/BrushedMotor/io.o (symbol from plugin)
+IOConfigGPIOAF                                    obj/BrushedMotor/io.o (symbol from plugin)
+IOGetByTag                                        obj/BrushedMotor/io.o (symbol from plugin)
+IOGetOwner                                        obj/BrushedMotor/io.o (symbol from plugin)
+IOGetResources                                    obj/BrushedMotor/io.o (symbol from plugin)
+IOHi                                              obj/BrushedMotor/io.o (symbol from plugin)
+IOInit                                            obj/BrushedMotor/io.o (symbol from plugin)
+IOInitGlobal                                      obj/BrushedMotor/io.o (symbol from plugin)
+                                                  obj/BrushedMotor/Arduino.o (symbol from plugin)
+IOLo                                              obj/BrushedMotor/io.o (symbol from plugin)
+IORead                                            obj/BrushedMotor/io.o (symbol from plugin)
+IORelease                                         obj/BrushedMotor/io.o (symbol from plugin)
+IOToggle                                          obj/BrushedMotor/io.o (symbol from plugin)
+IOWrite                                           obj/BrushedMotor/io.o (symbol from plugin)
+IO_EXTI_Line                                      obj/BrushedMotor/io.o (symbol from plugin)
+                                                  obj/BrushedMotor/exti.o (symbol from plugin)
+IO_EXTI_PinSource                                 obj/BrushedMotor/io.o (symbol from plugin)
+                                                  obj/BrushedMotor/exti.o (symbol from plugin)
+IO_EXTI_PortSourceGPIO                            obj/BrushedMotor/io.o (symbol from plugin)
+                                                  obj/BrushedMotor/exti.o (symbol from plugin)
+IO_GPIO                                           obj/BrushedMotor/io.o (symbol from plugin)
+IO_GPIOPinIdx                                     obj/BrushedMotor/io.o (symbol from plugin)
+                                                  obj/BrushedMotor/exti.o (symbol from plugin)
+IO_GPIOPortIdx                                    obj/BrushedMotor/io.o (symbol from plugin)
+IO_GPIO_PinSource                                 obj/BrushedMotor/io.o (symbol from plugin)
+IO_GPIO_PortSource                                obj/BrushedMotor/io.o (symbol from plugin)
+IO_Pin                                            obj/BrushedMotor/io.o (symbol from plugin)
+IO_Rec                                            obj/BrushedMotor/io.o (symbol from plugin)
+IWDG_Enable                                       obj/BrushedMotor/stm32f30x_iwdg.o (symbol from plugin)
+IWDG_GetFlagStatus                                obj/BrushedMotor/stm32f30x_iwdg.o (symbol from plugin)
+IWDG_ReloadCounter                                obj/BrushedMotor/stm32f30x_iwdg.o (symbol from plugin)
+IWDG_SetPrescaler                                 obj/BrushedMotor/stm32f30x_iwdg.o (symbol from plugin)
+IWDG_SetReload                                    obj/BrushedMotor/stm32f30x_iwdg.o (symbol from plugin)
+IWDG_SetWindowValue                               obj/BrushedMotor/stm32f30x_iwdg.o (symbol from plugin)
+IWDG_WriteAccessCmd                               obj/BrushedMotor/stm32f30x_iwdg.o (symbol from plugin)
+In0_Process                                       obj/BrushedMotor/usb_core.o (symbol from plugin)
+                                                  obj/BrushedMotor/usb_int.o (symbol from plugin)
+IntToUnicode.lto_priv.46                          /tmp/ccl6u6y6.ltrans2.ltrans.o
+                                                  /tmp/ccl6u6y6.ltrans3.ltrans.o
+Leave_LowPowerMode                                obj/BrushedMotor/vcp/hw_config.o (symbol from plugin)
+                                                  obj/BrushedMotor/vcp/usb_pwr.o (symbol from plugin)
+MemManage_Handler                                 /tmp/ccl6u6y6.ltrans2.ltrans.o
+                                                  obj/BrushedMotor/vcp/stm32_it.o (symbol from plugin)
+                                                  obj/BrushedMotor/startup_stm32f30x_md_gcc.o
+Motor::attach(unsigned char, unsigned long, unsigned short) obj/BrushedMotor/Motor.o (symbol from plugin)
+                                                  obj/BrushedMotor.o (symbol from plugin)
+NMI_Handler                                       /tmp/ccl6u6y6.ltrans2.ltrans.o
+                                                  obj/BrushedMotor/vcp/stm32_it.o (symbol from plugin)
+                                                  obj/BrushedMotor/startup_stm32f30x_md_gcc.o
+NOP_Process                                       /tmp/ccl6u6y6.ltrans2.ltrans.o
+                                                  obj/BrushedMotor/usb_core.o (symbol from plugin)
+                                                  /tmp/ccl6u6y6.ltrans0.ltrans.o
+                                                  obj/BrushedMotor/vcp/usb_prop.o (symbol from plugin)
+                                                  obj/BrushedMotor/vcp/usb_istr.o (symbol from plugin)
+NVIC_Init                                         obj/BrushedMotor/stm32f30x_misc.o (symbol from plugin)
+                                                  obj/BrushedMotor/vcp/hw_config.o (symbol from plugin)
+                                                  obj/BrushedMotor/dma.o (symbol from plugin)
+                                                  obj/BrushedMotor/exti.o (symbol from plugin)
+                                                  obj/BrushedMotor/serial_uart_stm32f30x.o (symbol from plugin)
+                                                  obj/BrushedMotor/timer.o (symbol from plugin)
+NVIC_Init.part.0.constprop.30                     /tmp/ccl6u6y6.ltrans4.ltrans.o
+                                                  /tmp/ccl6u6y6.ltrans0.ltrans.o
+NVIC_PriorityGroupConfig                          obj/BrushedMotor/stm32f30x_misc.o (symbol from plugin)
+                                                  obj/BrushedMotor/vcp/hw_config.o (symbol from plugin)
+                                                  obj/BrushedMotor/system.o (symbol from plugin)
+NVIC_SetVectorTable                               obj/BrushedMotor/stm32f30x_misc.o (symbol from plugin)
+NVIC_SystemLPConfig                               obj/BrushedMotor/stm32f30x_misc.o (symbol from plugin)
+OPAMP_Cmd                                         obj/BrushedMotor/stm32f30x_opamp.o (symbol from plugin)
+OPAMP_DeInit                                      obj/BrushedMotor/stm32f30x_opamp.o (symbol from plugin)
+OPAMP_GetOutputLevel                              obj/BrushedMotor/stm32f30x_opamp.o (symbol from plugin)
+OPAMP_Init                                        obj/BrushedMotor/stm32f30x_opamp.o (symbol from plugin)
+OPAMP_LockConfig                                  obj/BrushedMotor/stm32f30x_opamp.o (symbol from plugin)
+OPAMP_OffsetTrimConfig                            obj/BrushedMotor/stm32f30x_opamp.o (symbol from plugin)
+OPAMP_OffsetTrimModeSelect                        obj/BrushedMotor/stm32f30x_opamp.o (symbol from plugin)
+OPAMP_PGAConfig                                   obj/BrushedMotor/stm32f30x_opamp.o (symbol from plugin)
+OPAMP_StartCalibration                            obj/BrushedMotor/stm32f30x_opamp.o (symbol from plugin)
+OPAMP_StructInit                                  obj/BrushedMotor/stm32f30x_opamp.o (symbol from plugin)
+OPAMP_TimerControlledMuxCmd                       obj/BrushedMotor/stm32f30x_opamp.o (symbol from plugin)
+OPAMP_TimerControlledMuxConfig                    obj/BrushedMotor/stm32f30x_opamp.o (symbol from plugin)
+OPAMP_VrefConfig                                  obj/BrushedMotor/stm32f30x_opamp.o (symbol from plugin)
+OPAMP_VrefConnectADCCmd                           obj/BrushedMotor/stm32f30x_opamp.o (symbol from plugin)
+OPAMP_VrefConnectNonInvertingInput                obj/BrushedMotor/stm32f30x_opamp.o (symbol from plugin)
+Out0_Process                                      obj/BrushedMotor/usb_core.o (symbol from plugin)
+                                                  obj/BrushedMotor/usb_int.o (symbol from plugin)
+PMAToUserBufferCopy                               obj/BrushedMotor/usb_mem.o (symbol from plugin)
+                                                  obj/BrushedMotor/vcp/usb_endp.o (symbol from plugin)
+                                                  obj/BrushedMotor/usb_sil.o (symbol from plugin)
+                                                  obj/BrushedMotor/usb_core.o (symbol from plugin)
+PVD_IRQHandler                                    obj/BrushedMotor/startup_stm32f30x_md_gcc.o
+PWR_BackupAccessCmd                               obj/BrushedMotor/stm32f30x_pwr.o (symbol from plugin)
+PWR_ClearFlag                                     obj/BrushedMotor/stm32f30x_pwr.o (symbol from plugin)
+PWR_DeInit                                        obj/BrushedMotor/stm32f30x_pwr.o (symbol from plugin)
+PWR_EnterSTANDBYMode                              obj/BrushedMotor/stm32f30x_pwr.o (symbol from plugin)
+PWR_EnterSTOPMode                                 obj/BrushedMotor/stm32f30x_pwr.o (symbol from plugin)
+PWR_EnterSleepMode                                obj/BrushedMotor/stm32f30x_pwr.o (symbol from plugin)
+PWR_GetFlagStatus                                 obj/BrushedMotor/stm32f30x_pwr.o (symbol from plugin)
+PWR_PVDCmd                                        obj/BrushedMotor/stm32f30x_pwr.o (symbol from plugin)
+PWR_PVDLevelConfig                                obj/BrushedMotor/stm32f30x_pwr.o (symbol from plugin)
+PWR_WakeUpPinCmd                                  obj/BrushedMotor/stm32f30x_pwr.o (symbol from plugin)
+PendSV_Handler                                    /tmp/ccl6u6y6.ltrans2.ltrans.o
+                                                  obj/BrushedMotor/vcp/stm32_it.o (symbol from plugin)
+                                                  obj/BrushedMotor/startup_stm32f30x_md_gcc.o
+Post0_Process                                     /tmp/ccl6u6y6.ltrans1.ltrans.o
+                                                  obj/BrushedMotor/usb_core.o (symbol from plugin)
+                                                  /tmp/ccl6u6y6.ltrans2.ltrans.o
+PowerOff                                          obj/BrushedMotor/vcp/usb_pwr.o (symbol from plugin)
+PowerOn                                           obj/BrushedMotor/vcp/usb_pwr.o (symbol from plugin)
+                                                  obj/BrushedMotor/vcp/usb_prop.o (symbol from plugin)
+RCC_ADCCLKConfig                                  obj/BrushedMotor/stm32f30x_rcc.o (symbol from plugin)
+RCC_AHBPeriphClockCmd                             obj/BrushedMotor/stm32f30x_rcc.o (symbol from plugin)
+                                                  obj/BrushedMotor/usb_io.o (symbol from plugin)
+                                                  obj/BrushedMotor/vcp/hw_config.o (symbol from plugin)
+                                                  obj/BrushedMotor/dma.o (symbol from plugin)
+                                                  obj/BrushedMotor/system_stm32f30x.o (symbol from plugin)
+                                                  obj/BrushedMotor/light_led_stm32f30x.o (symbol from plugin)
+                                                  obj/BrushedMotor/timer.o (symbol from plugin)
+RCC_AHBPeriphResetCmd                             obj/BrushedMotor/stm32f30x_rcc.o (symbol from plugin)
+                                                  obj/BrushedMotor/stm32f30x_adc.o (symbol from plugin)
+                                                  obj/BrushedMotor/stm32f30x_gpio.o (symbol from plugin)
+RCC_APB1PeriphClockCmd                            obj/BrushedMotor/stm32f30x_rcc.o (symbol from plugin)
+                                                  obj/BrushedMotor/vcp/hw_config.o (symbol from plugin)
+                                                  obj/BrushedMotor/serial_uart_stm32f30x.o (symbol from plugin)
+                                                  obj/BrushedMotor/timer.o (symbol from plugin)
+RCC_APB1PeriphResetCmd                            obj/BrushedMotor/stm32f30x_rcc.o (symbol from plugin)
+                                                  obj/BrushedMotor/stm32f30x_wwdg.o (symbol from plugin)
+                                                  obj/BrushedMotor/stm32f30x_usart.o (symbol from plugin)
+                                                  obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+                                                  obj/BrushedMotor/stm32f30x_spi.o (symbol from plugin)
+                                                  obj/BrushedMotor/stm32f30x_pwr.o (symbol from plugin)
+                                                  obj/BrushedMotor/stm32f30x_i2c.o (symbol from plugin)
+                                                  obj/BrushedMotor/stm32f30x_dac.o (symbol from plugin)
+RCC_APB2PeriphClockCmd                            obj/BrushedMotor/stm32f30x_rcc.o (symbol from plugin)
+                                                  obj/BrushedMotor/vcp/hw_config.o (symbol from plugin)
+                                                  obj/BrushedMotor/exti.o (symbol from plugin)
+                                                  obj/BrushedMotor/serial_uart_stm32f30x.o (symbol from plugin)
+                                                  obj/BrushedMotor/timer.o (symbol from plugin)
+RCC_APB2PeriphResetCmd                            obj/BrushedMotor/stm32f30x_rcc.o (symbol from plugin)
+                                                  obj/BrushedMotor/stm32f30x_usart.o (symbol from plugin)
+                                                  obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+                                                  obj/BrushedMotor/stm32f30x_spi.o (symbol from plugin)
+                                                  obj/BrushedMotor/stm32f30x_hrtim.o (symbol from plugin)
+RCC_AdjustHSICalibrationValue                     obj/BrushedMotor/stm32f30x_rcc.o (symbol from plugin)
+RCC_BackupResetCmd                                obj/BrushedMotor/stm32f30x_rcc.o (symbol from plugin)
+RCC_ClearFlag                                     obj/BrushedMotor/stm32f30x_rcc.o (symbol from plugin)
+                                                  obj/BrushedMotor/system.o (symbol from plugin)
+RCC_ClearITPendingBit                             obj/BrushedMotor/stm32f30x_rcc.o (symbol from plugin)
+RCC_ClockCmd                                      obj/BrushedMotor/io.o (symbol from plugin)
+RCC_ClockSecuritySystemCmd                        obj/BrushedMotor/stm32f30x_rcc.o (symbol from plugin)
+RCC_DeInit                                        obj/BrushedMotor/stm32f30x_rcc.o (symbol from plugin)
+RCC_GetClocksFreq                                 obj/BrushedMotor/stm32f30x_rcc.o (symbol from plugin)
+                                                  obj/BrushedMotor/stm32f30x_usart.o (symbol from plugin)
+                                                  obj/BrushedMotor/stm32f30x_spi.o (symbol from plugin)
+                                                  obj/BrushedMotor/system.o (symbol from plugin)
+RCC_GetFlagStatus                                 obj/BrushedMotor/stm32f30x_rcc.o (symbol from plugin)
+RCC_GetITStatus                                   obj/BrushedMotor/stm32f30x_rcc.o (symbol from plugin)
+RCC_GetSYSCLKSource                               obj/BrushedMotor/stm32f30x_rcc.o (symbol from plugin)
+RCC_HCLKConfig                                    obj/BrushedMotor/stm32f30x_rcc.o (symbol from plugin)
+RCC_HRTIM1CLKConfig                               obj/BrushedMotor/stm32f30x_rcc.o (symbol from plugin)
+RCC_HSEConfig                                     obj/BrushedMotor/stm32f30x_rcc.o (symbol from plugin)
+RCC_HSICmd                                        obj/BrushedMotor/stm32f30x_rcc.o (symbol from plugin)
+RCC_I2CCLKConfig                                  obj/BrushedMotor/stm32f30x_rcc.o (symbol from plugin)
+RCC_I2SCLKConfig                                  obj/BrushedMotor/stm32f30x_rcc.o (symbol from plugin)
+RCC_IRQHandler                                    obj/BrushedMotor/startup_stm32f30x_md_gcc.o
+RCC_ITConfig                                      obj/BrushedMotor/stm32f30x_rcc.o (symbol from plugin)
+RCC_LSEConfig                                     obj/BrushedMotor/stm32f30x_rcc.o (symbol from plugin)
+RCC_LSEDriveConfig                                obj/BrushedMotor/stm32f30x_rcc.o (symbol from plugin)
+RCC_LSICmd                                        obj/BrushedMotor/stm32f30x_rcc.o (symbol from plugin)
+RCC_MCOConfig                                     obj/BrushedMotor/stm32f30x_rcc.o (symbol from plugin)
+RCC_PCLK1Config                                   obj/BrushedMotor/stm32f30x_rcc.o (symbol from plugin)
+RCC_PCLK2Config                                   obj/BrushedMotor/stm32f30x_rcc.o (symbol from plugin)
+RCC_PLLCmd                                        obj/BrushedMotor/stm32f30x_rcc.o (symbol from plugin)
+RCC_PLLConfig                                     obj/BrushedMotor/stm32f30x_rcc.o (symbol from plugin)
+RCC_PREDIV1Config                                 obj/BrushedMotor/stm32f30x_rcc.o (symbol from plugin)
+RCC_RTCCLKCmd                                     obj/BrushedMotor/stm32f30x_rcc.o (symbol from plugin)
+RCC_RTCCLKConfig                                  obj/BrushedMotor/stm32f30x_rcc.o (symbol from plugin)
+RCC_SYSCLKConfig                                  obj/BrushedMotor/stm32f30x_rcc.o (symbol from plugin)
+RCC_TIMCLKConfig                                  obj/BrushedMotor/stm32f30x_rcc.o (symbol from plugin)
+RCC_USARTCLKConfig                                obj/BrushedMotor/stm32f30x_rcc.o (symbol from plugin)
+RCC_USBCLKConfig                                  obj/BrushedMotor/stm32f30x_rcc.o (symbol from plugin)
+                                                  obj/BrushedMotor/vcp/hw_config.o (symbol from plugin)
+RCC_WaitForHSEStartUp                             obj/BrushedMotor/stm32f30x_rcc.o (symbol from plugin)
+RTC_AlarmCmd                                      obj/BrushedMotor/stm32f30x_rtc.o (symbol from plugin)
+RTC_AlarmStructInit                               obj/BrushedMotor/stm32f30x_rtc.o (symbol from plugin)
+RTC_AlarmSubSecondConfig                          obj/BrushedMotor/stm32f30x_rtc.o (symbol from plugin)
+RTC_Alarm_IRQHandler                              obj/BrushedMotor/startup_stm32f30x_md_gcc.o
+RTC_BypassShadowCmd                               obj/BrushedMotor/stm32f30x_rtc.o (symbol from plugin)
+RTC_CalibOutputCmd                                obj/BrushedMotor/stm32f30x_rtc.o (symbol from plugin)
+RTC_CalibOutputConfig                             obj/BrushedMotor/stm32f30x_rtc.o (symbol from plugin)
+RTC_ClearFlag                                     obj/BrushedMotor/stm32f30x_rtc.o (symbol from plugin)
+RTC_ClearITPendingBit                             obj/BrushedMotor/stm32f30x_rtc.o (symbol from plugin)
+RTC_DateStructInit                                obj/BrushedMotor/stm32f30x_rtc.o (symbol from plugin)
+RTC_DayLightSavingConfig                          obj/BrushedMotor/stm32f30x_rtc.o (symbol from plugin)
+RTC_DeInit                                        obj/BrushedMotor/stm32f30x_rtc.o (symbol from plugin)
+RTC_EnterInitMode                                 obj/BrushedMotor/stm32f30x_rtc.o (symbol from plugin)
+RTC_ExitInitMode                                  obj/BrushedMotor/stm32f30x_rtc.o (symbol from plugin)
+RTC_GetAlarm                                      obj/BrushedMotor/stm32f30x_rtc.o (symbol from plugin)
+RTC_GetAlarmSubSecond                             obj/BrushedMotor/stm32f30x_rtc.o (symbol from plugin)
+RTC_GetDate                                       obj/BrushedMotor/stm32f30x_rtc.o (symbol from plugin)
+RTC_GetFlagStatus                                 obj/BrushedMotor/stm32f30x_rtc.o (symbol from plugin)
+RTC_GetITStatus                                   obj/BrushedMotor/stm32f30x_rtc.o (symbol from plugin)
+RTC_GetStoreOperation                             obj/BrushedMotor/stm32f30x_rtc.o (symbol from plugin)
+RTC_GetSubSecond                                  obj/BrushedMotor/stm32f30x_rtc.o (symbol from plugin)
+RTC_GetTime                                       obj/BrushedMotor/stm32f30x_rtc.o (symbol from plugin)
+RTC_GetTimeStamp                                  obj/BrushedMotor/stm32f30x_rtc.o (symbol from plugin)
+RTC_GetTimeStampSubSecond                         obj/BrushedMotor/stm32f30x_rtc.o (symbol from plugin)
+RTC_GetWakeUpCounter                              obj/BrushedMotor/stm32f30x_rtc.o (symbol from plugin)
+RTC_ITConfig                                      obj/BrushedMotor/stm32f30x_rtc.o (symbol from plugin)
+RTC_Init                                          obj/BrushedMotor/stm32f30x_rtc.o (symbol from plugin)
+RTC_OutputConfig                                  obj/BrushedMotor/stm32f30x_rtc.o (symbol from plugin)
+RTC_OutputTypeConfig                              obj/BrushedMotor/stm32f30x_rtc.o (symbol from plugin)
+RTC_ReadBackupRegister                            obj/BrushedMotor/stm32f30x_rtc.o (symbol from plugin)
+RTC_RefClockCmd                                   obj/BrushedMotor/stm32f30x_rtc.o (symbol from plugin)
+RTC_SetAlarm                                      obj/BrushedMotor/stm32f30x_rtc.o (symbol from plugin)
+RTC_SetDate                                       obj/BrushedMotor/stm32f30x_rtc.o (symbol from plugin)
+RTC_SetTime                                       obj/BrushedMotor/stm32f30x_rtc.o (symbol from plugin)
+RTC_SetWakeUpCounter                              obj/BrushedMotor/stm32f30x_rtc.o (symbol from plugin)
+RTC_SmoothCalibConfig                             obj/BrushedMotor/stm32f30x_rtc.o (symbol from plugin)
+RTC_StructInit                                    obj/BrushedMotor/stm32f30x_rtc.o (symbol from plugin)
+RTC_SynchroShiftConfig                            obj/BrushedMotor/stm32f30x_rtc.o (symbol from plugin)
+RTC_TamperCmd                                     obj/BrushedMotor/stm32f30x_rtc.o (symbol from plugin)
+RTC_TamperFilterConfig                            obj/BrushedMotor/stm32f30x_rtc.o (symbol from plugin)
+RTC_TamperPinsPrechargeDuration                   obj/BrushedMotor/stm32f30x_rtc.o (symbol from plugin)
+RTC_TamperPullUpCmd                               obj/BrushedMotor/stm32f30x_rtc.o (symbol from plugin)
+RTC_TamperSamplingFreqConfig                      obj/BrushedMotor/stm32f30x_rtc.o (symbol from plugin)
+RTC_TamperTriggerConfig                           obj/BrushedMotor/stm32f30x_rtc.o (symbol from plugin)
+RTC_TimeStampCmd                                  obj/BrushedMotor/stm32f30x_rtc.o (symbol from plugin)
+RTC_TimeStampOnTamperDetectionCmd                 obj/BrushedMotor/stm32f30x_rtc.o (symbol from plugin)
+RTC_TimeStructInit                                obj/BrushedMotor/stm32f30x_rtc.o (symbol from plugin)
+RTC_WKUP_IRQHandler                               obj/BrushedMotor/startup_stm32f30x_md_gcc.o
+RTC_WaitForSynchro                                obj/BrushedMotor/stm32f30x_rtc.o (symbol from plugin)
+RTC_WakeUpClockConfig                             obj/BrushedMotor/stm32f30x_rtc.o (symbol from plugin)
+RTC_WakeUpCmd                                     obj/BrushedMotor/stm32f30x_rtc.o (symbol from plugin)
+RTC_WriteBackupRegister                           obj/BrushedMotor/stm32f30x_rtc.o (symbol from plugin)
+RTC_WriteProtectionCmd                            obj/BrushedMotor/stm32f30x_rtc.o (symbol from plugin)
+Request                                           obj/BrushedMotor/vcp/usb_prop.o (symbol from plugin)
+Reset_Handler                                     obj/BrushedMotor/startup_stm32f30x_md_gcc.o
+Resume                                            obj/BrushedMotor/vcp/usb_pwr.o (symbol from plugin)
+                                                  obj/BrushedMotor/vcp/usb_istr.o (symbol from plugin)
+ResumeS                                           obj/BrushedMotor/vcp/usb_pwr.o (symbol from plugin)
+Resume_Init                                       /tmp/ccl6u6y6.ltrans3.ltrans.o
+                                                  obj/BrushedMotor/vcp/usb_pwr.o (symbol from plugin)
+                                                  /tmp/ccl6u6y6.ltrans2.ltrans.o
+SPI1_IRQHandler                                   obj/BrushedMotor/startup_stm32f30x_md_gcc.o
+SPI2_IRQHandler                                   obj/BrushedMotor/startup_stm32f30x_md_gcc.o
+SPI3_IRQHandler                                   obj/BrushedMotor/startup_stm32f30x_md_gcc.o
+SPI_BiDirectionalLineConfig                       obj/BrushedMotor/stm32f30x_spi.o (symbol from plugin)
+SPI_CRCLengthConfig                               obj/BrushedMotor/stm32f30x_spi.o (symbol from plugin)
+SPI_CalculateCRC                                  obj/BrushedMotor/stm32f30x_spi.o (symbol from plugin)
+SPI_Cmd                                           obj/BrushedMotor/stm32f30x_spi.o (symbol from plugin)
+SPI_DataSizeConfig                                obj/BrushedMotor/stm32f30x_spi.o (symbol from plugin)
+SPI_GetCRC                                        obj/BrushedMotor/stm32f30x_spi.o (symbol from plugin)
+SPI_GetCRCPolynomial                              obj/BrushedMotor/stm32f30x_spi.o (symbol from plugin)
+SPI_GetReceptionFIFOStatus                        obj/BrushedMotor/stm32f30x_spi.o (symbol from plugin)
+SPI_GetTransmissionFIFOStatus                     obj/BrushedMotor/stm32f30x_spi.o (symbol from plugin)
+SPI_I2S_ClearFlag                                 obj/BrushedMotor/stm32f30x_spi.o (symbol from plugin)
+SPI_I2S_DMACmd                                    obj/BrushedMotor/stm32f30x_spi.o (symbol from plugin)
+SPI_I2S_DeInit                                    obj/BrushedMotor/stm32f30x_spi.o (symbol from plugin)
+SPI_I2S_GetFlagStatus                             obj/BrushedMotor/stm32f30x_spi.o (symbol from plugin)
+SPI_I2S_GetITStatus                               obj/BrushedMotor/stm32f30x_spi.o (symbol from plugin)
+SPI_I2S_ITConfig                                  obj/BrushedMotor/stm32f30x_spi.o (symbol from plugin)
+SPI_I2S_ReceiveData16                             obj/BrushedMotor/stm32f30x_spi.o (symbol from plugin)
+SPI_I2S_SendData16                                obj/BrushedMotor/stm32f30x_spi.o (symbol from plugin)
+SPI_Init                                          obj/BrushedMotor/stm32f30x_spi.o (symbol from plugin)
+SPI_LastDMATransferCmd                            obj/BrushedMotor/stm32f30x_spi.o (symbol from plugin)
+SPI_NSSInternalSoftwareConfig                     obj/BrushedMotor/stm32f30x_spi.o (symbol from plugin)
+SPI_NSSPulseModeCmd                               obj/BrushedMotor/stm32f30x_spi.o (symbol from plugin)
+SPI_ReceiveData8                                  obj/BrushedMotor/stm32f30x_spi.o (symbol from plugin)
+SPI_RxFIFOThresholdConfig                         obj/BrushedMotor/stm32f30x_spi.o (symbol from plugin)
+SPI_SSOutputCmd                                   obj/BrushedMotor/stm32f30x_spi.o (symbol from plugin)
+SPI_SendData8                                     obj/BrushedMotor/stm32f30x_spi.o (symbol from plugin)
+SPI_StructInit                                    obj/BrushedMotor/stm32f30x_spi.o (symbol from plugin)
+SPI_TIModeCmd                                     obj/BrushedMotor/stm32f30x_spi.o (symbol from plugin)
+SPI_TransmitCRC                                   obj/BrushedMotor/stm32f30x_spi.o (symbol from plugin)
+SVC_Handler                                       /tmp/ccl6u6y6.ltrans2.ltrans.o
+                                                  obj/BrushedMotor/vcp/stm32_it.o (symbol from plugin)
+                                                  obj/BrushedMotor/startup_stm32f30x_md_gcc.o
+SYSCFG_BreakConfig                                obj/BrushedMotor/stm32f30x_syscfg.o (symbol from plugin)
+SYSCFG_BypassParityCheckDisable                   obj/BrushedMotor/stm32f30x_syscfg.o (symbol from plugin)
+SYSCFG_ClearFlag                                  obj/BrushedMotor/stm32f30x_syscfg.o (symbol from plugin)
+SYSCFG_DMAChannelRemapConfig                      obj/BrushedMotor/stm32f30x_syscfg.o (symbol from plugin)
+SYSCFG_DeInit                                     obj/BrushedMotor/stm32f30x_syscfg.o (symbol from plugin)
+SYSCFG_EXTILineConfig                             obj/BrushedMotor/stm32f30x_syscfg.o (symbol from plugin)
+                                                  obj/BrushedMotor/exti.o (symbol from plugin)
+SYSCFG_EncoderRemapConfig                         obj/BrushedMotor/stm32f30x_syscfg.o (symbol from plugin)
+SYSCFG_GetFlagStatus                              obj/BrushedMotor/stm32f30x_syscfg.o (symbol from plugin)
+SYSCFG_I2CFastModePlusConfig                      obj/BrushedMotor/stm32f30x_syscfg.o (symbol from plugin)
+SYSCFG_ITConfig                                   obj/BrushedMotor/stm32f30x_syscfg.o (symbol from plugin)
+SYSCFG_MemoryRemapConfig                          obj/BrushedMotor/stm32f30x_syscfg.o (symbol from plugin)
+SYSCFG_SRAMWRPEnable                              obj/BrushedMotor/stm32f30x_syscfg.o (symbol from plugin)
+SYSCFG_TriggerRemapConfig                         obj/BrushedMotor/stm32f30x_syscfg.o (symbol from plugin)
+SYSCFG_USBInterruptLineRemapCmd                   obj/BrushedMotor/stm32f30x_syscfg.o (symbol from plugin)
+SaveRState                                        /tmp/ccl6u6y6.ltrans2.ltrans.o
+                                                  obj/BrushedMotor/usb_int.o (symbol from plugin)
+                                                  /tmp/ccl6u6y6.ltrans1.ltrans.o
+                                                  obj/BrushedMotor/usb_core.o (symbol from plugin)
+SaveState                                         obj/BrushedMotor/usb_init.o (symbol from plugin)
+SaveTState                                        /tmp/ccl6u6y6.ltrans2.ltrans.o
+                                                  obj/BrushedMotor/usb_int.o (symbol from plugin)
+                                                  /tmp/ccl6u6y6.ltrans1.ltrans.o
+                                                  obj/BrushedMotor/usb_core.o (symbol from plugin)
+Serial                                            obj/BrushedMotor/Arduino.o (symbol from plugin)
+Serial1                                           obj/BrushedMotor/Arduino.o (symbol from plugin)
+SetBTABLE                                         obj/BrushedMotor/usb_regs.o (symbol from plugin)
+                                                  obj/BrushedMotor/vcp/usb_prop.o (symbol from plugin)
+SetCNTR                                           obj/BrushedMotor/usb_regs.o (symbol from plugin)
+SetDADDR                                          obj/BrushedMotor/usb_regs.o (symbol from plugin)
+SetDeviceAddress                                  /tmp/ccl6u6y6.ltrans2.ltrans.o
+                                                  obj/BrushedMotor/usb_core.o (symbol from plugin)
+                                                  /tmp/ccl6u6y6.ltrans3.ltrans.o
+                                                  obj/BrushedMotor/vcp/usb_prop.o (symbol from plugin)
+SetDouBleBuffEPStall                              obj/BrushedMotor/usb_regs.o (symbol from plugin)
+SetENDPOINT                                       obj/BrushedMotor/usb_regs.o (symbol from plugin)
+SetEPAddress                                      obj/BrushedMotor/usb_regs.o (symbol from plugin)
+SetEPCountRxReg                                   obj/BrushedMotor/usb_regs.o (symbol from plugin)
+SetEPDblBuf0Addr                                  obj/BrushedMotor/usb_regs.o (symbol from plugin)
+SetEPDblBuf0Count                                 obj/BrushedMotor/usb_regs.o (symbol from plugin)
+SetEPDblBuf1Addr                                  obj/BrushedMotor/usb_regs.o (symbol from plugin)
+SetEPDblBuf1Count                                 obj/BrushedMotor/usb_regs.o (symbol from plugin)
+SetEPDblBuffAddr                                  obj/BrushedMotor/usb_regs.o (symbol from plugin)
+SetEPDblBuffCount                                 obj/BrushedMotor/usb_regs.o (symbol from plugin)
+SetEPDoubleBuff                                   obj/BrushedMotor/usb_regs.o (symbol from plugin)
+SetEPRxAddr                                       obj/BrushedMotor/usb_regs.o (symbol from plugin)
+                                                  obj/BrushedMotor/vcp/usb_prop.o (symbol from plugin)
+SetEPRxCount                                      /tmp/ccl6u6y6.ltrans2.ltrans.o
+                                                  obj/BrushedMotor/usb_regs.o (symbol from plugin)
+                                                  /tmp/ccl6u6y6.ltrans3.ltrans.o
+                                                  /tmp/ccl6u6y6.ltrans1.ltrans.o
+                                                  obj/BrushedMotor/vcp/usb_prop.o (symbol from plugin)
+                                                  obj/BrushedMotor/vcp/hw_config.o (symbol from plugin)
+                                                  obj/BrushedMotor/usb_core.o (symbol from plugin)
+SetEPRxStatus                                     obj/BrushedMotor/usb_regs.o (symbol from plugin)
+                                                  obj/BrushedMotor/vcp/usb_prop.o (symbol from plugin)
+                                                  obj/BrushedMotor/vcp/hw_config.o (symbol from plugin)
+SetEPRxValid                                      obj/BrushedMotor/usb_regs.o (symbol from plugin)
+                                                  obj/BrushedMotor/vcp/usb_prop.o (symbol from plugin)
+SetEPTxAddr                                       obj/BrushedMotor/usb_regs.o (symbol from plugin)
+                                                  obj/BrushedMotor/vcp/usb_prop.o (symbol from plugin)
+SetEPTxCount                                      /tmp/ccl6u6y6.ltrans2.ltrans.o
+                                                  obj/BrushedMotor/usb_regs.o (symbol from plugin)
+                                                  /tmp/ccl6u6y6.ltrans1.ltrans.o
+                                                  obj/BrushedMotor/vcp/hw_config.o (symbol from plugin)
+                                                  obj/BrushedMotor/usb_sil.o (symbol from plugin)
+                                                  obj/BrushedMotor/usb_core.o (symbol from plugin)
+SetEPTxStatus                                     obj/BrushedMotor/usb_regs.o (symbol from plugin)
+                                                  obj/BrushedMotor/vcp/usb_prop.o (symbol from plugin)
+                                                  obj/BrushedMotor/usb_core.o (symbol from plugin)
+SetEPTxValid                                      obj/BrushedMotor/usb_regs.o (symbol from plugin)
+                                                  obj/BrushedMotor/vcp/hw_config.o (symbol from plugin)
+SetEPType                                         obj/BrushedMotor/usb_regs.o (symbol from plugin)
+                                                  obj/BrushedMotor/vcp/usb_prop.o (symbol from plugin)
+SetEP_KIND                                        obj/BrushedMotor/usb_regs.o (symbol from plugin)
+SetISTR                                           obj/BrushedMotor/usb_regs.o (symbol from plugin)
+SetSysClock                                       obj/BrushedMotor/target/system_stm32f30x.o (symbol from plugin)
+                                                  obj/BrushedMotor/Arduino.o (symbol from plugin)
+Set_Status_Out                                    obj/BrushedMotor/usb_regs.o (symbol from plugin)
+Set_System                                        obj/BrushedMotor/vcp/hw_config.o (symbol from plugin)
+                                                  obj/BrushedMotor/serial_usb_vcp.o (symbol from plugin)
+Set_USBClock                                      obj/BrushedMotor/vcp/hw_config.o (symbol from plugin)
+                                                  obj/BrushedMotor/serial_usb_vcp.o (symbol from plugin)
+Setup0_Process                                    obj/BrushedMotor/usb_core.o (symbol from plugin)
+                                                  obj/BrushedMotor/usb_int.o (symbol from plugin)
+Standard_ClearFeature                             /tmp/ccl6u6y6.ltrans1.ltrans.o
+                                                  obj/BrushedMotor/usb_core.o (symbol from plugin)
+                                                  /tmp/ccl6u6y6.ltrans2.ltrans.o
+Standard_GetConfiguration                         /tmp/ccl6u6y6.ltrans1.ltrans.o
+                                                  obj/BrushedMotor/usb_core.o (symbol from plugin)
+                                                  /tmp/ccl6u6y6.ltrans2.ltrans.o
+Standard_GetDescriptorData                        obj/BrushedMotor/usb_core.o (symbol from plugin)
+                                                  obj/BrushedMotor/vcp/usb_prop.o (symbol from plugin)
+Standard_GetInterface                             /tmp/ccl6u6y6.ltrans1.ltrans.o
+                                                  obj/BrushedMotor/usb_core.o (symbol from plugin)
+                                                  /tmp/ccl6u6y6.ltrans2.ltrans.o
+Standard_GetStatus                                /tmp/ccl6u6y6.ltrans1.ltrans.o
+                                                  obj/BrushedMotor/usb_core.o (symbol from plugin)
+                                                  /tmp/ccl6u6y6.ltrans2.ltrans.o
+Standard_SetConfiguration                         obj/BrushedMotor/usb_core.o (symbol from plugin)
+Standard_SetDeviceFeature                         obj/BrushedMotor/usb_core.o (symbol from plugin)
+Standard_SetEndPointFeature                       obj/BrushedMotor/usb_core.o (symbol from plugin)
+Standard_SetInterface                             obj/BrushedMotor/usb_core.o (symbol from plugin)
+StatusInfo                                        obj/BrushedMotor/usb_core.o (symbol from plugin)
+String_Descriptor                                 obj/BrushedMotor/vcp/usb_prop.o (symbol from plugin)
+Suspend                                           obj/BrushedMotor/vcp/usb_pwr.o (symbol from plugin)
+SysTick_CLKSourceConfig                           obj/BrushedMotor/stm32f30x_misc.o (symbol from plugin)
+SysTick_Handler                                   /tmp/ccl6u6y6.ltrans1.ltrans.o
+                                                  obj/BrushedMotor/system.o (symbol from plugin)
+                                                  obj/BrushedMotor/startup_stm32f30x_md_gcc.o
+SystemCoreClock                                   obj/BrushedMotor/target/system_stm32f30x.o (symbol from plugin)
+                                                  obj/BrushedMotor/system.o (symbol from plugin)
+                                                  obj/BrushedMotor/timer.o (symbol from plugin)
+SystemCoreClockUpdate                             obj/BrushedMotor/target/system_stm32f30x.o (symbol from plugin)
+SystemInit                                        /tmp/ccl6u6y6.ltrans1.ltrans.o
+                                                  obj/BrushedMotor/target/system_stm32f30x.o (symbol from plugin)
+                                                  /tmp/ccl6u6y6.ltrans3.ltrans.o
+                                                  obj/BrushedMotor/vcp/hw_config.o (symbol from plugin)
+                                                  obj/BrushedMotor/startup_stm32f30x_md_gcc.o
+TAMPER_STAMP_IRQHandler                           obj/BrushedMotor/startup_stm32f30x_md_gcc.o
+TIM1_BRK_TIM15_IRQHandler                         /tmp/ccl6u6y6.ltrans1.ltrans.o
+                                                  obj/BrushedMotor/startup_stm32f30x_md_gcc.o
+                                                  obj/BrushedMotor/timer.o (symbol from plugin)
+TIM1_CC_IRQHandler                                /tmp/ccl6u6y6.ltrans1.ltrans.o
+                                                  obj/BrushedMotor/startup_stm32f30x_md_gcc.o
+                                                  obj/BrushedMotor/timer.o (symbol from plugin)
+TIM1_TRG_COM_TIM17_IRQHandler                     /tmp/ccl6u6y6.ltrans1.ltrans.o
+                                                  obj/BrushedMotor/startup_stm32f30x_md_gcc.o
+                                                  obj/BrushedMotor/timer.o (symbol from plugin)
+TIM1_UP_TIM16_IRQHandler                          /tmp/ccl6u6y6.ltrans1.ltrans.o
+                                                  obj/BrushedMotor/startup_stm32f30x_md_gcc.o
+                                                  obj/BrushedMotor/timer.o (symbol from plugin)
+TIM2_IRQHandler                                   /tmp/ccl6u6y6.ltrans1.ltrans.o
+                                                  obj/BrushedMotor/startup_stm32f30x_md_gcc.o
+                                                  obj/BrushedMotor/timer.o (symbol from plugin)
+TIM3_IRQHandler                                   /tmp/ccl6u6y6.ltrans1.ltrans.o
+                                                  obj/BrushedMotor/startup_stm32f30x_md_gcc.o
+                                                  obj/BrushedMotor/timer.o (symbol from plugin)
+TIM4_IRQHandler                                   obj/BrushedMotor/startup_stm32f30x_md_gcc.o
+TIM6_DAC_IRQHandler                               obj/BrushedMotor/startup_stm32f30x_md_gcc.o
+TIM7_IRQHandler                                   obj/BrushedMotor/startup_stm32f30x_md_gcc.o
+TIM8_BRK_IRQHandler                               obj/BrushedMotor/startup_stm32f30x_md_gcc.o
+TIM8_CC_IRQHandler                                obj/BrushedMotor/startup_stm32f30x_md_gcc.o
+TIM8_TRG_COM_IRQHandler                           obj/BrushedMotor/startup_stm32f30x_md_gcc.o
+TIM8_UP_IRQHandler                                obj/BrushedMotor/startup_stm32f30x_md_gcc.o
+TIM_ARRPreloadConfig                              obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+TIM_BDTRConfig                                    obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+TIM_BDTRStructInit                                obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+TIM_Break1Cmd                                     obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+TIM_Break1Config                                  obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+TIM_Break2Cmd                                     obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+TIM_Break2Config                                  obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+TIM_CCPreloadControl                              obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+TIM_CCxCmd                                        obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+TIM_CCxNCmd                                       obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+TIM_ClearFlag                                     obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+                                                  obj/BrushedMotor/timer.o (symbol from plugin)
+TIM_ClearITPendingBit                             obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+TIM_ClearOC1Ref                                   obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+TIM_ClearOC2Ref                                   obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+TIM_ClearOC3Ref                                   obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+TIM_ClearOC4Ref                                   obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+TIM_ClearOC5Ref                                   obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+TIM_ClearOC6Ref                                   obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+TIM_Cmd                                           obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+                                                  obj/BrushedMotor/Motor.o (symbol from plugin)
+                                                  obj/BrushedMotor/timer.o (symbol from plugin)
+TIM_CounterModeConfig                             obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+TIM_CtrlPWMOutputs                                obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+                                                  obj/BrushedMotor/Motor.o (symbol from plugin)
+TIM_DMACmd                                        obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+TIM_DMAConfig                                     obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+TIM_DeInit                                        obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+TIM_ETRClockMode1Config                           obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+TIM_ETRClockMode2Config                           obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+TIM_ETRConfig                                     obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+TIM_EncoderInterfaceConfig                        obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+TIM_ForcedOC1Config                               obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+TIM_ForcedOC2Config                               obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+TIM_ForcedOC3Config                               obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+TIM_ForcedOC4Config                               obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+TIM_ForcedOC5Config                               obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+TIM_ForcedOC6Config                               obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+TIM_GenerateEvent                                 obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+TIM_GetCapture1                                   obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+TIM_GetCapture2                                   obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+TIM_GetCapture3                                   obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+TIM_GetCapture4                                   obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+TIM_GetCounter                                    obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+TIM_GetFlagStatus                                 obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+TIM_GetITStatus                                   obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+TIM_GetPrescaler                                  obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+TIM_ICInit                                        obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+                                                  obj/BrushedMotor/timer.o (symbol from plugin)
+TIM_ICStructInit                                  obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+                                                  obj/BrushedMotor/timer.o (symbol from plugin)
+TIM_ITConfig                                      obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+                                                  obj/BrushedMotor/timer.o (symbol from plugin)
+TIM_ITRxExternalClockConfig                       obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+TIM_InternalClockConfig                           obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+TIM_OC1FastConfig                                 obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+TIM_OC1Init                                       obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+                                                  obj/BrushedMotor/Motor.o (symbol from plugin)
+                                                  obj/BrushedMotor/timer.o (symbol from plugin)
+TIM_OC1NPolarityConfig                            obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+TIM_OC1PolarityConfig                             obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+TIM_OC1PreloadConfig                              obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+                                                  obj/BrushedMotor/Motor.o (symbol from plugin)
+                                                  obj/BrushedMotor/timer.o (symbol from plugin)
+TIM_OC2FastConfig                                 obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+TIM_OC2Init                                       obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+                                                  obj/BrushedMotor/Motor.o (symbol from plugin)
+                                                  obj/BrushedMotor/timer.o (symbol from plugin)
+TIM_OC2NPolarityConfig                            obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+TIM_OC2PolarityConfig                             obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+TIM_OC2PreloadConfig                              obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+                                                  obj/BrushedMotor/Motor.o (symbol from plugin)
+                                                  obj/BrushedMotor/timer.o (symbol from plugin)
+TIM_OC3FastConfig                                 obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+TIM_OC3Init                                       obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+                                                  obj/BrushedMotor/Motor.o (symbol from plugin)
+                                                  obj/BrushedMotor/timer.o (symbol from plugin)
+TIM_OC3NPolarityConfig                            obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+TIM_OC3PolarityConfig                             obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+TIM_OC3PreloadConfig                              obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+                                                  obj/BrushedMotor/Motor.o (symbol from plugin)
+                                                  obj/BrushedMotor/timer.o (symbol from plugin)
+TIM_OC4FastConfig                                 obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+TIM_OC4Init                                       obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+                                                  obj/BrushedMotor/Motor.o (symbol from plugin)
+                                                  obj/BrushedMotor/timer.o (symbol from plugin)
+TIM_OC4PolarityConfig                             obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+TIM_OC4PreloadConfig                              obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+                                                  obj/BrushedMotor/Motor.o (symbol from plugin)
+                                                  obj/BrushedMotor/timer.o (symbol from plugin)
+TIM_OC5Init                                       obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+TIM_OC5PolarityConfig                             obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+TIM_OC5PreloadConfig                              obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+TIM_OC6Init                                       obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+TIM_OC6PolarityConfig                             obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+TIM_OC6PreloadConfig                              obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+TIM_OCStructInit                                  obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+                                                  obj/BrushedMotor/Motor.o (symbol from plugin)
+                                                  obj/BrushedMotor/timer.o (symbol from plugin)
+TIM_PWMIConfig                                    obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+TIM_PrescalerConfig                               obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+TIM_RemapConfig                                   obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+TIM_SelectCCDMA                                   obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+TIM_SelectCOM                                     obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+TIM_SelectGC5C1                                   obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+TIM_SelectGC5C2                                   obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+TIM_SelectGC5C3                                   obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+TIM_SelectHallSensor                              obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+TIM_SelectInputTrigger                            obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+TIM_SelectMasterSlaveMode                         obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+TIM_SelectOCREFClear                              obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+TIM_SelectOCxM                                    obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+TIM_SelectOCxM_NoDisable                          obj/BrushedMotor/timer_stm32f30x.o (symbol from plugin)
+TIM_SelectOnePulseMode                            obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+TIM_SelectOutputTrigger                           obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+TIM_SelectOutputTrigger2                          obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+TIM_SelectSlaveMode                               obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+TIM_SetAutoreload                                 obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+TIM_SetClockDivision                              obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+TIM_SetCompare1                                   obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+TIM_SetCompare2                                   obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+TIM_SetCompare3                                   obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+TIM_SetCompare4                                   obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+TIM_SetCompare5                                   obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+TIM_SetCompare6                                   obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+TIM_SetCounter                                    obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+TIM_SetIC1Prescaler                               obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+TIM_SetIC2Prescaler                               obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+TIM_SetIC3Prescaler                               obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+TIM_SetIC4Prescaler                               obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+TIM_TIxExternalClockConfig                        obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+TIM_TimeBaseInit                                  obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+                                                  obj/BrushedMotor/timer.o (symbol from plugin)
+TIM_TimeBaseStructInit                            obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+                                                  obj/BrushedMotor/timer.o (symbol from plugin)
+TIM_UIFRemap                                      obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+TIM_UpdateDisableConfig                           obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+TIM_UpdateRequestConfig                           obj/BrushedMotor/stm32f30x_tim.o (symbol from plugin)
+ToWord                                            obj/BrushedMotor/usb_regs.o (symbol from plugin)
+ToggleDTOG_RX                                     obj/BrushedMotor/usb_regs.o (symbol from plugin)
+ToggleDTOG_TX                                     obj/BrushedMotor/usb_regs.o (symbol from plugin)
+UART4_IRQHandler                                  obj/BrushedMotor/startup_stm32f30x_md_gcc.o
+UART5_IRQHandler                                  obj/BrushedMotor/startup_stm32f30x_md_gcc.o
+USART1_IRQHandler                                 /tmp/ccl6u6y6.ltrans1.ltrans.o
+                                                  obj/BrushedMotor/serial_uart_stm32f30x.o (symbol from plugin)
+                                                  obj/BrushedMotor/startup_stm32f30x_md_gcc.o
+USART2_IRQHandler                                 /tmp/ccl6u6y6.ltrans1.ltrans.o
+                                                  obj/BrushedMotor/serial_uart_stm32f30x.o (symbol from plugin)
+                                                  obj/BrushedMotor/startup_stm32f30x_md_gcc.o
+USART3_IRQHandler                                 /tmp/ccl6u6y6.ltrans1.ltrans.o
+                                                  obj/BrushedMotor/serial_uart_stm32f30x.o (symbol from plugin)
+                                                  obj/BrushedMotor/startup_stm32f30x_md_gcc.o
+USART_AddressDetectionConfig                      obj/BrushedMotor/stm32f30x_usart.o (symbol from plugin)
+USART_AutoBaudRateCmd                             obj/BrushedMotor/stm32f30x_usart.o (symbol from plugin)
+USART_AutoBaudRateConfig                          obj/BrushedMotor/stm32f30x_usart.o (symbol from plugin)
+USART_ClearFlag                                   obj/BrushedMotor/stm32f30x_usart.o (symbol from plugin)
+USART_ClearITPendingBit                           obj/BrushedMotor/stm32f30x_usart.o (symbol from plugin)
+                                                  obj/BrushedMotor/serial_uart_stm32f30x.o (symbol from plugin)
+                                                  obj/BrushedMotor/serial_uart.o (symbol from plugin)
+USART_ClockInit                                   obj/BrushedMotor/stm32f30x_usart.o (symbol from plugin)
+USART_ClockStructInit                             obj/BrushedMotor/stm32f30x_usart.o (symbol from plugin)
+USART_Cmd                                         obj/BrushedMotor/stm32f30x_usart.o (symbol from plugin)
+                                                  obj/BrushedMotor/serial_uart.o (symbol from plugin)
+USART_DECmd                                       obj/BrushedMotor/stm32f30x_usart.o (symbol from plugin)
+USART_DEPolarityConfig                            obj/BrushedMotor/stm32f30x_usart.o (symbol from plugin)
+USART_DMACmd                                      obj/BrushedMotor/stm32f30x_usart.o (symbol from plugin)
+                                                  obj/BrushedMotor/serial_uart.o (symbol from plugin)
+USART_DMAReceptionErrorConfig                     obj/BrushedMotor/stm32f30x_usart.o (symbol from plugin)
+USART_DataInvCmd                                  obj/BrushedMotor/stm32f30x_usart.o (symbol from plugin)
+USART_DeInit                                      obj/BrushedMotor/stm32f30x_usart.o (symbol from plugin)
+USART_DirectionModeCmd                            obj/BrushedMotor/stm32f30x_usart.o (symbol from plugin)
+USART_GetFlagStatus                               obj/BrushedMotor/stm32f30x_usart.o (symbol from plugin)
+USART_GetITStatus                                 obj/BrushedMotor/stm32f30x_usart.o (symbol from plugin)
+USART_HalfDuplexCmd                               obj/BrushedMotor/stm32f30x_usart.o (symbol from plugin)
+                                                  obj/BrushedMotor/serial_uart.o (symbol from plugin)
+USART_ITConfig                                    obj/BrushedMotor/stm32f30x_usart.o (symbol from plugin)
+                                                  obj/BrushedMotor/serial_uart_stm32f30x.o (symbol from plugin)
+                                                  obj/BrushedMotor/serial_uart.o (symbol from plugin)
+USART_Init                                        obj/BrushedMotor/stm32f30x_usart.o (symbol from plugin)
+                                                  obj/BrushedMotor/serial_uart.o (symbol from plugin)
+USART_InvPinCmd                                   obj/BrushedMotor/stm32f30x_usart.o (symbol from plugin)
+                                                  obj/BrushedMotor/serial_uart.o (symbol from plugin)
+USART_IrDACmd                                     obj/BrushedMotor/stm32f30x_usart.o (symbol from plugin)
+USART_IrDAConfig                                  obj/BrushedMotor/stm32f30x_usart.o (symbol from plugin)
+USART_LINBreakDetectLengthConfig                  obj/BrushedMotor/stm32f30x_usart.o (symbol from plugin)
+USART_LINCmd                                      obj/BrushedMotor/stm32f30x_usart.o (symbol from plugin)
+USART_MSBFirstCmd                                 obj/BrushedMotor/stm32f30x_usart.o (symbol from plugin)
+USART_MuteModeCmd                                 obj/BrushedMotor/stm32f30x_usart.o (symbol from plugin)
+USART_MuteModeWakeUpConfig                        obj/BrushedMotor/stm32f30x_usart.o (symbol from plugin)
+USART_OneBitMethodCmd                             obj/BrushedMotor/stm32f30x_usart.o (symbol from plugin)
+USART_OverSampling8Cmd                            obj/BrushedMotor/stm32f30x_usart.o (symbol from plugin)
+USART_OverrunDetectionConfig                      obj/BrushedMotor/stm32f30x_usart.o (symbol from plugin)
+USART_ReceiveData                                 obj/BrushedMotor/stm32f30x_usart.o (symbol from plugin)
+USART_ReceiverTimeOutCmd                          obj/BrushedMotor/stm32f30x_usart.o (symbol from plugin)
+USART_RequestCmd                                  obj/BrushedMotor/stm32f30x_usart.o (symbol from plugin)
+USART_STOPModeCmd                                 obj/BrushedMotor/stm32f30x_usart.o (symbol from plugin)
+USART_SWAPPinCmd                                  obj/BrushedMotor/stm32f30x_usart.o (symbol from plugin)
+USART_SendData                                    obj/BrushedMotor/stm32f30x_usart.o (symbol from plugin)
+                                                  obj/BrushedMotor/serial_uart_stm32f30x.o (symbol from plugin)
+USART_SetAddress                                  obj/BrushedMotor/stm32f30x_usart.o (symbol from plugin)
+USART_SetAutoRetryCount                           obj/BrushedMotor/stm32f30x_usart.o (symbol from plugin)
+USART_SetBlockLength                              obj/BrushedMotor/stm32f30x_usart.o (symbol from plugin)
+USART_SetDEAssertionTime                          obj/BrushedMotor/stm32f30x_usart.o (symbol from plugin)
+USART_SetDEDeassertionTime                        obj/BrushedMotor/stm32f30x_usart.o (symbol from plugin)
+USART_SetGuardTime                                obj/BrushedMotor/stm32f30x_usart.o (symbol from plugin)
+USART_SetPrescaler                                obj/BrushedMotor/stm32f30x_usart.o (symbol from plugin)
+USART_SetReceiverTimeOut                          obj/BrushedMotor/stm32f30x_usart.o (symbol from plugin)
+USART_SmartCardCmd                                obj/BrushedMotor/stm32f30x_usart.o (symbol from plugin)
+USART_SmartCardNACKCmd                            obj/BrushedMotor/stm32f30x_usart.o (symbol from plugin)
+USART_StopModeWakeUpSourceConfig                  obj/BrushedMotor/stm32f30x_usart.o (symbol from plugin)
+USART_StructInit                                  obj/BrushedMotor/stm32f30x_usart.o (symbol from plugin)
+USBWakeUp_IRQHandler                              /tmp/ccl6u6y6.ltrans3.ltrans.o
+                                                  obj/BrushedMotor/vcp/stm32_it.o (symbol from plugin)
+                                                  obj/BrushedMotor/startup_stm32f30x_md_gcc.o
+USBWakeUp_RMP_IRQHandler                          obj/BrushedMotor/startup_stm32f30x_md_gcc.o
+USB_Cable_Config                                  obj/BrushedMotor/vcp/hw_config.o (symbol from plugin)
+                                                  obj/BrushedMotor/vcp/usb_pwr.o (symbol from plugin)
+USB_HP_CAN1_TX_IRQHandler                         obj/BrushedMotor/startup_stm32f30x_md_gcc.o
+USB_HP_IRQHandler                                 obj/BrushedMotor/startup_stm32f30x_md_gcc.o
+USB_Init                                          obj/BrushedMotor/usb_init.o (symbol from plugin)
+                                                  obj/BrushedMotor/serial_usb_vcp.o (symbol from plugin)
+USB_Interrupts_Config                             obj/BrushedMotor/vcp/hw_config.o (symbol from plugin)
+                                                  obj/BrushedMotor/serial_usb_vcp.o (symbol from plugin)
+USB_Istr                                          obj/BrushedMotor/vcp/usb_istr.o (symbol from plugin)
+                                                  obj/BrushedMotor/vcp/stm32_it.o (symbol from plugin)
+USB_LP_CAN1_RX0_IRQHandler                        /tmp/ccl6u6y6.ltrans2.ltrans.o
+                                                  obj/BrushedMotor/vcp/stm32_it.o (symbol from plugin)
+                                                  obj/BrushedMotor/startup_stm32f30x_md_gcc.o
+USB_LP_IRQHandler                                 obj/BrushedMotor/startup_stm32f30x_md_gcc.o
+USB_SIL_Init                                      obj/BrushedMotor/usb_sil.o (symbol from plugin)
+                                                  obj/BrushedMotor/vcp/usb_prop.o (symbol from plugin)
+USB_SIL_Read                                      obj/BrushedMotor/usb_sil.o (symbol from plugin)
+USB_SIL_Write                                     obj/BrushedMotor/usb_sil.o (symbol from plugin)
+UsageFault_Handler                                /tmp/ccl6u6y6.ltrans2.ltrans.o
+                                                  obj/BrushedMotor/vcp/stm32_it.o (symbol from plugin)
+                                                  obj/BrushedMotor/startup_stm32f30x_md_gcc.o
+UserToPMABufferCopy                               obj/BrushedMotor/usb_mem.o (symbol from plugin)
+                                                  obj/BrushedMotor/vcp/hw_config.o (symbol from plugin)
+                                                  obj/BrushedMotor/usb_sil.o (symbol from plugin)
+                                                  obj/BrushedMotor/usb_core.o (symbol from plugin)
+User_Standard_Requests                            obj/BrushedMotor/vcp/usb_prop.o (symbol from plugin)
+                                                  obj/BrushedMotor/usb_init.o (symbol from plugin)
+Virtual_Com_Port_ConfigDescriptor                 obj/BrushedMotor/vcp/usb_desc.o (symbol from plugin)
+                                                  obj/BrushedMotor/vcp/usb_prop.o (symbol from plugin)
+Virtual_Com_Port_Data_Setup                       /tmp/ccl6u6y6.ltrans3.ltrans.o
+                                                  obj/BrushedMotor/vcp/usb_prop.o (symbol from plugin)
+                                                  /tmp/ccl6u6y6.ltrans0.ltrans.o
+Virtual_Com_Port_DeviceDescriptor                 obj/BrushedMotor/vcp/usb_desc.o (symbol from plugin)
+                                                  obj/BrushedMotor/vcp/usb_prop.o (symbol from plugin)
+Virtual_Com_Port_GetBaudRate                      obj/BrushedMotor/vcp/usb_prop.o (symbol from plugin)
+                                                  obj/BrushedMotor/vcp/hw_config.o (symbol from plugin)
+Virtual_Com_Port_GetConfigDescriptor              /tmp/ccl6u6y6.ltrans3.ltrans.o
+                                                  obj/BrushedMotor/vcp/usb_prop.o (symbol from plugin)
+                                                  /tmp/ccl6u6y6.ltrans0.ltrans.o
+Virtual_Com_Port_GetDeviceDescriptor              /tmp/ccl6u6y6.ltrans3.ltrans.o
+                                                  obj/BrushedMotor/vcp/usb_prop.o (symbol from plugin)
+                                                  /tmp/ccl6u6y6.ltrans0.ltrans.o
+Virtual_Com_Port_GetLineCoding                    obj/BrushedMotor/vcp/usb_prop.o (symbol from plugin)
+Virtual_Com_Port_GetStringDescriptor              /tmp/ccl6u6y6.ltrans3.ltrans.o
+                                                  obj/BrushedMotor/vcp/usb_prop.o (symbol from plugin)
+                                                  /tmp/ccl6u6y6.ltrans0.ltrans.o
+Virtual_Com_Port_Get_Interface_Setting            /tmp/ccl6u6y6.ltrans3.ltrans.o
+                                                  obj/BrushedMotor/vcp/usb_prop.o (symbol from plugin)
+                                                  /tmp/ccl6u6y6.ltrans0.ltrans.o
+Virtual_Com_Port_NoData_Setup                     /tmp/ccl6u6y6.ltrans3.ltrans.o
+                                                  obj/BrushedMotor/vcp/usb_prop.o (symbol from plugin)
+                                                  /tmp/ccl6u6y6.ltrans0.ltrans.o
+Virtual_Com_Port_Reset                            /tmp/ccl6u6y6.ltrans3.ltrans.o
+                                                  obj/BrushedMotor/vcp/usb_prop.o (symbol from plugin)
+                                                  /tmp/ccl6u6y6.ltrans0.ltrans.o
+Virtual_Com_Port_SetConfiguration                 /tmp/ccl6u6y6.ltrans3.ltrans.o
+                                                  obj/BrushedMotor/vcp/usb_prop.o (symbol from plugin)
+                                                  /tmp/ccl6u6y6.ltrans0.ltrans.o
+Virtual_Com_Port_SetDeviceAddress                 /tmp/ccl6u6y6.ltrans3.ltrans.o
+                                                  obj/BrushedMotor/vcp/usb_prop.o (symbol from plugin)
+                                                  /tmp/ccl6u6y6.ltrans0.ltrans.o
+Virtual_Com_Port_SetLineCoding                    obj/BrushedMotor/vcp/usb_prop.o (symbol from plugin)
+Virtual_Com_Port_Status_In                        /tmp/ccl6u6y6.ltrans3.ltrans.o
+                                                  obj/BrushedMotor/vcp/usb_prop.o (symbol from plugin)
+                                                  /tmp/ccl6u6y6.ltrans0.ltrans.o
+Virtual_Com_Port_Status_Out                       /tmp/ccl6u6y6.ltrans3.ltrans.o
+                                                  obj/BrushedMotor/vcp/usb_prop.o (symbol from plugin)
+                                                  /tmp/ccl6u6y6.ltrans0.ltrans.o
+Virtual_Com_Port_StringLangID                     obj/BrushedMotor/vcp/usb_desc.o (symbol from plugin)
+                                                  obj/BrushedMotor/vcp/usb_prop.o (symbol from plugin)
+Virtual_Com_Port_StringProduct                    obj/BrushedMotor/vcp/usb_desc.o (symbol from plugin)
+                                                  obj/BrushedMotor/vcp/usb_prop.o (symbol from plugin)
+Virtual_Com_Port_StringSerial                     obj/BrushedMotor/vcp/usb_desc.o (symbol from plugin)
+                                                  obj/BrushedMotor/vcp/usb_prop.o (symbol from plugin)
+                                                  obj/BrushedMotor/vcp/hw_config.o (symbol from plugin)
+Virtual_Com_Port_StringVendor                     obj/BrushedMotor/vcp/usb_desc.o (symbol from plugin)
+                                                  obj/BrushedMotor/vcp/usb_prop.o (symbol from plugin)
+Virtual_Com_Port_init                             /tmp/ccl6u6y6.ltrans3.ltrans.o
+                                                  obj/BrushedMotor/vcp/usb_prop.o (symbol from plugin)
+                                                  /tmp/ccl6u6y6.ltrans0.ltrans.o
+WWDG_ClearFlag                                    obj/BrushedMotor/stm32f30x_wwdg.o (symbol from plugin)
+WWDG_DeInit                                       obj/BrushedMotor/stm32f30x_wwdg.o (symbol from plugin)
+WWDG_Enable                                       obj/BrushedMotor/stm32f30x_wwdg.o (symbol from plugin)
+WWDG_EnableIT                                     obj/BrushedMotor/stm32f30x_wwdg.o (symbol from plugin)
+WWDG_GetFlagStatus                                obj/BrushedMotor/stm32f30x_wwdg.o (symbol from plugin)
+WWDG_IRQHandler                                   obj/BrushedMotor/startup_stm32f30x_md_gcc.o
+WWDG_SetCounter                                   obj/BrushedMotor/stm32f30x_wwdg.o (symbol from plugin)
+WWDG_SetPrescaler                                 obj/BrushedMotor/stm32f30x_wwdg.o (symbol from plugin)
+WWDG_SetWindowValue                               obj/BrushedMotor/stm32f30x_wwdg.o (symbol from plugin)
+_ebss                                             obj/BrushedMotor/startup_stm32f30x_md_gcc.o
+_edata                                            obj/BrushedMotor/startup_stm32f30x_md_gcc.o
+_estack                                           obj/BrushedMotor/startup_stm32f30x_md_gcc.o
+_sbss                                             obj/BrushedMotor/startup_stm32f30x_md_gcc.o
+_sdata                                            obj/BrushedMotor/startup_stm32f30x_md_gcc.o
+_sidata                                           obj/BrushedMotor/startup_stm32f30x_md_gcc.o
+bDeviceState                                      /tmp/ccl6u6y6.ltrans3.ltrans.o
+                                                  obj/BrushedMotor/vcp/usb_pwr.o (symbol from plugin)
+                                                  /tmp/ccl6u6y6.ltrans1.ltrans.o
+                                                  obj/BrushedMotor/vcp/usb_prop.o (symbol from plugin)
+                                                  obj/BrushedMotor/vcp/hw_config.o (symbol from plugin)
+bIntPackSOF                                       obj/BrushedMotor/vcp/usb_istr.o (symbol from plugin)
+cachedRccCsrValue                                 obj/BrushedMotor/system.o (symbol from plugin)
+                                                  obj/BrushedMotor/system_stm32f30x.o (symbol from plugin)
+configTimeBase                                    obj/BrushedMotor/timer.o (symbol from plugin)
+                                                  obj/BrushedMotor/Motor.o (symbol from plugin)
+delay                                             /tmp/ccl6u6y6.ltrans1.ltrans.o
+                                                  obj/BrushedMotor/system.o (symbol from plugin)
+                                                  /tmp/ccl6u6y6.ltrans0.ltrans.o
+                                                  obj/BrushedMotor.o (symbol from plugin)
+                                                  obj/BrushedMotor/usb_io.o (symbol from plugin)
+delayMicroseconds                                 obj/BrushedMotor/system.o (symbol from plugin)
+digitalWrite                                      obj/BrushedMotor/Arduino.o (symbol from plugin)
+dmaChannels                                       obj/BrushedMotor/dma.o (symbol from plugin)
+                                                  obj/BrushedMotor/serial_uart_stm32f30x.o (symbol from plugin)
+dmaHandlerInit                                    obj/BrushedMotor/dma.o (symbol from plugin)
+                                                  obj/BrushedMotor/serial_uart_stm32f30x.o (symbol from plugin)
+dmaInit                                           /tmp/ccl6u6y6.ltrans2.ltrans.o
+                                                  obj/BrushedMotor/dma.o (symbol from plugin)
+                                                  obj/BrushedMotor/Arduino.o (symbol from plugin)
+dmaSetHandler                                     obj/BrushedMotor/dma.o (symbol from plugin)
+                                                  obj/BrushedMotor/serial_uart_stm32f30x.o (symbol from plugin)
+enableGPIOPowerUsageAndNoiseReductions            obj/BrushedMotor/system_stm32f30x.o (symbol from plugin)
+                                                  obj/BrushedMotor/system.o (symbol from plugin)
+esof_counter                                      obj/BrushedMotor/vcp/usb_istr.o (symbol from plugin)
+extiChannelRecs                                   obj/BrushedMotor/exti.o (symbol from plugin)
+fSuspendEnabled                                   obj/BrushedMotor/vcp/usb_pwr.o (symbol from plugin)
+failureMode                                       obj/BrushedMotor/system.o (symbol from plugin)
+g_pfnVectors                                      obj/BrushedMotor/startup_stm32f30x_md_gcc.o
+gpioInit                                          /tmp/ccl6u6y6.ltrans1.ltrans.o
+                                                  obj/BrushedMotor/gpio_stm32f30x.o (symbol from plugin)
+                                                  /tmp/ccl6u6y6.ltrans0.ltrans.o
+                                                  obj/BrushedMotor/Motor.o (symbol from plugin)
+                                                  obj/BrushedMotor/Arduino.o (symbol from plugin)
+                                                  obj/BrushedMotor/system_stm32f30x.o (symbol from plugin)
+                                                  obj/BrushedMotor/serial_uart.o (symbol from plugin)
+                                                  obj/BrushedMotor/light_led_stm32f30x.o (symbol from plugin)
+                                                  obj/BrushedMotor/timer.o (symbol from plugin)
+hse_value                                         obj/BrushedMotor/target/system_stm32f30x.o (symbol from plugin)
+ioPortDefs                                        obj/BrushedMotor/io.o (symbol from plugin)
+ioRecs                                            obj/BrushedMotor/io.o (symbol from plugin)
+isMPUSoftReset                                    obj/BrushedMotor/system_stm32f30x.o (symbol from plugin)
+isSerialTransmitBufferEmpty                       obj/BrushedMotor/serial.o (symbol from plugin)
+                                                  obj/BrushedMotor/Arduino.o (symbol from plugin)
+isUartTransmitBufferEmpty                         obj/BrushedMotor/serial_uart.o (symbol from plugin)
+isUsbVcpTransmitBufferEmpty.lto_priv.41           /tmp/ccl6u6y6.ltrans1.ltrans.o
+                                                  /tmp/ccl6u6y6.ltrans0.ltrans.o
+ledInit                                           obj/BrushedMotor/light_led_stm32f30x.o (symbol from plugin)
+led_config                                        obj/BrushedMotor/light_led_stm32f30x.o (symbol from plugin)
+linecoding                                        obj/BrushedMotor/vcp/usb_prop.o (symbol from plugin)
+loop                                              obj/BrushedMotor.o (symbol from plugin)
+                                                  obj/BrushedMotor/Arduino.o (symbol from plugin)
+main                                              /tmp/ccl6u6y6.ltrans0.ltrans.o
+                                                  obj/BrushedMotor/Arduino.o (symbol from plugin)
+                                                  obj/BrushedMotor/startup_stm32f30x_md_gcc.o
+memset                                            /usr/local/gcc-arm-none-eabi-5_4-2016q3/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7e-m/fpu/libc_nano.a(lib_a-memset.o)
+                                                  /tmp/ccl6u6y6.ltrans0.ltrans.o
+micros                                            obj/BrushedMotor/system.o (symbol from plugin)
+millis                                            obj/BrushedMotor/system.o (symbol from plugin)
+                                                  obj/BrushedMotor/Arduino.o (symbol from plugin)
+                                                  obj/BrushedMotor/serial_usb_vcp.o (symbol from plugin)
+motor                                             obj/BrushedMotor.o (symbol from plugin)
+pEpInt_IN                                         obj/BrushedMotor/vcp/usb_istr.o (symbol from plugin)
+                                                  obj/BrushedMotor/usb_int.o (symbol from plugin)
+pEpInt_OUT                                        obj/BrushedMotor/vcp/usb_istr.o (symbol from plugin)
+                                                  obj/BrushedMotor/usb_int.o (symbol from plugin)
+pInformation                                      /tmp/ccl6u6y6.ltrans0.ltrans.o
+                                                  obj/BrushedMotor/usb_init.o (symbol from plugin)
+                                                  /tmp/ccl6u6y6.ltrans3.ltrans.o
+                                                  /tmp/ccl6u6y6.ltrans2.ltrans.o
+                                                  /tmp/ccl6u6y6.ltrans1.ltrans.o
+                                                  obj/BrushedMotor/vcp/usb_prop.o (symbol from plugin)
+                                                  obj/BrushedMotor/usb_core.o (symbol from plugin)
+pProperty                                         /tmp/ccl6u6y6.ltrans0.ltrans.o
+                                                  obj/BrushedMotor/usb_init.o (symbol from plugin)
+                                                  /tmp/ccl6u6y6.ltrans2.ltrans.o
+                                                  obj/BrushedMotor/usb_core.o (symbol from plugin)
+pUser_Standard_Requests                           /tmp/ccl6u6y6.ltrans0.ltrans.o
+                                                  obj/BrushedMotor/usb_init.o (symbol from plugin)
+                                                  /tmp/ccl6u6y6.ltrans2.ltrans.o
+                                                  /tmp/ccl6u6y6.ltrans1.ltrans.o
+                                                  obj/BrushedMotor/usb_core.o (symbol from plugin)
+packetSent                                        /tmp/ccl6u6y6.ltrans3.ltrans.o
+                                                  obj/BrushedMotor/vcp/hw_config.o (symbol from plugin)
+                                                  /tmp/ccl6u6y6.ltrans2.ltrans.o
+                                                  /tmp/ccl6u6y6.ltrans1.ltrans.o
+                                                  obj/BrushedMotor/vcp/usb_endp.o (symbol from plugin)
+pinMode                                           obj/BrushedMotor/Arduino.o (symbol from plugin)
+receiveBuffer                                     /tmp/ccl6u6y6.ltrans3.ltrans.o
+                                                  obj/BrushedMotor/vcp/hw_config.o (symbol from plugin)
+                                                  /tmp/ccl6u6y6.ltrans1.ltrans.o
+                                                  obj/BrushedMotor/vcp/usb_endp.o (symbol from plugin)
+receiveLength                                     /tmp/ccl6u6y6.ltrans3.ltrans.o
+                                                  obj/BrushedMotor/vcp/usb_endp.o (symbol from plugin)
+                                                  /tmp/ccl6u6y6.ltrans1.ltrans.o
+                                                  obj/BrushedMotor/vcp/hw_config.o (symbol from plugin)
+                                                  obj/BrushedMotor/serial_usb_vcp.o (symbol from plugin)
+remotewakeupon                                    obj/BrushedMotor/vcp/usb_pwr.o (symbol from plugin)
+reset                                             obj/BrushedMotor/Arduino.o (symbol from plugin)
+resetToBootloader                                 obj/BrushedMotor/Arduino.o (symbol from plugin)
+sendLength                                        obj/BrushedMotor/vcp/hw_config.o (symbol from plugin)
+serial0                                           obj/BrushedMotor/Arduino.o (symbol from plugin)
+serialBeginWrite                                  obj/BrushedMotor/serial.o (symbol from plugin)
+serialEndWrite                                    obj/BrushedMotor/serial.o (symbol from plugin)
+serialEvent1()                                    obj/BrushedMotor/Arduino.o (symbol from plugin)
+serialGetBaudRate                                 obj/BrushedMotor/serial.o (symbol from plugin)
+serialPrint                                       obj/BrushedMotor/serial.o (symbol from plugin)
+serialRead                                        obj/BrushedMotor/serial.o (symbol from plugin)
+                                                  obj/BrushedMotor/Arduino.o (symbol from plugin)
+serialRxBytesWaiting                              obj/BrushedMotor/serial.o (symbol from plugin)
+                                                  obj/BrushedMotor/Arduino.o (symbol from plugin)
+serialSetBaudRate                                 obj/BrushedMotor/serial.o (symbol from plugin)
+serialSetMode                                     obj/BrushedMotor/serial.o (symbol from plugin)
+serialTxBytesFree                                 obj/BrushedMotor/serial.o (symbol from plugin)
+serialUART1                                       obj/BrushedMotor/serial_uart_stm32f30x.o (symbol from plugin)
+                                                  obj/BrushedMotor/serial_uart.o (symbol from plugin)
+serialUART2                                       obj/BrushedMotor/serial_uart_stm32f30x.o (symbol from plugin)
+                                                  obj/BrushedMotor/serial_uart.o (symbol from plugin)
+serialUART3                                       obj/BrushedMotor/serial_uart_stm32f30x.o (symbol from plugin)
+                                                  obj/BrushedMotor/serial_uart.o (symbol from plugin)
+serialWrite                                       obj/BrushedMotor/serial.o (symbol from plugin)
+                                                  obj/BrushedMotor/Arduino.o (symbol from plugin)
+serialWriteBuf                                    obj/BrushedMotor/serial.o (symbol from plugin)
+serialWriteBufShim                                obj/BrushedMotor/serial.o (symbol from plugin)
+setup                                             obj/BrushedMotor.o (symbol from plugin)
+                                                  obj/BrushedMotor/Arduino.o (symbol from plugin)
+sysTickUptime.lto_priv.48                         /tmp/ccl6u6y6.ltrans0.ltrans.o
+                                                  /tmp/ccl6u6y6.ltrans1.ltrans.o
+systemInit                                        obj/BrushedMotor/system.o (symbol from plugin)
+                                                  obj/BrushedMotor/Arduino.o (symbol from plugin)
+systemReset                                       obj/BrushedMotor/system_stm32f30x.o (symbol from plugin)
+                                                  obj/BrushedMotor/Arduino.o (symbol from plugin)
+systemResetToBootloader                           obj/BrushedMotor/system_stm32f30x.o (symbol from plugin)
+                                                  obj/BrushedMotor/Arduino.o (symbol from plugin)
+timerChCCHandlerInit                              obj/BrushedMotor/timer.o (symbol from plugin)
+timerChCCR                                        obj/BrushedMotor/timer.o (symbol from plugin)
+timerChCCRHi                                      obj/BrushedMotor/timer.o (symbol from plugin)
+timerChCCRLo                                      obj/BrushedMotor/timer.o (symbol from plugin)
+timerChClearCCFlag                                obj/BrushedMotor/timer.o (symbol from plugin)
+timerChConfigCallbacks                            obj/BrushedMotor/timer.o (symbol from plugin)
+timerChConfigCallbacksDual                        obj/BrushedMotor/timer.o (symbol from plugin)
+timerChConfigGPIO                                 obj/BrushedMotor/timer.o (symbol from plugin)
+timerChConfigIC                                   obj/BrushedMotor/timer.o (symbol from plugin)
+timerChConfigICDual                               obj/BrushedMotor/timer.o (symbol from plugin)
+timerChConfigOC                                   obj/BrushedMotor/timer.o (symbol from plugin)
+timerChICPolarity                                 obj/BrushedMotor/timer.o (symbol from plugin)
+timerChITConfig                                   obj/BrushedMotor/timer.o (symbol from plugin)
+timerChITConfigDualLo                             obj/BrushedMotor/timer.o (symbol from plugin)
+timerChInit                                       obj/BrushedMotor/timer.o (symbol from plugin)
+timerChOvrHandlerInit                             obj/BrushedMotor/timer.o (symbol from plugin)
+timerChannelInfo                                  obj/BrushedMotor/timer.o (symbol from plugin)
+timerConfig                                       /tmp/ccl6u6y6.ltrans0.ltrans.o
+                                                  obj/BrushedMotor/timer.o (symbol from plugin)
+                                                  /tmp/ccl6u6y6.ltrans1.ltrans.o
+timerConfigure                                    obj/BrushedMotor/timer.o (symbol from plugin)
+timerForceOverflow                                obj/BrushedMotor/timer.o (symbol from plugin)
+timerHardware                                     obj/BrushedMotor/timer.o (symbol from plugin)
+                                                  obj/BrushedMotor/Motor.o (symbol from plugin)
+timerInfo                                         obj/BrushedMotor/timer.o (symbol from plugin)
+timerInit                                         obj/BrushedMotor/timer.o (symbol from plugin)
+                                                  obj/BrushedMotor/Arduino.o (symbol from plugin)
+timerNVICConfigure                                obj/BrushedMotor/timer.o (symbol from plugin)
+timerStart                                        obj/BrushedMotor/timer.o (symbol from plugin)
+uartOpen                                          obj/BrushedMotor/serial_uart.o (symbol from plugin)
+                                                  obj/BrushedMotor/Arduino.o (symbol from plugin)
+uartRead                                          obj/BrushedMotor/serial_uart.o (symbol from plugin)
+uartSetBaudRate                                   obj/BrushedMotor/serial_uart.o (symbol from plugin)
+uartSetMode                                       obj/BrushedMotor/serial_uart.o (symbol from plugin)
+uartStartTxDMA                                    obj/BrushedMotor/serial_uart.o (symbol from plugin)
+                                                  obj/BrushedMotor/serial_uart_stm32f30x.o (symbol from plugin)
+uartTotalRxBytesWaiting                           obj/BrushedMotor/serial_uart.o (symbol from plugin)
+uartTotalTxBytesFree                              obj/BrushedMotor/serial_uart.o (symbol from plugin)
+uartVTable                                        obj/BrushedMotor/serial_uart.o (symbol from plugin)
+                                                  obj/BrushedMotor/serial_uart_stm32f30x.o (symbol from plugin)
+uartWrite                                         obj/BrushedMotor/serial_uart.o (symbol from plugin)
+usTicks.lto_priv.49                               /tmp/ccl6u6y6.ltrans0.ltrans.o
+                                                  /tmp/ccl6u6y6.ltrans1.ltrans.o
+usartInitAllIOSignals                             obj/BrushedMotor/serial_uart.o (symbol from plugin)
+                                                  obj/BrushedMotor/system.o (symbol from plugin)
+usartIrqHandler                                   obj/BrushedMotor/serial_uart_stm32f30x.o (symbol from plugin)
+usbCableDetectDeinit                              obj/BrushedMotor/usb_io.o (symbol from plugin)
+usbCableDetectInit                                obj/BrushedMotor/usb_io.o (symbol from plugin)
+usbCableIsInserted                                obj/BrushedMotor/usb_io.o (symbol from plugin)
+usbGenerateDisconnectPulse                        obj/BrushedMotor/usb_io.o (symbol from plugin)
+                                                  obj/BrushedMotor/vcp/hw_config.o (symbol from plugin)
+usbIsConfigured                                   obj/BrushedMotor/vcp/hw_config.o (symbol from plugin)
+                                                  obj/BrushedMotor/serial_usb_vcp.o (symbol from plugin)
+usbIsConnected                                    obj/BrushedMotor/vcp/hw_config.o (symbol from plugin)
+                                                  obj/BrushedMotor/serial_usb_vcp.o (symbol from plugin)
+usbTxBytesFree                                    /tmp/ccl6u6y6.ltrans1.ltrans.o
+                                                  obj/BrushedMotor/serial_usb_vcp.o (symbol from plugin)
+                                                  /tmp/ccl6u6y6.ltrans0.ltrans.o
+usbVcpAvailable.lto_priv.38                       /tmp/ccl6u6y6.ltrans1.ltrans.o
+                                                  /tmp/ccl6u6y6.ltrans0.ltrans.o
+usbVcpBeginWrite.lto_priv.44                      /tmp/ccl6u6y6.ltrans1.ltrans.o
+                                                  /tmp/ccl6u6y6.ltrans0.ltrans.o
+usbVcpEndWrite.lto_priv.45                        /tmp/ccl6u6y6.ltrans1.ltrans.o
+                                                  /tmp/ccl6u6y6.ltrans0.ltrans.o
+usbVcpGetBaudRate                                 obj/BrushedMotor/serial_usb_vcp.o (symbol from plugin)
+usbVcpOpen                                        obj/BrushedMotor/serial_usb_vcp.o (symbol from plugin)
+                                                  obj/BrushedMotor/Arduino.o (symbol from plugin)
+usbVcpRead.lto_priv.39                            /tmp/ccl6u6y6.ltrans1.ltrans.o
+                                                  /tmp/ccl6u6y6.ltrans0.ltrans.o
+usbVcpSetBaudRate.lto_priv.40                     /tmp/ccl6u6y6.ltrans1.ltrans.o
+                                                  /tmp/ccl6u6y6.ltrans0.ltrans.o
+usbVcpSetMode.lto_priv.42                         /tmp/ccl6u6y6.ltrans1.ltrans.o
+                                                  /tmp/ccl6u6y6.ltrans0.ltrans.o
+usbVcpWrite.lto_priv.37                           /tmp/ccl6u6y6.ltrans1.ltrans.o
+                                                  /tmp/ccl6u6y6.ltrans0.ltrans.o
+usbVcpWriteBuf.lto_priv.43                        /tmp/ccl6u6y6.ltrans1.ltrans.o
+                                                  /tmp/ccl6u6y6.ltrans0.ltrans.o
+usedTimers                                        obj/BrushedMotor/timer.o (symbol from plugin)
+wCNTR                                             obj/BrushedMotor/vcp/usb_istr.o (symbol from plugin)
+wInterrupt_Mask                                   /tmp/ccl6u6y6.ltrans3.ltrans.o
+                                                  obj/BrushedMotor/usb_init.o (symbol from plugin)
+                                                  /tmp/ccl6u6y6.ltrans2.ltrans.o
+                                                  obj/BrushedMotor/vcp/usb_pwr.o (symbol from plugin)
+                                                  obj/BrushedMotor/vcp/usb_istr.o (symbol from plugin)
+                                                  obj/BrushedMotor/usb_sil.o (symbol from plugin)
+wIstr                                             obj/BrushedMotor/vcp/usb_istr.o (symbol from plugin)
+                                                  obj/BrushedMotor/usb_int.o (symbol from plugin)

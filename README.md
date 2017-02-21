@@ -28,7 +28,7 @@ short the BOOT pins together, reconnect to your computer, and do <tt>make unbric
 features through-hole soldering pads for the BOOT pins, so that is the board
 I've been using for development.  By pushing a two-pin jumper onto the pins,
 I avoid having to place a paper clip or tweezers across the pins while unbricking. 
-The f3/examples directory includes the following use cases:
+The alienflightf3/examples directory includes the following use cases:
 <ul>
 <li> a simple LED blinker
 <li> a program that runs a single brushed motor
