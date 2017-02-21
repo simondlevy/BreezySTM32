@@ -161,7 +161,6 @@ void init(void)
 {
     drv_pwm_config_t pwm_params;
 
-    //printfSupportInit();
 
     initEEPROM();
 
@@ -173,7 +172,6 @@ void init(void)
 
     // start fpu
     SCB->CPACR = (0x3 << (10*2)) | (0x3 << (11*2));
-
 
 
     SetSysClock();
@@ -190,7 +188,6 @@ void init(void)
 
     debugMode = debugConfig()->debug_mode;
 
-
     EXTIInit();
 
 
@@ -202,10 +199,7 @@ void init(void)
 
     dmaInit();
 
-
     serialInit(feature(FEATURE_SOFTSERIAL));
-
-    mixerInit(customMotorMixer(0));
 
     memset(&pwm_params, 0, sizeof(pwm_params));
 
