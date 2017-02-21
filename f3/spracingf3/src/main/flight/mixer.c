@@ -1,20 +1,3 @@
-/*
- * This file is part of Cleanflight.
- *
- * Cleanflight is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * Cleanflight is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with Cleanflight.  If not, see <http://www.gnu.org/licenses/>.
- */
-
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdlib.h>
@@ -344,31 +327,12 @@ void mixerUsePWMIOConfiguration(pwmIOConfiguration_t *pwmIOConfiguration)
 #ifndef USE_QUAD_MIXER_ONLY
 void mixerLoadMix(int index, motorMixer_t *customMixers)
 {
-    int i;
-
-    // we're 1-based
-    index++;
-    // clear existing
-    for (i = 0; i < MAX_SUPPORTED_MOTORS; i++)
-        customMixers[i].throttle = 0.0f;
-
-    // do we have anything here to begin with?
-    if (mixers[index].motor != NULL) {
-        for (i = 0; i < mixers[index].motorCount; i++)
-            customMixers[i] = mixers[index].motor[i];
-    }
 }
 
 #endif
 
 int16_t calculateMotorOff(void) {
-    int16_t motorOff = motorConfig()->mincommand;
-#ifndef SKIP_3D_FLIGHT
-    if (feature(FEATURE_3D)) {
-        motorOff = motor3DConfig()->neutral3d;
-    }
-#endif
-    return motorOff;
+    return 0;
 }
 
 
@@ -383,15 +347,6 @@ void mixerResetDisarmedMotors(void)
 
 void writeMotors(void)
 {
-    uint8_t i;
-
-    for (i = 0; i < motorCount; i++)
-        pwmWriteMotor(i, motor[i]);
-
-
-    if (feature(FEATURE_ONESHOT125)) {
-        pwmCompleteOneshotMotorUpdate(motorCount);
-    }
 }
 
 void writeAllMotors(int16_t mc)
@@ -423,183 +378,5 @@ uint16_t mixConstrainMotorForFailsafeCondition(uint8_t motorIndex)
 
 void mixTable(void)
 {
-    uint32_t i;
-
-    bool isFailsafeActive = failsafeIsActive();
-
-    if (motorCount >= 4 && mixerConfig()->yaw_jump_prevention_limit < YAW_JUMP_PREVENTION_LIMIT_HIGH) {
-        // prevent "yaw jump" during yaw correction
-        axisPID[FD_YAW] = constrain(axisPID[FD_YAW], -mixerConfig()->yaw_jump_prevention_limit - ABS(rcCommand[YAW]), mixerConfig()->yaw_jump_prevention_limit + ABS(rcCommand[YAW]));
-    }
-
-    if (rcModeIsActive(BOXAIRMODE)) {
-        // Initial mixer concept by bdoiron74 reused and optimized for Air Mode
-        int16_t rollPitchYawMix[MAX_SUPPORTED_MOTORS];
-        int16_t rollPitchYawMixMax = 0; // assumption: symetrical about zero.
-        int16_t rollPitchYawMixMin = 0;
-
-        // Find roll/pitch/yaw desired output
-        for (i = 0; i < motorCount; i++) {
-            rollPitchYawMix[i] =
-                axisPID[FD_PITCH] * currentMixer[i].pitch +
-                axisPID[FD_ROLL] * currentMixer[i].roll +
-                -mixerConfig()->yaw_motor_direction * axisPID[FD_YAW] * currentMixer[i].yaw;
-
-            if (rollPitchYawMix[i] > rollPitchYawMixMax) rollPitchYawMixMax = rollPitchYawMix[i];
-            if (rollPitchYawMix[i] < rollPitchYawMixMin) rollPitchYawMixMin = rollPitchYawMix[i];
-        }
-
-        // Scale roll/pitch/yaw uniformly to fit within throttle range
-        int16_t rollPitchYawMixRange = rollPitchYawMixMax - rollPitchYawMixMin;
-        int16_t throttleRange, throttle;
-        int16_t throttleMin, throttleMax;
-
-#ifndef SKIP_3D_FLIGHT
-        static int16_t throttlePrevious = 0;   // Store the last throttle direction for deadband transitions in 3D.
-        // Find min and max throttle based on condition. Use rcData for 3D to prevent loss of power due to min_check
-        if (feature(FEATURE_3D)) {
-            if (!ARMING_FLAG(ARMED)) throttlePrevious = rxConfig()->midrc; // When disarmed set to mid_rc. It always results in positive direction after arming.
-
-            if ((rcData[THROTTLE] <= (rxConfig()->midrc - rcControlsConfig()->deadband3d_throttle))) { // Out of band handling
-                throttleMax = motor3DConfig()->deadband3d_low;
-                throttleMin = motorConfig()->minthrottle;
-                throttlePrevious = throttle = rcData[THROTTLE];
-            } else if (rcData[THROTTLE] >= (rxConfig()->midrc + rcControlsConfig()->deadband3d_throttle)) { // Positive handling
-                throttleMax = motorConfig()->maxthrottle;
-                throttleMin = motor3DConfig()->deadband3d_high;
-                throttlePrevious = throttle = rcData[THROTTLE];
-            } else if ((throttlePrevious <= (rxConfig()->midrc - rcControlsConfig()->deadband3d_throttle)))  { // Deadband handling from negative to positive
-                throttle = throttleMax = motor3DConfig()->deadband3d_low;
-                throttleMin = motorConfig()->minthrottle;
-            } else {  // Deadband handling from positive to negative
-                throttleMax = motorConfig()->maxthrottle;
-                throttle = throttleMin = motor3DConfig()->deadband3d_high;
-            }
-        } else {
-#endif
-            throttle = rcCommand[THROTTLE];
-            throttleMin = motorConfig()->minthrottle;
-            throttleMax = motorConfig()->maxthrottle;
-#ifndef SKIP_3D_FLIGHT
-        }
-#endif
-        throttleRange = throttleMax - throttleMin;
-
-        if (rollPitchYawMixRange > throttleRange) {
-            motorLimitReached = true;
-            float mixReduction = (float) throttleRange / rollPitchYawMixRange;
-            for (i = 0; i < motorCount; i++) {
-                rollPitchYawMix[i] =  lrintf((float) rollPitchYawMix[i] * mixReduction);
-            }
-            // Get the maximum correction by setting throttle offset to center.
-            throttleMin = throttleMax = throttleMin + (throttleRange / 2);
-        } else {
-            motorLimitReached = false;
-            throttleMin = throttleMin + (rollPitchYawMixRange / 2);
-            throttleMax = throttleMax - (rollPitchYawMixRange / 2);
-        }
-
-        // Now add in the desired throttle, but keep in a range that doesn't clip adjusted
-        // roll/pitch/yaw. This could move throttle down, but also up for those low throttle flips.
-        for (i = 0; i < motorCount; i++) {
-            motor[i] = rollPitchYawMix[i] + constrain(throttle * currentMixer[i].throttle, throttleMin, throttleMax);
-
-            if (isFailsafeActive) {
-                motor[i] = mixConstrainMotorForFailsafeCondition(i);
-            } else
-#ifndef SKIP_3D_FLIGHT
-            if (feature(FEATURE_3D)) {
-                if (throttlePrevious <= (rxConfig()->midrc - rcControlsConfig()->deadband3d_throttle)) {
-                    motor[i] = constrain(motor[i], motorConfig()->minthrottle, motor3DConfig()->deadband3d_low);
-                } else {
-                    motor[i] = constrain(motor[i], motor3DConfig()->deadband3d_high, motorConfig()->maxthrottle);
-                }
-            } else
-#endif
-            {
-                motor[i] = constrain(motor[i], motorConfig()->minthrottle, motorConfig()->maxthrottle);
-            }
-        }
-    } else {
-        // motors for non-servo mixes
-        for (i = 0; i < motorCount; i++) {
-            motor[i] =
-                rcCommand[THROTTLE] * currentMixer[i].throttle +
-                axisPID[FD_PITCH] * currentMixer[i].pitch +
-                axisPID[FD_ROLL] * currentMixer[i].roll +
-                -mixerConfig()->yaw_motor_direction * axisPID[FD_YAW] * currentMixer[i].yaw;
-        }
-
-        // Find the maximum motor output.
-        int16_t maxMotor = motor[0];
-        for (i = 1; i < motorCount; i++) {
-            // If one motor is above the maxthrottle threshold, we reduce the value
-            // of all motors by the amount of overshoot.  That way, only one motor
-            // is at max and the relative power of each motor is preserved.
-            if (motor[i] > maxMotor) {
-                maxMotor = motor[i];
-            }
-        }
-
-        int16_t maxThrottleDifference = 0;
-        if (maxMotor > motorConfig()->maxthrottle) {
-            maxThrottleDifference = maxMotor - motorConfig()->maxthrottle;
-        }
-
-        for (i = 0; i < motorCount; i++) {
-            // this is a way to still have good gyro corrections if at least one motor reaches its max.
-            motor[i] -= maxThrottleDifference;
-
-#ifndef SKIP_3D_FLIGHT
-            if (feature(FEATURE_3D)) {
-                if (mixerConfig()->pid_at_min_throttle
-                        || rcData[THROTTLE] <= rxConfig()->midrc - rcControlsConfig()->deadband3d_throttle
-                        || rcData[THROTTLE] >= rxConfig()->midrc + rcControlsConfig()->deadband3d_throttle) {
-                    if (rcData[THROTTLE] > rxConfig()->midrc) {
-                        motor[i] = constrain(motor[i], motor3DConfig()->deadband3d_high, motorConfig()->maxthrottle);
-                    } else {
-                        motor[i] = constrain(motor[i], motorConfig()->mincommand, motor3DConfig()->deadband3d_low);
-                    }
-                } else {
-                    if (rcData[THROTTLE] > rxConfig()->midrc) {
-                        motor[i] = motor3DConfig()->deadband3d_high;
-                    } else {
-                        motor[i] = motor3DConfig()->deadband3d_low;
-                    }
-                }
-            } else
-#endif
-            {
-                if (isFailsafeActive) {
-                    motor[i] = mixConstrainMotorForFailsafeCondition(i);
-                } else {
-                    // If we're at minimum throttle and FEATURE_MOTOR_STOP enabled,
-                    // do not spin the motors.
-                    motor[i] = constrain(motor[i], motorConfig()->minthrottle, motorConfig()->maxthrottle);
-                    if ((rcData[THROTTLE]) < rxConfig()->mincheck) {
-                        if (feature(FEATURE_MOTOR_STOP)) {
-                            motor[i] = motorConfig()->mincommand;
-                        } else if (mixerConfig()->pid_at_min_throttle == 0) {
-                            motor[i] = motorConfig()->minthrottle;
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-
-    /* Disarmed for all mixers */
-    if (!ARMING_FLAG(ARMED)) {
-        for (i = 0; i < motorCount; i++) {
-            motor[i] = motor_disarmed[i];
-        }
-    }
-
-    // motor outputs are used as sources for servo mixing, so motors must be calculated before servos.
-
-#if !defined(USE_QUAD_MIXER_ONLY) && defined(USE_SERVOS)
-    servoMixTable();
-#endif
 }
 

@@ -255,8 +255,6 @@ SYSTEM_SRC = \
 		   $(DEVICE_STDPERIPH_SRC)
 
 FC_COMMON_SRC = \
-		   config/feature.c \
-		   config/profile.c \
 		   fc/boot.c \
 		   flight/mixer.c \
 		   drivers/exti.c \
