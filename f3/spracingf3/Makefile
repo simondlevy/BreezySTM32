@@ -47,12 +47,12 @@ REVISION := $(shell git log -1 --format="%h")
 
 # Working directories
 ROOT		 := $(patsubst %/,%,$(dir $(lastword $(MAKEFILE_LIST))))
-SRC_DIR		 = $(ROOT)/src
+SRC_DIR		 = $(ROOT)
 OBJECT_DIR	 = $(ROOT)/obj
 BIN_DIR		 = $(ROOT)/obj
 CMSIS_DIR	 = $(BREEZY_DIR)/lib/CMSIS
-INCLUDE_DIRS	 = $(SRC_DIR) $(ROOT)/src/target
-LINKER_DIR	 = $(ROOT)/src/target
+INCLUDE_DIRS	 = $(SRC_DIR) $(ROOT)/target
+LINKER_DIR	 = $(ROOT)/target
 
 # Search path for sources
 VPATH		:= $(SRC_DIR):$(SRC_DIR)/startup
@@ -162,14 +162,14 @@ ifneq ($(FLASH_SIZE),)
 DEVICE_FLAGS := $(DEVICE_FLAGS) -DFLASH_SIZE=$(FLASH_SIZE)
 endif
 
-TARGET_DIR = $(ROOT)/src/target/$(TARGET)
+TARGET_DIR = $(ROOT)/target/$(TARGET)
 TARGET_SRC = $(notdir $(wildcard $(TARGET_DIR)/*.c))
 
 # VARIANTS
 ifeq ($(TARGET),ALIENFLIGHTF1)
 # ALIENFLIGHTF1 is a VARIANT of NAZE
 TARGET_FLAGS := $(TARGET_FLAGS) -DNAZE -DALIENFLIGHT
-TARGET_DIR = $(ROOT)/src/target/NAZE
+TARGET_DIR = $(ROOT)/target/NAZE
 endif
 ifeq ($(TARGET),CHEBUZZF3)
 # CHEBUZZ is a VARIANT of STM32F3DISCOVERY
