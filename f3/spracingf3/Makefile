@@ -314,22 +314,6 @@ FC_COMMON_SRC = \
 		   sensors/gyro.c \
 		   sensors/initialisation.c
 
-OSD_SYSTEM_SRC = \
-		   config/feature.c \
-		   osd/boot.c \
-		   osd/cleanflight_osd.c \
-		   osd/fc_state.c \
-		   osd/config.c \
-		   osd/osd_serial.c \
-		   osd/msp_server_osd.c \
-		   osd/msp_client_osd.c \
-		   osd/osd_tasks.c \
-		   osd/osd_debug.c \
-		   sensors/battery.c \
-		   sensors/voltage.c \
-		   sensors/amperage.c \
-		   io/beeper.c
-
 OSD_COMMON_SRC = \
 		   osd/fc_state.c \
 		   osd/osd.c \
@@ -799,41 +783,6 @@ IRCFUSIONF3_SRC = \
 		   $(HIGHEND_SRC) \
 		   $(FC_COMMON_SRC) \
 		   $(SYSTEM_SRC)
-
-SPRACINGF1OSD_SRC = \
-		   startup_stm32f10x_md_gcc.S \
-		   $(STM32F10x_COMMON_SRC) \
-		   drivers/bus_spi.c \
-		   drivers/video_max7456.c \
-		   drivers/flash_m25p16.c \
-		   drivers/io.c \
-		   drivers/exti.c \
-		   drivers/rcc.c \
-		   io/flashfs.c \
-		   osd/fonts/font_max7456_12x18.c \
-		   osd/osd_max7456.c \
-		   $(SYSTEM_SRC) \
-		   $(OSD_SYSTEM_SRC) \
-		   $(OSD_COMMON_SRC) \
-		   $(VCP_SRC)
-
-SPRACINGF3OSD_SRC = \
-		   $(STM32F30x_COMMON_SRC) \
-		   drivers/video_max7456.c \
-		   drivers/flash_m25p16.c \
-		   drivers/io.c \
-		   drivers/exti.c \
-		   drivers/rcc.c \
-		   drivers/transponder_ir.c \
-		   drivers/transponder_ir_stm32f30x.c \
-		   io/flashfs.c \
-		   io/transponder_ir.c \
-		   osd/fonts/font_max7456_12x18.c \
-		   osd/osd_max7456.c \
-		   $(SYSTEM_SRC) \
-		   $(OSD_SYSTEM_SRC) \
-		   $(OSD_COMMON_SRC) \
-		   $(VCP_SRC)
 
 # Search path and source files for the ST stdperiph library
 VPATH		:= $(VPATH):$(STDPERIPH_DIR)/src
