@@ -23,8 +23,8 @@
 #include "build_config.h"
 #include "debug.h"
 
-#include "common/maths.h"
-#include "common/time.h"
+#include "maths.h"
+#include "time.h"
 
 #include "nvic.h"
 

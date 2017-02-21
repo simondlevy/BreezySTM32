@@ -28,8 +28,8 @@
 
 #include "debug.h"
 
-#include "common/axis.h"
-#include "common/maths.h"
+#include "axis.h"
+#include "maths.h"
 
 #include "config/parameter_group.h"
 

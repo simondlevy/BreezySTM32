@@ -21,7 +21,7 @@
 #include <string.h>
 
 #include <platform.h>
-#include "common/utils.h"
+#include "utils.h"
 #include "atomic.h"
 
 #include "nvic.h"

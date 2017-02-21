@@ -34,7 +34,7 @@
 #include "drivers/gpio.h"
 #include "drivers/light_led.h"
 #include "drivers/system.h"
-#include "common/utils.h"
+#include "utils.h"
 
 #include "osd/fonts/font_max7456_12x18.h"
 

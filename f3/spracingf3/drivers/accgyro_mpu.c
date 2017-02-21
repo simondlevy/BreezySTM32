@@ -24,7 +24,7 @@
 #include "build_config.h"
 #include "debug.h"
 
-#include "common/maths.h"
+#include "maths.h"
 
 #include "nvic.h"
 

@@ -31,8 +31,8 @@
 
 #include "build_config.h"
 
-#include "common/color.h"
-#include "common/colorconversion.h"
+#include "color.h"
+#include "colorconversion.h"
 #include "drivers/dma.h"
 #include "drivers/nvic.h"
 #include "drivers/light_ws2811strip.h"

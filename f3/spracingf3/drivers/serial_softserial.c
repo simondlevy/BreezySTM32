@@ -25,7 +25,7 @@
 
 #include "build_config.h"
 
-#include "common/utils.h"
+#include "utils.h"
 #include "atomic.h"
 
 #include "nvic.h"

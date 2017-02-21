@@ -24,7 +24,7 @@
 #include "build_config.h"
 #include "debug.h"
 
-#include "common/utils.h"
+#include "utils.h"
 
 #include "config/parameter_group.h"
 

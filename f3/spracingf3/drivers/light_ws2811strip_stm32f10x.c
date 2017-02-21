@@ -20,7 +20,7 @@
 
 #include <platform.h>
 
-#include "common/color.h"
+#include "color.h"
 #include "drivers/light_ws2811strip.h"
 #include "nvic.h"
 

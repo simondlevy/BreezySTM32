@@ -22,8 +22,8 @@
 #include "build_config.h"
 #include "debug.h"
 
-#include "common/maths.h"
-#include "common/axis.h"
+#include "maths.h"
+#include "axis.h"
 
 #include "system.h"
 #include "gpio.h"

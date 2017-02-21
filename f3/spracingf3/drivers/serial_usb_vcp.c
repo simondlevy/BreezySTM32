@@ -23,7 +23,7 @@
 #include <platform.h>
 
 #include "build_config.h"
-#include "common/utils.h"
+#include "utils.h"
 
 #include "usb_core.h"
 #include "usb_init.h"

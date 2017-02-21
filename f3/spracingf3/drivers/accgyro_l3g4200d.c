@@ -24,8 +24,8 @@
 #include "system.h"
 #include "bus_i2c.h"
 
-#include "common/maths.h"
-#include "common/axis.h"
+#include "maths.h"
+#include "axis.h"
 
 #include "sensor.h"
 #include "accgyro.h"
