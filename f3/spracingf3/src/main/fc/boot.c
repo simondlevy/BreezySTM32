@@ -283,17 +283,6 @@ void init(void)
     ENABLE_STATE(SMALL_ANGLE);
     DISABLE_ARMING_FLAG(PREVENT_ARMING);
 
-#ifdef DISPLAY
-    if (feature(FEATURE_DISPLAY)) {
-#ifdef USE_OLED_GPS_DEBUG_PAGE_ONLY
-        displayShowFixedPage(PAGE_GPS);
-#else
-        displayResetPageCycling();
-        displayEnablePageCycling();
-#endif
-    }
-#endif
-
 #ifdef CJMCU
     LED2_ON;
 #endif
