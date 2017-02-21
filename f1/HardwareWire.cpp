@@ -341,15 +341,15 @@ void HardwareWire::beginTransmission(uint8_t addr_)
     _addr = addr_ << 1;
 }
 
-int8_t HardwareWire::write(uint8_t reg, uint8_t data)
+int8_t HardwareWire::write(uint8_t subaddr, uint8_t value)
 {
     uint32_t timeout = I2C_DEFAULT_TIMEOUT;
 
-    _reg     = reg;
+    _reg     = subaddr;
     _writing = 1;
     _reading = 0;
-    _write_p = &data;
-    _read_p  = &data;
+    _write_p = &value;
+    _read_p  = &value;
     _bytes   = 1;
     _busy    = true;
     _error   = false;
@@ -387,12 +387,12 @@ int8_t HardwareWire::endTransmission(void)
     return !_error;
 }
 
-bool HardwareWire::read(uint8_t addr_, uint8_t reg, uint8_t len, uint8_t *buf)
+bool HardwareWire::read(uint8_t address, uint8_t subaddr, uint8_t len, uint8_t *buf)
 {
     uint32_t timeout = I2C_DEFAULT_TIMEOUT;
 
-    _addr = addr_ << 1;
-    _reg = reg;
+    _addr = address << 1;
+    _reg = subaddr;
     _writing = 0;
     _reading = 1;
     _read_p = buf;
