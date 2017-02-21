@@ -241,8 +241,6 @@ FC_COMMON_SRC = \
 		   drivers/io.c \
 		   io/motors.c \
 
-HIGHEND_SRC = io/display.c 
-
 STM32F30x_COMMON_SRC = \
 		   startup_stm32f30x_md_gcc.S \
 		   target/system_stm32f30x.c \
@@ -266,7 +264,6 @@ STM32F30x_FC_COMMON_SRC = \
 SPRACINGF3_SRC = \
 		   $(STM32F30x_COMMON_SRC) \
 		   $(STM32F30x_FC_COMMON_SRC) \
-   	       $(HIGHEND_SRC) \
 		   $(FC_COMMON_SRC) \
 		   $(SYSTEM_SRC)
 
