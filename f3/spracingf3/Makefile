@@ -236,7 +236,6 @@ SYSTEM_SRC = \
 
 FC_COMMON_SRC = \
 		   fc/boot.c \
-		   flight/mixer.c \
 		   drivers/exti.c \
 		   drivers/io.c
 

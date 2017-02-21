@@ -65,7 +65,7 @@ int main(void) {
 
 void HardFault_Handler(void)
 {
-    stopMotors();
+    //stopMotors();
 
     while (1);
 }
