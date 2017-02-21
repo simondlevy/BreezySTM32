@@ -238,8 +238,7 @@ FC_COMMON_SRC = \
 		   fc/boot.c \
 		   flight/mixer.c \
 		   drivers/exti.c \
-		   drivers/io.c \
-		   io/motors.c \
+		   drivers/io.c
 
 STM32F30x_COMMON_SRC = \
 		   startup_stm32f30x_md_gcc.S \
