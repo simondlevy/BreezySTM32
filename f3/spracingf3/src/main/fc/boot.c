@@ -206,10 +206,6 @@ void init(void)
 
     systemState |= SYSTEM_STATE_MOTORS_READY;
 
-#ifdef INVERTER
-    initInverter();
-#endif
-
 
     i2cInit(I2C_DEVICE);
 
