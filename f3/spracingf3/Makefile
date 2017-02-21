@@ -220,8 +220,6 @@ else
 TARGET_FLAGS := $(TARGET_FLAGS) -DFC
 endif
 
-
-
 INCLUDE_DIRS := \
 		    $(INCLUDE_DIRS) \
 		    $(TARGET_DIR)
@@ -257,11 +255,9 @@ STM32F30x_COMMON_SRC = \
 		   drivers/light_led_stm32f30x.c \
 		   drivers/serial_uart.c \
 		   drivers/serial_uart_stm32f30x.c \
-		   drivers/sound_beeper_stm32f30x.c \
 		   drivers/system_stm32f30x.c
 
 STM32F30x_FC_COMMON_SRC = \
-		   drivers/display_ug2864hsweg01.h \
 		   drivers/timer.c \
 		   drivers/timer_stm32f30x.c \
 		   drivers/pwm_mapping.c \
