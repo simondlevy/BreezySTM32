@@ -196,23 +196,6 @@ void init(void)
 
     ledInit(false);
 
-#ifdef BEEPER
-    beeperConfig_t beeperConfig = {
-        .gpioPeripheral = BEEP_PERIPHERAL,
-        .gpioPin = BEEP_PIN,
-        .gpioPort = BEEP_GPIO,
-#ifdef BEEPER_INVERTED
-        .gpioMode = Mode_Out_PP,
-        .isInverted = true
-#else
-        .gpioMode = Mode_Out_OD,
-        .isInverted = false
-#endif
-    };
-
-    beeperInit(&beeperConfig);
-#endif
-
     delay(100);
 
     timerInit();  // timer must be initialized before any channel is allocated
@@ -223,25 +206,8 @@ void init(void)
     serialInit(feature(FEATURE_SOFTSERIAL));
 
     mixerInit(customMotorMixer(0));
-#ifdef USE_SERVOS
-    mixerInitServos(customServoMixer(0));
-#endif
 
     memset(&pwm_params, 0, sizeof(pwm_params));
-
-#ifdef SONAR
-    const sonarHardware_t *sonarHardware = NULL;
-    sonarGPIOConfig_t sonarGPIOConfig;
-    if (feature(FEATURE_SONAR)) {
-        bool usingCurrentMeterIOPins = (feature(FEATURE_AMPERAGE_METER) && batteryConfig()->amperageMeterSource == AMPERAGE_METER_ADC);
-        sonarHardware = sonarGetHardwareConfiguration(usingCurrentMeterIOPins);
-        sonarGPIOConfig.triggerGPIO = sonarHardware->trigger_gpio;
-        sonarGPIOConfig.triggerPin = sonarHardware->trigger_pin;
-        sonarGPIOConfig.echoGPIO = sonarHardware->echo_gpio;
-        sonarGPIOConfig.echoPin = sonarHardware->echo_pin;
-        pwm_params.sonarGPIOConfig = &sonarGPIOConfig;
-    }
-#endif
 
     // when using airplane/wing mixer, servo/motor outputs are remapped
     if (mixerConfig()->mixerMode == MIXER_AIRPLANE || mixerConfig()->mixerMode == MIXER_FLYING_WING || mixerConfig()->mixerMode == MIXER_CUSTOM_AIRPLANE)
@@ -271,16 +237,6 @@ void init(void)
     pwm_params.useLEDStrip = feature(FEATURE_LED_STRIP);
     pwm_params.usePPM = feature(FEATURE_RX_PPM);
     pwm_params.useSerialRx = feature(FEATURE_RX_SERIAL);
-#ifdef SONAR
-    pwm_params.useSonar = feature(FEATURE_SONAR);
-#endif
-
-#ifdef USE_SERVOS
-    pwm_params.useServos = isMixerUsingServos();
-    pwm_params.useChannelForwarding = feature(FEATURE_CHANNEL_FORWARDING);
-    pwm_params.servoCenterPulse = servoConfig()->servoCenterPulse;
-    pwm_params.servoPwmRate = servoConfig()->servo_pwm_rate;
-#endif
 
     pwm_params.useOneshot = feature(FEATURE_ONESHOT125);
     pwm_params.motorPwmRate = motorConfig()->motor_pwm_rate;
@@ -310,66 +266,7 @@ void init(void)
 #endif
 
 
-#ifdef USE_SPI
-    spiInit(SPI1);
-    spiInit(SPI2);
-#ifdef STM32F303xC
-#ifdef ALIENFLIGHTF3
-    if (hardwareRevision == AFF3_REV_2) {
-        spiInit(SPI3);
-    }
-#else
-    spiInit(SPI3);
-#endif
-#endif
-#endif
-
-#ifdef USE_HARDWARE_REVISION_DETECTION
-    updateHardwareRevision();
-#endif
-
-#ifdef VTX
-    while (!canUpdateVTX()) {};
-    vtxInit();
-#endif
-
-#if defined(NAZE)
-    if (hardwareRevision == NAZE32_SP) {
-        serialRemovePort(SERIAL_PORT_SOFTSERIAL2);
-    } else  {
-        serialRemovePort(SERIAL_PORT_UART3);
-    }
-#endif
-
-#if defined(SPRACINGF3) && defined(SONAR) && defined(USE_SOFTSERIAL2)
-    if (feature(FEATURE_SONAR) && feature(FEATURE_SOFTSERIAL)) {
-        serialRemovePort(SERIAL_PORT_SOFTSERIAL2);
-    }
-#endif
-
-#if defined(SPRACINGF3MINI) && defined(SONAR) && defined(USE_SOFTSERIAL1)
-    if (feature(FEATURE_SONAR) && feature(FEATURE_SOFTSERIAL)) {
-        serialRemovePort(SERIAL_PORT_SOFTSERIAL1);
-    }
-#endif
-
-#ifdef USE_I2C
-#if defined(NAZE)
-    if (hardwareRevision != NAZE32_SP) {
-        i2cInit(I2C_DEVICE);
-    } else {
-        if (!doesConfigurationUsePort(SERIAL_PORT_UART3)) {
-            i2cInit(I2C_DEVICE);
-        }
-    }
-#elif defined(CC3D)
-    if (!doesConfigurationUsePort(SERIAL_PORT_UART3)) {
-        i2cInit(I2C_DEVICE);
-    }
-#else
     i2cInit(I2C_DEVICE);
-#endif
-#endif
 
 #ifdef USE_ADC
     drv_adc_config_t adc_params;
