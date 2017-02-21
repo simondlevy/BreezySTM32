@@ -272,24 +272,10 @@ void init(void)
 
     rxInit(modeActivationProfile()->modeActivationConditions);
 
-#ifdef BLACKBOX
-    initBlackbox();
-#endif
-
     if (mixerConfig()->mixerMode == MIXER_GIMBAL) {
         accSetCalibrationCycles(CALIBRATING_ACC_CYCLES);
     }
     gyroSetCalibrationCycles(CALIBRATING_GYRO_CYCLES);
-#ifdef BARO
-    baroSetCalibrationCycles(CALIBRATING_BARO_CYCLES);
-#endif
-
-#ifdef OSD
-    if (feature(FEATURE_OSD)) {
-        osdInit();
-    }
-#endif
-
     // start all timers
     // TODO - not implemented yet
     timerStart();
