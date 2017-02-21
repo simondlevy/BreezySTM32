@@ -110,7 +110,6 @@
 
 extern uint8_t motorControlEnable;
 
-
 bool isUsingVTXSwitch(void);
 void mixerUsePWMIOConfiguration(pwmIOConfiguration_t *pwmIOConfiguration);
 void rxInit(modeActivationCondition_t *modeActivationConditions);
@@ -129,17 +128,6 @@ PG_REGISTER(pwmRxConfig_t, pwmRxConfig, PG_DRIVER_PWM_RX_CONFIG, 0);
 PG_RESET_TEMPLATE(systemConfig_t, systemConfig,
     .i2c_highspeed = 1,
 );
-
-typedef enum {
-    SYSTEM_STATE_INITIALISING        = 0,
-    SYSTEM_STATE_CONFIG_LOADED       = (1 << 0),
-    SYSTEM_STATE_SENSORS_READY       = (1 << 1),
-    SYSTEM_STATE_MOTORS_READY        = (1 << 2),
-    SYSTEM_STATE_TRANSPONDER_ENABLED = (1 << 3),
-    SYSTEM_STATE_READY               = (1 << 7)
-} systemState_e;
-
-static uint8_t systemState = SYSTEM_STATE_INITIALISING;
 
 void flashLedsAndBeep(void)
 {
@@ -163,9 +151,6 @@ int main(void) {
 
     ensureEEPROMContainsValidData();
     readEEPROM();
-
-    systemState |= SYSTEM_STATE_CONFIG_LOADED;
-
 
     // start fpu
     SCB->CPACR = (0x3 << (10*2)) | (0x3 << (11*2));
@@ -200,8 +185,6 @@ int main(void) {
     if (!feature(FEATURE_ONESHOT125))
         motorControlEnable = true;
 
-    systemState |= SYSTEM_STATE_MOTORS_READY;
-
     i2cInit(I2C_DEVICE);
 
     initBoardAlignment();
@@ -212,8 +195,6 @@ int main(void) {
         // if gyro was not detected due to whatever reason, we give up now.
         failureMode(FAILURE_MISSING_ACC);
     }
-
-    systemState |= SYSTEM_STATE_SENSORS_READY;
 
     flashLedsAndBeep();
 
@@ -245,8 +226,6 @@ int main(void) {
     latchActiveFeatures();
     motorControlEnable = true;
 
-    systemState |= SYSTEM_STATE_READY;
-
     serialPort_t * uart1 = 
         (serialPort_t *)uartOpen(USART1, NULL, 115200, MODE_RXTX, SERIAL_NOT_INVERTED);
 
@@ -262,11 +241,7 @@ int main(void) {
 
 void HardFault_Handler(void)
 {
-    // fall out of the sky
-    uint8_t requiredStateForMotors = SYSTEM_STATE_CONFIG_LOADED | SYSTEM_STATE_MOTORS_READY;
-    if ((systemState & requiredStateForMotors) == requiredStateForMotors) {
-        stopMotors();
-    }
+    stopMotors();
 
     while (1);
 }
