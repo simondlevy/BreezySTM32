@@ -90,6 +90,7 @@ uint8_t telemetryCheckState(void)
 
 void telemetryProcess(uint16_t deadband3d_throttle)
 {
+    (void)deadband3d_throttle;
 }
 
 #endif

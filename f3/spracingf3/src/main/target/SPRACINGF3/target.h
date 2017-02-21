@@ -48,9 +48,6 @@
 #define USE_ACC_MPU6050
 #define ACC_MPU6050_ALIGN CW270_DEG
 
-#define BARO
-#define USE_BARO_MS5611
-
 #define MAG
 #define USE_MAG_AK8975
 #define USE_MAG_HMC5883

@@ -330,20 +330,8 @@ HIGHEND_SRC = \
 		   telemetry/ltm.c \
 		   telemetry/ibus.c \
 		   sensors/sonar.c \
-		   sensors/barometer.c \
 		   blackbox/blackbox.c \
 		   blackbox/blackbox_io.c
-
-VCP_SRC = \
-		   vcp/hw_config.c \
-		   vcp/stm32_it.c \
-		   vcp/usb_desc.c \
-		   vcp/usb_endp.c \
-		   vcp/usb_istr.c \
-		   vcp/usb_prop.c \
-		   vcp/usb_pwr.c \
-		   drivers/serial_usb_vcp.c \
-		   drivers/usb_io.c
 
 STM32F30x_COMMON_SRC = \
 		   startup_stm32f30x_md_gcc.S \
@@ -372,7 +360,6 @@ SPRACINGF3_SRC = \
 		   $(STM32F30x_FC_COMMON_SRC) \
 		   drivers/accgyro_mpu.c \
 		   drivers/accgyro_mpu6050.c \
-		   drivers/barometer_ms5611.c \
 		   drivers/compass_ak8975.c \
 		   drivers/compass_hmc5883l.c \
 		   drivers/display_ug2864hsweg01.h \
