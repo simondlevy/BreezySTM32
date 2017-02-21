@@ -113,7 +113,6 @@ TARGET_HEX	 = $(BIN_DIR)/$(PROJECT).hex
 TARGET_ELF	 = $(BIN_DIR)/$(PROJECT).elf
 TARGET_OBJS	 = $(addsuffix .o,$(addprefix $(OBJECT_DIR)/$(PROJECT)/,$(basename $($(PROJECT)_CSRC)))) \
 			   $(OBJECT_DIR)/$(PROJECT)/Arduino.o \
-			   $(OBJECT_DIR)/$(PROJECT)/HardwareSerial.o \
 			   $(OBJECT_DIR)/$(PROJECT)/HardwareWire.o \
 			   $(OBJECT_DIR)/$(PROJECT)/MPU6050.o \
 			   $(OBJECT_DIR)/$(PROJECT).o
@@ -147,9 +146,6 @@ $(OBJECT_DIR)/$(PROJECT)/%.o: %.S
 
 $(OBJECT_DIR)/$(PROJECT)/Arduino.o: $(F1_DIR)/Arduino.cpp $(F1_DIR)/Arduino.h
 	@$(CC) -c -o $(OBJECT_DIR)/$(PROJECT)/Arduino.o $(CFLAGS) $(F1_DIR)/Arduino.cpp
-
-$(OBJECT_DIR)/$(PROJECT)/HardwareSerial.o: $(F1_DIR)/HardwareSerial.cpp $(F1_DIR)/Arduino.h
-	@$(CC) -c -o $(OBJECT_DIR)/$(PROJECT)/HardwareSerial.o $(CFLAGS) $(F1_DIR)/HardwareSerial.cpp
 
 $(OBJECT_DIR)/$(PROJECT)/HardwareWire.o: $(F1_DIR)/HardwareWire.cpp $(F1_DIR)/Arduino.h
 	@$(CC) -c -o $(OBJECT_DIR)/$(PROJECT)/HardwareWire.o $(CFLAGS) $(F1_DIR)/HardwareWire.cpp

@@ -19,6 +19,8 @@ You should have received a copy of the GNU General Public License
 along with BreezySTM32.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+void serialEvent1(void) __attribute__((weak));
+
 extern "C" {
 
 #include <Arduino.h>
@@ -95,6 +97,45 @@ int main(void)
     }
 }
 
+uint8_t HardwareSerial::read(void)
+{
+    serialPort_t * port = (serialPort_t *)this->_uart;
+    return serialRead(port);
+}
+
+void HardwareSerial::write(uint8_t byte)
+{
+    serialPort_t * port = (serialPort_t *)this->_uart;
+    serialWrite(port, byte);
+}
+
+uint8_t HardwareSerial::available(void)
+{
+    serialPort_t * port = (serialPort_t *)this->_uart;
+    return serialTotalBytesWaiting(port);
+}
+
+void HardwareSerial::flush(void)
+{
+    serialPort_t * port = (serialPort_t *)this->_uart;
+    while (!isSerialTransmitBufferEmpty(port));
+}
+
+void HardwareSerial0::begin(uint32_t baud)
+{
+    this->_uart = (void *)uartOpen(USART1, NULL, baud, MODE_RXTX);
+}
+
+void HardwareSerial1::begin(uint32_t baud)
+{
+    this->_uart = (void *)uartOpen(USART2, serialEvent1, baud, MODE_RXTX);
+}
+
 } // extern "C"
+
+HardwareSerial0 Serial;
+HardwareSerial1 Serial1;
+
+void serialEvent1(void) { }
 
 
