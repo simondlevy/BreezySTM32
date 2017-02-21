@@ -97,7 +97,13 @@ int main(void)
     }
 }
 
-uint8_t HardwareSerial::read(void)
+uint8_t HardwareSerial0::read(void)
+{
+    serialPort_t * port = (serialPort_t *)this->_uart;
+    return serialRead(port);
+}
+
+uint8_t HardwareSerial1::read(void)
 {
     serialPort_t * port = (serialPort_t *)this->_uart;
     return serialRead(port);

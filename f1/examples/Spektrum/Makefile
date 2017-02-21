@@ -72,8 +72,8 @@ OBJCOPY	 = arm-none-eabi-objcopy
 # Tool options.
 #
 INCLUDE_DIRS	 = $(SRC_DIR) \
+		   $(BREEZY_DIR) \
 		   $(F1_DIR) \
-		   $(F1_DIR)/arduino \
 		   $(SPEKTRUM_DIR) \
 		   $(STDPERIPH_DIR)/inc \
 		   $(CMSIS_DIR)/CM3/CoreSupport \
@@ -158,7 +158,7 @@ $(OBJECT_DIR)/$(TARGET)/%.o: %.S
 %.o: %.cpp
 	$(CC) -c $(CFLAGS) -o $@ $^
 
-$(OBJECT_DIR)/$(TARGET)/Arduino.o: $(F1_DIR)/Arduino.cpp $(F1_DIR)/Arduino.h
+$(OBJECT_DIR)/$(TARGET)/Arduino.o: $(F1_DIR)/Arduino.cpp $(BREEZY_DIR)/Arduino.h
 	@$(CC) -c -o $(OBJECT_DIR)/$(TARGET)/Arduino.o $(CFLAGS) $(F1_DIR)/Arduino.cpp
 
 $(OBJECT_DIR)/$(TARGET)/SpektrumDSM.o: $(SPEKTRUM_DIR)/SpektrumDSM.cpp $(SPEKTRUM_DIR)/SpektrumDSM.h

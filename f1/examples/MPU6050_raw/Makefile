@@ -145,10 +145,10 @@ $(OBJECT_DIR)/$(PROJECT)/%.o: %.S
 %.o: %.cpp
 	$(CC) -c $(CFLAGS) -o $@ $^
 
-$(OBJECT_DIR)/$(PROJECT)/Arduino.o: $(F1_DIR)/Arduino.cpp $(F1_DIR)/Arduino.h
+$(OBJECT_DIR)/$(PROJECT)/Arduino.o: $(F1_DIR)/Arduino.cpp $(BREEZY_DIR)/Arduino.h
 	@$(CC) -c -o $(OBJECT_DIR)/$(PROJECT)/Arduino.o $(CFLAGS) $(F1_DIR)/Arduino.cpp
 
-$(OBJECT_DIR)/$(PROJECT)/HardwareWire.o: $(F1_DIR)/HardwareWire.cpp $(F1_DIR)/Arduino.h
+$(OBJECT_DIR)/$(PROJECT)/HardwareWire.o: $(F1_DIR)/HardwareWire.cpp $(BREEZY_DIR)/Wire.h
 	@$(CC) -c -o $(OBJECT_DIR)/$(PROJECT)/HardwareWire.o $(CFLAGS) $(F1_DIR)/HardwareWire.cpp
 
 $(OBJECT_DIR)/$(PROJECT)/MPU6050.o: $(MPU6050_DIR)/MPU6050.cpp $(MPU6050_DIR)/MPU6050.h

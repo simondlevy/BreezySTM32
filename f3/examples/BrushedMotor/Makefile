@@ -252,7 +252,7 @@ $(OBJECT_DIR)/$(PROJECT)/%.o: %.S
 	@echo %% $(notdir $<)
 	@$(CC) -c -o $@ $(ASFLAGS) $<
 
-$(OBJECT_DIR)/$(PROJECT)/Arduino.o: $(F3_DIR)/Arduino.cpp $(F3_DIR)/Arduino.h
+$(OBJECT_DIR)/$(PROJECT)/Arduino.o: $(F3_DIR)/Arduino.cpp $(BREEZY_DIR)/Arduino.h
 	@$(CC) -c -o $(OBJECT_DIR)/$(PROJECT)/Arduino.o $(CFLAGS) $(F3_DIR)/Arduino.cpp
 
 $(OBJECT_DIR)/$(PROJECT)/Motor.o: $(F3_DIR)/Motor.cpp $(BREEZY_DIR)/Motor.h

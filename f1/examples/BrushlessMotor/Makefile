@@ -151,7 +151,7 @@ $(OBJECT_DIR)/$(TARGET)/%.o: %.S
 %.o: %.cpp
 	$(CC) -c $(CFLAGS) -o $@ $^
 
-$(OBJECT_DIR)/$(TARGET)/Arduino.o: $(F1_DIR)/Arduino.cpp $(F1_DIR)/Arduino.h
+$(OBJECT_DIR)/$(TARGET)/Arduino.o: $(F1_DIR)/Arduino.cpp $(BREEZY_DIR)/Arduino.h
 	@$(CC) -c -o $(OBJECT_DIR)/$(TARGET)/Arduino.o $(CFLAGS) $(F1_DIR)/Arduino.cpp
 
 $(OBJECT_DIR)/$(TARGET)/Motor.o: $(F1_DIR)/Motor.cpp $(BREEZY_DIR)/Motor.h

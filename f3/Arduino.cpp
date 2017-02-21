@@ -23,7 +23,7 @@ void serialEvent1(void) __attribute__((weak));
 
 extern "C" {
 
-#include "Arduino.h"
+#include <Arduino.h>
 
 #include "platform.h"
 

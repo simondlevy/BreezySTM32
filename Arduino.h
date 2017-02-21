@@ -41,8 +41,6 @@ void delay(unsigned long);
 void setup(void);
 void loop(void);
 
-void systemReset(bool);
-
 class HardwareSerial {
 
     protected:
@@ -77,6 +75,8 @@ class HardwareSerial0 : public HardwareSerial {
     public:
 
         void begin(uint32_t baud);
+
+        uint8_t read(void);
 };
 
 extern HardwareSerial0 Serial;
@@ -86,6 +86,8 @@ class HardwareSerial1 : public HardwareSerial {
     public:
 
         void begin(uint32_t baud);
+
+        uint8_t read(void);
 };
 
 extern HardwareSerial1 Serial1;
