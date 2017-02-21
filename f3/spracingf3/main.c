@@ -6,17 +6,17 @@
 
 #include <platform.h>
 
-#include "drivers/nvic.h"
+#include "nvic.h"
 #include "system.h"
 #include "dma.h"
-#include "drivers/gpio.h"
-#include "drivers/timer.h"
+#include "gpio.h"
+#include "timer.h"
 #include "serial.h"
-#include "drivers/serial_uart.h"
-#include "drivers/adc.h"
-#include "drivers/bus_i2c.h"
-#include "drivers/light_led.h"
-#include "drivers/exti.h"
+#include "serial_uart.h"
+#include "adc.h"
+#include "bus_i2c.h"
+#include "light_led.h"
+#include "exti.h"
 
 void SetSysClock(void);
 
