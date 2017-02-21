@@ -172,97 +172,6 @@ static void i2cUnstick(void)
 }
 
 
-
-static bool i2cHandleHardwareFailure(void)
-{
-    return false;
-}
-
-static bool i2cWrite(uint8_t reg_, uint8_t data)
-{
-    uint32_t timeout = I2C_DEFAULT_TIMEOUT;
-
-    _reg = reg_;
-    _writing = 1;
-    _reading = 0;
-    _write_p = &data;
-    _read_p = &data;
-    _bytes = 1;
-    _busy = true;
-    _error = false;
-
-    if (!I2Cx)
-        return false;
-
-    if (!(I2Cx->CR2 & I2C_IT_EVT)) {                                    // if we are restarting the driver
-        if (!(I2Cx->CR1 & 0x0100)) {                                    // ensure sending a start
-            while (I2Cx->CR1 & 0x0200 && --timeout > 0) {
-                ;    // wait for any stop to finish sending
-            }
-            if (timeout == 0)
-                return i2cHandleHardwareFailure();
-            I2C_GenerateSTART(I2Cx, ENABLE);                            // send the start for the new job
-        }
-        I2C_ITConfig(I2Cx, I2C_IT_EVT | I2C_IT_ERR, ENABLE);            // allow the interrupts to fire off again
-    }
-
-    return !_error;
-}
-
-static bool i2cEndTransmission(void)
-{
-    _error = false;
-
-    uint32_t timeout = I2C_DEFAULT_TIMEOUT;
-
-    while (_busy && --timeout > 0) {
-        ;
-    }
-    if (timeout == 0)
-        return i2cHandleHardwareFailure();
-
-    return !_error;
-}
-
-static bool i2cRead(uint8_t addr_, uint8_t reg_, uint8_t len, uint8_t *buf)
-{
-    uint32_t timeout = I2C_DEFAULT_TIMEOUT;
-
-    _addr = addr_ << 1;
-    _reg = reg_;
-    _writing = 0;
-    _reading = 1;
-    _read_p = buf;
-    _write_p = buf;
-    _bytes = len;
-    _busy = true;
-    _error = false;
-
-    if (!I2Cx)
-        return false;
-
-    if (!(I2Cx->CR2 & I2C_IT_EVT)) {                                    // if we are restarting the driver
-        if (!(I2Cx->CR1 & 0x0100)) {                                    // ensure sending a start
-            while (I2Cx->CR1 & 0x0200 && --timeout > 0) {
-                ;    // wait for any stop to finish sending
-            }
-            if (timeout == 0)
-                return i2cHandleHardwareFailure();
-            I2C_GenerateSTART(I2Cx, ENABLE);                            // send the start for the new job
-        }
-        I2C_ITConfig(I2Cx, I2C_IT_EVT | I2C_IT_ERR, ENABLE);            // allow the interrupts to fire off again
-    }
-
-    timeout = I2C_DEFAULT_TIMEOUT;
-    while (_busy && --timeout > 0) {
-        ;
-    }
-    if (timeout == 0)
-        return i2cHandleHardwareFailure();
-
-    return !_error;
-}
-
 void i2c_ev_handler(void)
 {
     static uint8_t subaddress_sent, final_stop;                         // flag to indicate if subaddess sent, flag to indicate final bus condition
@@ -434,17 +343,85 @@ void HardwareWire::beginTransmission(uint8_t addr_)
 
 int8_t HardwareWire::write(uint8_t reg, uint8_t data)
 {
-    return i2cWrite(reg, data) ? 0 : -1;
+    uint32_t timeout = I2C_DEFAULT_TIMEOUT;
+
+    _reg     = reg;
+    _writing = 1;
+    _reading = 0;
+    _write_p = &data;
+    _read_p  = &data;
+    _bytes   = 1;
+    _busy    = true;
+    _error   = false;
+
+    if (!I2Cx)
+        return false;
+
+    if (!(I2Cx->CR2 & I2C_IT_EVT)) {                                    // if we are restarting the driver
+        if (!(I2Cx->CR1 & 0x0100)) {                                    // ensure sending a start
+            while (I2Cx->CR1 & 0x0200 && --timeout > 0) {
+                ;    // wait for any stop to finish sending
+            }
+            if (timeout == 0)
+                return false;
+            I2C_GenerateSTART(I2Cx, ENABLE);                            // send the start for the new job
+        }
+        I2C_ITConfig(I2Cx, I2C_IT_EVT | I2C_IT_ERR, ENABLE);            // allow the interrupts to fire off again
+    }
+
+    return !_error;
 }
 
 int8_t HardwareWire::endTransmission(void)
 {
-    return i2cEndTransmission() ? 0 : -1;
+    _error = false;
+
+    uint32_t timeout = I2C_DEFAULT_TIMEOUT;
+
+    while (_busy && --timeout > 0) {
+        ;
+    }
+    if (timeout == 0)
+        return false;
+
+    return !_error;
 }
 
 bool HardwareWire::read(uint8_t addr_, uint8_t reg, uint8_t len, uint8_t *buf)
 {
-    return i2cRead(addr_, reg, len, buf);
+    uint32_t timeout = I2C_DEFAULT_TIMEOUT;
+
+    _addr = addr_ << 1;
+    _reg = reg;
+    _writing = 0;
+    _reading = 1;
+    _read_p = buf;
+    _write_p = buf;
+    _bytes = len;
+    _busy = true;
+    _error = false;
+
+    if (!I2Cx)
+        return false;
+
+    if (!(I2Cx->CR2 & I2C_IT_EVT)) {                                    // if we are restarting the driver
+        if (!(I2Cx->CR1 & 0x0100)) {                                    // ensure sending a start
+            while (I2Cx->CR1 & 0x0200 && --timeout > 0) {
+                ;    // wait for any stop to finish sending
+            }
+            if (timeout == 0)
+                return false;
+            I2C_GenerateSTART(I2Cx, ENABLE);                            // send the start for the new job
+        }
+        I2C_ITConfig(I2Cx, I2C_IT_EVT | I2C_IT_ERR, ENABLE);            // allow the interrupts to fire off again
+    }
+
+    timeout = I2C_DEFAULT_TIMEOUT;
+    while (_busy && --timeout > 0) {
+        ;
+    }
+
+    return (timeout == 0) ? false : !_error;
 }
 
 
