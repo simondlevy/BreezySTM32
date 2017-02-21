@@ -272,20 +272,6 @@ void init(void)
 
     rxInit(modeActivationProfile()->modeActivationConditions);
 
-#ifdef LED_STRIP
-    ledStripInit();
-
-    if (feature(FEATURE_LED_STRIP)) {
-        ledStripEnable();
-    }
-#endif
-
-#ifdef TELEMETRY
-    if (feature(FEATURE_TELEMETRY)) {
-        telemetryInit();
-    }
-#endif
-
 #ifdef USB_CABLE_DETECTION
     usbCableDetectInit();
 #endif
