@@ -218,7 +218,7 @@ STM32F30x_COMMON_SRC = \
 		   target/system_stm32f30x.c \
 		   adc.c \
 		   adc_stm32f30x.c \
-		   drivers/bus_i2c_stm32f30x.c \
+		   bus_i2c_stm32f30x.c \
 		   drivers/bus_spi.c \
 		   drivers/gpio_stm32f30x.c \
 		   drivers/light_led_stm32f30x.c \
