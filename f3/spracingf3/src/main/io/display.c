@@ -551,6 +551,27 @@ static void showSensorsPage(void)
 #ifndef SKIP_TASK_STATISTICS
 static void showTasksPage(void)
 {
+    uint8_t rowIndex = PAGE_TITLE_LINE_COUNT;
+    static const char *format = "%2d%6d%5d%4d%4d";
+
+    i2c_OLED_set_line(rowIndex++);
+    i2c_OLED_send_string("Task max  avg mx% av%");
+    cfTaskInfo_t taskInfo;
+    for (cfTaskId_e taskId = 0; taskId < TASK_COUNT; ++taskId) {
+        getTaskInfo(taskId, &taskInfo);
+        if (taskInfo.isEnabled && taskId != TASK_SERIAL) {// don't waste a line of the display showing serial taskInfo
+            const int taskFrequency = (int)(1000000.0f / ((float)taskInfo.latestDeltaTime));
+            const int maxLoad = (taskInfo.maxExecutionTime * taskFrequency + 5000) / 10000;
+            const int averageLoad = (taskInfo.averageExecutionTime * taskFrequency + 5000) / 10000;
+            tfp_sprintf(lineBuffer, format, taskId, taskInfo.maxExecutionTime, taskInfo.averageExecutionTime, maxLoad, averageLoad);
+            padLineBuffer();
+            i2c_OLED_set_line(rowIndex++);
+            i2c_OLED_send_string(lineBuffer);
+            if (rowIndex > SCREEN_CHARACTER_ROW_COUNT) {
+                break;
+            }
+        }
+    }
 }
 #endif
 

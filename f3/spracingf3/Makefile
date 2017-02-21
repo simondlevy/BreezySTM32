@@ -247,6 +247,7 @@ SYSTEM_SRC = \
 		   drivers/dma.c \
 		   drivers/serial.c \
 		   drivers/system.c \
+		   scheduler/scheduler.c \
 		   io/serial.c \
 		   io/statusindicator.c \
 		   msp/msp.c \
