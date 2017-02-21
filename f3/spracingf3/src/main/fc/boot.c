@@ -286,69 +286,6 @@ void init(void)
     systemState |= SYSTEM_STATE_READY;
 }
 
-#define processLoopback()
-
-void configureScheduler(void)
-{
-    schedulerInit();
-    setTaskEnabled(TASK_SYSTEM, true);
-
-    uint16_t gyroPeriodUs = US_FROM_HZ(gyro.sampleFrequencyHz);
-    rescheduleTask(TASK_GYRO, gyroPeriodUs);
-    setTaskEnabled(TASK_GYRO, true);
-
-    rescheduleTask(TASK_PID, gyroPeriodUs);
-    setTaskEnabled(TASK_PID, true);
-
-    if (sensors(SENSOR_ACC)) {
-        setTaskEnabled(TASK_ACCEL, true);
-        rescheduleTask(TASK_ACCEL, accSamplingInterval);
-    }
-
-    setTaskEnabled(TASK_ATTITUDE, sensors(SENSOR_ACC));
-    setTaskEnabled(TASK_SERIAL, true);
-    setTaskEnabled(TASK_HARDWARE_WATCHDOG, true);
-#ifdef BEEPER
-    setTaskEnabled(TASK_BEEPER, true);
-#endif
-    setTaskEnabled(TASK_BATTERY, feature(FEATURE_VBAT) || feature(FEATURE_AMPERAGE_METER));
-    setTaskEnabled(TASK_RX, true);
-#ifdef GPS
-    setTaskEnabled(TASK_GPS, feature(FEATURE_GPS));
-#endif
-#ifdef MAG
-    setTaskEnabled(TASK_COMPASS, sensors(SENSOR_MAG));
-#if defined(MPU6500_SPI_INSTANCE) && defined(USE_MAG_AK8963)
-    // fixme temporary solution for AK6983 via slave I2C on MPU9250
-    rescheduleTask(TASK_COMPASS, 1000000 / 40);
-#endif
-#endif
-#ifdef BARO
-    setTaskEnabled(TASK_BARO, sensors(SENSOR_BARO));
-#endif
-#ifdef SONAR
-    setTaskEnabled(TASK_SONAR, sensors(SENSOR_SONAR));
-#endif
-#if defined(BARO) || defined(SONAR)
-    setTaskEnabled(TASK_ALTITUDE, sensors(SENSOR_BARO) || sensors(SENSOR_SONAR));
-#endif
-#ifdef DISPLAY
-    setTaskEnabled(TASK_DISPLAY, feature(FEATURE_DISPLAY));
-#endif
-#ifdef TELEMETRY
-    setTaskEnabled(TASK_TELEMETRY, feature(FEATURE_TELEMETRY));
-#endif
-#ifdef LED_STRIP
-    setTaskEnabled(TASK_LEDSTRIP, feature(FEATURE_LED_STRIP));
-#endif
-#ifdef TRANSPONDER
-    setTaskEnabled(TASK_TRANSPONDER, feature(FEATURE_TRANSPONDER));
-#endif
-#ifdef OSD
-    setTaskEnabled(TASK_DRAW_SCREEN, feature(FEATURE_OSD));
-#endif
-}
-
 int main(void) {
 
     init();
@@ -372,13 +309,6 @@ void HardFault_Handler(void)
     if ((systemState & requiredStateForMotors) == requiredStateForMotors) {
         stopMotors();
     }
-#ifdef TRANSPONDER
-    // prevent IR LEDs from burning out.
-    uint8_t requiredStateForTransponder = SYSTEM_STATE_CONFIG_LOADED | SYSTEM_STATE_TRANSPONDER_ENABLED;
-    if ((systemState & requiredStateForTransponder) == requiredStateForTransponder) {
-        transponderIrDisable();
-    }
-#endif
 
     while (1);
 }
