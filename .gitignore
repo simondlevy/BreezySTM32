@@ -1,5 +1,6 @@
 f1/examples/*/obj
 f1/examples/*.o
 f3/alienflightf3/examples/*/obj
+f3/spracingf3/obj
 f4/examples/*/obj
 *.swp
