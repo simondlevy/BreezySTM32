@@ -177,10 +177,6 @@ static void activateConfig(void)
     mixerUseConfigs(servoProfile()->servoConf);
 #endif
 
-#ifdef GPS
-    recalculateMagneticDeclination();
-#endif
-
 #ifdef VTX
     initVTXState();
 #endif

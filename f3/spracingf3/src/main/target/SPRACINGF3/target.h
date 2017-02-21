@@ -48,25 +48,11 @@
 #define USE_ACC_MPU6050
 #define ACC_MPU6050_ALIGN CW270_DEG
 
-#define MAG
-#define USE_MAG_AK8975
-#define USE_MAG_HMC5883
-#define MAG_HMC5883_ALIGN CW270_DEG
-
 #define USE_FLASHFS
 #define USE_FLASH_M25P16
 
 #define BEEPER
 #define LED0
-
-#define SONAR
-#define SONAR_TRIGGER_PIN           Pin_0   // RC_CH7 (PB0) - only 3.3v ( add a 1K Ohms resistor )
-#define SONAR_TRIGGER_GPIO          GPIOB
-#define SONAR_ECHO_PIN              Pin_1   // RC_CH8 (PB1) - only 3.3v ( add a 1K Ohms resistor )
-#define SONAR_ECHO_GPIO             GPIOB
-#define SONAR_TRIGGER_IO            PB0
-#define SONAR_ECHO_IO               PB1
-
 
 #define USE_UART1
 #define USE_UART2
@@ -161,7 +147,6 @@
 #define ENABLE_BLACKBOX_LOGGING_ON_SPIFLASH_BY_DEFAULT
 
 #define DISPLAY
-#define GPS
 #define GTUNE
 #define SERIAL_RX
 #define TELEMETRY
