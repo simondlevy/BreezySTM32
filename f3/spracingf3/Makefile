@@ -258,45 +258,10 @@ FC_COMMON_SRC = \
 		   config/feature.c \
 		   config/profile.c \
 		   fc/boot.c \
-		   fc/fc_debug.c \
-		   fc/fc_tasks.c \
-		   fc/rate_profile.c \
-		   fc/rc_adjustments.c \
-		   fc/rc_controls.c \
-		   fc/rc_curves.c \
-		   fc/fc_serial.c \
-		   fc/config.c \
-		   fc/runtime_config.c \
-		   flight/altitudehold.c \
-		   flight/failsafe.c \
-		   flight/pid.c \
-		   flight/pid_luxfloat.c \
-		   flight/imu.c \
 		   flight/mixer.c \
-		   flight/servos.c \
-		   drivers/bus_i2c_soft.c \
 		   drivers/exti.c \
 		   drivers/io.c \
-		   drivers/rcc.c \
-		   drivers/sound_beeper.c \
-		   drivers/gyro_sync.c \
-		   io/beeper.c \
-		   io/gimbal.c \
-		   io/servos.c \
 		   io/motors.c \
-		   io/serial_4way.c \
-		   io/serial_4way_avrootloader.c \
-		   io/serial_4way_stk500v2.c \
-		   io/serial_cli.c \
-		   io/statusindicator.c \
-   	   sensors/sensors.c \
-		   sensors/acceleration.c \
-		   sensors/battery.c \
-		   sensors/voltage.c \
-		   sensors/amperage.c \
-		   sensors/boardalignment.c \
-		   sensors/gyro.c \
-		   sensors/initialisation.c
 
 
 HIGHEND_SRC = io/display.c 
