@@ -21,7 +21,7 @@
 
 #include <platform.h>
 
-#include "build/debug.h"
+#include "debug.h"
 
 #include "drivers/dma.h"
 #include "drivers/io.h"

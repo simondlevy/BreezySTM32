@@ -15,31 +15,33 @@
  * along with Cleanflight.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <stdbool.h>
-#include <stdint.h>
-#include <stdlib.h>
+#pragma once
 
-#include <platform.h>
+#ifdef STM32F303xC
+#include "stm32f30x_conf.h"
+#include "stm32f30x_rcc.h"
+#include "stm32f30x_gpio.h"
+#include "core_cm4.h"
 
-#include "build_config.h"
+// Chip Unique ID on F303
+#define U_ID_0 (*(uint32_t*)0x1FFFF7AC)
+#define U_ID_1 (*(uint32_t*)0x1FFFF7B0)
+#define U_ID_2 (*(uint32_t*)0x1FFFF7B4)
 
-#include "gpio.h"
-
-#include "sound_beeper.h"
-
-void initBeeperHardware(beeperConfig_t *config)
-{
-#ifndef BEEPER
-    UNUSED(config);
-#else
-    gpio_config_t gpioConfig = {
-        config->gpioPin,
-        config->gpioMode,
-        Speed_2MHz
-    };
-
-    RCC_AHBPeriphClockCmd(config->gpioPeripheral, ENABLE);
-
-    gpioInit(config->gpioPort, &gpioConfig);
 #endif
-}
+
+#ifdef STM32F10X
+
+#include "stm32f10x_conf.h"
+#include "stm32f10x_gpio.h"
+#include "core_cm3.h"
+
+// Chip Unique ID on F103
+#define U_ID_0 (*(uint32_t*)0x1FFFF7E8)
+#define U_ID_1 (*(uint32_t*)0x1FFFF7EC)
+#define U_ID_2 (*(uint32_t*)0x1FFFF7F0)
+
+#endif // STM32F10X
+
+#include "target.h"
+
