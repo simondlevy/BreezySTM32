@@ -372,8 +372,11 @@ int8_t HardwareWire::write(uint8_t subaddr, uint8_t value)
     return !_error;
 }
 
-int8_t HardwareWire::endTransmission(void)
+uint8_t HardwareWire::endTransmission(bool stop)
 {
+    // This is done before a read request
+    if (!stop) return 0; // "success"
+
     _error = false;
 
     uint32_t timeout = I2C_DEFAULT_TIMEOUT;

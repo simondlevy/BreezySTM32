@@ -36,13 +36,13 @@ class HardwareWire {
 
     public:
 
-        void begin();
+        void begin(void);
 
         void beginTransmission(uint8_t address);
 
         int8_t write(uint8_t subaddr, uint8_t data);
 
-        int8_t endTransmission(void);
+        uint8_t endTransmission(bool stop=true);
 
         bool read(uint8_t addr_, uint8_t reg, uint8_t len, uint8_t *buf);
 };
