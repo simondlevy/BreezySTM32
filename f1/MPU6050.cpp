@@ -66,9 +66,13 @@ static uint8_t mpuLowPassFilter = INV_FILTER_42HZ;
 
 // XXX These methods use a mocked-up version of the Wire library that has a different API from true Arduino ---------
 
-static void mpuReadRegisterI2C(uint8_t reg, uint8_t *data, int length)
+static void readBytes(uint8_t subAddress, uint8_t count, uint8_t * dest)
 {
-    Wire.read(MPU_ADDRESS, reg, length, data);
+    Wire.beginTransmission(MPU_ADDRESS);   // Initialize the Tx buffer
+    Wire.write(subAddress);             // Put slave register address in Tx buffer
+    Wire.endTransmission(false);        // Send the Tx buffer, but send a restart to keep connection alive
+
+    Wire.read(MPU_ADDRESS, subAddress, count, dest);
 }
 
 static void mpuWriteRegisterI2C(uint8_t reg, uint8_t data)
@@ -84,7 +88,7 @@ static void mpuWriteRegisterI2C(uint8_t reg, uint8_t data)
 static uint8_t readByte(uint8_t reg)
 {
     uint8_t byte;
-    mpuReadRegisterI2C(reg, &byte, 1);
+    readBytes(reg, 1, &byte);
     return byte;
 }
 
@@ -121,13 +125,13 @@ bool MPU6050::getMotion6Counts(int16_t * ax, int16_t * ay, int16_t * az, int16_t
 {
     uint8_t buf[6];
 
-    mpuReadRegisterI2C(MPU_RA_ACCEL_XOUT_H, buf, 6);
+    readBytes(MPU_RA_ACCEL_XOUT_H, 6, buf);
 
     *ax = (int16_t)((buf[0] << 8) | buf[1]);
     *ay = (int16_t)((buf[2] << 8) | buf[3]);
     *az = (int16_t)((buf[4] << 8) | buf[5]);
 
-    mpuReadRegisterI2C(MPU_RA_GYRO_XOUT_H, buf, 6);
+    readBytes(MPU_RA_GYRO_XOUT_H, 6, buf);
 
     *gx = (int16_t)((buf[0] << 8) | buf[1]);
     *gy = (int16_t)((buf[2] << 8) | buf[3]);
