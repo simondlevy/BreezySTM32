@@ -74,7 +74,8 @@ static void mpuReadRegisterI2C(uint8_t reg, uint8_t *data, int length)
 static void mpuWriteRegisterI2C(uint8_t reg, uint8_t data)
 {
     Wire.beginTransmission(MPU_ADDRESS);
-    Wire.write(reg, data);
+    Wire.write(reg);
+    Wire.write(data);
     Wire.endTransmission();
 }
 
