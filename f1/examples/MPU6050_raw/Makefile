@@ -1,12 +1,17 @@
 # Change this to wherever you put BreezySTM32
 BREEZY_DIR = $(HOME)/Desktop/BreezySTM32
 
+# Change this to where you put your Arduino libraries
+ARDUINO_DIR = $(HOME)/Development/arduino-1.6.13/hardware/teensy/avr/libraries
+
 # Change this to whatever project name you want
 PROJECT		?= MPU6050_raw
 
 ###############################################################################
 
 F1_DIR = $(BREEZY_DIR)/f1
+
+MPU6050_DIR = $(ARDUINO_DIR)/MPU6050
 
 # Debugger optons, must be empty or GDB
 DEBUG ?=
@@ -57,7 +62,7 @@ OBJCOPY	 = arm-none-eabi-objcopy
 #
 INCLUDE_DIRS	 = $(SRC_DIR) \
 		   $(F1_DIR) \
-		   $(F1_DIR)/arduino \
+		   $(MPU6050_DIR) \
 		   $(STDPERIPH_DIR)/inc \
 		   $(CMSIS_DIR)/CM3/CoreSupport \
 		   $(CMSIS_DIR)/CM3/DeviceSupport/ST/STM32F10x \
@@ -120,7 +125,7 @@ $(TARGET_HEX): $(TARGET_ELF)
 	$(OBJCOPY) -O ihex --set-start 0x8000000 $< $@
 
 $(TARGET_ELF):  $(TARGET_OBJS)
-	$(CC) -o $@ $^ $(LDFLAGS)
+	$(C++) -o $@ $^ $(LDFLAGS)
 
 MKDIR_OBJDIR = @mkdir -p $(dir $@)
 
@@ -149,8 +154,8 @@ $(OBJECT_DIR)/$(PROJECT)/HardwareSerial.o: $(F1_DIR)/HardwareSerial.cpp $(F1_DIR
 $(OBJECT_DIR)/$(PROJECT)/HardwareWire.o: $(F1_DIR)/HardwareWire.cpp $(F1_DIR)/Arduino.h
 	@$(CC) -c -o $(OBJECT_DIR)/$(PROJECT)/HardwareWire.o $(CFLAGS) $(F1_DIR)/HardwareWire.cpp
 
-$(OBJECT_DIR)/$(PROJECT)/MPU6050.o: $(F1_DIR)/MPU6050.cpp $(F1_DIR)/MPU6050.h
-	@$(CC) -c -o $(OBJECT_DIR)/$(PROJECT)/MPU6050.o $(CFLAGS) $(F1_DIR)/MPU6050.cpp
+$(OBJECT_DIR)/$(PROJECT)/MPU6050.o: $(MPU6050_DIR)/MPU6050.cpp $(MPU6050_DIR)/MPU6050.h
+	@$(CC) -c -o $(OBJECT_DIR)/$(PROJECT)/MPU6050.o $(CFLAGS) $(MPU6050_DIR)/MPU6050.cpp
 
 $(OBJECT_DIR)/$(PROJECT).o: ./$(PROJECT).cpp
 	@$(CC) -c -o $(OBJECT_DIR)/$(PROJECT).o $(CFLAGS) ./$(PROJECT).cpp
