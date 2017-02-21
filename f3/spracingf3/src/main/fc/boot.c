@@ -272,15 +272,6 @@ void init(void)
 
     rxInit(modeActivationProfile()->modeActivationConditions);
 
-#ifdef TRANSPONDER
-    if (feature(FEATURE_TRANSPONDER)) {
-        transponderInit(transponderConfig()->data);
-        transponderEnable();
-        transponderStartRepeating();
-        systemState |= SYSTEM_STATE_TRANSPONDER_ENABLED;
-    }
-#endif
-
 #ifdef USE_FLASHFS
 #ifdef NAZE
     if (hardwareRevision == NAZE32_REV5) {
