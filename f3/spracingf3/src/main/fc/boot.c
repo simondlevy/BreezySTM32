@@ -129,22 +129,6 @@ PG_RESET_TEMPLATE(systemConfig_t, systemConfig,
     .i2c_highspeed = 1,
 );
 
-void flashLedsAndBeep(void)
-{
-    LED1_ON;
-    LED0_OFF;
-    for (uint8_t i = 0; i < 10; i++) {
-        LED1_TOGGLE;
-        LED0_TOGGLE;
-        delay(25);
-        BEEP_ON;
-        delay(25);
-        BEEP_OFF;
-    }
-    LED0_OFF;
-    LED1_OFF;
-}
-
 int main(void) {
 
     initEEPROM();
@@ -195,8 +179,6 @@ int main(void) {
         // if gyro was not detected due to whatever reason, we give up now.
         failureMode(FAILURE_MISSING_ACC);
     }
-
-    flashLedsAndBeep();
 
     mspInit();
     mspSerialInit();
