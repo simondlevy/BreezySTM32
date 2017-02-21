@@ -164,49 +164,13 @@ int main(void) {
 
     dmaInit();
 
-    serialInit(feature(FEATURE_SOFTSERIAL));
-
-    if (!feature(FEATURE_ONESHOT125))
-        motorControlEnable = true;
-
     i2cInit(I2C_DEVICE);
 
     initBoardAlignment();
 
     displayInit();
 
-   if (!sensorsAutodetect()) {
-        // if gyro was not detected due to whatever reason, we give up now.
-        failureMode(FAILURE_MISSING_ACC);
-    }
-
-    mspInit();
-    mspSerialInit();
-
-    const uint16_t pidPeriodUs = US_FROM_HZ(gyro.sampleFrequencyHz);
-    pidSetTargetLooptime(pidPeriodUs * gyroConfig()->pid_process_denom);
-    pidInitFilters(pidProfile());
-
-    imuInit();
-
-    failsafeInit();
-
-    rxInit(modeActivationProfile()->modeActivationConditions);
-
-    if (mixerConfig()->mixerMode == MIXER_GIMBAL) {
-        accSetCalibrationCycles(CALIBRATING_ACC_CYCLES);
-    }
-    gyroSetCalibrationCycles(CALIBRATING_GYRO_CYCLES);
-
-
     timerStart();
-
-    ENABLE_STATE(SMALL_ANGLE);
-    DISABLE_ARMING_FLAG(PREVENT_ARMING);
-
-   // Latch active features AGAIN since some may be modified by init().
-    latchActiveFeatures();
-    motorControlEnable = true;
 
     serialPort_t * uart1 = 
         (serialPort_t *)uartOpen(USART1, NULL, 115200, MODE_RXTX, SERIAL_NOT_INVERTED);
