@@ -168,7 +168,6 @@ void init(void)
 
     systemState |= SYSTEM_STATE_CONFIG_LOADED;
 
-
     // start fpu
     SCB->CPACR = (0x3 << (10*2)) | (0x3 << (11*2));
 
@@ -207,39 +206,6 @@ void init(void)
 
 
     i2cInit(I2C_DEVICE);
-
-#ifdef USE_ADC
-    drv_adc_config_t adc_params;
-
-    adc_params.channelMask = 0;
-
-#ifdef ADC_BATTERY
-    adc_params.channelMask = (feature(FEATURE_VBAT) ? ADC_CHANNEL_MASK(ADC_BATTERY) : 0);
-#endif
-#ifdef ADC_RSSI
-    adc_params.channelMask |= (feature(FEATURE_RSSI_ADC) ? ADC_CHANNEL_MASK(ADC_RSSI) : 0);
-#endif
-#ifdef ADC_AMPERAGE
-    adc_params.channelMask |=  (feature(FEATURE_AMPERAGE_METER) ? ADC_CHANNEL_MASK(ADC_AMPERAGE) : 0);
-#endif
-
-#ifdef ADC_POWER_12V
-    adc_params.channelMask |= ADC_CHANNEL_MASK(ADC_POWER_12V);
-#endif
-#ifdef ADC_POWER_5V
-    adc_params.channelMask |= ADC_CHANNEL_MASK(ADC_POWER_5V);
-#endif
-#ifdef ADC_POWER_3V
-    adc_params.channelMask |= ADC_CHANNEL_MASK(ADC_POWER_3V);
-#endif
-
-#ifdef NAZE
-    // optional ADC5 input on rev.5 hardware
-    adc_params.channelMask |= (hardwareRevision >= NAZE32_REV5) ? ADC_CHANNEL_MASK(ADC_EXTERNAL) : 0;
-#endif
-
-    adcInit(&adc_params);
-#endif
 
     initBoardAlignment();
 
