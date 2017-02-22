@@ -1,5 +1,7 @@
 BREEZY_DIR = $(HOME)/Desktop/BreezySTM32
 
+PROJECT = Hello
+
 # The target to build, see VALID_TARGETS below
 TARGET		?= SPRACINGF3
 
@@ -327,6 +329,7 @@ TARGET_BIN	 = $(BIN_DIR)/$(FORKNAME)_$(TARGET).bin
 TARGET_HEX	 = $(BIN_DIR)/$(FORKNAME)_$(TARGET).hex
 TARGET_ELF	 = $(OBJECT_DIR)/$(FORKNAME)_$(TARGET).elf
 TARGET_OBJS	 = $(addsuffix .o,$(addprefix $(OBJECT_DIR)/$(TARGET)/,$(basename $($(TARGET)_SRC)))) \
+			   $(OBJECT_DIR)/$(TARGET)/$(PROJECT).o \
 			   $(OBJECT_DIR)/$(TARGET)/Arduino.o
 TARGET_DEPS	 = $(addsuffix .d,$(addprefix $(OBJECT_DIR)/$(TARGET)/,$(basename $($(TARGET)_SRC))))
 TARGET_MAP	 = $(OBJECT_DIR)/$(FORKNAME)_$(TARGET).map
@@ -445,6 +448,9 @@ $(OBJECT_DIR)/$(TARGET)/%.o: %.S
 	@echo %% $(notdir $<)
 	@$(CC) -c -o $@ $(ASFLAGS) $<
 
+
+$(OBJECT_DIR)/$(TARGET)/$(PROJECT).o: $(PROJECT).cpp $(BREEZY_DIR)/Arduino.h
+	@$(CC) -c -o $(OBJECT_DIR)/$(TARGET)/$(PROJECT).o $(CFLAGS) $(PROJECT).cpp
 
 $(OBJECT_DIR)/$(TARGET)/Arduino.o: $(F3_DIR)/Arduino.cpp $(BREEZY_DIR)/Arduino.h
 	@$(CC) -c -o $(OBJECT_DIR)/$(TARGET)/Arduino.o $(CFLAGS) $(F3_DIR)/Arduino.cpp
