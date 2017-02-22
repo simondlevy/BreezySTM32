@@ -54,7 +54,7 @@ OBJECT_DIR	 = obj
 BIN_DIR		 = obj
 CMSIS_DIR	 = $(BREEZY_DIR)/lib/CMSIS
 INCLUDE_DIRS = $(BREEZY_DIR) $(F3_DIR) $(SPRACINGF3_DIR) $(SRC_DIR) $(SRC_DIR)/target $(SPRACINGF3_DIR)/target/$(TARGET)
-LINKER_DIR	 = $(SRC_DIR)
+LINKER_DIR	 = $(F3_DIR)
 
 # Search path for sources
 VPATH		:= $(SRC_DIR):$(SRC_DIR)/startup
