@@ -210,8 +210,6 @@ FC_COMMON_SRC = \
 STM32F30x_COMMON_SRC = \
 		   startup_stm32f30x_md_gcc.S \
 		   target/system_stm32f30x.c \
-		   bus_i2c_stm32f30x.c \
-		   bus_spi.c \
 		   gpio_stm32f30x.c \
 		   serial_uart.c \
 		   serial_uart_stm32f30x.c \
