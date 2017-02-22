@@ -19,11 +19,13 @@ You should have received a copy of the GNU General Public License
 along with BreezySTM32.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+void serialEvent1(void) __attribute__((weak));
+
 extern "C" {
 
 #include <Arduino.h>
 
-#include <platform.h>
+#include "platform.h"
 
 #include "system.h"
 #include "dma.h"
@@ -32,9 +34,6 @@ extern "C" {
 #include "serial.h"
 #include "serial_uart.h"
 #include "exti.h"
-#include "adc.h"
-#include "bus_i2c.h"
-#include "light_led.h"
 
 void SetSysClock(void);
 
@@ -56,13 +55,9 @@ int main(void) {
 
     EXTIInit();
 
-    ledInit(false);
-
     timerInit();  // timer must be initialized before any channel is allocated
 
     dmaInit();
-
-    i2cInit(I2C_DEVICE);
 
     timerStart();
 

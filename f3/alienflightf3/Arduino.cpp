@@ -31,14 +31,10 @@ extern "C" {
 #include "dma.h"
 #include "gpio.h"
 #include "timer.h"
-#include "io.h"
 #include "serial.h"
-#include "serial_usb_vcp.h"
 #include "serial_uart.h"
 #include "exti.h"
-#include "dma.h"
-#include "serial.h"
-#include "serial_uart.h"
+
 #include "serial_usb_vcp.h"
 
 // from system_stm32f30x.c
