@@ -43,14 +43,27 @@ int main(void) {
 
     timerStart();
 
-    serialPort_t * uart1 = 
+    serialPort_t * serial0 = 
         (serialPort_t *)uartOpen(USART1, NULL, 115200, MODE_RXTX, SERIAL_NOT_INVERTED);
 
     while (true) {
+
+#ifndef EXTERNAL_DEBUG
+        static uint32_t dbg_start_msec;
+        // support reboot from host computer
+        if (millis()-dbg_start_msec > 100) {
+            dbg_start_msec = millis();
+            while (serialRxBytesWaiting(serial0)) {
+                uint8_t c = serialRead(serial0);
+                if (c == 'R') 
+                    systemResetToBootloader();
+            }
+        }
+#endif
         char tmp[100];
         sprintf(tmp, "%ld\n", millis());
         for (char *p=tmp; *p; p++) {
-            serialWrite(uart1, *p);
+            serialWrite(serial0, *p);
         }
         delay(10);
     }
