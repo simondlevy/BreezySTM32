@@ -6,7 +6,8 @@ PROJECT = I2CSniff
 
 ###############################################################################
 
-F3_DIR = $(BREEZY_DIR)/f3/alienflightf3
+F3_DIR = $(BREEZY_DIR)/f3
+ALIENFLIGHTF3_DIR = $(F3_DIR)/alienflightf3
 
 # Debugger optons, must be empty or GDB
 DEBUG ?=
@@ -22,12 +23,12 @@ FLASH_SIZE ?= 256
 
 # Working directories
 ROOT		 = $(dir $(lastword $(MAKEFILE_LIST)))
-SRC_DIR		 = $(F3_DIR)
+SRC_DIR		 = $(ALIENFLIGHTF3_DIR)
 OBJECT_DIR	 = $(ROOT)/obj
 BIN_DIR		 = $(ROOT)/obj
 #CMSIS_DIR	 = $(ROOT)/lib/CMSIS
 CMSIS_DIR	 = $(BREEZY_DIR)/lib/CMSIS
-INCLUDE_DIRS = $(BREEZY_DIR) $(F3_DIR) $(SRC_DIR) $(SRC_DIR)/target
+INCLUDE_DIRS = $(BREEZY_DIR) $(ALIENFLIGHTF3_DIR) $(SRC_DIR) $(SRC_DIR)/target
 LINKER_DIR	 = $(SRC_DIR)/target
 
 # Search path for sources
@@ -126,7 +127,8 @@ $(PROJECT)_CSRC = \
 		   $(STM32F30x_COMMON_SRC) \
 		   $(FC_COMMON_SRC) \
 		   $(SYSTEM_SRC) \
-		   $(VCP_SRC)
+		   $(VCP_SRC) \
+		   target.c
 
 VPATH		:= $(VPATH):$(STDPERIPH_DIR)/src
 
@@ -254,8 +256,8 @@ $(OBJECT_DIR)/$(PROJECT)/%.o: %.S
 $(OBJECT_DIR)/$(PROJECT)/Arduino.o: $(F3_DIR)/Arduino.cpp $(BREEZY_DIR)/Arduino.h
 	@$(CC) -c -o $(OBJECT_DIR)/$(PROJECT)/Arduino.o $(CFLAGS) $(F3_DIR)/Arduino.cpp
 
-$(OBJECT_DIR)/$(PROJECT)/HardwareWire.o: $(F3_DIR)/HardwareWire.cpp $(BREEZY_DIR)/Arduino.h
-	@$(CC) -c -o $(OBJECT_DIR)/$(PROJECT)/HardwareWire.o $(CFLAGS) $(F3_DIR)/HardwareWire.cpp
+$(OBJECT_DIR)/$(PROJECT)/HardwareWire.o: $(ALIENFLIGHTF3_DIR)/HardwareWire.cpp $(BREEZY_DIR)/Arduino.h
+	@$(CC) -c -o $(OBJECT_DIR)/$(PROJECT)/HardwareWire.o $(CFLAGS) $(ALIENFLIGHTF3_DIR)/HardwareWire.cpp
 
 $(OBJECT_DIR)/$(PROJECT).o: ./$(PROJECT).cpp
 	@$(CC) -c -o $(OBJECT_DIR)/$(PROJECT).o $(CFLAGS) ./$(PROJECT).cpp

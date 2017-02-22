@@ -21,7 +21,8 @@ FLASH_SIZE ?=
 ###############################################################################
 # Things that need to be maintained as the source changes
 #
-F3_DIR = $(BREEZY_DIR)/f3/spracingf3
+F3_DIR = $(BREEZY_DIR)/f3
+SPRACINGF3_DIR = $(F3_DIR)/spracingf3
 
 FORKNAME			 = cleanflight
 
@@ -48,11 +49,11 @@ REVISION := $(shell git log -1 --format="%h")
 
 # Working directories
 ROOT		 = $(dir $(lastword $(MAKEFILE_LIST)))
-SRC_DIR		 = $(F3_DIR)
+SRC_DIR		 = $(SPRACINGF3_DIR)
 OBJECT_DIR	 = obj
 BIN_DIR		 = obj
 CMSIS_DIR	 = $(BREEZY_DIR)/lib/CMSIS
-INCLUDE_DIRS = $(BREEZY_DIR) $(F3_DIR) $(SRC_DIR) $(SRC_DIR)/target $(F3_DIR)/target/$(TARGET)
+INCLUDE_DIRS = $(BREEZY_DIR) $(SPRACINGF3_DIR) $(SRC_DIR) $(SRC_DIR)/target $(SPRACINGF3_DIR)/target/$(TARGET)
 LINKER_DIR	 = $(SRC_DIR)/target
 
 # Search path for sources

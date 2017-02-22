@@ -20,7 +20,8 @@ FLASH_SIZE ?=
 
 ###############################################################################
 
-F3_DIR = $(BREEZY_DIR)/f3/alienflightf3
+F3_DIR = $(BREEZY_DIR)/f3
+ALIENFLIGHTF3_DIR = $(F3_DIR)/alienflightf3
 
 256K_TARGETS = ALIENFLIGHTF3 
 
@@ -47,11 +48,11 @@ REVISION := $(shell git log -1 --format="%h")
 
 # Working directories
 ROOT		 = $(dir $(lastword $(MAKEFILE_LIST)))
-SRC_DIR		 = $(F3_DIR)
+SRC_DIR		 = $(ALIENFLIGHTF3_DIR)
 OBJECT_DIR	 = $(ROOT)/obj
 BIN_DIR		 = $(ROOT)/obj
 CMSIS_DIR	 = $(BREEZY_DIR)/lib/CMSIS
-INCLUDE_DIRS = $(BREEZY_DIR) $(F3_DIR) $(SRC_DIR) $(SRC_DIR)/target
+INCLUDE_DIRS = $(BREEZY_DIR) $(ALIENFLIGHTF3_DIR) $(SRC_DIR) $(SRC_DIR)/target
 LINKER_DIR	 = $(SRC_DIR)/target
 
 # Search path for sources
@@ -173,7 +174,8 @@ ALIENFLIGHTF3_SRC = \
 		   serial_usb_vcp.c \
 		   $(FC_COMMON_SRC) \
 		   $(SYSTEM_SRC) \
-		   $(VCP_SRC)
+		   $(VCP_SRC) \
+		   target.c
 
 VPATH		:= $(VPATH):$(STDPERIPH_DIR)/src
 

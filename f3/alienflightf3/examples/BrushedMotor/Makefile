@@ -1,33 +1,58 @@
-# Change this to wherever you put BreezySTM32
 BREEZY_DIR = $(HOME)/Desktop/BreezySTM32
 
-# Change this to whatever project name you want
 PROJECT = BrushedMotor
 
-###############################################################################
+# The target to build, see VALID_TARGETS below
+TARGET		?= ALIENFLIGHTF3
 
-F3_DIR = $(BREEZY_DIR)/f3/alienflightf3
+# Compile-time options
+OPTIONS		?=
+export OPTIONS
 
 # Debugger optons, must be empty or GDB
 DEBUG ?=
-
-# The target to build
-TARGET		?= ALIENFLIGHTF3
 
 # Serial port/Device for flashing
 SERIAL_DEVICE	?= /dev/ttyACM0
 
 # Flash size (KB).  Some low-end chips actually have more flash than advertised, use this to override.
-FLASH_SIZE ?= 256
+FLASH_SIZE ?=
+
+###############################################################################
+
+F3_DIR = $(BREEZY_DIR)/f3
+ALIENFLIGHTF3_DIR = $(F3_DIR)/alienflightf3
+
+256K_TARGETS = ALIENFLIGHTF3 
+
+F3_TARGETS = ALIENFLIGHTF3 
+
+VALID_TARGETS = $(256K_TARGETS)
+
+VCP_TARGETS = ALIENFLIGHTF3 
+
+# Configure default flash sizes for the targets
+ifeq ($(FLASH_SIZE),)
+ifeq ($(TARGET),$(filter $(TARGET),$(64K_TARGETS)))
+FLASH_SIZE = 64
+else ifeq ($(TARGET),$(filter $(TARGET),$(128K_TARGETS)))
+FLASH_SIZE = 128
+else ifeq ($(TARGET),$(filter $(TARGET),$(256K_TARGETS)))
+FLASH_SIZE = 256
+else
+$(error FLASH_SIZE not configured for target $(TARGET))
+endif
+endif
+
+REVISION := $(shell git log -1 --format="%h")
 
 # Working directories
 ROOT		 = $(dir $(lastword $(MAKEFILE_LIST)))
-SRC_DIR		 = $(F3_DIR)
+SRC_DIR		 = $(ALIENFLIGHTF3_DIR)
 OBJECT_DIR	 = $(ROOT)/obj
 BIN_DIR		 = $(ROOT)/obj
-#CMSIS_DIR	 = $(ROOT)/lib/CMSIS
 CMSIS_DIR	 = $(BREEZY_DIR)/lib/CMSIS
-INCLUDE_DIRS = $(BREEZY_DIR) $(F3_DIR) $(SRC_DIR) $(SRC_DIR)/target
+INCLUDE_DIRS = $(BREEZY_DIR) $(ALIENFLIGHTF3_DIR) $(SRC_DIR) $(SRC_DIR)/target
 LINKER_DIR	 = $(SRC_DIR)/target
 
 # Search path for sources
@@ -59,7 +84,7 @@ INCLUDE_DIRS := $(INCLUDE_DIRS) \
 		   $(CMSIS_DIR)/CM1/CoreSupport \
 		   $(CMSIS_DIR)/CM1/DeviceSupport/ST/STM32F30x
 
-# VCP support
+ifeq ($(TARGET),$(filter $(TARGET),$(VCP_TARGETS)))
 INCLUDE_DIRS := $(INCLUDE_DIRS) \
 		   $(USBFS_DIR)/inc \
 		   $(SRC_DIR)/vcp
@@ -68,6 +93,8 @@ VPATH := $(VPATH):$(USBFS_DIR)/src
 
 DEVICE_STDPERIPH_SRC := $(DEVICE_STDPERIPH_SRC)\
 		   $(USBPERIPH_SRC)
+
+endif
 
 LD_SCRIPT	 = $(LINKER_DIR)/stm32_flash_f303_$(FLASH_SIZE)k.ld
 
@@ -81,6 +108,27 @@ endif
 
 TARGET_DIR = $(ROOT)/target/$(TARGET)
 TARGET_SRC = $(notdir $(wildcard $(TARGET_DIR)/*.c))
+
+# VARIANTS
+ifeq ($(TARGET),ALIENFLIGHTF1)
+# ALIENFLIGHTF1 is a VARIANT of NAZE
+TARGET_FLAGS := $(TARGET_FLAGS) -DNAZE -DALIENFLIGHT
+TARGET_DIR = $(ROOT)/target/NAZE
+endif
+ifeq ($(TARGET),CHEBUZZF3)
+# CHEBUZZ is a VARIANT of STM32F3DISCOVERY
+TARGET_FLAGS := $(TARGET_FLAGS) -DSTM32F3DISCOVERY
+endif
+ifeq ($(TARGET),$(filter $(TARGET),RMDO IRCFUSIONF3))
+# RMDO and IRCFUSIONF3 are a VARIANT of SPRACINGF3
+TARGET_FLAGS := $(TARGET_FLAGS) -DSPRACINGF3
+endif
+
+# SMARTPORT F3
+# Use bidirectional feature of F3 processor for smartport, for F1 targets always use two pins to allow external inverter.
+ifeq ($(TARGET),$(filter $(TARGET),$(F3_TARGETS)))
+TARGET_FLAGS := $(TARGET_FLAGS) -DUSE_SMARTPORT_ONEWIRE
+endif
 
 INCLUDE_DIRS := \
 		    $(INCLUDE_DIRS) \
@@ -119,14 +167,15 @@ STM32F30x_COMMON_SRC = \
 		   serial_uart_stm32f30x.c \
 		   system_stm32f30x.c
 
-$(PROJECT)_CSRC = \
+ALIENFLIGHTF3_SRC = \
+		   $(STM32F30x_COMMON_SRC) \
 		   timer.c \
 		   timer_stm32f30x.c \
 		   serial_usb_vcp.c \
-		   $(STM32F30x_COMMON_SRC) \
 		   $(FC_COMMON_SRC) \
 		   $(SYSTEM_SRC) \
-		   $(VCP_SRC)
+		   $(VCP_SRC) \
+		   target.c
 
 VPATH		:= $(VPATH):$(STDPERIPH_DIR)/src
 
@@ -158,11 +207,16 @@ OPTIMIZE	 = -Os
 LTO_FLAGS	 =  -flto -fuse-linker-plugin $(OPTIMIZE)
 endif
 
+ifneq ($(filter $(OPTIONS),FAIL_ON_WARNINGS),)
+WARN_FLAGS      += -Werror
+endif
+
 DEBUG_FLAGS	 = -ggdb3 -DDEBUG
 
 CFLAGS		 = $(ARCH_FLAGS) \
 		   $(LTO_FLAGS) \
 		   $(WARN_FLAGS) \
+		   $(addprefix -D,$(OPTIONS)) \
 		   $(addprefix -I,$(INCLUDE_DIRS)) \
 		   $(DEBUG_FLAGS) \
 		   -Wall -Wpedantic -Wextra -Wunsafe-loop-optimizations -Wdouble-promotion -Wundef \
@@ -171,6 +225,8 @@ CFLAGS		 = $(ARCH_FLAGS) \
 		   $(DEVICE_FLAGS) \
 		   -DUSE_STDPERIPH_DRIVER \
 		   $(TARGET_FLAGS) \
+		   -D'__TARGET__="$(TARGET)"' \
+		   -D'__REVISION__="$(REVISION)"' \
 		   -fverbose-asm -ffat-lto-objects \
 		   -save-temps=obj \
 		   -MMD -MP
@@ -196,16 +252,31 @@ LDFLAGS		 = -lm \
 		   -Wl,--cref \
 		   -T$(LD_SCRIPT)
 
-# Things we will build
+###############################################################################
+# No user-serviceable parts below
+###############################################################################
 
-TARGET_BIN	 = obj/$(PROJECT).bin
-TARGET_HEX	 = $(BIN_DIR)/$(PROJECT).hex
-TARGET_ELF	 = $(OBJECT_DIR)/$(PROJECT).elf
-TARGET_OBJS	 = $(addsuffix .o,$(addprefix $(OBJECT_DIR)/$(PROJECT)/,$(basename $($(PROJECT)_CSRC)))) \
-			   $(OBJECT_DIR)/$(PROJECT)/Arduino.o \
-			   $(OBJECT_DIR)/$(PROJECT)/Motor.o \
-			   $(OBJECT_DIR)/$(PROJECT).o
-TARGET_MAP	 = $(OBJECT_DIR)/$(PROJECT).map
+CPPCHECK         = cppcheck $(CSOURCES) --enable=all --platform=unix64 \
+		   --std=c99 --inline-suppr --quiet --force \
+		   $(addprefix -I,$(INCLUDE_DIRS)) \
+		   -I/usr/include -I/usr/include/linux
+
+#
+# Things we will build
+#
+ifeq ($(filter $(TARGET),$(VALID_TARGETS)),)
+$(error Target '$(TARGET)' is not valid, must be one of $(VALID_TARGETS))
+endif
+
+TARGET_BIN	 = obj/$(TARGET).bin
+TARGET_HEX	 = $(BIN_DIR)/$(TARGET).hex
+TARGET_ELF	 = $(OBJECT_DIR)/$(TARGET).elf
+TARGET_OBJS	 = $(addsuffix .o,$(addprefix $(OBJECT_DIR)/$(TARGET)/,$(basename $($(TARGET)_SRC)))) \
+			   $(OBJECT_DIR)/$(TARGET)/$(PROJECT).o \
+			   $(OBJECT_DIR)/$(TARGET)/Motor.o \
+			   $(OBJECT_DIR)/$(TARGET)/Arduino.o
+TARGET_DEPS	 = $(addsuffix .d,$(addprefix $(OBJECT_DIR)/$(TARGET)/,$(basename $($(TARGET)_SRC))))
+TARGET_MAP	 = $(OBJECT_DIR)/$(TARGET).map
 
 
 ## Default make goal:
@@ -223,43 +294,19 @@ bin:    $(TARGET_BIN)
 binary: $(TARGET_BIN)
 hex:    $(TARGET_HEX)
 
-# List of buildable ELF files and their object dependencies.
+# rule to reinvoke make with TARGET= parameter
+# rules that should be handled in toplevel Makefile, not dependent on TARGET
+GLOBAL_GOALS	= all_targets cppcheck test
 
-$(TARGET_HEX): $(TARGET_ELF)
-	$(OBJCOPY) -O ihex --set-start 0x8000000 $< $@
+.PHONY: $(VALID_TARGETS)
+$(VALID_TARGETS):
+	$(MAKE) TARGET=$@ $(filter-out $(VALID_TARGETS) $(GLOBAL_GOALS), $(MAKECMDGOALS))
 
-$(TARGET_BIN): $(TARGET_ELF)
-	$(OBJCOPY) -O binary $< $@
+## all_targets : Make all TARGETs
+.PHONY: all_targets
+all_targets : $(VALID_TARGETS)
 
-$(TARGET_ELF):  $(TARGET_OBJS)
-	$(CC) -o $@ $^ $(LDFLAGS)
-
-# Compile
-$(OBJECT_DIR)/$(PROJECT)/%.o: %.c
-	@mkdir -p $(dir $@)
-	@echo %% $(notdir $<)
-	@$(CC) -c -o $@ $(CFLAGS) $<
-
-# Assemble
-$(OBJECT_DIR)/$(PROJECT)/%.o: %.s
-	@mkdir -p $(dir $@)
-	@echo %% $(notdir $<)
-	@$(CC) -c -o $@ $(ASFLAGS) $<
-
-$(OBJECT_DIR)/$(PROJECT)/%.o: %.S
-	@mkdir -p $(dir $@)
-	@echo %% $(notdir $<)
-	@$(CC) -c -o $@ $(ASFLAGS) $<
-
-$(OBJECT_DIR)/$(PROJECT)/Arduino.o: $(F3_DIR)/Arduino.cpp $(BREEZY_DIR)/Arduino.h
-	@$(CC) -c -o $(OBJECT_DIR)/$(PROJECT)/Arduino.o $(CFLAGS) $(F3_DIR)/Arduino.cpp
-
-$(OBJECT_DIR)/$(PROJECT)/Motor.o: $(F3_DIR)/Motor.cpp $(BREEZY_DIR)/Motor.h
-	@$(CC) -c -o $(OBJECT_DIR)/$(PROJECT)/Motor.o $(CFLAGS) $(F3_DIR)/Motor.cpp
-
-$(OBJECT_DIR)/$(PROJECT).o: ./$(PROJECT).cpp
-	@$(CC) -c -o $(OBJECT_DIR)/$(PROJECT).o $(CFLAGS) ./$(PROJECT).cpp
-
+## clean       : clean up all temporary / machine-generated files
 clean:
 	rm -rf obj
 
@@ -277,8 +324,56 @@ unbrick_$(TARGET): $(TARGET_BIN)
 ## unbrick     : unbrick flight controller
 unbrick: unbrick_$(TARGET)
 
+## cppcheck    : run static analysis on C source code
+cppcheck: $(CSOURCES)
+	$(CPPCHECK)
+
+cppcheck-result.xml: $(CSOURCES)
+	$(CPPCHECK) --xml-version=2 2> cppcheck-result.xml
+
+
 # rebuild everything when makefile changes
 $(TARGET_OBJS) : Makefile
+
+# List of buildable ELF files and their object dependencies.
+# It would be nice to compute these lists, but that seems to be just beyond make.
+
+$(TARGET_HEX): $(TARGET_ELF)
+	$(OBJCOPY) -O ihex --set-start 0x8000000 $< $@
+
+$(TARGET_BIN): $(TARGET_ELF)
+	$(OBJCOPY) -O binary $< $@
+
+$(TARGET_ELF):  $(TARGET_OBJS)
+	$(CC) -o $@ $^ $(LDFLAGS)
+	$(SIZE) $(TARGET_ELF)
+
+# Compile
+$(OBJECT_DIR)/$(TARGET)/%.o: %.c
+	@mkdir -p $(dir $@)
+	@echo %% $(notdir $<)
+	@$(CC) -c -o $@ $(CFLAGS) $<
+
+# Assemble
+$(OBJECT_DIR)/$(TARGET)/%.o: %.s
+	@mkdir -p $(dir $@)
+	@echo %% $(notdir $<)
+	@$(CC) -c -o $@ $(ASFLAGS) $<
+
+$(OBJECT_DIR)/$(TARGET)/%.o: %.S
+	@mkdir -p $(dir $@)
+	@echo %% $(notdir $<)
+	@$(CC) -c -o $@ $(ASFLAGS) $<
+
+
+$(OBJECT_DIR)/$(TARGET)/$(PROJECT).o: $(PROJECT).cpp $(BREEZY_DIR)/Arduino.h
+	@$(CC) -c -o $(OBJECT_DIR)/$(TARGET)/$(PROJECT).o $(CFLAGS) $(PROJECT).cpp
+
+$(OBJECT_DIR)/$(TARGET)/Arduino.o: $(F3_DIR)/Arduino.cpp $(BREEZY_DIR)/Arduino.h
+	@$(CC) -c -o $(OBJECT_DIR)/$(TARGET)/Arduino.o $(CFLAGS) $(F3_DIR)/Arduino.cpp
+
+$(OBJECT_DIR)/$(TARGET)/Motor.o: $(ALIENFLIGHTF3_DIR)/Motor.cpp $(BREEZY_DIR)/Motor.h
+		@$(CC) -c -o $(OBJECT_DIR)/$(TARGET)/Motor.o $(CFLAGS) $(ALIENFLIGHTF3_DIR)/Motor.cpp
 
 commit:
 	git commit -a --allow-empty-message -m ''
@@ -286,3 +381,6 @@ commit:
 
 listen:
 	miniterm.py $(SERIAL_DEVICE)
+
+# include auto-generated dependencies
+-include $(TARGET_DEPS)
