@@ -53,7 +53,7 @@ SRC_DIR		 = $(SPRACINGF3_DIR)
 OBJECT_DIR	 = obj
 BIN_DIR		 = obj
 CMSIS_DIR	 = $(BREEZY_DIR)/lib/CMSIS
-INCLUDE_DIRS = $(BREEZY_DIR) $(SPRACINGF3_DIR) $(SRC_DIR) $(SRC_DIR)/target $(SPRACINGF3_DIR)/target/$(TARGET)
+INCLUDE_DIRS = $(BREEZY_DIR) $(F3_DIR) $(SPRACINGF3_DIR) $(SRC_DIR) $(SRC_DIR)/target $(SPRACINGF3_DIR)/target/$(TARGET)
 LINKER_DIR	 = $(SRC_DIR)/target
 
 # Search path for sources
@@ -196,7 +196,7 @@ fuck:
 VPATH		:= $(VPATH):$(TARGET_DIR)
 
 SYSTEM_SRC = \
-		   dma.c \
+		   $(F3_DIR)/dma.c \
 		   serial.c \
 		   system.c \
 		   $(TARGET_SRC) \
