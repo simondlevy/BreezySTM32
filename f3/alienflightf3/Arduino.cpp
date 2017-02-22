@@ -68,6 +68,7 @@ void pinMode(uint8_t pin, uint8_t mode)
     cfg.speed = Speed_2MHz;
 
     gpioInit(gpio, &cfg);
+
 }
 
 void digitalWrite(uint8_t pin, uint8_t level)

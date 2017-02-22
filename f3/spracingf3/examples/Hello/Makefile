@@ -214,7 +214,6 @@ STM32F30x_COMMON_SRC = \
 		   bus_i2c_stm32f30x.c \
 		   bus_spi.c \
 		   gpio_stm32f30x.c \
-		   light_led_stm32f30x.c \
 		   serial_uart.c \
 		   serial_uart_stm32f30x.c \
 		   system_stm32f30x.c
