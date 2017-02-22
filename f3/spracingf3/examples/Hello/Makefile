@@ -19,6 +19,7 @@ FLASH_SIZE ?=
 ###############################################################################
 # Things that need to be maintained as the source changes
 #
+F3_DIR = $(BREEZY_DIR)/f3/spracingf3
 
 FORKNAME			 = cleanflight
 
@@ -46,13 +47,13 @@ endif
 REVISION := $(shell git log -1 --format="%h")
 
 # Working directories
-ROOT		 := $(patsubst %/,%,$(dir $(lastword $(MAKEFILE_LIST))))
-SRC_DIR		 = $(ROOT)
-OBJECT_DIR	 = $(ROOT)/obj
-BIN_DIR		 = $(ROOT)/obj
+ROOT		 = $(dir $(lastword $(MAKEFILE_LIST)))
+SRC_DIR		 = $(F3_DIR)
+OBJECT_DIR	 = obj
+BIN_DIR		 = obj
 CMSIS_DIR	 = $(BREEZY_DIR)/lib/CMSIS
-INCLUDE_DIRS	 = $(SRC_DIR) $(ROOT)/target
-LINKER_DIR	 = $(ROOT)/target
+INCLUDE_DIRS = $(BREEZY_DIR) $(F3_DIR) $(SRC_DIR) $(SRC_DIR)/target $(F3_DIR)/target/$(TARGET)
+LINKER_DIR	 = $(SRC_DIR)/target
 
 # Search path for sources
 VPATH		:= $(SRC_DIR):$(SRC_DIR)/startup
@@ -165,16 +166,6 @@ endif
 TARGET_DIR = $(ROOT)/target/$(TARGET)
 TARGET_SRC = $(notdir $(wildcard $(TARGET_DIR)/*.c))
 
-# VARIANTS
-ifeq ($(TARGET),ALIENFLIGHTF1)
-# ALIENFLIGHTF1 is a VARIANT of NAZE
-TARGET_FLAGS := $(TARGET_FLAGS) -DNAZE -DALIENFLIGHT
-TARGET_DIR = $(ROOT)/target/NAZE
-endif
-ifeq ($(TARGET),CHEBUZZF3)
-# CHEBUZZ is a VARIANT of STM32F3DISCOVERY
-TARGET_FLAGS := $(TARGET_FLAGS) -DSTM32F3DISCOVERY
-endif
 ifeq ($(TARGET),$(filter $(TARGET),RMDO IRCFUSIONF3))
 # RMDO and IRCFUSIONF3 are a VARIANT of SPRACINGF3
 TARGET_FLAGS := $(TARGET_FLAGS) -DSPRACINGF3
@@ -197,6 +188,9 @@ endif
 INCLUDE_DIRS := \
 		    $(INCLUDE_DIRS) \
 		    $(TARGET_DIR)
+
+fuck:
+	echo $(SRC_DIR)
 
 VPATH		:= $(VPATH):$(TARGET_DIR)
 
@@ -452,8 +446,8 @@ $(OBJECT_DIR)/$(TARGET)/%.o: %.S
 	@$(CC) -c -o $@ $(ASFLAGS) $<
 
 
-$(OBJECT_DIR)/$(TARGET)/Arduino.o: Arduino.cpp $(BREEZY_DIR)/Arduino.h
-	@$(CC) -c -o $(OBJECT_DIR)/$(TARGET)/Arduino.o $(CFLAGS) Arduino.cpp
+$(OBJECT_DIR)/$(TARGET)/Arduino.o: $(F3_DIR)/Arduino.cpp $(BREEZY_DIR)/Arduino.h
+	@$(CC) -c -o $(OBJECT_DIR)/$(TARGET)/Arduino.o $(CFLAGS) $(F3_DIR)/Arduino.cpp
 
 
 # include auto-generated dependencies
