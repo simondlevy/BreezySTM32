@@ -1,5 +1,3 @@
-extern "C" {
-
 #include <Arduino.h>
 
 void setup(void)
@@ -12,6 +10,3 @@ void loop(void)
     Serial.printf("%ld\n", millis());
     delay(10);
 }
-
-
-} // extern "C"
