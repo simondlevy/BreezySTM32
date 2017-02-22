@@ -217,7 +217,7 @@ STM32F30x_COMMON_SRC = \
 
 STM32F30x_FC_COMMON_SRC = \
 		   timer.c \
-		   timer_stm32f30x.c 
+		   $(F3_DIR)/timer_stm32f30x.c 
 
 SPRACINGF3_SRC = \
 		   $(STM32F30x_COMMON_SRC) \
