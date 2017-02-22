@@ -25,17 +25,16 @@ extern "C" {
 
 #include <platform.h>
 
-#include "nvic.h"
 #include "system.h"
 #include "dma.h"
 #include "gpio.h"
 #include "timer.h"
 #include "serial.h"
 #include "serial_uart.h"
+#include "exti.h"
 #include "adc.h"
 #include "bus_i2c.h"
 #include "light_led.h"
-#include "exti.h"
 
 void SetSysClock(void);
 

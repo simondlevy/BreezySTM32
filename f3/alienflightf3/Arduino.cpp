@@ -109,9 +109,10 @@ int main(void) {
     void loop(void);
 
     // start fpu
-    scb->cpacr = (0x3 << (10*2)) | (0x3 << (11*2));
+    //scb->cpacr = (0x3 << (10*2)) | (0x3 << (11*2));
+    SCB->CPACR = (0x3 << (10*2)) | (0x3 << (11*2));
 
-    setsysclock();
+    SetSysClock();
 
     systemInit();
 
@@ -125,7 +126,7 @@ int main(void) {
 
     setup();
 
-    while (1)  {
+    while (true)  {
 
 #ifndef EXTERNAL_DEBUG
         static uint32_t dbg_start_msec;
