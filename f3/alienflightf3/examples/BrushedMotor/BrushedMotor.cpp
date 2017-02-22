@@ -30,7 +30,7 @@ static int16_t  direction;
 void setup() {                
 
     // Valid pins for ALIENFLIGHTF3 are 0, 8, 14, 15
-    motor.attach(8);
+    motor.attach(14);
 
     delay(100);
 

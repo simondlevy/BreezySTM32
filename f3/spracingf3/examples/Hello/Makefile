@@ -205,7 +205,7 @@ SYSTEM_SRC = \
 
 FC_COMMON_SRC = \
 		   $(F3_DIR)/exti.c \
-		   io.c
+		   $(F3_DIR)/io.c
 
 STM32F30x_COMMON_SRC = \
 		   startup_stm32f30x_md_gcc.S \

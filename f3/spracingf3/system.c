@@ -22,8 +22,6 @@
 
 #include <platform.h>
 
-#include "build_config.h"
-
 #include "dma.h"
 #include "gpio.h"
 #include "light_led.h"

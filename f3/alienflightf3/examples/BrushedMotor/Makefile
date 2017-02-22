@@ -52,7 +52,7 @@ SRC_DIR		 = $(ALIENFLIGHTF3_DIR)
 OBJECT_DIR	 = $(ROOT)/obj
 BIN_DIR		 = $(ROOT)/obj
 CMSIS_DIR	 = $(BREEZY_DIR)/lib/CMSIS
-INCLUDE_DIRS = $(BREEZY_DIR) $(ALIENFLIGHTF3_DIR) $(SRC_DIR) $(SRC_DIR)/target
+INCLUDE_DIRS = $(BREEZY_DIR) $(F3_DIR) $(ALIENFLIGHTF3_DIR) $(SRC_DIR) $(SRC_DIR)/target
 LINKER_DIR	 = $(SRC_DIR)/target
 
 # Search path for sources
@@ -137,7 +137,7 @@ INCLUDE_DIRS := \
 VPATH		:= $(VPATH):$(TARGET_DIR)
 
 SYSTEM_SRC = \
-		   dma.c \
+		   $(F3_DIR)/dma.c \
 		   serial.c \
 		   system.c \
 		   $(TARGET_SRC) \
@@ -145,8 +145,8 @@ SYSTEM_SRC = \
 		   $(DEVICE_STDPERIPH_SRC)
 
 FC_COMMON_SRC = \
-   	       exti.c \
-		   io.c \
+   	       $(F3_DIR)/exti.c \
+		   $(F3_DIR)/io.c \
 
 VCP_SRC = \
 		   vcp/hw_config.c \
@@ -162,7 +162,7 @@ VCP_SRC = \
 STM32F30x_COMMON_SRC = \
 		   startup_stm32f30x_md_gcc.S \
 		   target/system_stm32f30x.c \
-		   gpio_stm32f30x.c \
+		   $(F3_DIR)/gpio_stm32f30x.c \
 		   serial_uart.c \
 		   serial_uart_stm32f30x.c \
 		   system_stm32f30x.c
@@ -372,8 +372,8 @@ $(OBJECT_DIR)/$(TARGET)/$(PROJECT).o: $(PROJECT).cpp $(BREEZY_DIR)/Arduino.h
 $(OBJECT_DIR)/$(TARGET)/Arduino.o: $(F3_DIR)/Arduino.cpp $(BREEZY_DIR)/Arduino.h
 	@$(CC) -c -o $(OBJECT_DIR)/$(TARGET)/Arduino.o $(CFLAGS) $(F3_DIR)/Arduino.cpp
 
-$(OBJECT_DIR)/$(TARGET)/Motor.o: $(ALIENFLIGHTF3_DIR)/Motor.cpp $(BREEZY_DIR)/Motor.h
-		@$(CC) -c -o $(OBJECT_DIR)/$(TARGET)/Motor.o $(CFLAGS) $(ALIENFLIGHTF3_DIR)/Motor.cpp
+$(OBJECT_DIR)/$(TARGET)/Motor.o: $(F3_DIR)/Motor.cpp $(BREEZY_DIR)/Motor.h
+		@$(CC) -c -o $(OBJECT_DIR)/$(TARGET)/Motor.o $(CFLAGS) $(F3_DIR)/Motor.cpp
 
 commit:
 	git commit -a --allow-empty-message -m ''

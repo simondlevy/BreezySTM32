@@ -105,7 +105,7 @@ SYSTEM_SRC = \
 
 FC_COMMON_SRC = \
    	       $(F3_DIR)/exti.c \
-		   io.c \
+		   $(F3_DIR)/io.c \
 
 VCP_SRC = \
 		   vcp/hw_config.c \

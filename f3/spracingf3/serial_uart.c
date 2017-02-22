@@ -26,8 +26,6 @@
 
 #include <platform.h>
 
-#include "build_config.h"
-
 #include "utils.h"
 #include "gpio.h"
 #include "inverter.h"
