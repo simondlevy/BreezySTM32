@@ -87,11 +87,44 @@ int main(void) {
 #endif
         loop();
     }
+} // main
+
+void HardwareSerial::write(uint8_t byte)
+{
+    serialPort_t * port = (serialPort_t *)this->_uart;
+    serialWrite(port, byte);
 }
 
+uint8_t HardwareSerial::available(void)
+{
+    serialPort_t * port = (serialPort_t *)this->_uart;
+    return serialRxBytesWaiting(port);
+}
+
+void HardwareSerial::flush(void)
+{
+    serialPort_t * port = (serialPort_t *)this->_uart;
+    while (!isSerialTransmitBufferEmpty(port));
+}
+
+void HardwareSerial0::begin(uint32_t baud)
+{
+    (void)baud;
+    this->_uart = serial0;
+}
+
+uint8_t HardwareSerial0::read(void)
+{
+    serialPort_t * port = (serialPort_t *)this->_uart;
+    return serialRead(port);
+}
+
+#
 void HardFault_Handler(void)
 {
     while (true);
 }
 
 } // extern "C"
+
+HardwareSerial0 Serial;

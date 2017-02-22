@@ -109,9 +109,9 @@ int main(void) {
     void loop(void);
 
     // start fpu
-    SCB->CPACR = (0x3 << (10*2)) | (0x3 << (11*2));
+    scb->cpacr = (0x3 << (10*2)) | (0x3 << (11*2));
 
-    SetSysClock();
+    setsysclock();
 
     systemInit();
 

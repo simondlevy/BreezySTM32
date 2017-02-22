@@ -4,17 +4,12 @@ extern "C" {
 
 void setup(void)
 {
+    Serial.begin(115200);
 }
 
 void loop(void)
 {
-    extern void serialwrite(char);
-
-    char tmp[100];
-    sprintf(tmp, "%ld\n", millis());
-    for (char *p=tmp; *p; p++) {
-        serialwrite(*p);
-    }
+    Serial.printf("%ld\n", millis());
     delay(10);
 }
 
