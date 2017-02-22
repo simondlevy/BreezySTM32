@@ -53,8 +53,8 @@ SRC_DIR		 = $(SPRACINGF3_DIR)
 OBJECT_DIR	 = obj
 BIN_DIR		 = obj
 CMSIS_DIR	 = $(BREEZY_DIR)/lib/CMSIS
-INCLUDE_DIRS = $(BREEZY_DIR) $(SPRACINGF3_DIR) $(SRC_DIR) $(SRC_DIR)/target $(SPRACINGF3_DIR)/target/$(TARGET)
-LINKER_DIR	 = $(SRC_DIR)/target
+INCLUDE_DIRS = $(BREEZY_DIR) $(F3_DIR) $(SPRACINGF3_DIR) $(SRC_DIR) $(SRC_DIR)/target $(SPRACINGF3_DIR)/target/$(TARGET)
+LINKER_DIR	 = $(F3_DIR)
 
 # Search path for sources
 VPATH		:= $(SRC_DIR):$(SRC_DIR)/startup
@@ -196,32 +196,28 @@ fuck:
 VPATH		:= $(VPATH):$(TARGET_DIR)
 
 SYSTEM_SRC = \
-		   dma.c \
-		   serial.c \
-		   system.c \
+		   $(F3_DIR)/dma.c \
+		   $(F3_DIR)/serial.c \
+		   $(F3_DIR)/system.c \
 		   $(TARGET_SRC) \
 		   $(CMSIS_SRC) \
 		   $(DEVICE_STDPERIPH_SRC)
 
 FC_COMMON_SRC = \
-		   exti.c \
-		   io.c
+		   $(F3_DIR)/exti.c \
+		   $(F3_DIR)/io.c
 
 STM32F30x_COMMON_SRC = \
-		   startup_stm32f30x_md_gcc.S \
-		   target/system_stm32f30x.c \
-		   adc.c \
-		   adc_stm32f30x.c \
-		   bus_i2c_stm32f30x.c \
-		   bus_spi.c \
-		   gpio_stm32f30x.c \
-		   serial_uart.c \
-		   serial_uart_stm32f30x.c \
-		   system_stm32f30x.c
+		   $(F3_DIR)/startup_stm32f30x_md_gcc.S \
+		   $(SPRACINGF3_DIR)/system_stm32f30x.c \
+		   $(F3_DIR)/gpio_stm32f30x.c \
+		   $(F3_DIR)/serial_uart.c \
+		   $(F3_DIR)/serial_uart_stm32f30x.c \
+		   $(F3_DIR)/system_stm32f30x.c
 
 STM32F30x_FC_COMMON_SRC = \
 		   timer.c \
-		   timer_stm32f30x.c 
+		   $(F3_DIR)/timer_stm32f30x.c 
 
 SPRACINGF3_SRC = \
 		   $(STM32F30x_COMMON_SRC) \

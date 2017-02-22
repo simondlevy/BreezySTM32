@@ -53,7 +53,7 @@ OBJECT_DIR	 = $(ROOT)/obj
 BIN_DIR		 = $(ROOT)/obj
 CMSIS_DIR	 = $(BREEZY_DIR)/lib/CMSIS
 INCLUDE_DIRS = $(BREEZY_DIR) $(F3_DIR) $(ALIENFLIGHTF3_DIR) $(SRC_DIR) $(SRC_DIR)/target
-LINKER_DIR	 = $(SRC_DIR)/target
+LINKER_DIR	 = $(F3_DIR)
 
 # Search path for sources
 VPATH		:= $(SRC_DIR):$(SRC_DIR)/startup
@@ -138,8 +138,8 @@ VPATH		:= $(VPATH):$(TARGET_DIR)
 
 SYSTEM_SRC = \
 		   $(F3_DIR)/dma.c \
-		   serial.c \
-		   system.c \
+		   $(F3_DIR)/serial.c \
+		   $(F3_DIR)/system.c \
 		   $(TARGET_SRC) \
 		   $(CMSIS_SRC) \
 		   $(DEVICE_STDPERIPH_SRC)
@@ -160,17 +160,17 @@ VCP_SRC = \
 		   usb_io.c
 
 STM32F30x_COMMON_SRC = \
-		   startup_stm32f30x_md_gcc.S \
-		   target/system_stm32f30x.c \
+		   $(F3_DIR)/startup_stm32f30x_md_gcc.S \
+		   $(ALIENFLIGHTF3_DIR)/system_stm32f30x.c \
 		   $(F3_DIR)/gpio_stm32f30x.c \
-		   serial_uart.c \
-		   serial_uart_stm32f30x.c \
-		   system_stm32f30x.c
+		   $(F3_DIR)/serial_uart.c \
+		   $(F3_DIR)/serial_uart_stm32f30x.c \
+		   $(F3_DIR)/system_stm32f30x.c
 
 ALIENFLIGHTF3_SRC = \
 		   $(STM32F30x_COMMON_SRC) \
 		   timer.c \
-		   timer_stm32f30x.c \
+		   $(F3_DIR)/timer_stm32f30x.c \
 		   serial_usb_vcp.c \
 		   $(FC_COMMON_SRC) \
 		   $(SYSTEM_SRC) \

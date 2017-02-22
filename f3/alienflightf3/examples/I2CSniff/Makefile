@@ -1,6 +1,9 @@
 # Change this to wherever you put BreezySTM32
 BREEZY_DIR = $(HOME)/Desktop/BreezySTM32
 
+# Change this to where you put your Arduino libraries
+ARDUINO_DIR = $(HOME)/Development/arduino-1.8.1/hardware/teensy/avr/libraries
+
 # Change this to whatever project name you want
 PROJECT = I2CSniff
 
@@ -28,8 +31,8 @@ OBJECT_DIR	 = $(ROOT)/obj
 BIN_DIR		 = $(ROOT)/obj
 #CMSIS_DIR	 = $(ROOT)/lib/CMSIS
 CMSIS_DIR	 = $(BREEZY_DIR)/lib/CMSIS
-INCLUDE_DIRS = $(BREEZY_DIR) $(ALIENFLIGHTF3_DIR) $(SRC_DIR) $(SRC_DIR)/target
-LINKER_DIR	 = $(SRC_DIR)/target
+INCLUDE_DIRS = $(BREEZY_DIR) $(F3_DIR) $(ALIENFLIGHTF3_DIR) $(SRC_DIR) $(SRC_DIR)/target
+LINKER_DIR	 = $(F3_DIR)
 
 # Search path for sources
 VPATH		:= $(SRC_DIR):$(SRC_DIR)/startup
@@ -63,7 +66,7 @@ INCLUDE_DIRS := $(INCLUDE_DIRS) \
 # VCP support
 INCLUDE_DIRS := $(INCLUDE_DIRS) \
 		   $(USBFS_DIR)/inc \
-		   $(SRC_DIR)/vcp
+		   $(SRC_DIR)/vcp 
 
 VPATH := $(VPATH):$(USBFS_DIR)/src
 
@@ -90,16 +93,16 @@ INCLUDE_DIRS := \
 VPATH		:= $(VPATH):$(TARGET_DIR)
 
 SYSTEM_SRC = \
-		   dma.c \
-		   serial.c \
-		   system.c \
+		   $(F3_DIR)/dma.c \
+		   $(F3_DIR)/serial.c \
+		   $(F3_DIR)/system.c \
 		   $(TARGET_SRC) \
 		   $(CMSIS_SRC) \
 		   $(DEVICE_STDPERIPH_SRC)
 
 FC_COMMON_SRC = \
-   	       exti.c \
-		   io.c \
+   	       $(F3_DIR)/exti.c \
+		   $(F3_DIR)/io.c \
 
 VCP_SRC = \
 		   vcp/hw_config.c \
@@ -113,16 +116,16 @@ VCP_SRC = \
 		   usb_io.c
 
 STM32F30x_COMMON_SRC = \
-		   startup_stm32f30x_md_gcc.S \
-		   target/system_stm32f30x.c \
-		   gpio_stm32f30x.c \
-		   serial_uart.c \
-		   serial_uart_stm32f30x.c \
-		   system_stm32f30x.c
+		   $(F3_DIR)/startup_stm32f30x_md_gcc.S \
+		   $(ALIENFLIGHTF3_DIR)/system_stm32f30x.c \
+		   $(F3_DIR)/gpio_stm32f30x.c \
+		   $(F3_DIR)/serial_uart.c \
+		   $(F3_DIR)/serial_uart_stm32f30x.c \
+		   $(F3_DIR)/system_stm32f30x.c
 
 $(PROJECT)_CSRC = \
 		   timer.c \
-		   timer_stm32f30x.c \
+		   $(F3_DIR)/timer_stm32f30x.c \
 		   serial_usb_vcp.c \
 		   $(STM32F30x_COMMON_SRC) \
 		   $(FC_COMMON_SRC) \
@@ -144,6 +147,7 @@ CCACHE :=
 endif
 
 # Tool names
+C++         := $(CCACHE) arm-none-eabi-g++
 CC          := $(CCACHE) arm-none-eabi-gcc
 OBJCOPY     := arm-none-eabi-objcopy
 SIZE        := arm-none-eabi-size
@@ -256,8 +260,11 @@ $(OBJECT_DIR)/$(PROJECT)/%.o: %.S
 $(OBJECT_DIR)/$(PROJECT)/Arduino.o: $(F3_DIR)/Arduino.cpp $(BREEZY_DIR)/Arduino.h
 	@$(CC) -c -o $(OBJECT_DIR)/$(PROJECT)/Arduino.o $(CFLAGS) $(F3_DIR)/Arduino.cpp
 
-$(OBJECT_DIR)/$(PROJECT)/HardwareWire.o: $(ALIENFLIGHTF3_DIR)/HardwareWire.cpp $(BREEZY_DIR)/Arduino.h
-	@$(CC) -c -o $(OBJECT_DIR)/$(PROJECT)/HardwareWire.o $(CFLAGS) $(ALIENFLIGHTF3_DIR)/HardwareWire.cpp
+$(OBJECT_DIR)/$(PROJECT)/HardwareSerial.o: $(ALIENFLIGHTF3_DIR)/HardwareSerial.cpp $(BREEZY_DIR)/Arduino.h
+	@$(CC) -c -o $(OBJECT_DIR)/$(PROJECT)/HardwareSerial.o $(CFLAGS) $(ALIENFLIGHTF3_DIR)/HardwareSerial.cpp
+
+$(OBJECT_DIR)/$(PROJECT)/HardwareWire.o: $(F3_DIR)/HardwareWire.cpp $(BREEZY_DIR)/Wire.h
+	@$(CC) -c -o $(OBJECT_DIR)/$(PROJECT)/HardwareWire.o $(CFLAGS) $(F3_DIR)/HardwareWire.cpp
 
 $(OBJECT_DIR)/$(PROJECT).o: ./$(PROJECT).cpp
 	@$(CC) -c -o $(OBJECT_DIR)/$(PROJECT).o $(CFLAGS) ./$(PROJECT).cpp
