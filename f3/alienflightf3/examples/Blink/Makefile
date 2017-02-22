@@ -145,7 +145,7 @@ SYSTEM_SRC = \
 		   $(DEVICE_STDPERIPH_SRC)
 
 FC_COMMON_SRC = \
-   	       exti.c \
+   	       $(F3_DIR)/exti.c \
 		   io.c \
 
 VCP_SRC = \
@@ -162,7 +162,7 @@ VCP_SRC = \
 STM32F30x_COMMON_SRC = \
 		   startup_stm32f30x_md_gcc.S \
 		   target/system_stm32f30x.c \
-		   gpio_stm32f30x.c \
+		   $(F3_DIR)/gpio_stm32f30x.c \
 		   serial_uart.c \
 		   serial_uart_stm32f30x.c \
 		   system_stm32f30x.c
