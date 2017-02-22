@@ -35,14 +35,11 @@ extern "C" {
 #include "serial_uart.h"
 #include "exti.h"
 
-void SetSysClock(void);
-
-static serialPort_t * serial0;
-
+// ------------------------------------------------------------
 static GPIO_TypeDef * gpio_type_from_pin(uint8_t pin)
 {
     (void)pin; // XXX support only one LED for now
-    return   LED0_GPIO;
+    return LED0_GPIO;
 }
 
 static uint16_t gpio_pin_from_pin(uint8_t pin)
@@ -50,6 +47,17 @@ static uint16_t gpio_pin_from_pin(uint8_t pin)
     (void)pin; // XXX support only one LED for now
     return LED0_PIN;
 }
+
+static serialPort_t * serial0_open(void)
+{
+    return (serialPort_t *)uartOpen(USART1, NULL, 115200, MODE_RXTX, SERIAL_NOT_INVERTED);
+}
+
+// ------------------------------------------------------------
+
+void SetSysClock(void);
+
+static serialPort_t * serial0;
 
 void pinMode(uint8_t pin, uint8_t mode)
 {
@@ -106,15 +114,11 @@ int main(void) {
 
     systemInit();
 
-    EXTIInit();
-
     timerInit();  // timer must be initialized before any channel is allocated
 
+    serial0 = serial0_open();
+
     dmaInit();
-
-    timerStart();
-
-    serial0 = (serialPort_t *)uartOpen(USART1, NULL, 115200, MODE_RXTX, SERIAL_NOT_INVERTED);
 
     setup();
 
@@ -166,7 +170,33 @@ uint8_t HardwareSerial0::read(void)
     return serialRead(port);
 }
 
-#
+#define SERIAL_RX_BUFSIZE 256
+
+static uint8_t serial1_rx_buffer[SERIAL_RX_BUFSIZE];
+static uint8_t serial1_rx_index;
+
+static void serial_event_1(uint16_t value)
+{
+    serial1_rx_buffer[serial1_rx_index] = (uint8_t)value;
+
+    serialEvent1();
+
+    serial1_rx_index = (serial1_rx_index + 1) % SERIAL_RX_BUFSIZE;
+}
+
+void HardwareSerial1::begin(uint32_t baud)
+{
+    this->_uart = uartOpen(USART2, serial_event_1, baud, MODE_RX, SERIAL_NOT_INVERTED);
+
+    serial1_rx_index = 0;
+}
+
+uint8_t HardwareSerial1::read(void)
+{
+    return serial1_rx_buffer[serial1_rx_index];
+}
+
+
 void HardFault_Handler(void)
 {
     while (true);
@@ -175,3 +205,4 @@ void HardFault_Handler(void)
 } // extern "C"
 
 HardwareSerial0 Serial;
+HardwareSerial1 Serial1;

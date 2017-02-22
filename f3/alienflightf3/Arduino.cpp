@@ -35,12 +35,9 @@ extern "C" {
 #include "serial_uart.h"
 #include "exti.h"
 
+
+// ------------------------------------------------------------
 #include "serial_usb_vcp.h"
-
-// from system_stm32f30x.c
-void SetSysClock(void);
-
-serialPort_t * serial0;
 
 static GPIO_TypeDef * gpio_type_from_pin(uint8_t pin)
 {
@@ -51,6 +48,18 @@ static uint16_t gpio_pin_from_pin(uint8_t pin)
 {
     return pin == 8 ? LED0_PIN  : LED1_PIN;
 }
+
+static serialPort_t * serial0_open(void)
+{
+    return usbVcpOpen();
+}
+
+// ------------------------------------------------------------
+
+// from system_stm32f30x.c
+void SetSysClock(void);
+
+serialPort_t * serial0;
 
 void pinMode(uint8_t pin, uint8_t mode)
 {
@@ -102,22 +111,16 @@ void resetToBootloader(void)
 
 int main(void) {
 
-    void setup(void);
-    void loop(void);
-
     // start fpu
-    //scb->cpacr = (0x3 << (10*2)) | (0x3 << (11*2));
     SCB->CPACR = (0x3 << (10*2)) | (0x3 << (11*2));
 
     SetSysClock();
 
     systemInit();
 
-    IOInitGlobal();
-
     timerInit();
 
-    serial0 = usbVcpOpen();
+    serial0 = serial0_open();
 
     dmaInit();
 
@@ -142,10 +145,7 @@ int main(void) {
     }
 } // main
 
-void HardFault_Handler(void)
-{
-    while (1);
-}
+
 
 void HardwareSerial::write(uint8_t byte)
 {
@@ -203,8 +203,12 @@ uint8_t HardwareSerial1::read(void)
     return serial1_rx_buffer[serial1_rx_index];
 }
 
+void HardFault_Handler(void)
+{
+    while (1);
+}
+
 } // extern "C"
 
 HardwareSerial0 Serial;
 HardwareSerial1 Serial1;
-
