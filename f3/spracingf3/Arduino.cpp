@@ -1,3 +1,5 @@
+extern "C" {
+
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdlib.h>
@@ -71,5 +73,7 @@ int main(void) {
 
 void HardFault_Handler(void)
 {
-    while (1);
+    while (true);
 }
+
+} // extern "C"

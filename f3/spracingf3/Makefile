@@ -209,7 +209,6 @@ SYSTEM_SRC = \
 		   $(DEVICE_STDPERIPH_SRC)
 
 FC_COMMON_SRC = \
-		   main.c \
 		   exti.c \
 		   io.c
 
@@ -334,7 +333,8 @@ endif
 TARGET_BIN	 = $(BIN_DIR)/$(FORKNAME)_$(TARGET).bin
 TARGET_HEX	 = $(BIN_DIR)/$(FORKNAME)_$(TARGET).hex
 TARGET_ELF	 = $(OBJECT_DIR)/$(FORKNAME)_$(TARGET).elf
-TARGET_OBJS	 = $(addsuffix .o,$(addprefix $(OBJECT_DIR)/$(TARGET)/,$(basename $($(TARGET)_SRC))))
+TARGET_OBJS	 = $(addsuffix .o,$(addprefix $(OBJECT_DIR)/$(TARGET)/,$(basename $($(TARGET)_SRC)))) \
+			   $(OBJECT_DIR)/$(TARGET)/Arduino.o
 TARGET_DEPS	 = $(addsuffix .d,$(addprefix $(OBJECT_DIR)/$(TARGET)/,$(basename $($(TARGET)_SRC))))
 TARGET_MAP	 = $(OBJECT_DIR)/$(FORKNAME)_$(TARGET).map
 
@@ -452,6 +452,9 @@ $(OBJECT_DIR)/$(TARGET)/%.o: %.S
 	@echo %% $(notdir $<)
 	@$(CC) -c -o $@ $(ASFLAGS) $<
 
+
+$(OBJECT_DIR)/$(TARGET)/Arduino.o: Arduino.cpp $(BREEZY_DIR)/Arduino.h
+	@$(CC) -c -o $(OBJECT_DIR)/$(TARGET)/Arduino.o $(CFLAGS) Arduino.cpp
 
 
 # include auto-generated dependencies
