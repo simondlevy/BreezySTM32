@@ -124,7 +124,7 @@ STM32F30x_COMMON_SRC = \
 		   $(F3_DIR)/gpio_stm32f30x.c \
 		   $(F3_DIR)/serial_uart.c \
 		   $(F3_DIR)/serial_uart_stm32f30x.c \
-		   system_stm32f30x.c
+		   $(F3_DIR)/system_stm32f30x.c
 
 $(PROJECT)_CSRC = \
 		   timer.c \
