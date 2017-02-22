@@ -98,7 +98,7 @@ VPATH		:= $(VPATH):$(TARGET_DIR)
 SYSTEM_SRC = \
 		   $(F3_DIR)/dma.c \
 		   $(F3_DIR)/serial.c \
-		   system.c \
+		   $(F3_DIR)/system.c \
 		   $(TARGET_SRC) \
 		   $(CMSIS_SRC) \
 		   $(DEVICE_STDPERIPH_SRC)
