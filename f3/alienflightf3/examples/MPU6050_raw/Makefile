@@ -34,7 +34,7 @@ BIN_DIR		 = $(ROOT)/obj
 #CMSIS_DIR	 = $(ROOT)/lib/CMSIS
 CMSIS_DIR	 = $(BREEZY_DIR)/lib/CMSIS
 INCLUDE_DIRS = $(BREEZY_DIR) $(F3_DIR) $(ALIENFLIGHTF3_DIR) $(SRC_DIR) $(SRC_DIR)/target
-LINKER_DIR	 = $(SRC_DIR)/target
+LINKER_DIR	 = $(SRC_DIR)
 
 # Search path for sources
 VPATH		:= $(SRC_DIR):$(SRC_DIR)/startup
@@ -120,7 +120,7 @@ VCP_SRC = \
 
 STM32F30x_COMMON_SRC = \
 		   $(F3_DIR)/startup_stm32f30x_md_gcc.S \
-		   target/system_stm32f30x.c \
+		   $(ALIENFLIGHTF3_DIR)/system_stm32f30x.c \
 		   $(F3_DIR)/gpio_stm32f30x.c \
 		   $(F3_DIR)/serial_uart.c \
 		   $(F3_DIR)/serial_uart_stm32f30x.c \
