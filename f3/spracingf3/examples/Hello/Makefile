@@ -25,11 +25,9 @@ F3_DIR = $(BREEZY_DIR)/f3/spracingf3
 
 FORKNAME			 = cleanflight
 
-64K_TARGETS  = CJMCU
-128K_TARGETS = ALIENFLIGHTF1 CC3D NAZE RMDO SPRACINGF1OSD
-256K_TARGETS = ALIENFLIGHTF3 CHEBUZZF3 COLIBRI_RACE IRCFUSIONF3 LUX_RACE MOTOLAB PORT103R RCEXPLORERF3 SPARKY SPRACINGF3 SPRACINGF3EVO SPRACINGF3MINI SPRACINGF3NEO STM32F3DISCOVERY SPRACINGF3OSD
+256K_TARGETS = SPRACINGF3 
 
-F3_TARGETS = ALIENFLIGHTF3 CHEBUZZF3 COLIBRI_RACE IRCFUSIONF3 LUX_RACE MOTOLAB RCEXPLORERF3 RMDO SPARKY SPRACINGF3 SPRACINGF3EVO SPRACINGF3MINI SPRACINGF3NEO STM32F3DISCOVERY SPRACINGF3OSD
+F3_TARGETS = SPRACINGF3 
 
 VALID_TARGETS = $(64K_TARGETS) $(128K_TARGETS) $(256K_TARGETS)
 
@@ -381,39 +379,6 @@ unbrick_$(TARGET): $(TARGET_HEX)
 
 ## unbrick     : unbrick flight controller
 unbrick: unbrick_$(TARGET)
-
-## cppcheck    : run static analysis on C source code
-cppcheck: $(CSOURCES)
-	$(CPPCHECK)
-
-cppcheck-result.xml: $(CSOURCES)
-	$(CPPCHECK) --xml-version=2 2> cppcheck-result.xml
-
-## help        : print this help message and exit
-help: Makefile
-	@echo ""
-	@echo "Makefile for the $(FORKNAME) firmware"
-	@echo ""
-	@echo "Usage:"
-	@echo "        make [goal] [TARGET=<target>] [OPTIONS=\"<options>\"]"
-	@echo ""
-	@echo "Valid TARGET values are: $(VALID_TARGETS)"
-	@echo ""
-	@sed -n 's/^## //p' $<
-
-LCOV := $(shell command lcov -v 2> /dev/null)
-
-## test        : run the cleanflight test suite
-## junittest   : run the cleanflight test suite, producing Junit XML result files.
-test junittest:
-	cd src/test && $(MAKE) $@
-ifndef LCOV
-	$(info "install lcov to get a table with code coverage after tests")
-else
-	-lcov --directory . -b src/test --capture --output-file coverage.info
-	-lcov --remove coverage.info 'lib/test/*' 'src/test/*' '/usr/*' --output-file coverage.info
-	-lcov --list coverage.info
-endif
 
 # rebuild everything when makefile changes
 $(TARGET_OBJS) : Makefile
