@@ -226,7 +226,8 @@ SPRACINGF3_SRC = \
 		   $(STM32F30x_COMMON_SRC) \
 		   $(STM32F30x_FC_COMMON_SRC) \
 		   $(FC_COMMON_SRC) \
-		   $(SYSTEM_SRC)
+		   $(SYSTEM_SRC) \
+		   target.c
 
 
 # Search path and source files for the ST stdperiph library

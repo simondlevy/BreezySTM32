@@ -35,25 +35,10 @@ extern "C" {
 #include "serial_uart.h"
 #include "exti.h"
 
-// ------------------------------------------------------------
-static GPIO_TypeDef * gpio_type_from_pin(uint8_t pin)
-{
-    (void)pin; // XXX support only one LED for now
-    return LED0_GPIO;
-}
-
-static uint16_t gpio_pin_from_pin(uint8_t pin)
-{
-    (void)pin; // XXX support only one LED for now
-    return LED0_PIN;
-}
-
-static serialPort_t * serial0_open(void)
-{
-    return (serialPort_t *)uartOpen(USART1, NULL, 115200, MODE_RXTX, SERIAL_NOT_INVERTED);
-}
-
-// ------------------------------------------------------------
+// Board-specific
+GPIO_TypeDef * gpio_type_from_pin(uint8_t pin);
+uint16_t gpio_pin_from_pin(uint8_t pin);
+serialPort_t * serial0_open(void);
 
 void SetSysClock(void);
 
