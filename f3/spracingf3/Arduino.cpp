@@ -39,15 +39,16 @@ void SetSysClock(void);
 
 static serialPort_t * serial0;
 
-/*
 static GPIO_TypeDef * gpio_type_from_pin(uint8_t pin)
 {
-    return  pin == 8 ? LED0_GPIO : LED1_GPIO;
+    (void)pin; // XXX support only one LED for now
+    return   LED0_GPIO;
 }
 
 static uint16_t gpio_pin_from_pin(uint8_t pin)
 {
-    return pin == 8 ? LED0_PIN  : LED1_PIN;
+    (void)pin; // XXX support only one LED for now
+    return LED0_PIN;
 }
 
 void pinMode(uint8_t pin, uint8_t mode)
@@ -85,7 +86,6 @@ void digitalWrite(uint8_t pin, uint8_t level)
             break;
     }
 }
-*/
 
 void reset(void)
 {
