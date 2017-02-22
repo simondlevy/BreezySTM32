@@ -23,7 +23,7 @@ typedef enum {
     ADC_CHANNEL2_ENABLE = (1 << 2),
     ADC_CHANNEL3_ENABLE = (1 << 3),
     ADC_CHANNEL4_ENABLE = (1 << 4),
-    ADC_CHANNEL5_ENABLE = (1 << 5),
+    ADC_CHANNEL5_ENABLE = (1 << 5)
 } adcChannelEnableMask_e;
 
 #ifndef ADC_CHANNEL_COUNT
@@ -34,7 +34,7 @@ typedef enum {
     ADC_CHANNEL0 = 0,
     ADC_CHANNEL1 = 1,
     ADC_CHANNEL2 = 2,
-    ADC_CHANNEL3 = 3,
+    ADC_CHANNEL3 = 3
 #if ADC_CHANNEL_COUNT > 4
     ADC_CHANNEL4 = 4,
 #endif
