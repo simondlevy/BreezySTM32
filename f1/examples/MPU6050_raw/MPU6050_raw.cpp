@@ -28,7 +28,7 @@ void setup(void)
 {
     Serial.begin(115200);
 
-    Wire.begin();
+    Wire.begin(2);
 
     imu = new MPU6050();
 

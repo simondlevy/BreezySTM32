@@ -284,12 +284,11 @@ void i2c_ev_handler(void)
     }
 }
 
-
 // ===============================================================================================
 
-void HardwareWire::begin(void)
+void HardwareWire::begin(uint8_t bus)
 {
-    I2CDevice index = I2CDEV_2;
+    I2CDevice index = (bus == 2) ? I2CDEV_2 : I2CDEV_1;
 
     NVIC_InitTypeDef nvic;
     I2C_InitTypeDef i2c;
@@ -336,6 +335,7 @@ void HardwareWire::begin(void)
     i2c_buffer_head = 0;
     i2c_buffer_tail = 0;
 }
+
 
 void HardwareWire::beginTransmission(uint8_t address)
 {

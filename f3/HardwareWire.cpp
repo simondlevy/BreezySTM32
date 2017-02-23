@@ -166,10 +166,10 @@ void i2cInitPort(I2C_TypeDef *I2Cx)
 
 // ======================================================================================
 
-void HardwareWire::begin(void)
+void HardwareWire::begin(uint8_t bus)
 {
-    I2Cx = I2C2;
-    i2cInitPort(I2C2);
+    I2Cx = (bus == 2) ? I2C2 : I2C1;
+    i2cInitPort(I2Cx);
 }
 
 void HardwareWire::beginTransmission(uint8_t address)

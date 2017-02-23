@@ -326,7 +326,7 @@ TARGET_ELF	 = $(OBJECT_DIR)/$(FORKNAME)_$(TARGET).elf
 TARGET_OBJS	 = $(addsuffix .o,$(addprefix $(OBJECT_DIR)/$(TARGET)/,$(basename $($(TARGET)_SRC)))) \
 			   $(OBJECT_DIR)/$(TARGET)/$(PROJECT).o \
 			   $(OBJECT_DIR)/$(TARGET)/Arduino.o \
-			   $(OBJECT_DIR)/$(TARGET)/bus_i2c_stm32f30x.o
+			   $(OBJECT_DIR)/$(TARGET)/HardwareWire.o
 TARGET_DEPS	 = $(addsuffix .d,$(addprefix $(OBJECT_DIR)/$(TARGET)/,$(basename $($(TARGET)_SRC))))
 TARGET_MAP	 = $(OBJECT_DIR)/$(FORKNAME)_$(TARGET).map
 
@@ -418,8 +418,8 @@ $(OBJECT_DIR)/$(TARGET)/$(PROJECT).o: $(PROJECT).cpp $(BREEZY_DIR)/Arduino.h
 $(OBJECT_DIR)/$(TARGET)/Arduino.o: $(F3_DIR)/Arduino.cpp $(BREEZY_DIR)/Arduino.h
 	@$(CC) -c -o $(OBJECT_DIR)/$(TARGET)/Arduino.o $(CFLAGS) $(F3_DIR)/Arduino.cpp
 
-$(OBJECT_DIR)/$(TARGET)/bus_i2c_stm32f30x.o: bus_i2c_stm32f30x.c bus_i2c.h
-	@$(CC) -c -o $(OBJECT_DIR)/$(TARGET)/bus_i2c_stm32f30x.o $(CFLAGS) bus_i2c_stm32f30x.c
+$(OBJECT_DIR)/$(TARGET)/HardwareWire.o: $(F3_DIR)/HardwareWire.cpp $(BREEZY_DIR)/Wire.h
+	@$(CC) -c -o $(OBJECT_DIR)/$(TARGET)/HardwareWire.o $(CFLAGS) $(F3_DIR)/HardwareWire.cpp
 
 # include auto-generated dependencies
 -include $(TARGET_DEPS)

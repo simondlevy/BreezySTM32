@@ -36,7 +36,7 @@ class HardwareWire {
 
     public:
 
-        void     begin(void);
+        void     begin(uint8_t bus);
 
         void     beginTransmission(uint8_t address);
 
@@ -51,6 +51,6 @@ class HardwareWire {
         uint8_t  endTransmission(bool stop=true);
 };
 
-extern HardwareWire Wire;
-
 } // extern "C"
+
+extern HardwareWire Wire;

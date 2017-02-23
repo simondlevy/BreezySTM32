@@ -24,15 +24,12 @@
 extern "C" {
 
 #include <Arduino.h>
-//#include <Wire.h>
-
-#include "bus_i2c.h"
+#include <Wire.h>
 
 void setup(void)
 {
     Serial.begin(115200);
-    i2cInit(I2CDEV_1);
-    //Wire.begin(); 
+    Wire.begin(1); 
 } 
 
 void loop(void)
@@ -40,8 +37,8 @@ void loop(void)
     uint8_t addr;
 
     for (addr=0; addr<128; ++addr) {
-        //Wire.beginTransmission(addr);
-        if (i2cWrite(addr, 0x00, 0x00)  /*!Wire.endTransmission()*/  ) {
+        Wire.beginTransmission(addr);
+        if (!Wire.endTransmission()) {
             Serial.printf("Found device at address 0X%02X\n", addr);
         }
     }
