@@ -21,12 +21,17 @@
    along with BreezySTM32.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+extern "C" {
+
 #include <Arduino.h>
 //#include <Wire.h>
+
+#include "bus_i2c.h"
 
 void setup(void)
 {
     Serial.begin(115200);
+    i2cInit(I2CDEV_1);
     //Wire.begin(); 
 } 
 
@@ -36,10 +41,12 @@ void loop(void)
 
     for (addr=0; addr<128; ++addr) {
         //Wire.beginTransmission(addr);
-        //if (!Wire.endTransmission()) {
+        if (i2cWrite(addr, 0x00, 0x00)  /*!Wire.endTransmission()*/  ) {
             Serial.printf("Found device at address 0X%02X\n", addr);
-        //}
+        }
     }
 
     Serial.printf("--------------------------\n");
+}
+
 }
