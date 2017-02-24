@@ -243,6 +243,7 @@ endif
 
 # Tool names
 CC          := $(CCACHE) arm-none-eabi-gcc
+C++         := $(CCACHE) arm-none-eabi-g++
 OBJCOPY     := arm-none-eabi-objcopy
 SIZE        := arm-none-eabi-size
 

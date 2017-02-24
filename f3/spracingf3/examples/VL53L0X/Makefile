@@ -1,15 +1,11 @@
-# Change this to wherever you put BreezySTM32
 BREEZY_DIR = $(HOME)/Desktop/BreezySTM32
 
 # Change this to where you put your Arduino libraries
 ARDUINO_DIR = $(HOME)/Development/arduino-1.8.1/hardware/teensy/avr/libraries
 
-# Change this to whatever project name you want
-PROJECT = MPU6050_raw
+PROJECT = Continuous
 
-###############################################################################
-
-MPU6050_DIR = $(ARDUINO_DIR)/MPU6050
+VL53L0X_DIR = $(ARDUINO_DIR)/vl53l0x-arduino
 
 # The target to build, see VALID_TARGETS below
 TARGET		?= SPRACINGF3
@@ -62,8 +58,8 @@ SRC_DIR		 = $(SPRACINGF3_DIR)
 OBJECT_DIR	 = obj
 BIN_DIR		 = obj
 CMSIS_DIR	 = $(BREEZY_DIR)/lib/CMSIS
-INCLUDE_DIRS = $(BREEZY_DIR) $(F3_DIR) $(SPRACINGF3_DIR) $(SRC_DIR) $(SRC_DIR)/target \
-			   $(SPRACINGF3_DIR)/target/$(TARGET) $(MPU6050_DIR)
+INCLUDE_DIRS = $(BREEZY_DIR) $(F3_DIR) $(SPRACINGF3_DIR) $(SRC_DIR) $(SRC_DIR)/target $(SPRACINGF3_DIR)/target/$(TARGET) \
+			   $(VL53L0X_DIR)
 LINKER_DIR	 = $(F3_DIR)
 
 # Search path for sources
@@ -200,6 +196,9 @@ INCLUDE_DIRS := \
 		    $(INCLUDE_DIRS) \
 		    $(TARGET_DIR)
 
+fuck:
+	echo $(SRC_DIR)
+
 VPATH		:= $(VPATH):$(TARGET_DIR)
 
 SYSTEM_SRC = \
@@ -249,8 +248,8 @@ CCACHE :=
 endif
 
 # Tool names
-C++         := $(CCACHE) arm-none-eabi-g++
 CC          := $(CCACHE) arm-none-eabi-gcc
+C++         := $(CCACHE) arm-none-eabi-g++
 OBJCOPY     := arm-none-eabi-objcopy
 SIZE        := arm-none-eabi-size
 
@@ -335,7 +334,7 @@ TARGET_OBJS	 = $(addsuffix .o,$(addprefix $(OBJECT_DIR)/$(TARGET)/,$(basename $(
 			   $(OBJECT_DIR)/$(TARGET)/$(PROJECT).o \
 			   $(OBJECT_DIR)/$(TARGET)/Arduino.o \
 			   $(OBJECT_DIR)/$(TARGET)/HardwareWire.o \
-			   $(OBJECT_DIR)/$(TARGET)/MPU6050.o 
+			   $(OBJECT_DIR)/$(TARGET)/VL53L0X.o 
 TARGET_DEPS	 = $(addsuffix .d,$(addprefix $(OBJECT_DIR)/$(TARGET)/,$(basename $($(TARGET)_SRC))))
 TARGET_MAP	 = $(OBJECT_DIR)/$(FORKNAME)_$(TARGET).map
 
@@ -430,11 +429,14 @@ $(OBJECT_DIR)/$(TARGET)/Arduino.o: $(F3_DIR)/Arduino.cpp $(BREEZY_DIR)/Arduino.h
 $(OBJECT_DIR)/$(TARGET)/HardwareWire.o: $(F3_DIR)/HardwareWire.cpp $(BREEZY_DIR)/Wire.h
 	@$(CC) -c -o $(OBJECT_DIR)/$(TARGET)/HardwareWire.o $(CFLAGS) $(F3_DIR)/HardwareWire.cpp
 
-$(OBJECT_DIR)/$(TARGET)/MPU6050.o: $(MPU6050_DIR)/MPU6050.cpp $(MPU6050_DIR)/MPU6050.h
-	@$(CC) -c -o $(OBJECT_DIR)/$(TARGET)/MPU6050.o $(CFLAGS) $(MPU6050_DIR)/MPU6050.cpp
+$(OBJECT_DIR)/$(TARGET)/VL53L0X.o: $(VL53L0X_DIR)/VL53L0X.cpp $(VL53L0X_DIR)/VL53L0X.h
+	@$(CC) -c -o $(OBJECT_DIR)/$(TARGET)/VL53L0X.o $(CFLAGS) $(VL53L0X_DIR)/VL53L0X.cpp
 
 # include auto-generated dependencies
 -include $(TARGET_DEPS)
 
 listen:
 	miniterm.py $(SERIAL_DEVICE) 115200
+
+edit:
+	vim $(PROJECT).cpp

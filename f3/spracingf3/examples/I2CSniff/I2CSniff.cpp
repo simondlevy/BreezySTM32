@@ -21,8 +21,6 @@
    along with BreezySTM32.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-extern "C" {
-
 #include <Arduino.h>
 #include <Wire.h>
 
@@ -44,6 +42,4 @@ void loop(void)
     }
 
     Serial.printf("--------------------------\n");
-}
-
 }
