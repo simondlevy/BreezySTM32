@@ -5,18 +5,18 @@ BREEZY_DIR = $(HOME)/Desktop/BreezySTM32
 ARDUINO_DIR = $(HOME)/Development/arduino-1.8.1/hardware/teensy/avr/libraries
 
 # Change this to whatever project name you want
-PROJECT = BrushedMotor
+PROJECT = Hello
 
 ###############################################################################
 
 F3_DIR = $(BREEZY_DIR)/f3
-ALIENFLIGHTF3_DIR = $(F3_DIR)/alienflightf3
+SPRACINGf3EVO_DIR = $(F3_DIR)/spracingf3evo
 
 # Debugger optons, must be empty or GDB
 DEBUG ?=
 
 # The target to build
-TARGET		?= ALIENFLIGHTF3
+TARGET		?= SPRACINGf3EVO
 
 # Serial port/Device for flashing
 SERIAL_DEVICE	?= /dev/ttyACM0
@@ -26,12 +26,12 @@ FLASH_SIZE ?= 256
 
 # Working directories
 ROOT		 = $(dir $(lastword $(MAKEFILE_LIST)))
-SRC_DIR		 = $(ALIENFLIGHTF3_DIR)
+SRC_DIR		 = $(SPRACINGf3EVO_DIR)
 OBJECT_DIR	 = $(ROOT)/obj
 BIN_DIR		 = $(ROOT)/obj
 #CMSIS_DIR	 = $(ROOT)/lib/CMSIS
 CMSIS_DIR	 = $(BREEZY_DIR)/lib/CMSIS
-INCLUDE_DIRS = $(BREEZY_DIR) $(F3_DIR) $(ALIENFLIGHTF3_DIR) $(SRC_DIR) $(SRC_DIR)/target
+INCLUDE_DIRS = $(BREEZY_DIR) $(F3_DIR) $(SPRACINGf3EVO_DIR) $(SRC_DIR) $(SRC_DIR)/target
 LINKER_DIR	 = $(F3_DIR)
 
 # Search path for sources
@@ -64,12 +64,9 @@ INCLUDE_DIRS := $(INCLUDE_DIRS) \
 		   $(CMSIS_DIR)/CM1/DeviceSupport/ST/STM32F30x
 
 # VCP support
-
-VCP_DIR = $(F3_DIR)/vcp
-
 INCLUDE_DIRS := $(INCLUDE_DIRS) \
-		$(USBFS_DIR)/inc \
-		$(VCP_DIR) 
+		   $(USBFS_DIR)/inc \
+		   $(SRC_DIR)/vcp 
 
 VPATH := $(VPATH):$(USBFS_DIR)/src
 
@@ -108,19 +105,19 @@ FC_COMMON_SRC = \
 		   $(F3_DIR)/io.c \
 
 VCP_SRC = \
-		   $(VCP_DIR)/hw_config.c \
-		   $(VCP_DIR)/stm32_it.c \
-		   $(VCP_DIR)/usb_desc.c \
-		   $(VCP_DIR)/usb_endp.c \
-		   $(VCP_DIR)/usb_istr.c \
-		   $(VCP_DIR)/usb_prop.c \
-		   $(VCP_DIR)/usb_pwr.c \
+		   vcp/hw_config.c \
+		   vcp/stm32_it.c \
+		   vcp/usb_desc.c \
+		   vcp/usb_endp.c \
+		   vcp/usb_istr.c \
+		   vcp/usb_prop.c \
+		   vcp/usb_pwr.c \
 		   serial_usb_vcp.c \
 		   usb_io.c
 
 STM32F30x_COMMON_SRC = \
 		   $(F3_DIR)/startup_stm32f30x_md_gcc.S \
-		   $(ALIENFLIGHTF3_DIR)/system_stm32f30x.c \
+		   $(SPRACINGf3EVO_DIR)/system_stm32f30x.c \
 		   $(F3_DIR)/gpio_stm32f30x.c \
 		   $(F3_DIR)/serial_uart.c \
 		   $(F3_DIR)/serial_uart_stm32f30x.c \
@@ -212,7 +209,6 @@ TARGET_HEX	 = $(BIN_DIR)/$(PROJECT).hex
 TARGET_ELF	 = $(OBJECT_DIR)/$(PROJECT).elf
 TARGET_OBJS	 = $(addsuffix .o,$(addprefix $(OBJECT_DIR)/$(PROJECT)/,$(basename $($(PROJECT)_CSRC)))) \
 			   $(OBJECT_DIR)/$(PROJECT)/Arduino.o \
-			   $(OBJECT_DIR)/$(PROJECT)/Motor.o \
 			   $(OBJECT_DIR)/$(PROJECT).o
 TARGET_MAP	 = $(OBJECT_DIR)/$(PROJECT).map
 
@@ -241,7 +237,7 @@ $(TARGET_BIN): $(TARGET_ELF)
 	$(OBJCOPY) -O binary $< $@
 
 $(TARGET_ELF):  $(TARGET_OBJS)
-	$(C++) -o $@ $^ $(LDFLAGS)
+	$(CC) -o $@ $^ $(LDFLAGS)
 
 # Compile
 $(OBJECT_DIR)/$(PROJECT)/%.o: %.c
@@ -262,9 +258,6 @@ $(OBJECT_DIR)/$(PROJECT)/%.o: %.S
 
 $(OBJECT_DIR)/$(PROJECT)/Arduino.o: $(F3_DIR)/Arduino.cpp $(BREEZY_DIR)/Arduino.h
 	@$(CC) -c -o $(OBJECT_DIR)/$(PROJECT)/Arduino.o $(CFLAGS) $(F3_DIR)/Arduino.cpp
-
-$(OBJECT_DIR)/$(PROJECT)/Motor.o: $(F3_DIR)/Motor.cpp $(BREEZY_DIR)/Motor.h
-	@$(CC) -c -o $(OBJECT_DIR)/$(PROJECT)/Motor.o $(CFLAGS) $(F3_DIR)/Motor.cpp
 
 $(OBJECT_DIR)/$(PROJECT).o: ./$(PROJECT).cpp
 	@$(CC) -c -o $(OBJECT_DIR)/$(PROJECT).o $(CFLAGS) ./$(PROJECT).cpp

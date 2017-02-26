@@ -5,7 +5,7 @@ BREEZY_DIR = $(HOME)/Desktop/BreezySTM32
 ARDUINO_DIR = $(HOME)/Development/arduino-1.8.1/hardware/teensy/avr/libraries
 
 # Change this to whatever project name you want
-PROJECT = BrushedMotor
+PROJECT = Blink
 
 ###############################################################################
 
@@ -64,12 +64,9 @@ INCLUDE_DIRS := $(INCLUDE_DIRS) \
 		   $(CMSIS_DIR)/CM1/DeviceSupport/ST/STM32F30x
 
 # VCP support
-
-VCP_DIR = $(F3_DIR)/vcp
-
 INCLUDE_DIRS := $(INCLUDE_DIRS) \
-		$(USBFS_DIR)/inc \
-		$(VCP_DIR) 
+		   $(USBFS_DIR)/inc \
+		   $(SRC_DIR)/vcp 
 
 VPATH := $(VPATH):$(USBFS_DIR)/src
 
@@ -108,13 +105,13 @@ FC_COMMON_SRC = \
 		   $(F3_DIR)/io.c \
 
 VCP_SRC = \
-		   $(VCP_DIR)/hw_config.c \
-		   $(VCP_DIR)/stm32_it.c \
-		   $(VCP_DIR)/usb_desc.c \
-		   $(VCP_DIR)/usb_endp.c \
-		   $(VCP_DIR)/usb_istr.c \
-		   $(VCP_DIR)/usb_prop.c \
-		   $(VCP_DIR)/usb_pwr.c \
+		   vcp/hw_config.c \
+		   vcp/stm32_it.c \
+		   vcp/usb_desc.c \
+		   vcp/usb_endp.c \
+		   vcp/usb_istr.c \
+		   vcp/usb_prop.c \
+		   vcp/usb_pwr.c \
 		   serial_usb_vcp.c \
 		   usb_io.c
 
@@ -212,7 +209,6 @@ TARGET_HEX	 = $(BIN_DIR)/$(PROJECT).hex
 TARGET_ELF	 = $(OBJECT_DIR)/$(PROJECT).elf
 TARGET_OBJS	 = $(addsuffix .o,$(addprefix $(OBJECT_DIR)/$(PROJECT)/,$(basename $($(PROJECT)_CSRC)))) \
 			   $(OBJECT_DIR)/$(PROJECT)/Arduino.o \
-			   $(OBJECT_DIR)/$(PROJECT)/Motor.o \
 			   $(OBJECT_DIR)/$(PROJECT).o
 TARGET_MAP	 = $(OBJECT_DIR)/$(PROJECT).map
 
@@ -262,9 +258,6 @@ $(OBJECT_DIR)/$(PROJECT)/%.o: %.S
 
 $(OBJECT_DIR)/$(PROJECT)/Arduino.o: $(F3_DIR)/Arduino.cpp $(BREEZY_DIR)/Arduino.h
 	@$(CC) -c -o $(OBJECT_DIR)/$(PROJECT)/Arduino.o $(CFLAGS) $(F3_DIR)/Arduino.cpp
-
-$(OBJECT_DIR)/$(PROJECT)/Motor.o: $(F3_DIR)/Motor.cpp $(BREEZY_DIR)/Motor.h
-	@$(CC) -c -o $(OBJECT_DIR)/$(PROJECT)/Motor.o $(CFLAGS) $(F3_DIR)/Motor.cpp
 
 $(OBJECT_DIR)/$(PROJECT).o: ./$(PROJECT).cpp
 	@$(CC) -c -o $(OBJECT_DIR)/$(PROJECT).o $(CFLAGS) ./$(PROJECT).cpp

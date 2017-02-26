@@ -64,9 +64,12 @@ INCLUDE_DIRS := $(INCLUDE_DIRS) \
 		   $(CMSIS_DIR)/CM1/DeviceSupport/ST/STM32F30x
 
 # VCP support
+
+VCP_DIR = $(F3_DIR)/vcp
+
 INCLUDE_DIRS := $(INCLUDE_DIRS) \
-		   $(USBFS_DIR)/inc \
-		   $(SRC_DIR)/vcp 
+		$(USBFS_DIR)/inc \
+		$(VCP_DIR) 
 
 VPATH := $(VPATH):$(USBFS_DIR)/src
 
@@ -105,13 +108,13 @@ FC_COMMON_SRC = \
 		   $(F3_DIR)/io.c \
 
 VCP_SRC = \
-		   vcp/hw_config.c \
-		   vcp/stm32_it.c \
-		   vcp/usb_desc.c \
-		   vcp/usb_endp.c \
-		   vcp/usb_istr.c \
-		   vcp/usb_prop.c \
-		   vcp/usb_pwr.c \
+		   $(VCP_DIR)/hw_config.c \
+		   $(VCP_DIR)/stm32_it.c \
+		   $(VCP_DIR)/usb_desc.c \
+		   $(VCP_DIR)/usb_endp.c \
+		   $(VCP_DIR)/usb_istr.c \
+		   $(VCP_DIR)/usb_prop.c \
+		   $(VCP_DIR)/usb_pwr.c \
 		   serial_usb_vcp.c \
 		   usb_io.c
 
