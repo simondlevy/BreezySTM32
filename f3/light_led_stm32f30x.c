@@ -34,12 +34,13 @@ void ledInit(void)
     gpio_config_t cfg;
     cfg.mode = Mode_Out_PP;
     cfg.speed = Speed_2MHz;
+    cfg.pin = LED0_PIN_2; 
 
     RCC_AHBPeriphClockCmd(LED0_PERIPHERAL_2, ENABLE);
+
     led_config[0].gpio = LED0_GPIO_2;
     led_config[0].pin = LED0_PIN_2;
-    cfg.pin = LED0_PIN_2; //led_config[0].pin;
-    LED0_OFF;
+
     gpioInit(led_config[0].gpio, &cfg);
 }
 
