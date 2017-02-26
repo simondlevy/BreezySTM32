@@ -12,7 +12,7 @@
 // Pin 3 has LED 0 on STM32 flight controllers
 // Pin 4 has LED 1 on STM32 flight controllers
 // give it a name:
-int led = 3;
+int led = 4;
 
 #include <Arduino.h>
 
