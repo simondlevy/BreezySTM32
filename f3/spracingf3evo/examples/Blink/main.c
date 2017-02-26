@@ -25,7 +25,7 @@ int main(void) {
 
     dmaInit();
 
-    ledInit(true);
+    ledInit();
 
     while (true) {
         LED0_ON;

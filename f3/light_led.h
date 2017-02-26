@@ -71,4 +71,4 @@ extern led_config_t led_config[3];
 #define LED2_ON                  do {} while(0)
 #endif
 
-void ledInit(bool alternative_led);
+void ledInit(void);

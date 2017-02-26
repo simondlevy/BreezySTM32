@@ -29,7 +29,7 @@
 
 led_config_t led_config[3];
 
-void ledInit(bool alternative_led)
+void ledInit(void)
 {
     gpio_config_t cfg;
     cfg.mode = Mode_Out_PP;
