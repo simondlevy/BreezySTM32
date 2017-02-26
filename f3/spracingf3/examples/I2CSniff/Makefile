@@ -209,7 +209,7 @@ FC_COMMON_SRC = \
 
 STM32F30x_COMMON_SRC = \
 		   $(F3_DIR)/startup_stm32f30x_md_gcc.S \
-		   $(SPRACINGF3_DIR)/system_stm32f30x.c \
+		   $(F3_DIR)/system_stm32f30x_extras.c \
 		   $(F3_DIR)/gpio_stm32f30x.c \
 		   $(F3_DIR)/serial_uart.c \
 		   $(F3_DIR)/serial_uart_stm32f30x.c \
