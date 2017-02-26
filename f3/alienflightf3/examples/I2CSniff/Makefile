@@ -113,8 +113,8 @@ VCP_SRC = \
 		   $(VCP_DIR)/usb_istr.c \
 		   $(VCP_DIR)/usb_prop.c \
 		   $(VCP_DIR)/usb_pwr.c \
-		   serial_usb_vcp.c \
-		   usb_io.c
+		   $(F3_DIR)/serial_usb_vcp.c \
+		   $(F3_DIR)/usb_io.c
 
 STM32F30x_COMMON_SRC = \
 		   $(F3_DIR)/startup_stm32f30x_md_gcc.S \
@@ -127,7 +127,6 @@ STM32F30x_COMMON_SRC = \
 $(PROJECT)_CSRC = \
 		   timer.c \
 		   $(F3_DIR)/timer_stm32f30x.c \
-		   serial_usb_vcp.c \
 		   $(STM32F30x_COMMON_SRC) \
 		   $(FC_COMMON_SRC) \
 		   $(SYSTEM_SRC) \
