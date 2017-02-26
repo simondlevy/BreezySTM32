@@ -12,6 +12,8 @@ PROJECT = Hello
 F3_DIR = $(BREEZY_DIR)/f3
 ALIENFLIGHTF3_DIR = $(F3_DIR)/alienflightf3
 
+MPU6050_DIR = $(ARDUINO_DIR)/MPU6050
+
 # Debugger optons, must be empty or GDB
 DEBUG ?=
 
@@ -64,12 +66,11 @@ INCLUDE_DIRS := $(INCLUDE_DIRS) \
 		   $(CMSIS_DIR)/CM1/DeviceSupport/ST/STM32F30x
 
 # VCP support
-
-VCP_DIR = $(F3_DIR)/vcp
-
+VCP_DIR := $(F3_DIR)/vcp
 INCLUDE_DIRS := $(INCLUDE_DIRS) \
-		$(USBFS_DIR)/inc \
-		$(VCP_DIR) 
+		   $(USBFS_DIR)/inc \
+		   $(VCP_DIR) \
+           $(MPU6050_DIR)
 
 VPATH := $(VPATH):$(USBFS_DIR)/src
 
@@ -212,6 +213,8 @@ TARGET_HEX	 = $(BIN_DIR)/$(PROJECT).hex
 TARGET_ELF	 = $(OBJECT_DIR)/$(PROJECT).elf
 TARGET_OBJS	 = $(addsuffix .o,$(addprefix $(OBJECT_DIR)/$(PROJECT)/,$(basename $($(PROJECT)_CSRC)))) \
 			   $(OBJECT_DIR)/$(PROJECT)/Arduino.o \
+			   $(OBJECT_DIR)/$(PROJECT)/HardwareWire.o \
+			   $(OBJECT_DIR)/$(PROJECT)/MPU6050.o \
 			   $(OBJECT_DIR)/$(PROJECT).o
 TARGET_MAP	 = $(OBJECT_DIR)/$(PROJECT).map
 
@@ -261,6 +264,12 @@ $(OBJECT_DIR)/$(PROJECT)/%.o: %.S
 
 $(OBJECT_DIR)/$(PROJECT)/Arduino.o: $(F3_DIR)/Arduino.cpp $(BREEZY_DIR)/Arduino.h
 	@$(CC) -c -o $(OBJECT_DIR)/$(PROJECT)/Arduino.o $(CFLAGS) $(F3_DIR)/Arduino.cpp
+
+$(OBJECT_DIR)/$(PROJECT)/HardwareWire.o: $(F3_DIR)/HardwareWire.cpp $(BREEZY_DIR)/Wire.h
+	@$(CC) -c -o $(OBJECT_DIR)/$(PROJECT)/HardwareWire.o $(CFLAGS) $(F3_DIR)/HardwareWire.cpp
+
+$(OBJECT_DIR)/$(PROJECT)/MPU6050.o: $(MPU6050_DIR)/MPU6050.cpp $(MPU6050_DIR)/MPU6050.h
+	@$(CC) -c -o $(OBJECT_DIR)/$(PROJECT)/MPU6050.o $(CFLAGS) $(MPU6050_DIR)/MPU6050.cpp
 
 $(OBJECT_DIR)/$(PROJECT).o: ./$(PROJECT).cpp
 	@$(CC) -c -o $(OBJECT_DIR)/$(PROJECT).o $(CFLAGS) ./$(PROJECT).cpp
