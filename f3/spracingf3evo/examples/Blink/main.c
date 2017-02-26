@@ -29,6 +29,9 @@ int main(void) {
 
     while (true) {
         LED0_ON;
+        delay(500);
+        LED0_OFF;
+        delay(500);
     }
 
 } // main
