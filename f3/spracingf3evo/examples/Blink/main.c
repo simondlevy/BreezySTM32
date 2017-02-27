@@ -8,7 +8,32 @@
 #include "serial.h"
 #include "serial_uart.h"
 #include "exti.h"
-#include "light_led.h"
+
+#define LED0_OFF                 digitalHi(led_config[0].gpio, led_config[0].pin)
+#define LED0_ON                  digitalLo(led_config[0].gpio, led_config[0].pin)
+
+typedef struct led_config_s {
+    GPIO_TypeDef *gpio;
+    uint16_t pin;
+} led_config_t;
+
+
+static led_config_t led_config[3];
+
+void ledInit(void)
+{
+    gpio_config_t cfg;
+    cfg.mode = Mode_Out_PP;
+    cfg.speed = Speed_2MHz;
+    cfg.pin = LED0_PIN_2; 
+
+    RCC_AHBPeriphClockCmd(LED0_PERIPHERAL_2, ENABLE);
+
+    led_config[0].gpio = LED0_GPIO_2;
+    led_config[0].pin = LED0_PIN_2;
+
+    gpioInit(led_config[0].gpio, &cfg);
+}
 
 void SetSysClock(void);
 
