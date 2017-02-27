@@ -10,13 +10,10 @@ PROJECT = Blink
 ###############################################################################
 
 F3_DIR = $(BREEZY_DIR)/f3
-ALIENFLIGHTF3_DIR = $(F3_DIR)/spracingf3evo
+SPRACINGF3EVO_DIR = $(F3_DIR)/spracingf3evo
 
 # Debugger optons, must be empty or GDB
 DEBUG ?=
-
-# The target to build
-TARGET		?= SPRACINGF3EVO
 
 # Serial port/Device for flashing
 SERIAL_DEVICE	?= /dev/ttyACM0
@@ -26,12 +23,12 @@ FLASH_SIZE ?= 256
 
 # Working directories
 ROOT		 = $(dir $(lastword $(MAKEFILE_LIST)))
-SRC_DIR		 = $(ALIENFLIGHTF3_DIR)
+SRC_DIR		 = $(SPRACINGF3EVO_DIR)
 OBJECT_DIR	 = $(ROOT)/obj
 BIN_DIR		 = $(ROOT)/obj
 #CMSIS_DIR	 = $(ROOT)/lib/CMSIS
 CMSIS_DIR	 = $(BREEZY_DIR)/lib/CMSIS
-INCLUDE_DIRS = $(BREEZY_DIR) $(F3_DIR) $(ALIENFLIGHTF3_DIR) $(SRC_DIR) $(SRC_DIR)/target
+INCLUDE_DIRS = $(BREEZY_DIR) $(F3_DIR) $(SPRACINGF3EVO_DIR) $(SRC_DIR) $(SRC_DIR)/target
 LINKER_DIR	 = $(F3_DIR)
 
 # Search path for sources
@@ -40,8 +37,6 @@ USBFS_DIR	= $(BREEZY_DIR)/lib/STM32_USB-FS-Device_Driver
 USBPERIPH_SRC = $(notdir $(wildcard $(USBFS_DIR)/src/*.c))
 
 CSOURCES        := $(shell find $(SRC_DIR) -name '*.c')
-
-# F3 TARGETS
 
 STDPERIPH_DIR	= $(BREEZY_DIR)/lib/STM32F30x_StdPeriph_Driver
 
@@ -80,20 +75,10 @@ LD_SCRIPT	 = $(LINKER_DIR)/stm32_flash_f303_$(FLASH_SIZE)k.ld
 
 ARCH_FLAGS	 = -mthumb -mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16 -fsingle-precision-constant -Wdouble-promotion
 DEVICE_FLAGS = -DSTM32F303xC -DSTM32F303
-TARGET_FLAGS = -D$(TARGET)
 
 ifneq ($(FLASH_SIZE),)
 DEVICE_FLAGS := $(DEVICE_FLAGS) -DFLASH_SIZE=$(FLASH_SIZE)
 endif
-
-TARGET_DIR = $(ROOT)/target/$(TARGET)
-TARGET_SRC = $(notdir $(wildcard $(TARGET_DIR)/*.c))
-
-INCLUDE_DIRS := \
-		    $(INCLUDE_DIRS) \
-		    $(TARGET_DIR)
-
-VPATH		:= $(VPATH):$(TARGET_DIR)
 
 SYSTEM_SRC = \
 		   $(F3_DIR)/dma.c \
@@ -178,7 +163,6 @@ CFLAGS		 = $(ARCH_FLAGS) \
 		   -fdata-sections \
 		   $(DEVICE_FLAGS) \
 		   -DUSE_STDPERIPH_DRIVER \
-		   $(TARGET_FLAGS) \
 		   -fverbose-asm -ffat-lto-objects \
 		   -save-temps=obj \
 		   -MMD -MP
@@ -267,19 +251,19 @@ $(OBJECT_DIR)/$(PROJECT).o: ./$(PROJECT).cpp
 clean:
 	rm -rf obj
 
-flash_$(TARGET): $(TARGET_BIN)
+flash_$(PROJECT): $(TARGET_BIN)
 	echo -n 'R' >$(SERIAL_DEVICE)
 	sleep 2
 	dfu-util -a 0 -s 0x08000000:leave -D $(TARGET_BIN)
 
 ## flash       : flash firmware (.hex) onto flight controller
-flash: flash_$(TARGET)
+flash: flash_$(PROJECT)
 
-unbrick_$(TARGET): $(TARGET_BIN)
+unbrick_$(PROJECT): $(TARGET_BIN)
 	dfu-util -a 0 -s 0x08000000:leave -D $(TARGET_BIN)
 
 ## unbrick     : unbrick flight controller
-unbrick: unbrick_$(TARGET)
+unbrick: unbrick_$(PROJECT)
 
 # rebuild everything when makefile changes
 $(TARGET_OBJS) : Makefile
