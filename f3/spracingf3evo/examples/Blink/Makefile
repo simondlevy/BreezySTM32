@@ -4,6 +4,9 @@ BREEZY_DIR = $(HOME)/Desktop/BreezySTM32
 # Change this to where you put your Arduino libraries
 ARDUINO_DIR = $(HOME)/Development/arduino-1.8.1/hardware/teensy/avr/libraries
 
+# Change this to whatever project name you want
+PROJECT = Blink
+
 ###############################################################################
 
 F3_DIR = $(BREEZY_DIR)/f3
@@ -13,7 +16,7 @@ ALIENFLIGHTF3_DIR = $(F3_DIR)/spracingf3evo
 DEBUG ?=
 
 # The target to build
-TARGET		?= SPRACINGF3
+TARGET		?= SPRACINGF3EVO
 
 # Serial port/Device for flashing
 SERIAL_DEVICE	?= /dev/ttyACM0
@@ -28,7 +31,7 @@ OBJECT_DIR	 = $(ROOT)/obj
 BIN_DIR		 = $(ROOT)/obj
 #CMSIS_DIR	 = $(ROOT)/lib/CMSIS
 CMSIS_DIR	 = $(BREEZY_DIR)/lib/CMSIS
-INCLUDE_DIRS = . $(F3_DIR) $(ALIENFLIGHTF3_DIR) $(SRC_DIR) $(SRC_DIR)/target
+INCLUDE_DIRS = $(BREEZY_DIR) $(F3_DIR) $(ALIENFLIGHTF3_DIR) $(SRC_DIR) $(SRC_DIR)/target
 LINKER_DIR	 = $(F3_DIR)
 
 # Search path for sources
@@ -61,10 +64,12 @@ INCLUDE_DIRS := $(INCLUDE_DIRS) \
 		   $(CMSIS_DIR)/CM1/DeviceSupport/ST/STM32F30x
 
 # VCP support
-VCP_DIR := $(F3_DIR)/vcp
+
+VCP_DIR = $(F3_DIR)/vcp
+
 INCLUDE_DIRS := $(INCLUDE_DIRS) \
-		   $(USBFS_DIR)/inc \
-		   $(VCP_DIR)
+		$(USBFS_DIR)/inc \
+		$(VCP_DIR) 
 
 VPATH := $(VPATH):$(USBFS_DIR)/src
 
@@ -144,6 +149,7 @@ CCACHE :=
 endif
 
 # Tool names
+C++         := $(CCACHE) arm-none-eabi-g++
 CC          := $(CCACHE) arm-none-eabi-gcc
 OBJCOPY     := arm-none-eabi-objcopy
 SIZE        := arm-none-eabi-size
@@ -179,6 +185,7 @@ CFLAGS		 = $(ARCH_FLAGS) \
 
 ASFLAGS		 = $(ARCH_FLAGS) \
 		   $(WARN_FLAGS) \
+		   -x assembler-with-cpp \
 		   $(addprefix -I,$(INCLUDE_DIRS)) \
 		  -MMD -MP
 
@@ -203,7 +210,8 @@ TARGET_BIN	 = obj/$(PROJECT).bin
 TARGET_HEX	 = $(BIN_DIR)/$(PROJECT).hex
 TARGET_ELF	 = $(OBJECT_DIR)/$(PROJECT).elf
 TARGET_OBJS	 = $(addsuffix .o,$(addprefix $(OBJECT_DIR)/$(PROJECT)/,$(basename $($(PROJECT)_CSRC)))) \
-			   $(OBJECT_DIR)/$(PROJECT)/main.o
+			   $(OBJECT_DIR)/$(PROJECT)/Arduino.o \
+			   $(OBJECT_DIR)/$(PROJECT).o
 TARGET_MAP	 = $(OBJECT_DIR)/$(PROJECT).map
 
 
@@ -231,7 +239,7 @@ $(TARGET_BIN): $(TARGET_ELF)
 	$(OBJCOPY) -O binary $< $@
 
 $(TARGET_ELF):  $(TARGET_OBJS)
-	$(CC) -o $@ $^ $(LDFLAGS)
+	$(C++) -o $@ $^ $(LDFLAGS)
 
 # Compile
 $(OBJECT_DIR)/$(PROJECT)/%.o: %.c
@@ -250,8 +258,11 @@ $(OBJECT_DIR)/$(PROJECT)/%.o: %.S
 	@echo %% $(notdir $<)
 	@$(CC) -c -o $@ $(ASFLAGS) $<
 
-$(OBJECT_DIR)/$(PROJECT)/main.o: ./main.c
-	@$(CC) -c -o $(OBJECT_DIR)/$(PROJECT)/main.o $(CFLAGS) ./main.c
+$(OBJECT_DIR)/$(PROJECT)/Arduino.o: $(F3_DIR)/Arduino.cpp $(BREEZY_DIR)/Arduino.h
+	@$(CC) -c -o $(OBJECT_DIR)/$(PROJECT)/Arduino.o $(CFLAGS) $(F3_DIR)/Arduino.cpp
+
+$(OBJECT_DIR)/$(PROJECT).o: ./$(PROJECT).cpp
+	@$(CC) -c -o $(OBJECT_DIR)/$(PROJECT).o $(CFLAGS) ./$(PROJECT).cpp
 
 clean:
 	rm -rf obj
