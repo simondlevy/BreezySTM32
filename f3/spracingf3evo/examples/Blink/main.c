@@ -19,9 +19,9 @@ void ledInit(void)
     gpio_config_t cfg;
     cfg.mode = Mode_Out_PP;
     cfg.speed = Speed_2MHz;
-    cfg.pin = LED0_PIN_2; 
+    cfg.pin = Pin_8; 
 
-    gpio = LED0_GPIO_2;
+    gpio = GPIOB;
 
     gpioInit(gpio, &cfg);
 }
