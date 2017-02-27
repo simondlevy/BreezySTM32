@@ -7,31 +7,33 @@ ARDUINO_DIR = $(HOME)/Development/arduino-1.8.1/hardware/teensy/avr/libraries
 # Change this to whatever project name you want
 PROJECT = Blink
 
-#########################################################################
-
-SERIAL_DEVICE = /dev/ttyUSB0
-
-TARGET		?= SPRACINGF3
+###############################################################################
 
 F3_DIR = $(BREEZY_DIR)/f3
 SPRACINGF3_DIR = $(F3_DIR)/spracingf3
 
-FLASH_SIZE = 256
+# Debugger optons, must be empty or GDB
+DEBUG ?=
 
-REVISION := $(shell git log -1 --format="%h")
+# Serial port/Device for flashing
+SERIAL_DEVICE	?= /dev/ttyUSB0
+
+# Flash size (KB).  Some low-end chips actually have more flash than advertised, use this to override.
+FLASH_SIZE ?= 256
 
 # Working directories
 ROOT		 = $(dir $(lastword $(MAKEFILE_LIST)))
 SRC_DIR		 = $(SPRACINGF3_DIR)
-OBJECT_DIR	 = obj
-BIN_DIR		 = obj
+OBJECT_DIR	 = $(ROOT)/obj
+BIN_DIR		 = $(ROOT)/obj
+#CMSIS_DIR	 = $(ROOT)/lib/CMSIS
 CMSIS_DIR	 = $(BREEZY_DIR)/lib/CMSIS
-INCLUDE_DIRS = $(BREEZY_DIR) $(F3_DIR) $(SPRACINGF3_DIR) $(SRC_DIR) $(SRC_DIR)/target 
+INCLUDE_DIRS = $(BREEZY_DIR) $(F3_DIR) $(SPRACINGF3_DIR) $(SRC_DIR) $(SRC_DIR)/target
 LINKER_DIR	 = $(F3_DIR)
 
 # Search path for sources
 VPATH		:= $(SRC_DIR):$(SRC_DIR)/startup
-USBFS_DIR	= $(BREEZY_DIR)/lib/main/STM32_USB-FS-Device_Driver
+USBFS_DIR	= $(BREEZY_DIR)/lib/STM32_USB-FS-Device_Driver
 USBPERIPH_SRC = $(notdir $(wildcard $(USBFS_DIR)/src/*.c))
 
 CSOURCES        := $(shell find $(SRC_DIR) -name '*.c')
@@ -40,13 +42,11 @@ STDPERIPH_DIR	= $(BREEZY_DIR)/lib/STM32F30x_StdPeriph_Driver
 
 STDPERIPH_SRC = $(notdir $(wildcard $(STDPERIPH_DIR)/src/*.c))
 
-EXCLUDES	= stm32f30x_crc.c \
-		stm32f30x_can.c
+EXCLUDES	= stm32f30x_crc.c stm32f30x_can.c
 
 STDPERIPH_SRC := $(filter-out ${EXCLUDES}, $(STDPERIPH_SRC))
 
-DEVICE_STDPERIPH_SRC = \
-		$(STDPERIPH_SRC)
+DEVICE_STDPERIPH_SRC = $(STDPERIPH_SRC)
 
 
 VPATH		:= $(VPATH):$(CMSIS_DIR)/CM1/CoreSupport:$(CMSIS_DIR)/CM1/DeviceSupport/ST/STM32F30x
@@ -57,6 +57,19 @@ INCLUDE_DIRS := $(INCLUDE_DIRS) \
 		   $(STDPERIPH_DIR)/inc \
 		   $(CMSIS_DIR)/CM1/CoreSupport \
 		   $(CMSIS_DIR)/CM1/DeviceSupport/ST/STM32F30x
+
+# VCP support
+
+VCP_DIR = $(F3_DIR)/vcp
+
+INCLUDE_DIRS := $(INCLUDE_DIRS) \
+		$(USBFS_DIR)/inc \
+		$(VCP_DIR) 
+
+VPATH := $(VPATH):$(USBFS_DIR)/src
+
+DEVICE_STDPERIPH_SRC := $(DEVICE_STDPERIPH_SRC)\
+		   $(USBPERIPH_SRC)
 
 LD_SCRIPT	 = $(LINKER_DIR)/stm32_flash_f303_$(FLASH_SIZE)k.ld
 
@@ -76,8 +89,19 @@ SYSTEM_SRC = \
 		   $(DEVICE_STDPERIPH_SRC)
 
 FC_COMMON_SRC = \
-		   $(F3_DIR)/exti.c \
-		   $(F3_DIR)/io.c
+   	       $(F3_DIR)/exti.c \
+		   $(F3_DIR)/io.c \
+
+VCP_SRC = \
+		   $(VCP_DIR)/hw_config.c \
+		   $(VCP_DIR)/stm32_it.c \
+		   $(VCP_DIR)/usb_desc.c \
+		   $(VCP_DIR)/usb_endp.c \
+		   $(VCP_DIR)/usb_istr.c \
+		   $(VCP_DIR)/usb_prop.c \
+		   $(VCP_DIR)/usb_pwr.c \
+		   $(F3_DIR)/serial_usb_vcp.c \
+		   $(F3_DIR)/usb_io.c
 
 STM32F30x_COMMON_SRC = \
 		   $(F3_DIR)/startup_stm32f30x_md_gcc.S \
@@ -87,19 +111,15 @@ STM32F30x_COMMON_SRC = \
 		   $(F3_DIR)/serial_uart_stm32f30x.c \
 		   $(F3_DIR)/system_stm32f30x.c
 
-STM32F30x_FC_COMMON_SRC = \
+$(PROJECT)_CSRC = \
 		   timer.c \
-		   $(F3_DIR)/timer_stm32f30x.c 
-
-SPRACINGF3_SRC = \
+		   $(F3_DIR)/timer_stm32f30x.c \
 		   $(STM32F30x_COMMON_SRC) \
-		   $(STM32F30x_FC_COMMON_SRC) \
 		   $(FC_COMMON_SRC) \
 		   $(SYSTEM_SRC) \
+		   $(VCP_SRC) \
 		   target.c
 
-
-# Search path and source files for the ST stdperiph library
 VPATH		:= $(VPATH):$(STDPERIPH_DIR)/src
 
 ###############################################################################
@@ -114,8 +134,8 @@ CCACHE :=
 endif
 
 # Tool names
-CC          := $(CCACHE) arm-none-eabi-gcc
 C++         := $(CCACHE) arm-none-eabi-g++
+CC          := $(CCACHE) arm-none-eabi-gcc
 OBJCOPY     := arm-none-eabi-objcopy
 SIZE        := arm-none-eabi-size
 
@@ -131,16 +151,11 @@ OPTIMIZE	 = -Os
 LTO_FLAGS	 =  -flto -fuse-linker-plugin $(OPTIMIZE)
 endif
 
-ifneq ($(filter $(OPTIONS),FAIL_ON_WARNINGS),)
-WARN_FLAGS      += -Werror
-endif
-
 DEBUG_FLAGS	 = -ggdb3 -DDEBUG
 
 CFLAGS		 = $(ARCH_FLAGS) \
 		   $(LTO_FLAGS) \
 		   $(WARN_FLAGS) \
-		   $(addprefix -D,$(OPTIONS)) \
 		   $(addprefix -I,$(INCLUDE_DIRS)) \
 		   $(DEBUG_FLAGS) \
 		   -Wall -Wpedantic -Wextra -Wunsafe-loop-optimizations -Wdouble-promotion -Wundef \
@@ -174,26 +189,14 @@ LDFLAGS		 = -lm \
 		   -Wl,--cref \
 		   -T$(LD_SCRIPT)
 
-###############################################################################
-# No user-serviceable parts below
-###############################################################################
-
-CPPCHECK         = cppcheck $(CSOURCES) --enable=all --platform=unix64 \
-		   --std=c99 --inline-suppr --quiet --force \
-		   $(addprefix -I,$(INCLUDE_DIRS)) \
-		   -I/usr/include -I/usr/include/linux
-
-#
 # Things we will build
-#
-TARGET_BIN	 = $(BIN_DIR)/$(TARGET).bin
-TARGET_HEX	 = $(BIN_DIR)/$(TARGET).hex
-TARGET_ELF	 = $(OBJECT_DIR)/$(TARGET).elf
-TARGET_OBJS	 = $(addsuffix .o,$(addprefix $(OBJECT_DIR)/$(TARGET)/,$(basename $($(TARGET)_SRC)))) \
-			   $(OBJECT_DIR)/$(TARGET)/$(PROJECT).o \
-			   $(OBJECT_DIR)/$(TARGET)/Arduino.o 
-TARGET_DEPS	 = $(addsuffix .d,$(addprefix $(OBJECT_DIR)/$(TARGET)/,$(basename $($(TARGET)_SRC))))
-TARGET_MAP	 = $(OBJECT_DIR)/$(TARGET).map
+
+TARGET_HEX	 = $(BIN_DIR)/$(PROJECT).hex
+TARGET_ELF	 = $(OBJECT_DIR)/$(PROJECT).elf
+TARGET_OBJS	 = $(addsuffix .o,$(addprefix $(OBJECT_DIR)/$(PROJECT)/,$(basename $($(PROJECT)_CSRC)))) \
+			   $(OBJECT_DIR)/$(PROJECT)/Arduino.o \
+			   $(OBJECT_DIR)/$(PROJECT).o
+TARGET_MAP	 = $(OBJECT_DIR)/$(PROJECT).map
 
 
 ## Default make goal:
@@ -202,81 +205,69 @@ TARGET_MAP	 = $(OBJECT_DIR)/$(TARGET).map
 
 ## Optional make goals:
 ## all         : Make all filetypes, binary and hex
-all: hex bin
+all: hex 
 
-## binary      : Make binary filetype
 ## bin         : Alias of 'binary'
 ## hex         : Make hex filetype
-bin:    $(TARGET_BIN)
-binary: $(TARGET_BIN)
 hex:    $(TARGET_HEX)
 
-# rule to reinvoke make with TARGET= parameter
-# rules that should be handled in toplevel Makefile, not dependent on TARGET
-GLOBAL_GOALS	= all_targets cppcheck test
-
-## clean       : clean up all temporary / machine-generated files
-clean:
-	rm -rf obj *~
-
-flash_$(TARGET): $(TARGET_HEX)
-	stty -F $(SERIAL_DEVICE) raw speed 115200 -crtscts cs8 -parenb -cstopb -ixon
-	echo -n 'R' >$(SERIAL_DEVICE)
-	sleep 2
-	stm32flash -w $(TARGET_HEX) -v -g 0x0 -b 115200 $(SERIAL_DEVICE)
-
-## flash       : flash firmware (.hex) onto flight controller
-flash: flash_$(TARGET)
-
-unbrick_$(TARGET): $(TARGET_HEX)
-	stty -F $(SERIAL_DEVICE) raw speed 115200 -crtscts cs8 -parenb -cstopb -ixon
-	stm32flash -w $(TARGET_HEX) -v -g 0x0 -b 115200 $(SERIAL_DEVICE)
-
-## unbrick     : unbrick flight controller
-unbrick: unbrick_$(TARGET)
-
-# rebuild everything when makefile changes
-$(TARGET_OBJS) : Makefile
-
 # List of buildable ELF files and their object dependencies.
-# It would be nice to compute these lists, but that seems to be just beyond make.
 
 $(TARGET_HEX): $(TARGET_ELF)
 	$(OBJCOPY) -O ihex --set-start 0x8000000 $< $@
 
-$(TARGET_BIN): $(TARGET_ELF)
-	$(OBJCOPY) -O binary $< $@
-
 $(TARGET_ELF):  $(TARGET_OBJS)
-	$(CC) -o $@ $^ $(LDFLAGS)
-	$(SIZE) $(TARGET_ELF)
+	$(C++) -o $@ $^ $(LDFLAGS)
 
 # Compile
-$(OBJECT_DIR)/$(TARGET)/%.o: %.c
+$(OBJECT_DIR)/$(PROJECT)/%.o: %.c
 	@mkdir -p $(dir $@)
 	@echo %% $(notdir $<)
 	@$(CC) -c -o $@ $(CFLAGS) $<
 
 # Assemble
-$(OBJECT_DIR)/$(TARGET)/%.o: %.s
+$(OBJECT_DIR)/$(PROJECT)/%.o: %.s
 	@mkdir -p $(dir $@)
 	@echo %% $(notdir $<)
 	@$(CC) -c -o $@ $(ASFLAGS) $<
 
-$(OBJECT_DIR)/$(TARGET)/%.o: %.S
+$(OBJECT_DIR)/$(PROJECT)/%.o: %.S
 	@mkdir -p $(dir $@)
 	@echo %% $(notdir $<)
 	@$(CC) -c -o $@ $(ASFLAGS) $<
 
+$(OBJECT_DIR)/$(PROJECT)/Arduino.o: $(F3_DIR)/Arduino.cpp $(BREEZY_DIR)/Arduino.h
+	@$(CC) -c -o $(OBJECT_DIR)/$(PROJECT)/Arduino.o $(CFLAGS) $(F3_DIR)/Arduino.cpp
 
-$(OBJECT_DIR)/$(TARGET)/$(PROJECT).o: $(PROJECT).cpp $(BREEZY_DIR)/Arduino.h
-	@$(CC) -c -o $(OBJECT_DIR)/$(TARGET)/$(PROJECT).o $(CFLAGS) $(PROJECT).cpp
+$(OBJECT_DIR)/$(PROJECT).o: ./$(PROJECT).cpp
+	@$(CC) -c -o $(OBJECT_DIR)/$(PROJECT).o $(CFLAGS) ./$(PROJECT).cpp
 
-$(OBJECT_DIR)/$(TARGET)/Arduino.o: $(F3_DIR)/Arduino.cpp $(BREEZY_DIR)/Arduino.h
-	@$(CC) -c -o $(OBJECT_DIR)/$(TARGET)/Arduino.o $(CFLAGS) $(F3_DIR)/Arduino.cpp
+clean:
+	rm -rf obj
 
-# include auto-generated dependencies
--include $(TARGET_DEPS)
+flash_$(PROJECT): $(TARGET_HEX)
+	stty -F $(SERIAL_DEVICE) raw speed 115200 -crtscts cs8 -parenb -cstopb -ixon
+	echo -n 'R' >$(SERIAL_DEVICE)
+	sleep 2
+	stm32flash -w $(TARGET_HEX) -v -g 0x0 -b 115200 $(SERIAL_DEVICE)
+
+
+## flash       : flash firmware (.hex) onto flight controller
+flash: flash_$(PROJECT)
+
+unbrick_$(PROJECT): $(TARGET_HEX)
+	stty -F $(SERIAL_DEVICE) raw speed 115200 -crtscts cs8 -parenb -cstopb -ixon
+	stm32flash -w $(TARGET_HEX) -v -g 0x0 -b 115200 $(SERIAL_DEVICE)
+
+## unbrick     : unbrick flight controller
+unbrick: unbrick_$(PROJECT)
+
+# rebuild everything when makefile changes
+$(TARGET_OBJS) : Makefile
+
+commit:
+	git commit -a --allow-empty-message -m ''
+	git push
 
 listen:
-	miniterm.py $(SERIAL_DEVICE) 115200
+	miniterm.py $(SERIAL_DEVICE)
