@@ -2,7 +2,6 @@ BREEZY_DIR = $(HOME)/Desktop/BreezySTM32
 
 PROJECT = Blink
 
-# The target to build, see VALID_TARGETS below
 TARGET		?= SPRACINGF3
 
 # Compile-time options
@@ -24,26 +23,7 @@ FLASH_SIZE ?=
 F3_DIR = $(BREEZY_DIR)/f3
 SPRACINGF3_DIR = $(F3_DIR)/spracingf3
 
-FORKNAME			 = cleanflight
-
-256K_TARGETS = SPRACINGF3 
-
-F3_TARGETS = SPRACINGF3 
-
-VALID_TARGETS = $(64K_TARGETS) $(128K_TARGETS) $(256K_TARGETS)
-
-# Configure default flash sizes for the targets
-ifeq ($(FLASH_SIZE),)
-ifeq ($(TARGET),$(filter $(TARGET),$(64K_TARGETS)))
-FLASH_SIZE = 64
-else ifeq ($(TARGET),$(filter $(TARGET),$(128K_TARGETS)))
-FLASH_SIZE = 128
-else ifeq ($(TARGET),$(filter $(TARGET),$(256K_TARGETS)))
 FLASH_SIZE = 256
-else
-$(error FLASH_SIZE not configured for target $(TARGET))
-endif
-endif
 
 REVISION := $(shell git log -1 --format="%h")
 
@@ -62,9 +42,6 @@ USBFS_DIR	= $(BREEZY_DIR)/lib/main/STM32_USB-FS-Device_Driver
 USBPERIPH_SRC = $(notdir $(wildcard $(USBFS_DIR)/src/*.c))
 
 CSOURCES        := $(shell find $(SRC_DIR) -name '*.c')
-
-ifeq ($(TARGET),$(filter $(TARGET),$(F3_TARGETS)))
-# F3 TARGETS
 
 STDPERIPH_DIR	= $(BREEZY_DIR)/lib/STM32F30x_StdPeriph_Driver
 
@@ -94,72 +71,6 @@ ARCH_FLAGS	 = -mthumb -mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16 -fsingl
 DEVICE_FLAGS = -DSTM32F303xC -DSTM32F303
 TARGET_FLAGS = -D$(TARGET)
 
-else ifeq ($(TARGET),$(filter $(TARGET),PORT103R))
-# TARGETS: PORT103R
-
-
-STDPERIPH_DIR	 = $(BREEZY_DIR)/lib/STM32F10x_StdPeriph_Driver
-
-STDPERIPH_SRC = $(notdir $(wildcard $(STDPERIPH_DIR)/src/*.c))
-
-EXCLUDES	= stm32f10x_crc.c \
-		stm32f10x_cec.c \
-		stm32f10x_can.c
-
-STDPERIPH_SRC := $(filter-out ${EXCLUDES}, $(STDPERIPH_SRC))
-
-# Search path and source files for the CMSIS sources
-VPATH		:= $(VPATH):$(CMSIS_DIR)/CM3/CoreSupport:$(CMSIS_DIR)/CM3/DeviceSupport/ST/STM32F10x
-CMSIS_SRC	 = $(notdir $(wildcard $(CMSIS_DIR)/CM3/CoreSupport/*.c \
-			   $(CMSIS_DIR)/CM3/DeviceSupport/ST/STM32F10x/*.c))
-
-INCLUDE_DIRS := $(INCLUDE_DIRS) \
-		   $(STDPERIPH_DIR)/inc \
-		   $(CMSIS_DIR)/CM3/CoreSupport \
-		   $(CMSIS_DIR)/CM3/DeviceSupport/ST/STM32F10x \
-
-LD_SCRIPT	 = $(LINKER_DIR)/stm32_flash_f103_$(FLASH_SIZE)k.ld
-
-ARCH_FLAGS	 = -mthumb -mcpu=cortex-m3
-TARGET_FLAGS = -D$(TARGET)
-DEVICE_FLAGS = -DSTM32F10X_HD -DSTM32F10X
-
-DEVICE_STDPERIPH_SRC = $(STDPERIPH_SRC)
-
-else
-# F1 TARGETS
-
-STDPERIPH_DIR	 = $(BREEZY_DIR)/lib/STM32F10x_StdPeriph_Driver
-
-STDPERIPH_SRC = $(notdir $(wildcard $(STDPERIPH_DIR)/src/*.c))
-
-EXCLUDES	= stm32f10x_crc.c \
-		stm32f10x_cec.c \
-		stm32f10x_can.c
-
-STDPERIPH_SRC := $(filter-out ${EXCLUDES}, $(STDPERIPH_SRC))
-
-# Search path and source files for the CMSIS sources
-VPATH		:= $(VPATH):$(CMSIS_DIR)/CM3/CoreSupport:$(CMSIS_DIR)/CM3/DeviceSupport/ST/STM32F10x
-CMSIS_SRC	 = $(notdir $(wildcard $(CMSIS_DIR)/CM3/CoreSupport/*.c \
-			   $(CMSIS_DIR)/CM3/DeviceSupport/ST/STM32F10x/*.c))
-
-INCLUDE_DIRS := $(INCLUDE_DIRS) \
-		   $(STDPERIPH_DIR)/inc \
-		   $(CMSIS_DIR)/CM3/CoreSupport \
-		   $(CMSIS_DIR)/CM3/DeviceSupport/ST/STM32F10x \
-
-DEVICE_STDPERIPH_SRC = $(STDPERIPH_SRC)
-
-
-LD_SCRIPT	 = $(LINKER_DIR)/stm32_flash_f103_$(FLASH_SIZE)k.ld
-
-ARCH_FLAGS	 = -mthumb -mcpu=cortex-m3
-TARGET_FLAGS = -D$(TARGET)
-DEVICE_FLAGS = -DSTM32F10X_MD -DSTM32F10X
-
-endif #TARGETS
-
 ifneq ($(FLASH_SIZE),)
 DEVICE_FLAGS := $(DEVICE_FLAGS) -DFLASH_SIZE=$(FLASH_SIZE)
 endif
@@ -175,17 +86,6 @@ endif
 # SMARTPORT F3
 # Use bidirectional feature of F3 processor for smartport, for F1 targets always use two pins to allow external inverter.
 # This behavior will likely need modifying if softserial is updated to suport bidirectional communication on F3 targets. 
-ifeq ($(TARGET),$(filter $(TARGET),$(F3_TARGETS)))
-TARGET_FLAGS := $(TARGET_FLAGS) -DUSE_SMARTPORT_ONEWIRE
-endif
-
-# OSDs
-ifeq ($(TARGET),$(filter $(TARGET),$(OSD_TARGETS)))
-TARGET_FLAGS := $(TARGET_FLAGS) -DOSD
-else
-TARGET_FLAGS := $(TARGET_FLAGS) -DFC
-endif
-
 INCLUDE_DIRS := \
 		    $(INCLUDE_DIRS) \
 		    $(TARGET_DIR)
@@ -243,6 +143,7 @@ endif
 
 # Tool names
 CC          := $(CCACHE) arm-none-eabi-gcc
+C++         := $(CCACHE) arm-none-eabi-g++
 OBJCOPY     := arm-none-eabi-objcopy
 SIZE        := arm-none-eabi-size
 
@@ -276,9 +177,6 @@ CFLAGS		 = $(ARCH_FLAGS) \
 		   $(DEVICE_FLAGS) \
 		   -DUSE_STDPERIPH_DRIVER \
 		   $(TARGET_FLAGS) \
-		   -D'__FORKNAME__="$(FORKNAME)"' \
-		   -D'__TARGET__="$(TARGET)"' \
-		   -D'__REVISION__="$(REVISION)"' \
 		   -fverbose-asm -ffat-lto-objects \
 		   -save-temps=obj \
 		   -MMD -MP
@@ -316,18 +214,14 @@ CPPCHECK         = cppcheck $(CSOURCES) --enable=all --platform=unix64 \
 #
 # Things we will build
 #
-ifeq ($(filter $(TARGET),$(VALID_TARGETS)),)
-$(error Target '$(TARGET)' is not valid, must be one of $(VALID_TARGETS))
-endif
-
-TARGET_BIN	 = $(BIN_DIR)/$(FORKNAME)_$(TARGET).bin
-TARGET_HEX	 = $(BIN_DIR)/$(FORKNAME)_$(TARGET).hex
-TARGET_ELF	 = $(OBJECT_DIR)/$(FORKNAME)_$(TARGET).elf
+TARGET_BIN	 = $(BIN_DIR)/$(TARGET).bin
+TARGET_HEX	 = $(BIN_DIR)/$(TARGET).hex
+TARGET_ELF	 = $(OBJECT_DIR)/$(TARGET).elf
 TARGET_OBJS	 = $(addsuffix .o,$(addprefix $(OBJECT_DIR)/$(TARGET)/,$(basename $($(TARGET)_SRC)))) \
 			   $(OBJECT_DIR)/$(TARGET)/$(PROJECT).o \
-			   $(OBJECT_DIR)/$(TARGET)/Arduino.o
+			   $(OBJECT_DIR)/$(TARGET)/Arduino.o 
 TARGET_DEPS	 = $(addsuffix .d,$(addprefix $(OBJECT_DIR)/$(TARGET)/,$(basename $($(TARGET)_SRC))))
-TARGET_MAP	 = $(OBJECT_DIR)/$(FORKNAME)_$(TARGET).map
+TARGET_MAP	 = $(OBJECT_DIR)/$(TARGET).map
 
 
 ## Default make goal:
@@ -348,14 +242,6 @@ hex:    $(TARGET_HEX)
 # rule to reinvoke make with TARGET= parameter
 # rules that should be handled in toplevel Makefile, not dependent on TARGET
 GLOBAL_GOALS	= all_targets cppcheck test
-
-.PHONY: $(VALID_TARGETS)
-$(VALID_TARGETS):
-	$(MAKE) TARGET=$@ $(filter-out $(VALID_TARGETS) $(GLOBAL_GOALS), $(MAKECMDGOALS))
-
-## all_targets : Make all TARGETs
-.PHONY: all_targets
-all_targets : $(VALID_TARGETS)
 
 ## clean       : clean up all temporary / machine-generated files
 clean:
@@ -416,7 +302,6 @@ $(OBJECT_DIR)/$(TARGET)/$(PROJECT).o: $(PROJECT).cpp $(BREEZY_DIR)/Arduino.h
 
 $(OBJECT_DIR)/$(TARGET)/Arduino.o: $(F3_DIR)/Arduino.cpp $(BREEZY_DIR)/Arduino.h
 	@$(CC) -c -o $(OBJECT_DIR)/$(TARGET)/Arduino.o $(CFLAGS) $(F3_DIR)/Arduino.cpp
-
 
 # include auto-generated dependencies
 -include $(TARGET_DEPS)
