@@ -134,7 +134,6 @@ CCACHE :=
 endif
 
 # Tool names
-C++         := $(CCACHE) arm-none-eabi-g++
 CC          := $(CCACHE) arm-none-eabi-gcc
 OBJCOPY     := arm-none-eabi-objcopy
 SIZE        := arm-none-eabi-size
@@ -217,7 +216,7 @@ $(TARGET_HEX): $(TARGET_ELF)
 	$(OBJCOPY) -O ihex --set-start 0x8000000 $< $@
 
 $(TARGET_ELF):  $(TARGET_OBJS)
-	$(C++) -o $@ $^ $(LDFLAGS)
+	$(CC) -o $@ $^ $(LDFLAGS)
 
 # Compile
 $(OBJECT_DIR)/$(PROJECT)/%.o: %.c
