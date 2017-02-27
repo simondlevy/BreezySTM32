@@ -7,13 +7,13 @@ ARDUINO_DIR = $(HOME)/Development/arduino-1.8.1/hardware/teensy/avr/libraries
 ###############################################################################
 
 F3_DIR = $(BREEZY_DIR)/f3
-ALIENFLIGHTF3_DIR = $(F3_DIR)/alienflightf3
+ALIENFLIGHTF3_DIR = $(F3_DIR)/spracingf3evo
 
 # Debugger optons, must be empty or GDB
 DEBUG ?=
 
 # The target to build
-TARGET		?= ALIENFLIGHTF3
+TARGET		?= SPRACINGF3
 
 # Serial port/Device for flashing
 SERIAL_DEVICE	?= /dev/ttyACM0
