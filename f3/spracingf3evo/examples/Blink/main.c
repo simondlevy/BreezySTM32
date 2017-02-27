@@ -9,8 +9,8 @@
 #include "serial_uart.h"
 #include "exti.h"
 
-#define LED0_OFF                 digitalHi(led_config[0].gpio, led_config[0].pin)
-#define LED0_ON                  digitalLo(led_config[0].gpio, led_config[0].pin)
+#define LED0_OFF digitalHi(led_config[0].gpio, LED0_PIN_2)
+#define LED0_ON  digitalLo(led_config[0].gpio, LED0_PIN_2)
 
 typedef struct led_config_s {
     GPIO_TypeDef *gpio;
