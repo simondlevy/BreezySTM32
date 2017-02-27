@@ -1,25 +1,18 @@
+# Change this to wherever you put BreezySTM32
 BREEZY_DIR = $(HOME)/Desktop/BreezySTM32
 
+# Change this to where you put your Arduino libraries
+ARDUINO_DIR = $(HOME)/Development/arduino-1.8.1/hardware/teensy/avr/libraries
+
+# Change this to whatever project name you want
 PROJECT = Blink
+
+#########################################################################
+
+SERIAL_DEVICE = /dev/ttyUSB0
 
 TARGET		?= SPRACINGF3
 
-# Compile-time options
-OPTIONS		?=
-export OPTIONS
-
-# Debugger optons, must be empty or GDB
-DEBUG ?=
-
-# Serial port/Device for flashing
-SERIAL_DEVICE	?= $(firstword $(wildcard /dev/ttyUSB*) no-port-found)
-
-# Flash size (KB).  Some low-end chips actually have more flash than advertised, use this to override.
-FLASH_SIZE ?=
-
-###############################################################################
-# Things that need to be maintained as the source changes
-#
 F3_DIR = $(BREEZY_DIR)/f3
 SPRACINGF3_DIR = $(F3_DIR)/spracingf3
 
