@@ -9,8 +9,8 @@
 #include "serial_uart.h"
 #include "exti.h"
 
-#define LED0_OFF digitalHi(gpio, LED0_PIN_2)
-#define LED0_ON  digitalLo(gpio, LED0_PIN_2)
+#define LED0_OFF digitalHi(gpio, Pin_8)
+#define LED0_ON  digitalLo(gpio, Pin_8)
 
 static GPIO_TypeDef * gpio;
 
@@ -19,7 +19,7 @@ void ledInit(void)
     gpio_config_t cfg;
     cfg.mode = Mode_Out_PP;
     cfg.speed = Speed_2MHz;
-    cfg.pin = LED0_PIN_2; 
+    cfg.pin = Pin_8; 
 
     gpio = GPIOB;
 
