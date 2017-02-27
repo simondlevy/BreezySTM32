@@ -74,15 +74,6 @@ ifneq ($(FLASH_SIZE),)
 DEVICE_FLAGS := $(DEVICE_FLAGS) -DFLASH_SIZE=$(FLASH_SIZE)
 endif
 
-#TARGET_DIR = $(ROOT)/target/$(TARGET)
-#TARGET_SRC = $(notdir $(wildcard $(TARGET_DIR)/*.c))
-
-INCLUDE_DIRS := \
-		    $(INCLUDE_DIRS) \
-		    $(TARGET_DIR)
-
-VPATH		:= $(VPATH):$(TARGET_DIR)
-
 SYSTEM_SRC = \
 		   $(F3_DIR)/dma.c \
 		   $(F3_DIR)/serial.c \
