@@ -267,6 +267,3 @@ $(TARGET_OBJS) : Makefile
 commit:
 	git commit -a --allow-empty-message -m ''
 	git push
-
-listen:
-	miniterm.py $(SERIAL_DEVICE)
