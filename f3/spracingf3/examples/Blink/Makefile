@@ -69,7 +69,6 @@ LD_SCRIPT	 = $(LINKER_DIR)/stm32_flash_f303_$(FLASH_SIZE)k.ld
 
 ARCH_FLAGS	 = -mthumb -mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16 -fsingle-precision-constant -Wdouble-promotion
 DEVICE_FLAGS = -DSTM32F303xC -DSTM32F303
-TARGET_FLAGS = -D$(TARGET)
 
 ifneq ($(FLASH_SIZE),)
 DEVICE_FLAGS := $(DEVICE_FLAGS) -DFLASH_SIZE=$(FLASH_SIZE)
@@ -77,11 +76,6 @@ endif
 
 TARGET_DIR = $(ROOT)/target/$(TARGET)
 TARGET_SRC = $(notdir $(wildcard $(TARGET_DIR)/*.c))
-
-ifeq ($(TARGET),$(filter $(TARGET),RMDO IRCFUSIONF3))
-# RMDO and IRCFUSIONF3 are a VARIANT of SPRACINGF3
-TARGET_FLAGS := $(TARGET_FLAGS) -DSPRACINGF3
-endif
 
 INCLUDE_DIRS := \
 		    $(INCLUDE_DIRS) \
@@ -170,7 +164,7 @@ CFLAGS		 = $(ARCH_FLAGS) \
 		   -fdata-sections \
 		   $(DEVICE_FLAGS) \
 		   -DUSE_STDPERIPH_DRIVER \
-		   $(TARGET_FLAGS) \
+		   -DSPRACINGF3 \
 		   -fverbose-asm -ffat-lto-objects \
 		   -save-temps=obj \
 		   -MMD -MP
