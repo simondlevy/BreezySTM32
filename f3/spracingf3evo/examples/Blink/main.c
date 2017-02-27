@@ -21,8 +21,6 @@ void ledInit(void)
     cfg.speed = Speed_2MHz;
     cfg.pin = LED0_PIN_2; 
 
-    RCC_AHBPeriphClockCmd(LED0_PERIPHERAL_2, ENABLE);
-
     gpio = LED0_GPIO_2;
 
     gpioInit(gpio, &cfg);
