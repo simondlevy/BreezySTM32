@@ -36,13 +36,13 @@ along with BreezySTM32.  If not, see <http://www.gnu.org/licenses/>.
 GPIO_TypeDef * gpio_type_from_pin(uint8_t pin)
 {
     (void)pin;
-    return  NULL;
+    return  GPIOB;
 }
 
 uint16_t gpio_pin_from_pin(uint8_t pin)
 {
     (void)pin;
-    return 0;
+    return Pin_8;
 }
 
 serialPort_t * serial0_open(void)
