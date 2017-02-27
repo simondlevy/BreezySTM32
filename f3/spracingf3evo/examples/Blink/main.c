@@ -9,16 +9,10 @@
 #include "serial_uart.h"
 #include "exti.h"
 
-#define LED0_OFF digitalHi(led_config[0].gpio, LED0_PIN_2)
-#define LED0_ON  digitalLo(led_config[0].gpio, LED0_PIN_2)
+#define LED0_OFF digitalHi(gpio, LED0_PIN_2)
+#define LED0_ON  digitalLo(gpio, LED0_PIN_2)
 
-typedef struct led_config_s {
-    GPIO_TypeDef *gpio;
-    uint16_t pin;
-} led_config_t;
-
-
-static led_config_t led_config[3];
+static GPIO_TypeDef * gpio;
 
 void ledInit(void)
 {
@@ -29,9 +23,9 @@ void ledInit(void)
 
     RCC_AHBPeriphClockCmd(LED0_PERIPHERAL_2, ENABLE);
 
-    led_config[0].gpio = LED0_GPIO_2;
+    gpio = LED0_GPIO_2;
 
-    gpioInit(led_config[0].gpio, &cfg);
+    gpioInit(gpio, &cfg);
 }
 
 void SetSysClock(void);
