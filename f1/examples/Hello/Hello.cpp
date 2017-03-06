@@ -20,27 +20,13 @@
  */
 
 #include <Arduino.h>
-#include <MPU6050.h>
-
-MPU6050 * imu;
 
 void setup(void)
 {
     Serial.begin(115200);
-
-    Wire.begin(2);
-
-    imu = new MPU6050();
-
-    imu->begin(AFS_2G, GFS_250DPS);
 }
 
 void loop(void)
 {
-    int16_t ax, ay, az, gx, gy, gz;
-
-    if (imu->getMotion6Counts(&ax, &ay, &az, &gx, &gy, &gz)) {
-        Serial.printf("%5d %5d %5d %d %5d %5d\n", ax, ay, ax, gx, gy, gz);
-    }
-
+    Serial.printf("%ld\n", millis());
 }
