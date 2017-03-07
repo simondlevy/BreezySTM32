@@ -1,5 +1,5 @@
 /*
-NewWire.h : Arduino-like API header for BreezySTM32 I^2C library
+OldWire.h : static I^2C class for BreezySTM32 I^2C library
 
 Copyright (C) 2017 Simon D. Levy 
 

@@ -111,7 +111,7 @@ TARGET_HEX	 = $(BIN_DIR)/$(PROJECT).hex
 TARGET_ELF	 = $(BIN_DIR)/$(PROJECT).elf
 TARGET_OBJS	 = $(addsuffix .o,$(addprefix $(OBJECT_DIR)/$(PROJECT)/,$(basename $($(PROJECT)_CSRC)))) \
 			   $(OBJECT_DIR)/$(PROJECT)/Arduino.o \
-			   $(OBJECT_DIR)/$(PROJECT)/NewHardwareWire.o \
+			   $(OBJECT_DIR)/$(PROJECT)/OldHardwareWire.o \
 			   $(OBJECT_DIR)/$(PROJECT)/MPU6050.o \
 			   $(OBJECT_DIR)/$(PROJECT).o
 TARGET_MAP   = $(OBJECT_DIR)/$(PROJECT).map
@@ -145,11 +145,11 @@ $(OBJECT_DIR)/$(PROJECT)/%.o: %.S
 $(OBJECT_DIR)/$(PROJECT)/Arduino.o: $(F1_DIR)/Arduino.cpp $(BREEZY_DIR)/Arduino.h
 	@$(CC) -c -o $(OBJECT_DIR)/$(PROJECT)/Arduino.o $(CFLAGS) $(F1_DIR)/Arduino.cpp
 
-$(OBJECT_DIR)/$(PROJECT)/NewHardwareWire.o: $(F1_DIR)/NewHardwareWire.cpp $(BREEZY_DIR)/NewWire.h
-	@$(CC) -c -o $(OBJECT_DIR)/$(PROJECT)/NewHardwareWire.o $(CFLAGS) $(F1_DIR)/NewHardwareWire.cpp
+$(OBJECT_DIR)/$(PROJECT)/OldHardwareWire.o: $(F1_DIR)/OldHardwareWire.cpp $(BREEZY_DIR)/OldWire.h
+	@$(CC) -c -o $(OBJECT_DIR)/$(PROJECT)/OldHardwareWire.o $(CFLAGS) $(F1_DIR)/OldHardwareWire.cpp
 
-$(OBJECT_DIR)/$(PROJECT)/MPU6050.o: $(BREEZY_DIR)/MPU6050.cpp $(BREEZY_DIR)/MPU6050.h
-	@$(CC) -c -o $(OBJECT_DIR)/$(PROJECT)/MPU6050.o $(CFLAGS) $(BREEZY_DIR)/MPU6050.cpp
+$(OBJECT_DIR)/$(PROJECT)/MPU6050.o: MPU6050.cpp MPU6050.h
+	@$(CC) -c -o $(OBJECT_DIR)/$(PROJECT)/MPU6050.o $(CFLAGS) MPU6050.cpp
 
 $(OBJECT_DIR)/$(PROJECT).o: ./$(PROJECT).cpp
 	@$(CC) -c -o $(OBJECT_DIR)/$(PROJECT).o $(CFLAGS) ./$(PROJECT).cpp

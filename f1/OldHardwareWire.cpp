@@ -1,5 +1,7 @@
 /*
-NewHardwareWire.cpp : Wire API impelentation for BreezySTM32 library
+OldHardwareWire.cpp : Static I^2C impelentation for BreezySTM32 library
+
+Adapted from https://github.com/multiwii/baseflight/blob/master/src/drv_i2c.c
 
 Copyright (C) 2017 Simon D. Levy 
 
@@ -21,7 +23,7 @@ along with BreezySTM32.  If not, see <http://www.gnu.org/licenses/>.
 
 extern "C" {
 
-#include <NewWire.h>
+#include <OldWire.h>
 
 #include <stdlib.h>
 
