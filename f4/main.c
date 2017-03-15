@@ -53,7 +53,7 @@ int main(void) {
     setup();
 
     /// supports periodic reboot check
-    uint32_t dbg_start_msec = 0;
+    //uint32_t dbg_start_msec = 0;
 
     while (true) {
 
