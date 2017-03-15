@@ -21,7 +21,7 @@ BREEZY_DIR = $(HOME)/Desktop/BreezySTM32
 
 F4_DIR = $(BREEZY_DIR)/f4
 
-PROJECT_NAME = blink
+PROJECT = blink
 
 # Contains your setup() and loop()
 PROJECT_SRC_FILE  = blink.c
@@ -235,9 +235,9 @@ LDFLAGS		 = -lm \
            -Wl,--cref \
 		   -T$(LD_SCRIPT)
 
-TARGET_BIN	 = $(BIN_DIR)/$(PROJECT_NAME).bin
-TARGET_HEX	 = $(BIN_DIR)/$(PROJECT_NAME).hex
-TARGET_ELF	 = $(OBJECT_DIR)/$(PROJECT_NAME).elf
+TARGET_BIN	 = $(BIN_DIR)/$(PROJECT).bin
+TARGET_HEX	 = $(BIN_DIR)/$(PROJECT).hex
+TARGET_ELF	 = $(OBJECT_DIR)/$(PROJECT).elf
 TARGET_OBJS	 = $(addsuffix .o,$(addprefix $(OBJECT_DIR)/$(TARGET)/,$(basename $($(TARGET)_SRC))))
 TARGET_DEPS	 = $(addsuffix .d,$(addprefix $(OBJECT_DIR)/$(TARGET)/,$(basename $($(TARGET)_SRC))))
 TARGET_MAP	 = $(OBJECT_DIR)/$(TARGET).map
