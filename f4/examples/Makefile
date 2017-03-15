@@ -185,9 +185,10 @@ VPATH		:= $(VPATH):$(STDPERIPH_DIR)/src
 #
 
 # Tool names
+C++		 = arm-none-eabi-g++
 CC		 = arm-none-eabi-gcc
-OBJCOPY		 = arm-none-eabi-objcopy
-SIZE		 = arm-none-eabi-size
+OBJCOPY	 = arm-none-eabi-objcopy
+SIZE	 = arm-none-eabi-size
 
 #
 # Tool options.
@@ -268,7 +269,7 @@ $(TARGET_BIN): $(TARGET_ELF)
 	$(OBJCOPY) -O binary $< $@
 
 $(TARGET_ELF):  $(TARGET_OBJS)
-	$(CC) -o $@ $^ $(LDFLAGS)
+	$(C++) -o $@ $^ $(LDFLAGS)
 	$(SIZE) $(TARGET_ELF) 
 
 # Compile
