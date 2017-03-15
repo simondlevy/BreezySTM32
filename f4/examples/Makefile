@@ -241,9 +241,9 @@ CPPCHECK         = cppcheck $(CSOURCES) --enable=all --platform=unix64 \
 		   -I/usr/include -I/usr/include/linux
 
 
-TARGET_BIN	 = $(BIN_DIR)/$(TARGET).bin
-TARGET_HEX	 = $(BIN_DIR)/$(TARGET).hex
-TARGET_ELF	 = $(OBJECT_DIR)/$(TARGET).elf
+TARGET_BIN	 = $(BIN_DIR)/$(PROJECT_NAME).bin
+TARGET_HEX	 = $(BIN_DIR)/$(PROJECT_NAME).hex
+TARGET_ELF	 = $(OBJECT_DIR)/$(PROJECT_NAME).elf
 TARGET_OBJS	 = $(addsuffix .o,$(addprefix $(OBJECT_DIR)/$(TARGET)/,$(basename $($(TARGET)_SRC))))
 TARGET_DEPS	 = $(addsuffix .d,$(addprefix $(OBJECT_DIR)/$(TARGET)/,$(basename $($(TARGET)_SRC))))
 TARGET_MAP	 = $(OBJECT_DIR)/$(TARGET).map
