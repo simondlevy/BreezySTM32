@@ -23,9 +23,6 @@ F4_DIR = $(BREEZY_DIR)/f4
 
 PROJECT = blink
 
-# Contains your setup() and loop()
-PROJECT_SRC_FILE  = blink.c
-
 TARGET		?= REVO
 
 # Compile-time options
@@ -140,7 +137,7 @@ INCLUDE_DIRS := $(INCLUDE_DIRS) \
 
 VPATH		:= $(VPATH):$(TARGET_DIR)
 
-COMMON_SRC = $(PROJECT_SRC_FILE) \
+COMMON_SRC = $(PROJECT).c \
 		   $(F4_DIR)/main.c \
 		   $(F4_DIR)/exti.c \
 		   $(F4_DIR)/io.c \
