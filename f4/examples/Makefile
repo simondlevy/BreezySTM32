@@ -21,7 +21,10 @@ BREEZY_DIR = $(HOME)/Desktop/BreezySTM32
 
 F4_DIR = $(BREEZY_DIR)/f4
 
-include makefile.project
+PROJECT_NAME = blink
+
+# Contains your setup() and loop()
+PROJECT_SRC_FILE  = blink.c
 
 TARGET		?= REVO
 
