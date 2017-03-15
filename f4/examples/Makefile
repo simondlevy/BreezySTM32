@@ -232,16 +232,6 @@ LDFLAGS		 = -lm \
            -Wl,--cref \
 		   -T$(LD_SCRIPT)
 
-###############################################################################
-# No user-serviceable parts below
-###############################################################################
-
-CPPCHECK         = cppcheck $(CSOURCES) --enable=all --platform=unix64 \
-		   --std=c99 --inline-suppr --quiet --force \
-		   $(addprefix -I,$(INCLUDE_DIRS)) \
-		   -I/usr/include -I/usr/include/linux
-
-
 TARGET_BIN	 = $(BIN_DIR)/$(PROJECT_NAME).bin
 TARGET_HEX	 = $(BIN_DIR)/$(PROJECT_NAME).hex
 TARGET_ELF	 = $(OBJECT_DIR)/$(PROJECT_NAME).elf
