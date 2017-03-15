@@ -17,11 +17,18 @@
 # You should have received a copy of the GNU Lesser General Public License 
 # along with this code.  If not, see <http://www.gnu.org/licenses/>.
 
+# Change this to wherever you put BreezySTM32
 BREEZY_DIR = $(HOME)/Desktop/BreezySTM32
 
-F4_DIR = $(BREEZY_DIR)/f4
+# Change this to where you put your Arduino libraries
+ARDUINO_DIR = $(HOME)/Development/arduino-1.8.1/hardware/teensy/avr/libraries
 
+# Change this to whatever project name you want
 PROJECT = blink
+
+###############################################################################
+
+F4_DIR = $(BREEZY_DIR)/f4
 
 TARGET		?= REVO
 
@@ -137,7 +144,7 @@ INCLUDE_DIRS := $(INCLUDE_DIRS) \
 
 VPATH		:= $(VPATH):$(TARGET_DIR)
 
-COMMON_SRC = $(PROJECT).c \
+COMMON_SRC = \
 		   $(F4_DIR)/main.c \
 		   $(F4_DIR)/exti.c \
 		   $(F4_DIR)/io.c \
@@ -235,7 +242,8 @@ LDFLAGS		 = -lm \
 TARGET_BIN	 = $(BIN_DIR)/$(PROJECT).bin
 TARGET_HEX	 = $(BIN_DIR)/$(PROJECT).hex
 TARGET_ELF	 = $(OBJECT_DIR)/$(PROJECT).elf
-TARGET_OBJS	 = $(addsuffix .o,$(addprefix $(OBJECT_DIR)/$(TARGET)/,$(basename $($(TARGET)_SRC))))
+TARGET_OBJS	 = $(addsuffix .o,$(addprefix $(OBJECT_DIR)/$(TARGET)/,$(basename $($(TARGET)_SRC)))) \
+			   $(OBJECT_DIR)/$(PROJECT).o
 TARGET_DEPS	 = $(addsuffix .d,$(addprefix $(OBJECT_DIR)/$(TARGET)/,$(basename $($(TARGET)_SRC))))
 TARGET_MAP	 = $(OBJECT_DIR)/$(TARGET).map
 
@@ -279,6 +287,8 @@ $(OBJECT_DIR)/$(TARGET)/%.o: %.S
 	@echo %% $(notdir $<)
 	@$(CC) -c -o $@ $(ASFLAGS) $<
 
+$(OBJECT_DIR)/$(PROJECT).o: ./$(PROJECT).c
+	@$(CC) -c -o $(OBJECT_DIR)/$(PROJECT).o $(CFLAGS) ./$(PROJECT).c
 
 ## all         : default task; compile C code, build firmware
 all: binary
