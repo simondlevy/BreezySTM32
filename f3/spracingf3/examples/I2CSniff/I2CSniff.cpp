@@ -27,7 +27,7 @@
 void setup(void)
 {
     Serial.begin(115200);
-    Wire.begin(1); 
+    Wire.begin(2); 
 } 
 
 void loop(void)

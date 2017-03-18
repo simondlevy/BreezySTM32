@@ -20,8 +20,11 @@ typedef enum {
     OWNER_PINDEBUG,
     OWNER_TIMER,
     OWNER_SONAR,
-    OWNER_SYSTEM
-} resourceOwner_t;
+    OWNER_SYSTEM,
+    OWNER_SPI_SCK,
+    OWNER_SPI_MISO,
+    OWNER_SPI_MOSI,
+ } resourceOwner_t;
 
 
 // Currently TIMER should be shared resource (softserial dualtimer and timerqueue needs to allocate timer channel, but pin can be used for other function)
@@ -36,3 +39,5 @@ typedef enum {
     RESOURCE_ADC = 1 << 5,
     RESOURCE_EXTI = 1 << 6
 } resourceType_t;
+
+#define RESOURCE_INDEX(x) (x + 1)

@@ -32,9 +32,7 @@ void setup(void)
 
 void loop(void)
 {
-    uint8_t addr;
-
-    for (addr=0; addr<128; ++addr) {
+    for (uint8_t addr=0; addr<128; ++addr) {
         Wire.beginTransmission(addr);
         if (!Wire.endTransmission()) {
             Serial.printf("Found device at address 0X%02X\n", addr);

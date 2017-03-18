@@ -108,6 +108,7 @@ STM32F30x_COMMON_SRC = \
 		   $(F3_DIR)/system_stm32f30x_extras.c \
 		   $(F3_DIR)/gpio_stm32f30x.c \
 		   $(F3_DIR)/serial_uart.c \
+		   $(F3_DIR)/bus_spi.c \
 		   $(F3_DIR)/serial_uart_stm32f30x.c \
 		   $(F3_DIR)/system_stm32f30x.c
 
@@ -194,6 +195,7 @@ TARGET_HEX	 = $(BIN_DIR)/$(PROJECT).hex
 TARGET_ELF	 = $(OBJECT_DIR)/$(PROJECT).elf
 TARGET_OBJS	 = $(addsuffix .o,$(addprefix $(OBJECT_DIR)/$(PROJECT)/,$(basename $($(PROJECT)_CSRC)))) \
 			   $(OBJECT_DIR)/$(PROJECT)/Arduino.o \
+			   $(OBJECT_DIR)/$(PROJECT)/HardwareSPI.o \
 			   $(OBJECT_DIR)/$(PROJECT).o
 TARGET_MAP	 = $(OBJECT_DIR)/$(PROJECT).map
 
@@ -243,6 +245,9 @@ $(OBJECT_DIR)/$(PROJECT)/%.o: %.S
 
 $(OBJECT_DIR)/$(PROJECT)/Arduino.o: $(F3_DIR)/Arduino.cpp $(BREEZY_DIR)/Arduino.h
 	@$(CC) -c -o $(OBJECT_DIR)/$(PROJECT)/Arduino.o $(CFLAGS) $(F3_DIR)/Arduino.cpp
+
+$(OBJECT_DIR)/$(PROJECT)/HardwareSPI.o: $(F3_DIR)/HardwareSPI.cpp $(BREEZY_DIR)/SPI.h
+	@$(CC) -c -o $(OBJECT_DIR)/$(PROJECT)/HardwareSPI.o $(CFLAGS) $(F3_DIR)/HardwareSPI.cpp
 
 $(OBJECT_DIR)/$(PROJECT).o: ./$(PROJECT).cpp
 	@$(CC) -c -o $(OBJECT_DIR)/$(PROJECT).o $(CFLAGS) ./$(PROJECT).cpp

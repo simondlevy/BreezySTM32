@@ -34,6 +34,7 @@ extern "C" {
 #include "serial.h"
 #include "serial_uart.h"
 #include "exti.h"
+#include "bus_spi.h"
 
 // Board-specific
 GPIO_TypeDef * gpio_type_from_pin(uint8_t pin);
@@ -91,6 +92,8 @@ void resetToBootloader(void)
 }
 
 int main(void) {
+
+    spiInit(SPIDEV_1);
 
     // start fpu
     SCB->CPACR = (0x3 << (10*2)) | (0x3 << (11*2));
