@@ -93,7 +93,7 @@ void resetToBootloader(void)
 
 int main(void) {
 
-    spiInit(SPIDEV_1);
+    //spiInit(SPIDEV_1);
 
     // start fpu
     SCB->CPACR = (0x3 << (10*2)) | (0x3 << (11*2));
