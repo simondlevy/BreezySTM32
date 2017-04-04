@@ -30,9 +30,11 @@ void setup(void)
 
     Wire.begin(2);
 
+    delay(100);
+
     imu = new MPU6050();
 
-    imu->begin(AFS_2G, GFS_250DPS);
+    imu->begin(AFS_8G, GFS_2000DPS);
 }
 
 void loop(void)
@@ -40,7 +42,9 @@ void loop(void)
     int16_t ax, ay, az, gx, gy, gz;
 
     if (imu->getMotion6Counts(&ax, &ay, &az, &gx, &gy, &gz)) {
-        Serial.printf("%5d %5d %5d %d %5d %5d\n", ax, ay, ax, gx, gy, gz);
+
+        Serial.printf("ax: %d ay: %d az: %d   gx: %d gy: %d gz: %d\n", 
+                ax, ay, ax, gx, gy, gz);
     }
 
 }

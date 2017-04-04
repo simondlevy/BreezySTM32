@@ -19,7 +19,8 @@
 #include <Arduino.h>
 #include <SpektrumDSM.h>
 
-SpektrumDSM2048 rx;
+//SpektrumDSM2048 rx;
+SpektrumDSM1024 rx;
 
 static uint8_t chanmap[5] = {1, 2, 3, 0, 5};
 
