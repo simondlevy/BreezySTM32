@@ -92,6 +92,12 @@ static void pwmGPIOConfig(GPIO_TypeDef *gpio, uint32_t pin, GPIO_Mode mode)
     gpioInit(gpio, &cfg);
 }
 
+void Servo::setAngle(uint16_t angle)
+{
+    pwmPortData_t * _servo = (pwmPortData_t *)this->motor;
+    *_servo->ccr = angle;
+}
+
 void BrushedMotor::setSpeed(uint16_t value)
 {
     pwmPortData_t * _motor = (pwmPortData_t *)this->motor;

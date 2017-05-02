@@ -1,5 +1,5 @@
 /*
-   Motor.h : Support for brushed and brushless motors
+   Motor.h : Support for servos and brushed and brushless motors
 
    This file is part of BreezySTM32.
 
@@ -30,6 +30,17 @@ class Motor {
         void * motor;
 
         void attach(uint8_t pin, uint32_t motorPwmRate, uint16_t idlePulseUsec);
+};
+
+class Servo : public Motor {
+
+    public:
+
+        void attach(uint8_t pin) { Motor::attach(pin, 400, 1000); }
+
+        // 0 - 180
+        void setAngle(uint16_t angle);
+
 };
 
 class BrushlessMotor : public Motor {
