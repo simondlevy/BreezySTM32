@@ -36,7 +36,7 @@ class Servo : public Motor {
 
     public:
 
-        void attach(uint8_t pin) { Motor::attach(pin, 400, 1000); }
+        void attach(uint8_t pin) { Motor::attach(pin, 50, 1500); }
 
         // 0 - 180
         void setAngle(uint16_t angle);

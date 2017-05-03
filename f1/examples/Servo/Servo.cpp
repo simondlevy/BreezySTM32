@@ -34,7 +34,7 @@ void setup() {
 
     delay(100);
 
-    speed = 1100;
+    speed = 1000;
     direction = +1;
 }
 
@@ -44,12 +44,12 @@ void loop() {
 
     speed += direction;
 
-    if (speed == 1200)
+    if (speed == 2000)
         direction = -1;
 
-    if (speed == 1100)
+    if (speed == 1000)
         direction = +1;
 
-    delay(10);
+    delay(5);
 
 }
