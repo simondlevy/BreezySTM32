@@ -25,8 +25,11 @@
 
 Servo servo;
 
-static uint16_t speed;
+static uint16_t value;
 static int16_t  direction;
+
+#define MINVAL 800
+#define MAXVAL 2200
 
 void setup() {                
 
@@ -34,22 +37,22 @@ void setup() {
 
     delay(100);
 
-    speed = 1000;
+    value = MINVAL;
     direction = +1;
 }
 
 void loop() {
 
-    servo.setAngle(speed);
+    servo.writeMicroseconds(value);
 
-    speed += direction;
+    value += direction;
 
-    if (speed == 2000)
+    if (value == MAXVAL)
         direction = -1;
 
-    if (speed == 1000)
+    if (value == MINVAL)
         direction = +1;
 
-    delay(5);
+    delay(1);
 
 }

@@ -24,7 +24,7 @@
 
 BrushedMotor motor;
 
-static uint16_t speed;
+static uint16_t value;
 static int16_t  direction;
 
 void setup() {                
@@ -34,20 +34,20 @@ void setup() {
 
     delay(100);
 
-    speed = 1100;
+    value = 1100;
     direction = +1;
 }
 
 void loop() {
 
-    motor.setSpeed(speed);
+    motor.writeMicroseconds(value);
 
-    speed += direction;
+    value += direction;
 
-    if (speed == 1200)
+    if (value == 1200)
         direction = -1;
 
-    if (speed == 1100)
+    if (value == 1100)
         direction = +1;
 
     delay(10);

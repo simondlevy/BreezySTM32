@@ -38,8 +38,8 @@ class Servo : public Motor {
 
         void attach(uint8_t pin) { Motor::attach(pin, 50, 1500); }
 
-        // 0 - 180
-        void setAngle(uint16_t angle);
+        // 1000 - 2000
+        void writeMicroseconds(uint16_t uS);
 
 };
 
@@ -47,10 +47,10 @@ class BrushlessMotor : public Motor {
 
     public:
 
-        void attach(uint8_t pin) { Motor::attach(pin, 400, 1000); };
+        void attach(uint8_t pin) { Motor::attach(pin, 50 /*400*/, 1000); };
 
         // 1000 - 2000
-        void setSpeed(uint16_t speed);
+        void writeMicroseconds(uint16_t uS);
 
 };
 
@@ -61,7 +61,7 @@ class BrushedMotor : public Motor {
         void attach(uint8_t pin) { Motor::attach(pin, 32000, 0); }
 
         // 1000 - 2000
-        void setSpeed(uint16_t speed);
+        void writeMicroseconds(uint16_t uS);
 };
 
 }

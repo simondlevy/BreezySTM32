@@ -34,13 +34,16 @@ void setup() {
 
     delay(100);
 
+    motor.writeMicroseconds(1000);
+    delay(2);
+
     speed = 1100;
     direction = +1;
 }
 
 void loop() {
 
-    motor.setSpeed(speed);
+    motor.writeMicroseconds(speed);
 
     speed += direction;
 
