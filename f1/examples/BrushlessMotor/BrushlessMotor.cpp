@@ -28,16 +28,20 @@ BrushlessMotor motor;
 static uint16_t speed;
 static int16_t  direction;
 
+#define BASELINE 990
+#define MAXVAL   1500
+
 void setup() {                
 
     motor.attach(8);
 
     delay(100);
 
-    motor.writeMicroseconds(1000);
-    delay(2);
+    motor.writeMicroseconds(BASELINE);
 
-    speed = 1100;
+    delay(4500);
+
+    speed = BASELINE;
     direction = +1;
 }
 
@@ -47,10 +51,10 @@ void loop() {
 
     speed += direction;
 
-    if (speed == 1200)
+    if (speed == MAXVAL)
         direction = -1;
 
-    if (speed == 1100)
+    if (speed == BASELINE)
         direction = +1;
 
     delay(10);
