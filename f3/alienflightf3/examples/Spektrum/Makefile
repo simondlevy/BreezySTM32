@@ -12,7 +12,7 @@ PROJECT = ReadSpektrum
 F3_DIR = $(BREEZY_DIR)/f3
 ALIENFLIGHTF3_DIR = $(F3_DIR)/alienflightf3
 
-SPEKTRUM_DIR = $(ARDUINO_DIR)/SpektrumDSM
+SPEKTRUM_DIR = $(F3_DIR)/libraries/SpektrumDSM
 
 # Debugger optons, must be empty or GDB
 DEBUG ?=
