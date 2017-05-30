@@ -19,8 +19,7 @@
 #include <Arduino.h>
 #include <SpektrumDSM.h>
 
-//SpektrumDSM2048 rx;
-SpektrumDSM1024 rx;
+SpektrumDSM2048 * rx;
 
 static uint8_t chanmap[5] = {1, 2, 3, 0, 5};
 
@@ -28,19 +27,18 @@ void setup() {
   
   Serial.begin(115200);
   
-  rx.begin();
+  rx = new SpektrumDSM2048();
+
+  rx->begin();
 }
 
 void loop() {
 
-    if (rx.frameComplete()) {
-        for (int k=0; k<5; ++k)
-            Serial.printf("%d ", rx.readRawRC(chanmap[k]));
-        Serial.printf("\n");
+    for (int k=0; k<5; ++k) {
+        Serial.printf("%d ", rx->getChannelValue(chanmap[k]));
     }
+    Serial.printf("\n");
 
     // Allow some time between readings
     delay(10);  
-
-    
 }

@@ -13,7 +13,7 @@ BREEZY_DIR = $(HOME)/Desktop/BreezySTM32
 ARDUINO_DIR = $(HOME)/Development/arduino-1.8.1/hardware/teensy/avr/libraries
 
 # Change this to whatever example you want
-PROJECT		?= Spektrum
+PROJECT		?= ReadSpektrum
 
 ###############################################################################
 
@@ -64,8 +64,8 @@ STDPERIPH_SRC	 = $(notdir $(wildcard $(STDPERIPH_DIR)/src/*.c))
 #
 
 # Tool names
-C++		 = arm-none-eabi-g++
-CC		 = arm-none-eabi-gcc 
+CC		 = arm-none-eabi-gcc
+C++	     = arm-none-eabi-g++
 OBJCOPY	 = arm-none-eabi-objcopy
 
 #
@@ -138,7 +138,7 @@ $(TARGET_HEX): $(TARGET_ELF)
 	$(OBJCOPY) -O ihex --set-start 0x8000000 $< $@
 
 $(TARGET_ELF):  $(TARGET_OBJS)
-	$(CC) -o $@ $^ $(LDFLAGS)
+	$(C++) -o $@ $^ $(LDFLAGS)
 
 MKDIR_OBJDIR = @mkdir -p $(dir $@)
 
