@@ -23,7 +23,7 @@
 #include <EEPROM.h>
 
 
-bool okay = false;
+static bool okay;
 
 void setup(void)
 {

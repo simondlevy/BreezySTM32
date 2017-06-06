@@ -29,7 +29,7 @@ class HardwareEEPROM {
 
         bool put(char * src, size_t size);
 
-        void clear(void);
+        bool clear(void);
 }; 
 
 } // extern "C"

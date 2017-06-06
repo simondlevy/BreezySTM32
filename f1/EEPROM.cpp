@@ -73,10 +73,10 @@ bool HardwareEEPROM::put(char * src, size_t size)
     return status == FLASH_COMPLETE;
 }
 
-void HardwareEEPROM::clear(void)
+bool HardwareEEPROM::clear(void)
 {
-    //FLASH_ErasePage(FLASH_WRITE_ADDR);
-    //status = FLASH_ErasePage(FLASH_WRITE_ADDR + FLASH_PAGE_SIZE);
+    FLASH_ErasePage(FLASH_WRITE_ADDR);
+    return FLASH_ErasePage(FLASH_WRITE_ADDR + FLASH_PAGE_SIZE) == FLASH_COMPLETE;
 }
 
 } // extern "C"
