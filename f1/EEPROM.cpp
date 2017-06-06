@@ -36,7 +36,7 @@
 #define FLASH_PAGE_SIZE                 ((uint16_t)0x400)
 #define CONFIG_SIZE                     (FLASH_PAGE_SIZE * 2)
 
-int FLASH_WRITE_ADDR = 0x08000000 + (FLASH_PAGE_SIZE * (FLASH_PAGE_COUNT - (CONFIG_SIZE / 1024)));
+static const unsigned int FLASH_WRITE_ADDR = 0x08000000 + (FLASH_PAGE_SIZE * (FLASH_PAGE_COUNT - (CONFIG_SIZE / 1024)));
 
 extern "C" {
 
