@@ -24,7 +24,6 @@ BIN_DIR		 = $(ROOT)/obj
 
 $(PROJECT)_CSRC = \
 		   $(F1_DIR)/startup_stm32f10x_md_gcc.S \
-		   $(F1_DIR)/drv_eeprom.c \
 		   $(F1_DIR)/drv_gpio.c \
 		   $(F1_DIR)/drv_system.c \
 		   $(F1_DIR)/drv_serial.c \
@@ -109,6 +108,7 @@ TARGET_HEX	 = $(BIN_DIR)/$(PROJECT).hex
 TARGET_ELF	 = $(BIN_DIR)/$(PROJECT).elf
 TARGET_OBJS	 = $(addsuffix .o,$(addprefix $(OBJECT_DIR)/$(PROJECT)/,$(basename $($(PROJECT)_CSRC)))) \
 			   $(OBJECT_DIR)/$(PROJECT)/Arduino.o \
+			   $(OBJECT_DIR)/$(PROJECT)/EEPROM.o \
 			   $(OBJECT_DIR)/$(PROJECT)/HardwareWire.o \
 			   $(OBJECT_DIR)/$(PROJECT).o
 TARGET_MAP   = $(OBJECT_DIR)/$(PROJECT).map
@@ -144,6 +144,9 @@ $(OBJECT_DIR)/$(PROJECT)/Arduino.o: $(F1_DIR)/Arduino.cpp $(BREEZY_DIR)/Arduino.
 
 $(OBJECT_DIR)/$(PROJECT)/HardwareWire.o: $(F1_DIR)/HardwareWire.cpp $(BREEZY_DIR)/Wire.h
 	@$(CC) -c -o $(OBJECT_DIR)/$(PROJECT)/HardwareWire.o $(CFLAGS) $(F1_DIR)/HardwareWire.cpp
+
+$(OBJECT_DIR)/$(PROJECT)/EEPROM.o: $(F1_DIR)/EEPROM.cpp $(BREEZY_DIR)/Wire.h
+	@$(CC) -c -o $(OBJECT_DIR)/$(PROJECT)/EEPROM.o $(CFLAGS) $(F1_DIR)/EEPROM.cpp
 
 $(OBJECT_DIR)/$(PROJECT).o: ./$(PROJECT).cpp
 	@$(CC) -c -o $(OBJECT_DIR)/$(PROJECT).o $(CFLAGS) ./$(PROJECT).cpp

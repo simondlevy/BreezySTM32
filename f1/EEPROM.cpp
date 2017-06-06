@@ -1,5 +1,5 @@
 /*
-   drv_eeprom.c :  EEPROM support for STM32F103CB
+   EEPROM.cpp :  EEPROM implementation for STM32F103CB
 
    Adapted from https://github.com/multiwii/baseflight/blob/master/src/config.c
 
@@ -26,7 +26,7 @@
 
 #include <stm32f10x_flash.h>
 
-#include "drv_eeprom.h"
+#include "EEPROM.h"
 
 // define this symbol to increase or decrease flash size. not rely on flash_size_register.
 #ifndef FLASH_PAGE_COUNT
@@ -36,17 +36,19 @@
 #define FLASH_PAGE_SIZE                 ((uint16_t)0x400)
 #define CONFIG_SIZE                     (FLASH_PAGE_SIZE * 2)
 
-static const uint32_t FLASH_WRITE_ADDR = 0x08000000 + (FLASH_PAGE_SIZE * (FLASH_PAGE_COUNT - (CONFIG_SIZE / 1024)));
+int FLASH_WRITE_ADDR = 0x08000000 + (FLASH_PAGE_SIZE * (FLASH_PAGE_COUNT - (CONFIG_SIZE / 1024)));
 
-void readEEPROM(char * dst, size_t size)
+extern "C" {
+
+void HardwareEEPROM::get(char * dst, size_t size)
 {
     // Read flash
     memcpy(dst, (char *)FLASH_WRITE_ADDR, size);
 }
 
-bool writeEEPROM(char * src, size_t size)
+bool HardwareEEPROM::put(char * src, size_t size)
 {
-    FLASH_Status status = 0;
+    FLASH_Status status = (FLASH_Status)0;
 
     FLASH_Unlock();
 
@@ -71,9 +73,13 @@ bool writeEEPROM(char * src, size_t size)
     return status == FLASH_COMPLETE;
 }
 
-void clearEEPROM(void)
+void HardwareEEPROM::clear(void)
 {
     //FLASH_ErasePage(FLASH_WRITE_ADDR);
     //status = FLASH_ErasePage(FLASH_WRITE_ADDR + FLASH_PAGE_SIZE);
 }
+
+} // extern "C"
+
+HardwareEEPROM EEPROM;
 

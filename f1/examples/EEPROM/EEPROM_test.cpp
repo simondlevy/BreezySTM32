@@ -20,10 +20,8 @@
  */
 
 #include <Arduino.h>
+#include <EEPROM.h>
 
-extern "C" {
-
-#include <drv_eeprom.h>
 
 bool okay = false;
 
@@ -31,18 +29,16 @@ void setup(void)
 {
     Serial.begin(115200);
 
-    okay = writeEEPROM((char *)"hello!", 6);
+    okay = EEPROM.put((char *)"hello!", 6);
 }
 
 void loop(void)
 {
     if (okay) {
         char msg[6];
-        readEEPROM(msg, 6);
+        EEPROM.get(msg, 6);
         Serial.printf("%s\n", msg);
     }
 
     delay(100);
-}
-
 }
