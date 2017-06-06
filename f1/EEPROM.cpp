@@ -58,9 +58,18 @@ bool HardwareEEPROM::put(char * src, size_t size)
 
         status = FLASH_COMPLETE;
 
-        for (uint8_t i=0; i<size && status==FLASH_COMPLETE; i+=2) {
-            uint16_t datum;
-            memcpy(&datum, &src[i], 2);
+        for (size_t i=0; i<size && status==FLASH_COMPLETE; i+=2) {
+
+            uint16_t datum = 0;
+
+            // Handle odd-length data
+            if (i+2 > size) {
+                memcpy(&datum, &src[i], 1);
+            }
+            else {
+                memcpy(&datum, &src[i], 2);
+            }
+
             status = FLASH_ProgramHalfWord(FLASH_WRITE_ADDR+i, datum);
         }
 

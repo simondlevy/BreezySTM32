@@ -29,14 +29,14 @@ void setup(void)
 {
     Serial.begin(115200);
 
-    okay = EEPROM.put((char *)"hello!", 6);
+    okay = EEPROM.put((char *)"hello", 5);
 }
 
 void loop(void)
 {
     if (okay) {
-        char msg[6];
-        EEPROM.get(msg, 6);
+        char msg[5];
+        EEPROM.get(msg, 5);
         Serial.printf("%s\n", msg);
     }
 
