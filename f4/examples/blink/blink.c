@@ -29,4 +29,6 @@ void loop(void)
 {
     LED0_TOGGLE;
     delay(500);
+
+    //debug("%d\n", micros());
 }

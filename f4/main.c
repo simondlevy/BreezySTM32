@@ -2,14 +2,7 @@
 
 serialPort_t * Serial1;
 
-#ifdef STM32F40_41xxx
-// from system_stm32f4xx.c
 void SetSysClock(void);
-#endif
-#ifdef STM32F411xE
-// from system_stm32f4xx.c
-void SetSysClock(void);
-#endif
 
 #ifndef EXTERNAL_DEBUG
 void debug(const char * fmt, ...)
