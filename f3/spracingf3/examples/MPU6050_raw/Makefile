@@ -2,13 +2,13 @@
 BREEZY_DIR = $(HOME)/Desktop/BreezySTM32
 
 # Change this to where you put your Arduino libraries
-ARDUINO_DIR = $(HOME)/Development/arduino-1.8.1/hardware/teensy/avr/libraries
+ARDUINO_DIR = $(HOME)/Documents/Arduino/libraries
 
 # Change this to whatever project name you want
 PROJECT = MPU6050_raw
 
 # Add Arduino library locations here
-MPU6050_DIR = $(ARDUINO_DIR)/MPU6050
+MPU6050_DIR = $(ARDUINO_DIR)/MPU6050/src
 
 ###############################################################################
 
@@ -152,7 +152,8 @@ OPTIMIZE	 = -O0
 LTO_FLAGS	 = $(OPTIMIZE)
 else
 OPTIMIZE	 = -Os
-LTO_FLAGS	 =  -flto -fuse-linker-plugin $(OPTIMIZE)
+#LTO_FLAGS	 =  -flto -fuse-linker-plugin $(OPTIMIZE)
+LTO_FLAGS	 =  -fuse-linker-plugin $(OPTIMIZE)
 endif
 
 DEBUG_FLAGS	 = -ggdb3 -DDEBUG
@@ -180,7 +181,7 @@ ASFLAGS		 = $(ARCH_FLAGS) \
 
 LDFLAGS		 = -lm \
 		   -nostartfiles \
-		   --specs=nano.specs \
+		   --specs=nosys.specs \
 		   -lc \
 		   -lnosys \
 		   $(ARCH_FLAGS) \
