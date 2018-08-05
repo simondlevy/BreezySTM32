@@ -83,7 +83,6 @@ class HardwareSerial0 : public HardwareSerial {
 
         uint8_t read(void);
 };
-
 extern HardwareSerial0 Serial;
 
 class HardwareSerial1 : public HardwareSerial {
@@ -94,7 +93,27 @@ class HardwareSerial1 : public HardwareSerial {
 
         uint8_t read(void);
 };
-
 extern HardwareSerial1 Serial1;
+
+class HardwareSerial2 : public HardwareSerial {
+
+    public:
+
+        void begin(uint32_t baud);
+
+        uint8_t read(void);
+};
+extern HardwareSerial2 Serial2;
+
+class HardwareSerial3 : public HardwareSerial {
+
+    public:
+
+        void begin(uint32_t baud);
+
+        uint8_t read(void);
+};
+extern HardwareSerial3 Serial3;
+
 
 } // extern "C"

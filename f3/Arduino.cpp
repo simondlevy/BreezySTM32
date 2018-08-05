@@ -20,6 +20,8 @@ along with BreezySTM32.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 void serialEvent1(void) __attribute__((weak));
+void serialEvent2(void) __attribute__((weak));
+void serialEvent3(void) __attribute__((weak));
 
 extern "C" {
 
@@ -184,6 +186,54 @@ uint8_t HardwareSerial1::read(void)
     return serial1_rx_buffer[serial1_rx_index];
 }
 
+static uint8_t serial2_rx_buffer[SERIAL_RX_BUFSIZE];
+static uint8_t serial2_rx_index;
+
+static void serial_event_2(uint16_t value)
+{
+    serial2_rx_buffer[serial2_rx_index] = (uint8_t)value;
+
+    serialEvent2();
+
+    serial2_rx_index = (serial2_rx_index + 1) % SERIAL_RX_BUFSIZE;
+}
+
+void HardwareSerial2::begin(uint32_t baud)
+{
+    this->_uart = uartOpen(USART2, serial_event_2, baud, MODE_RX, SERIAL_NOT_INVERTED);
+
+    serial2_rx_index = 0;
+}
+
+uint8_t HardwareSerial2::read(void)
+{
+    return serial2_rx_buffer[serial2_rx_index];
+}
+
+static uint8_t serial3_rx_buffer[SERIAL_RX_BUFSIZE];
+static uint8_t serial3_rx_index;
+
+static void serial_event_3(uint16_t value)
+{
+    serial3_rx_buffer[serial3_rx_index] = (uint8_t)value;
+
+    serialEvent3();
+
+    serial3_rx_index = (serial3_rx_index + 1) % SERIAL_RX_BUFSIZE;
+}
+
+void HardwareSerial3::begin(uint32_t baud)
+{
+    this->_uart = uartOpen(USART3, serial_event_3, baud, MODE_RX, SERIAL_NOT_INVERTED);
+
+    serial3_rx_index = 0;
+}
+
+uint8_t HardwareSerial3::read(void)
+{
+    return serial3_rx_buffer[serial3_rx_index];
+}
+
 
 void HardFault_Handler(void)
 {
@@ -194,3 +244,5 @@ void HardFault_Handler(void)
 
 HardwareSerial0 Serial;
 HardwareSerial1 Serial1;
+HardwareSerial2 Serial2;
+HardwareSerial3 Serial3;
