@@ -33,11 +33,11 @@ void setup() {
 
 void loop() {
 
-    if (rx.frameComplete()) {
+    /*if (rx.frameComplete()) {
         for (int k=0; k<5; ++k)
             Serial.printf("%d ", rx.readRawRC(chanmap[k]));
         Serial.printf("\n");
-    }
+    }*/
 
     // Allow some time between readings
     delay(10);  

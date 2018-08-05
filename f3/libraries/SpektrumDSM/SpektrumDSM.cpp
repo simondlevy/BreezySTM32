@@ -38,6 +38,8 @@ static uint8_t numRCChannels;
 // Serial ISR callback.  Must be named serialEvent1 to be called automatically.
 void serialEvent1(void)
 {
+    Serial.printf("%d\n", millis());
+
     uint32_t spekTime;
     static uint32_t spekTimeLast, spekTimeInterval;
     static uint8_t spekFramePosition;

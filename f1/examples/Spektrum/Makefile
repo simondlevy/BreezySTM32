@@ -10,7 +10,7 @@
 BREEZY_DIR = $(HOME)/Desktop/BreezySTM32
 
 # Change this to wherever you put Arduino libraries
-ARDUINO_DIR = $(HOME)/Development/arduino-1.8.1/hardware/teensy/avr/libraries
+ARDUINO_DIR = $(HOME)/Documents/Arduino/libraries
 
 # Change this to whatever example you want
 PROJECT		?= ReadSpektrum
@@ -19,7 +19,7 @@ PROJECT		?= ReadSpektrum
 
 F1_DIR = $(BREEZY_DIR)/f1
 
-SPEKTRUM_DIR = $(ARDUINO_DIR)/SpektrumDSM
+SPEKTRUM_DIR = $(ARDUINO_DIR)/SpektrumDSM/src
 
 # Compile-time options
 OPTIONS		?=

@@ -21,8 +21,6 @@
 
 SpektrumDSM2048 * rx;
 
-static uint8_t chanmap[5] = {1, 2, 3, 0, 5};
-
 void setup() {
   
   Serial.begin(115200);
@@ -34,10 +32,17 @@ void setup() {
 
 void loop() {
 
-    for (int k=0; k<5; ++k) {
-        Serial.printf("%d ", rx->getChannelValue(chanmap[k]));
+    if (rx->gotNewFrame()) {
+
+        uint16_t values[8];
+
+        rx->getChannelValues(values);
+
+        for (int k=0; k<8; ++k) {
+            Serial.printf("%d ", values[k]);
+        }
+        Serial.printf("\n");
     }
-    Serial.printf("\n");
 
     // Allow some time between readings
     delay(10);  

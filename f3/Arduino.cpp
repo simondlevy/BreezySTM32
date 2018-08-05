@@ -174,7 +174,7 @@ static void serial_event_1(uint16_t value)
 
 void HardwareSerial1::begin(uint32_t baud)
 {
-    this->_uart = uartOpen(USART2, serial_event_1, baud, MODE_RX, SERIAL_NOT_INVERTED);
+    this->_uart = uartOpen(USART1, serial_event_1, baud, MODE_RX, SERIAL_NOT_INVERTED);
 
     serial1_rx_index = 0;
 }
