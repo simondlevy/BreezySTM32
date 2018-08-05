@@ -1,9 +1,11 @@
 /*
-   ReadSpektrum.ino : example of how to read from a Spektrum DSM receiver using Arduino
+   ReadSpektrum.cpp : example of how to read from a Spektrum DSM receiver
 
-   This file is part of SpektrumDSM.
+   Copyright (C) Simon D. Levy 2018
 
-   SpektrumDSM is free software: you can redistribute it and/or modify
+   This file is part of BreezySTM32.
+
+   BreezySTM32 is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
    the Free Software Foundation, either version 3 of the License, or
    (at your option) any later version.
@@ -19,6 +21,7 @@
 #include <Arduino.h>
 #include <SpektrumDSM.h>
 
+// We use a pointer so that new SpektrumDSMX2048() will invoke the constructor
 SpektrumDSM2048 * rx;
 
 void serialEvent1(void)

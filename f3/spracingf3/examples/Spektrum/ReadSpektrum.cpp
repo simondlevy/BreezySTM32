@@ -21,8 +21,6 @@
 
 SpektrumDSM2048 rx;
 
-static uint8_t chanmap[5] = {1, 2, 3, 0, 5};
-
 void setup() {
   
   Serial.begin(115200);
