@@ -9,8 +9,7 @@ PROJECT = ReadSpektrum
 
 ###############################################################################
 
-F3_DIR = $(BREEZY_DIR)/f3
-SPEKTRUM_DIR = $(F3_DIR)/libraries/SpektrumDSM
+SPEKTRUM_DIR = $(ARDUINO_DIR)/SpektrumDSM/src
 
 F3_DIR = $(BREEZY_DIR)/f3
 SPRACINGF3_DIR = $(F3_DIR)/spracingf3

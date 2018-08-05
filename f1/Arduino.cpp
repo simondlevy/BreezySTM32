@@ -152,6 +152,5 @@ void HardwareSerial1::begin(uint32_t baud)
 HardwareSerial0 Serial;
 HardwareSerial1 Serial1;
 
-void serialEvent1(void) { }
-
+void serialEvent1(void) {  }
 

@@ -24,7 +24,7 @@ SpektrumDSM2048 * rx;
 void setup() {
   
   Serial.begin(115200);
-  
+
   rx = new SpektrumDSM2048();
 
   rx->begin();
