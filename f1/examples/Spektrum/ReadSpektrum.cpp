@@ -21,13 +21,29 @@
 
 SpektrumDSM2048 * rx;
 
+void serialEvent1(void)
+{
+    rx->handleSerialEvent(micros());
+}
+
+int serialAvailable(void)
+{
+    return Serial1.available();
+}
+
+uint8_t serialRead(void)
+{
+    return Serial1.read();
+}
+
+
 void setup() {
   
   Serial.begin(115200);
 
-  rx = new SpektrumDSM2048();
+  Serial1.begin(115200);
 
-  rx->begin();
+  rx = new SpektrumDSM2048();
 }
 
 void loop() {
