@@ -53,10 +53,18 @@ void setup() {
 
 void loop() {
 
-    Serial.printf("%d\n", rx->gotNewFrame());
+    if (rx->gotNewFrame()) {
+
+        uint16_t values[8];
+
+        rx->getChannelValues(values);
+
+        for (int k=0; k<8; ++k) {
+            Serial.printf("%d ", values[k]);
+        }
+        Serial.printf("\n");
+    }
 
     // Allow some time between readings
-    delay(5);  
-
-    
+    delay(10);  
 }
