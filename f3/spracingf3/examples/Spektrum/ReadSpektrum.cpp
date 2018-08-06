@@ -21,29 +21,25 @@
 
 SpektrumDSM2048 * rx;
 
+static uint8_t avail;
+
 int serialAvailable(void)
 {
-    return Serial3.available();
+    return avail;
 }
 
 uint8_t serialRead(void)
 {
+    avail--;
+
     return Serial3.read();
 }
 
 void serialEvent3()
 {
-    uint32_t time = micros();
+    avail = 1;
 
     rx->handleSerialEvent(micros());
-
-    static uint32_t _time;
-    static bool onoff;
-    if (time-_time > 250000) {
-        _time = time;
-        digitalWrite(4, onoff?LOW:HIGH);
-        onoff = !onoff;
-    }
 }
 
 void setup() {
@@ -51,9 +47,6 @@ void setup() {
   Serial.begin(115200);
 
   Serial3.begin(115200);
-
-  pinMode(4, OUTPUT);
-  digitalWrite(4, LOW);
 
   rx = new SpektrumDSM2048();
 }
@@ -63,7 +56,7 @@ void loop() {
     Serial.printf("%d\n", rx->gotNewFrame());
 
     // Allow some time between readings
-    delay(10);  
+    delay(5);  
 
     
 }

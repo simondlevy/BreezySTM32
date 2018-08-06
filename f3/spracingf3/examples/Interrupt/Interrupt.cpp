@@ -20,16 +20,29 @@
 
 #include <Arduino.h>
 
+static uint8_t buf[100];
+static uint8_t bufcount;
+
 void serialEvent3()
 {
     uint32_t time = micros();
     static uint32_t _time;
+
+    /*
     static bool onoff;
     if (time-_time > 500000) {
         _time = time;
         digitalWrite(4, onoff?LOW:HIGH);
         onoff = !onoff;
+    }*/
+
+    if (time-_time > 2500) {
+        bufcount = 0;
     }
+
+    buf[bufcount++] = Serial3.read();
+
+    _time = time;
 }
 
 
@@ -45,7 +58,13 @@ void setup() {
 
 void loop() {
 
-    Serial.printf("%d\n", Serial3.available());
+    if (bufcount == 16) {
 
-    delay(5);  
+        for (int k=0; k<16; ++k) {
+            Serial.printf("%x\n", buf[k]);
+        }
+    }
+
+    delay(5);
+
 }
