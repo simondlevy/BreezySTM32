@@ -43,6 +43,8 @@ void setup() {
 }
 
 void loop() {
+    
+    Serial.printf("%d\n", Serial1.available());
 
-    delay(10);  
+    delay(5);  
 }

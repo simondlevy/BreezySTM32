@@ -13,7 +13,7 @@ BREEZY_DIR = $(HOME)/Desktop/BreezySTM32
 ARDUINO_DIR = $(HOME)/Documents/Arduino/libraries
 
 # Change this to whatever example you want
-PROJECT		?= TestInterrupt
+PROJECT		?= Interrupt
 
 ###############################################################################
 

@@ -47,5 +47,5 @@ void loop() {
 
     Serial.printf("%d\n", Serial3.available());
 
-    delay(10);  
+    delay(5);  
 }
