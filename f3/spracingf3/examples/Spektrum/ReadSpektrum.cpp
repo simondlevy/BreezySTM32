@@ -19,23 +19,48 @@
 #include <Arduino.h>
 #include <SpektrumDSM.h>
 
-SpektrumDSM2048 rx;
+SpektrumDSM2048 * rx;
+
+int serialAvailable(void)
+{
+    return Serial3.available();
+}
+
+uint8_t serialRead(void)
+{
+    return Serial3.read();
+}
+
+void serialEvent3()
+{
+    uint32_t time = micros();
+
+    rx->handleSerialEvent(micros());
+
+    static uint32_t _time;
+    static bool onoff;
+    if (time-_time > 250000) {
+        _time = time;
+        digitalWrite(4, onoff?LOW:HIGH);
+        onoff = !onoff;
+    }
+}
 
 void setup() {
   
   Serial.begin(115200);
-  Serial1.begin(115200);
-  
-  rx.begin();
+
+  Serial3.begin(115200);
+
+  pinMode(4, OUTPUT);
+  digitalWrite(4, LOW);
+
+  rx = new SpektrumDSM2048();
 }
 
 void loop() {
 
-    /*if (rx.frameComplete()) {
-        for (int k=0; k<5; ++k)
-            Serial.printf("%d ", rx.readRawRC(chanmap[k]));
-        Serial.printf("\n");
-    }*/
+    Serial.printf("%d\n", rx->gotNewFrame());
 
     // Allow some time between readings
     delay(10);  

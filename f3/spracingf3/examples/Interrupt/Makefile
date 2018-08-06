@@ -5,7 +5,7 @@ BREEZY_DIR = $(HOME)/Desktop/BreezySTM32
 ARDUINO_DIR = $(HOME)/Development/arduino-1.8.1/hardware/teensy/avr/libraries
 
 # Change this to whatever project name you want
-PROJECT = TestInterrupt
+PROJECT = Interrupt
 
 ###############################################################################
 
@@ -17,6 +17,7 @@ DEBUG ?=
 
 # Serial port/Device for flashing
 SERIAL_DEVICE	?= /dev/ttyUSB0
+BAUD            ?= 115200
 
 # Flash size (KB).  Some low-end chips actually have more flash than advertised, use this to override.
 FLASH_SIZE ?= 256
@@ -264,6 +265,5 @@ unbrick: unbrick_$(PROJECT)
 # rebuild everything when makefile changes
 $(TARGET_OBJS) : Makefile
 
-commit:
-	git commit -a --allow-empty-message -m ''
-	git push
+listen:
+	miniterm.py $(SERIAL_DEVICE) $(BAUD)
