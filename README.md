@@ -1,11 +1,11 @@
-# BreezySTM32: A simple Arduino-like API for developing firmware on STM32-based flight controllers
+# BreezySTM32: A simple API for developing firmware on STM32-based flight controllers
 
 BreezySTM32 aims to provide a simple ("breezy") Application Programming Interface (API) for writing
 firmware on the ARM STM32F controller boards popular on toady's flight controllers.  Having begun the
 project with a focus on F1 controllers (Naze32, Flip32, CC3D), I have moved on to the more modern F3
 generation (AlienflightF3, SPRacingF3) but am aiming to support both.
 
-As with the Arduino, you write a setup() function and a loop() function, and BreezySTM32 provides
+As with Arduino, you write a setup() function and a loop() function, and BreezySTM32 provides
 a Serial API that you can use for debugging and a Wire library for I<sup>2</sup>C.
 To keep things simple, the Serial library supports a single print function, Serial.printf(), 
 which behaves like C's printf().
