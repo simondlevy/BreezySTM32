@@ -11,8 +11,9 @@ PROJECT = ReadSpektrum
 
 F3_DIR = $(BREEZY_DIR)/f3
 ALIENFLIGHTF3_DIR = $(F3_DIR)/alienflightf3
+ARDUINO_DIR = $(HOME)/Documents/Arduino
 
-SPEKTRUM_DIR = $(F3_DIR)/libraries/SpektrumDSM
+SPEKTRUM_DIR = $(ARDUINO_DIR)/libraries/SpektrumDSM/src
 
 # Debugger optons, must be empty or GDB
 DEBUG ?=
@@ -228,7 +229,7 @@ $(TARGET_BIN): $(TARGET_ELF)
 	$(OBJCOPY) -O binary $< $@
 
 $(TARGET_ELF):  $(TARGET_OBJS)
-	$(CC) -o $@ $^ $(LDFLAGS)
+	$(C++) -o $@ $^ $(LDFLAGS)
 
 # Compile
 $(OBJECT_DIR)/$(PROJECT)/%.o: %.c
@@ -248,7 +249,7 @@ $(OBJECT_DIR)/$(PROJECT)/%.o: %.S
 	@$(CC) -c -o $@ $(ASFLAGS) $<
 
 $(OBJECT_DIR)/$(PROJECT)/Arduino.o: $(F3_DIR)/Arduino.cpp $(BREEZY_DIR)/Arduino.h
-	@$(CC) -c -o $(OBJECT_DIR)/$(PROJECT)/Arduino.o $(CFLAGS) $(F3_DIR)/Arduino.cpp
+	@$(C++) -c -o $(OBJECT_DIR)/$(PROJECT)/Arduino.o $(CFLAGS) $(F3_DIR)/Arduino.cpp
 
 $(OBJECT_DIR)/$(PROJECT)/HardwareWire.o: $(F3_DIR)/HardwareWire.cpp $(BREEZY_DIR)/Wire.h
 	@$(CC) -c -o $(OBJECT_DIR)/$(PROJECT)/HardwareWire.o $(CFLAGS) $(F3_DIR)/HardwareWire.cpp
@@ -257,7 +258,7 @@ $(OBJECT_DIR)/$(PROJECT)/SpektrumDSM.o: $(SPEKTRUM_DIR)/SpektrumDSM.cpp $(SPEKTR
 	@$(CC) -c -o $(OBJECT_DIR)/$(PROJECT)/SpektrumDSM.o $(CFLAGS) $(SPEKTRUM_DIR)/SpektrumDSM.cpp
 
 $(OBJECT_DIR)/$(PROJECT).o: ./$(PROJECT).cpp
-	@$(CC) -c -o $(OBJECT_DIR)/$(PROJECT).o $(CFLAGS) ./$(PROJECT).cpp
+	@$(C++) -c -o $(OBJECT_DIR)/$(PROJECT).o $(CFLAGS) ./$(PROJECT).cpp
 
 clean:
 	rm -rf obj
